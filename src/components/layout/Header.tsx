@@ -14,7 +14,7 @@ const NAV_LINKS = [
   { href: "/properties", label: "Properties" },
   { href: "/about", label: "About" },
   { href: "/testimonials", label: "Testimonials" },
-  { href: "/nri-property-investment-ahmedabad", label: "NRI Centre" },
+  { href: "/nri", label: "NRI Centre" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];

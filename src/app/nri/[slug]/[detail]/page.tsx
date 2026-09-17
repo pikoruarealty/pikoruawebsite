@@ -14,6 +14,7 @@ import {
 } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { getExchangeRates } from "@/lib/exchange-rates";
+import { getPriorityKeywordsForPath } from "@/lib/data/six-month-priority-keywords";
 
 interface NriGeoPageProps {
   params: Promise<{ slug: string; detail: string }>;
@@ -55,6 +56,7 @@ export async function generateMetadata({ params }: NriGeoPageProps): Promise<Met
       ...(page.matchKeywords ?? []),
       ...(page.seoKeywords ?? []),
       ...getKeywordClusterTermsForSlug(page.slug, { limit: 80 }),
+      ...getPriorityKeywordsForPath(page.href),
     ],
   });
 }
@@ -126,7 +128,7 @@ export default async function NriGeoLandingPage({ params }: NriGeoPageProps) {
         "@type": "ListItem",
         position: 2,
         name: "NRI Advisory",
-        item: absoluteUrl("/nri-property-consultant-ahmedabad"),
+        item: absoluteUrl("/nri"),
       },
       {
         "@type": "ListItem",

@@ -6,6 +6,7 @@ import { NRI_GEO_PAGES } from "@/lib/data/nri-geo-pages";
 import { AHMEDABAD_LOCATION_PAGES } from "@/lib/data/ahmedabad-location-pages";
 import { PRIORITY_LOCATION_PAGES } from "@/lib/data/location-network";
 import { NRI_SERVICE_PROMISE } from "@/lib/data/nri-centre";
+import { NRI_COUNTRY_INDEX_PAGES } from "@/lib/data/nri-index-pages";
 import { PRIVATE_CLIENT_PAGES } from "@/lib/data/private-client-advisory";
 
 export type LandingPageKind = "location" | "property-type" | "nri" | "private-client";
@@ -4360,6 +4361,7 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
       "If the buyer wants a family base, parent-use option, future return plan, and India wealth allocation, Ahmedabad may be more useful. If the buyer wants dollar income and has strong U.S. management support, a U.S. property may be more suitable. PIKORUA Realty helps clarify the Ahmedabad side with property-specific due diligence, not generic ROI promises.",
     ],
   },
+  ...NRI_COUNTRY_INDEX_PAGES,
 ];
 
 export const ALL_GEO_LANDING_PAGES = [

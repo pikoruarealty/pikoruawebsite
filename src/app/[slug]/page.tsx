@@ -193,7 +193,7 @@ export default async function RootLandingPage({ params }: RootLandingPageProps) 
         "@type": "ListItem",
         position: 2,
         name: page.kind === "nri" ? "NRI Advisory" : "Properties",
-        item: page.kind === "nri" ? absoluteUrl("/nri-property-consultant-ahmedabad") : absoluteUrl("/properties"),
+        item: page.kind === "nri" ? absoluteUrl("/nri") : absoluteUrl("/properties"),
       },
       {
         "@type": "ListItem",

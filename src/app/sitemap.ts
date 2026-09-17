@@ -33,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/locations"), lastModified, changeFrequency: "weekly", priority: 0.88 },
     { url: absoluteUrl("/property-types"), lastModified, changeFrequency: "weekly", priority: 0.88 },
     { url: absoluteUrl("/gift-city"), lastModified, changeFrequency: "weekly", priority: 0.88 },
+    { url: absoluteUrl("/nri"), lastModified, changeFrequency: "weekly", priority: 0.95 },
     { url: absoluteUrl("/nri-property-investment-ahmedabad"), lastModified, changeFrequency: "weekly", priority: 0.90 },
     { url: absoluteUrl("/nri-property-consultant-ahmedabad"), lastModified, changeFrequency: "weekly", priority: 0.90 },
     { url: absoluteUrl("/compare"), lastModified, changeFrequency: "monthly", priority: 0.72 },

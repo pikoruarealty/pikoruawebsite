@@ -10,6 +10,8 @@ import {
 import { ENTITY_IDS, getNriAdvisoryServiceSchema } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { getExchangeRates } from "@/lib/exchange-rates";
+import { getKeywordClusterTermsForSlug } from "@/lib/data/keyword-clusters";
+import { getPriorityKeywordsForPath } from "@/lib/data/six-month-priority-keywords";
 
 interface NriPageProps {
   params: Promise<{ slug: string }>;
@@ -31,7 +33,14 @@ export async function generateMetadata({ params }: NriPageProps): Promise<Metada
     description: page.description,
     path: page.href,
     image: page.heroImage,
-    keywords: [page.label, page.title, ...(page.matchKeywords ?? []), ...(page.seoKeywords ?? [])],
+    keywords: [
+      page.label,
+      page.title,
+      ...(page.matchKeywords ?? []),
+      ...(page.seoKeywords ?? []),
+      ...getKeywordClusterTermsForSlug(page.slug, { limit: 80 }),
+      ...getPriorityKeywordsForPath(page.href),
+    ],
   });
 }
 
@@ -98,7 +107,7 @@ export default async function NriLandingPage({ params }: NriPageProps) {
         "@type": "ListItem",
         position: 2,
         name: "NRI Advisory",
-        item: absoluteUrl("/nri-property-consultant-ahmedabad"),
+        item: absoluteUrl("/nri"),
       },
       {
         "@type": "ListItem",

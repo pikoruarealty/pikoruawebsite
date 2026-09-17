@@ -6,7 +6,7 @@ import { CALL_AGENT_NAME, CALL_AGENT_PHONE_DISPLAY, CALL_AGENT_PHONE_E164 } from
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/properties", label: "Properties" },
-  { href: "/nri-property-investment-ahmedabad", label: "NRI Property Centre" },
+  { href: "/nri", label: "NRI Property Centre" },
   { href: "/about", label: "About" },
   { href: "/testimonials", label: "Testimonials" },
   { href: "/blog", label: "Blog" },

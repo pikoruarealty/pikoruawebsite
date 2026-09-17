@@ -101,7 +101,7 @@ export function LandingPageTemplate({
       : page.kind === "private-client"
         ? { label: "Private Client Advisory", href: "/private-client-advisory" }
       : page.kind === "nri"
-        ? { label: "NRI Advisory", href: "/nri-property-consultant-ahmedabad" }
+        ? { label: "NRI Advisory", href: "/nri" }
         : { label: "Properties", href: "/properties" };
   const primaryCtaLabel = isAdvisoryCta
     ? "Request Advisory"
@@ -473,7 +473,7 @@ export function LandingPageTemplate({
           </section>
         )}
 
-        {page.slug === "nri-property-investment-ahmedabad" && (
+        {(page.slug === "nri" || page.slug === "nri-property-investment-ahmedabad") && (
           <section
             className="border-b border-white/[0.06] bg-soft-black/30 py-20 lg:py-28"
             aria-labelledby="nri-centre-heading"
