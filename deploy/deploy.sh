@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Deploys the latest code on the VPS. Run from the repo directory as a user in
-# the docker group. Touches only the `pikorua-website` Compose project —
-# never other containers, images or volumes.
+# Deploys the latest code on the VPS (/opt/pikorua-website). Uses sudo for
+# docker when the user isn't in the docker group. Touches only the
+# `pikorua-website` Compose project — never other containers, images or volumes.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -11,7 +11,9 @@ if [ ! -f .env.production ]; then
   exit 1
 fi
 
-compose() { docker compose --env-file .env.production "$@"; }
+DOCKER=(docker)
+docker info >/dev/null 2>&1 || DOCKER=(sudo docker)
+compose() { "${DOCKER[@]}" compose --env-file .env.production "$@"; }
 
 git pull --ff-only
 

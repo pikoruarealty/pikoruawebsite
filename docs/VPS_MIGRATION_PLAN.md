@@ -61,7 +61,7 @@ Other apps already run on this VPS. The migration only **adds** PIKORUA-specific
 - DNS today: `pikorua.in` → 216.198.79.1 and `www` → CNAME `…vercel-dns-017.com` (Vercel).
 
 **1b. Add only what's missing**
-- **Linux user**: create `deploy_website` (matching the `deploy_<app>` convention), add only your SSH key to its `authorized_keys`, and add it to the `docker` group. Don't change `sshd_config`. Note that docker-group access is effectively root; that's the same as the other deploy users presumably have.
+- **User**: everything runs as `deep` (the senior dev account); no new user. `deep` is not in the `docker` group, so `deploy/deploy.sh` falls back to `sudo docker` automatically.
 - **No Node, PM2 or host Postgres changes.** Everything runs in the `pikorua-website` Compose stack.
 - **Media folder**: `sudo mkdir -p /var/www/pikorua-media && sudo chown 1001:1001 /var/www/pikorua-media`. UID 1001 is the `nextjs` user inside the app image. Nginx reads it through the default `o+rx`.
 - **Nginx and Certbot**: reuse them. Firewall: leave as is.
@@ -94,7 +94,7 @@ Then run `deploy/sql/post_restore.sql` (to be added to the repo):
 
 ## Phase 3: Media (Storage) migration
 1. Add `scripts/export-storage.ts`, modeled on the client setup in `scripts/upload-images.ts`. It recursively `list()`s the `media` bucket and `download()`s each object into `./media-export/<same path>`. Run it locally while Supabase is still live.
-2. `rsync -avz media-export/ deploy_website@VPS:/var/www/pikorua-media/`, then on the VPS `sudo chown -R 1001:1001 /var/www/pikorua-media`. Folder layout stays identical (`properties/…`, `images/…`, etc.).
+2. `rsync -avz media-export/ deep@VPS:/var/www/pikorua-media/`, then on the VPS `sudo chown -R 1001:1001 /var/www/pikorua-media`. Folder layout stays identical (`properties/…`, `images/…`, etc.).
 3. Compare the file count and total size with the Phase 0 baseline.
 
 ## Phase 4: Code changes (local branch `vps-migration`)
@@ -167,7 +167,7 @@ The in-house CRM on the same VPS pulls leads from the website through a protecte
 ## Phase 5: Deploy the app on the VPS (Docker Compose)
 Files in the repo: `Dockerfile` (Next.js `output: "standalone"`, Node 22, runs as UID 1001), `docker-compose.yml` (project `pikorua-website`: `app` on `127.0.0.1:3100`, `db` Postgres 17 on `127.0.0.1:5433`), `deploy/deploy.sh`, `deploy/nginx/pikorua.in.conf`.
 
-1. As `deploy_website`: `git clone https://github.com/pikoruarealty/pikoruawebsite.git /home/deploy_website/pikorua-website` and check out the release branch.
+1. As `deep`: `sudo mkdir -p /opt/pikorua-website && sudo chown deep:deep /opt/pikorua-website`, then `git clone -b vps-migration https://github.com/pikoruarealty/pikoruawebsite.git /opt/pikorua-website` (matches `/opt/pikorua-hrm`, `/opt/pikorua-propsight`).
 2. Create `.env.production` in the repo dir with `chmod 600`, following `.env.local.example`. Values must be **unquoted**. Set `POSTGRES_PASSWORD`, `DATABASE_URL=...@db:5432/pikorua`, `BUILD_DATABASE_URL=...@127.0.0.1:5433/pikorua`, `NEXT_PUBLIC_SITE_URL=https://www.pikorua.in`, `NEXT_PUBLIC_SITE_LIVE=true`, `ADMIN_*` and `CRM_API_KEY`, plus the optional ones.
 3. Start the DB and migrate data (Phase 2), and copy media (Phase 3).
 4. `deploy/deploy.sh`: git pull, then `up -d --wait db`, `build app`, `up -d --wait app`. **The DB must be restored before the first build**, because statically generated pages are built from it. The build mounts `.env.production` as a BuildKit secret, so no secrets end up in the image, and reaches the DB through `BUILD_DATABASE_URL` on the host network.
@@ -187,8 +187,7 @@ The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), 
 - The admin AI buttons (SEO/excerpt/FAQ/alt-text generation in `actions.ts`, which call OpenRouter) will fail without the key. Hide those buttons, or make them return a clear "AI not configured" message instead of erroring.
 
 ## Phase 7: Staging check (before DNS switch)
-- Use a temporary **`staging.pikorua.in`** A record → VPS IP. A `hosts` file override won't work, because the site sends HSTS (`includeSubDomains; preload`), so browsers require a valid certificate, and Let's Encrypt can't issue one for `www` while DNS still points to Vercel.
-- The Nginx site file starts with `server_name staging.pikorua.in;`. Get the cert with `sudo certbot --nginx --cert-name pikorua-website -d staging.pikorua.in`.
+- **No staging domain** (downtime at cutover is acceptable). Test before the DNS switch through an SSH tunnel: `ssh -L 3100:127.0.0.1:3100 deep@<VPS>`, then open `http://localhost:3100` on your PC. HSTS only applies to `pikorua.in`, so plain `localhost` works. Media links point at `https://www.pikorua.in/media`, which is still Vercel, so images will look broken in this test only. Check uploads with `ls /var/www/pikorua-media/properties/` instead.
 - Checklist: home, properties list and detail, blog list and detail, about (`pages` table), testimonials, FAQs, sitemap.xml and `/sitemap/*.xml`, `llms.txt`, `/studio` (Sanity), **every lead form (row appears in DB and in `/admin`)**, `/admin` login plus edit and save for each entity, **image upload** (file lands in `/var/www/pikorua-media/properties/` and renders).
 - Confirm no requests go to `supabase.co`: run `rg supabase.co src` (should be empty) and check the browser Network tab.
 
@@ -196,13 +195,13 @@ The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), 
 1. Freeze admin edits on the old site.
 2. Run a final delta: take a fresh Supabase dump, then reset the DB with `psql -h 127.0.0.1 -p 5433 -U pikorua_app -d pikorua -c 'drop schema public cascade; create schema public;'`, restore, and run `post_restore.sql` again. Then re-run `deploy/deploy.sh` so pages rebuild from the final data. Re-run the storage export and rsync, which copies only new files.
 3. Change DNS A records for `pikorua.in` and `www` to the VPS IP. Remove the Vercel domain assignment only after the new site is confirmed.
-4. As soon as DNS resolves to the VPS, change the site file to `server_name pikorua.in www.pikorua.in;` and expand the cert with `sudo certbot --nginx --cert-name pikorua-website -d pikorua.in -d www.pikorua.in`. **Never use the cert name `pikorua`**, which belongs to the blast sites. This edits only our site file. Expect a few minutes of certificate errors for visitors who reach the VPS before the cert exists, so keep the TTL low and run Certbot right away. Check renewal with `sudo certbot renew --dry-run --cert-name pikorua-website`. Then remove the `staging.pikorua.in` DNS record.
-5. **CRM:** no change at cutover; the switch is deferred (4i). Just confirm the endpoint works with a local `curl` using the key. Submit a test lead and confirm it arrives in the CRM.
+4. As soon as DNS resolves to the VPS (the Nginx site from Phase 5 already has `server_name pikorua.in www.pikorua.in;`), get the cert with `sudo certbot --nginx --cert-name pikorua-website -d pikorua.in -d www.pikorua.in`. **Never use the cert name `pikorua`**, which belongs to the blast sites. This edits only our site file. Expect a few minutes of certificate errors for visitors who reach the VPS before the cert exists, so keep the TTL low and run Certbot right away. Check renewal with `sudo certbot renew --dry-run --cert-name pikorua-website`. 
+5. **CRM:** no change at cutover; the switch is deferred (4i). Just confirm the endpoint works with a local `curl` using the key.
 6. Sanity webhook: the URL `https://www.pikorua.in/api/revalidate` is unchanged. Publish a test edit and confirm revalidation.
 7. Google Search Console: no change needed (same domain). Watch crawl errors for a week.
 
 ## Phase 9: Post-migration
-- **Backups**: a nightly cron in the `deploy_website` crontab that runs `docker exec pikorua-website-db pg_dump -U pikorua_app -Fc pikorua > backup.dump` (this DB only) and a `tar` of `/var/www/pikorua-media`, keeps 14 days locally, and copies offsite (rclone to Google Drive or Backblaze B2). **Test one restore.**
+- **Backups**: a nightly cron in `deep`'s crontab (with `sudo docker exec`) that runs `sudo docker exec pikorua-website-db pg_dump -U pikorua_app -Fc pikorua > backup.dump` (this DB only) and a `tar` of `/var/www/pikorua-media`, keeps 14 days locally, and copies offsite (rclone to Google Drive or Backblaze B2). **Test one restore.**
 - **Monitoring**: UptimeRobot (free) on `/` and one API route, plus `docker compose --env-file .env.production logs app`.
 - **Rollback window**: keep the Vercel project and Supabase project (paused, not deleted) for 2 weeks. Rolling back means pointing DNS back.
 - **Later (separate task): switch the in-house CRM** to `http://127.0.0.1:3100/api/crm/leads` with `CRM_API_KEY`, replacing its Supabase URL and key. Then confirm that the backlog of unsynced leads arrives.
