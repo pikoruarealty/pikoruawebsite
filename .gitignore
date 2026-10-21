@@ -52,3 +52,6 @@ next-env.d.ts
 
 # Supabase storage export (scripts/export-storage.ts) — copied to the VPS, never committed
 /media-export/
+
+# Database dumps (contain lead PII) — never commit
+*.dump
