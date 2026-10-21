@@ -44,6 +44,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle for the Docker image (see Dockerfile).
+  output: "standalone",
   experimental: {
     serverActions: {
       bodySizeLimit: "15mb", // allow large property/blog images (default is 4MB)

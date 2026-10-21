@@ -7,7 +7,7 @@ The site (Next.js 16 App Router) runs on Vercel and uses Supabase for two things
 1. **Postgres DB**, accessed through `@supabase/supabase-js` (PostgREST) in 4 code areas.
 2. **Storage**: the public `media` bucket. Admin uploads go there, and images are referenced by hardcoded `https://rwtueiruyktjzvsgdcoh.supabase.co/storage/v1/object/public/media/...` URLs.
 
-Goal: move everything onto the Hostinger VPS. The app runs under Node/PM2 behind Nginx, the DB is plain PostgreSQL on the same box, and media is served from local disk by Nginx. Supabase, Vercel **and Brevo** are removed entirely. Sanity CMS, GTM and weserv.nl stay as they are, because they are external SaaS.
+Goal: move everything onto the Hostinger VPS as a **self-contained Docker Compose stack** (`pikorua-website`), like the other apps on the box: an app container (Next.js standalone, `127.0.0.1:3100`) and its own Postgres 17 container (`127.0.0.1:5433`). Host Nginx proxies to the app and serves uploaded media from `/var/www/pikorua-media` (bind-mounted into the app container). Supabase, Vercel **and Brevo** are removed entirely. Sanity CMS, GTM and weserv.nl stay as they are, because they are external SaaS.
 
 Decisions made:
 - **Plain PostgreSQL with a rewritten data layer.** No self-hosted Supabase.
@@ -27,8 +27,9 @@ What the codebase shows:
 
 ## Golden rule: the VPS is shared, so only add things
 Other apps already run on this VPS. The migration only **adds** PIKORUA-specific items and never modifies or restarts anything else:
-- **Never touch**: other Nginx site files, other PM2 processes, other databases/roles, SSH config, firewall rules, system timezone, swap, global package versions, or other crontab entries.
-- **Never run**: `apt upgrade`, `pm2 kill`, `pm2 delete all`, `pm2 restart all`, `systemctl restart postgresql`, global edits to `postgresql.conf`/`nginx.conf`, or anything with `ufw` that removes or reorders rules.
+- **Never touch**: other Nginx site files, other containers/Compose projects/volumes/images, the host Postgres (`postgresql@17-main`, used by `pikorua_hrm`), `cloudflared`, SSH config, firewall rules, system timezone, swap, global package versions, or other crontab entries.
+- **Never run**: `apt upgrade`, `docker system prune`, `docker image/volume/network prune`, `docker stop $(docker ps -q)`, `docker compose down` outside `pikorua-website`, `systemctl restart docker|postgresql|nginx`, global edits to `postgresql.conf`/`nginx.conf`, or anything with `ufw`.
+- **Docker**: always use `docker compose --env-file .env.production ...` from the website repo directory, which scopes every command to the `pikorua-website` project.
 - **Nginx**: only `nginx -t && systemctl reload nginx` (reload, never restart), and only after `nginx -t` passes.
 - Before every phase, look first (read-only), then add.
 
@@ -49,21 +50,23 @@ Other apps already run on this VPS. The migration only **adds** PIKORUA-specific
 - Installed tools: `node -v`, `npm -v`, `pm2 -v`, `pm2 ls`, `nginx -v`, `ls /etc/nginx/sites-enabled/`, `psql --version`, `certbot --version`, `ufw status`
 - Existing users and cron: `ls /home`, `crontab -l`
 
+**1a results (2026-10-21)**
+- Ubuntu 26.04.1, 2 vCPU, 7.7 GB RAM (5.5 GB available), 2 GB swap, 78 GB free disk.
+- Ports in use (all loopback except 22/80/443): 3001 (node, likely the CRM), 5432 (host Postgres 17.11), 8012 (uvicorn), 18001/18002/18081/18100/27018 (docker-proxy), 18080 (nginx), 20241 (cloudflared). **Chosen: app 3100, db 5433.**
+- Running: Docker 29.8.1, Nginx 1.28.3, host Postgres 17.11 (DBs: `pikorua_hrm`), cloudflared, Certbot 5.8.0. ufw inactive. No Node/PM2 on the host (not needed with Docker).
+- Existing deploy users follow `deploy_<app>` (`deploy`, `deploy_hrm`, `deploy_propsight`).
+- Existing Nginx files named `pikorua-live`, `pikorua-tls-hold`, `pikorua-acme`, `pikorua-phase5-loopback`, `pikorua-apps`, `pikorua-crm`, `pikorua-hrm`, `pikorua-propsight`. **Open question:** check whether any of them already claims `pikorua.in`/`www.pikorua.in`, and how `cloudflared` routes hostnames, before adding the site config.
+
 **1b. Add only what's missing**
-- **Linux user**: create a new `pikorua` user, and add only your SSH key to its `authorized_keys`. Don't change `sshd_config`.
-- **Node**: if Node ≥ 20 already exists, use it. If not, install Node 22 **for the `pikorua` user only via `nvm`**, so the system Node used by other apps doesn't change.
-- **PM2**: install it in the `pikorua` user's own npm (via nvm), so it runs as a separate PM2 daemon under that user and is isolated from other apps' PM2.
-- **Postgres**:
-  - **If Postgres already exists**, use the existing server. Add only a new role `pikorua_app` and a new database `pikorua`. No `postgresql.conf` tuning and no restart; a `pg_hba.conf` change is only needed if local password auth isn't already allowed, and then it's one appended line plus `SELECT pg_reload_conf()`.
-  - **If not installed**, install PostgreSQL 17 from the PGDG repo. It listens on localhost only by default.
-  - The `pg_dump` client must be ≥ the Supabase server version. If the system client is older, use the `postgres:17` Docker image just for the dump, or install `postgresql-client-17` alongside, which doesn't affect the server.
-- **Nginx and Certbot**: if they already exist, reuse them. If not, install them. Firewall: ports 80/443 are almost certainly already open; add nothing unless `ufw status` shows them closed.
-- **Build memory**: if `free -h` shows a tight margin, build the app locally or in GitHub Actions and ship the `.next` output, rather than adding swap on the server.
+- **Linux user**: create `deploy_website` (matching the `deploy_<app>` convention), add only your SSH key to its `authorized_keys`, and add it to the `docker` group. Don't change `sshd_config`. Note that docker-group access is effectively root; that's the same as the other deploy users presumably have.
+- **No Node, PM2 or host Postgres changes.** Everything runs in the `pikorua-website` Compose stack.
+- **Media folder**: `sudo mkdir -p /var/www/pikorua-media && sudo chown 1001:1001 /var/www/pikorua-media`. UID 1001 is the `nextjs` user inside the app image. Nginx reads it through the default `o+rx`.
+- **Nginx and Certbot**: reuse them. Firewall: leave as is.
 
 ## Phase 2: Database migration
-**2a. Postgres on the VPS**
-- Create role `pikorua_app` with a strong password and database `pikorua` owned by `pikorua_app`. These are new objects only.
-- No server-wide tuning, because other apps may share this Postgres. The PIKORUA dataset is small and the defaults are fine. If needed, set per-role settings only: `ALTER ROLE pikorua_app SET work_mem='16MB'`.
+**2a. Postgres container**
+- Clone the repo and create `.env.production` first (Phase 5, steps 1–2), then start only the database: `docker compose --env-file .env.production up -d --wait db`. That creates the `pikorua` database and the `pikorua_app` role in the `pikorua-website-db` container (data in the `pikorua-website_pgdata` volume), reachable only at `127.0.0.1:5433`.
+- The host's own `psql`/`pg_dump`/`pg_restore` 17.11 are used for the steps below, connecting to `127.0.0.1:5433`. Nothing on the host Postgres is touched. Set `export PGPASSWORD=<POSTGRES_PASSWORD>` in the shell for these steps.
 
 **2b. Dump from Supabase** (using Supabase → Project Settings → Database → *direct/session* connection string, port 5432):
 ```
@@ -73,7 +76,8 @@ Dumping the live schema, rather than replaying `supabase/migrations/*`, picks up
 
 **2c. Restore and clean up**
 ```
-pg_restore -d pikorua --no-owner --role=pikorua_app supabase_public.dump
+pg_restore -h 127.0.0.1 -p 5433 -U pikorua_app -d pikorua --no-owner supabase_public.dump
+psql -h 127.0.0.1 -p 5433 -U pikorua_app -d pikorua -v ON_ERROR_STOP=1 -f deploy/sql/post_restore.sql
 ```
 Then run `deploy/sql/post_restore.sql` (to be added to the repo):
 - `DROP POLICY ...` for every policy, and `ALTER TABLE ... DISABLE ROW LEVEL SECURITY` on all 12 tables. The `anon`/`authenticated` roles don't exist here; ignore restore errors that mention them.
@@ -87,7 +91,7 @@ Then run `deploy/sql/post_restore.sql` (to be added to the repo):
 
 ## Phase 3: Media (Storage) migration
 1. Add `scripts/export-storage.ts`, modeled on the client setup in `scripts/upload-images.ts`. It recursively `list()`s the `media` bucket and `download()`s each object into `./media-export/<same path>`. Run it locally while Supabase is still live.
-2. `rsync -avz media-export/ pikorua@VPS:/var/www/pikorua-media/`. Folder layout stays identical (`properties/…`, `images/…`, etc.).
+2. `rsync -avz media-export/ deploy_website@VPS:/var/www/pikorua-media/`, then on the VPS `sudo chown -R 1001:1001 /var/www/pikorua-media`. Folder layout stays identical (`properties/…`, `images/…`, etc.).
 3. Compare the file count and total size with the Phase 0 baseline.
 
 ## Phase 4: Code changes (local branch `vps-migration`)
@@ -148,7 +152,7 @@ The in-house CRM on the same VPS pulls leads from the website through a protecte
   - Query: `?since=<ISO timestamp>` and/or `?unsynced=true`, `&limit=` (default 100, max 500), ordered by `created_at ASC`. The response includes each lead's `property_enquiries`/`consultation_bookings` row, if any, and a `next_since` cursor.
   - Response shape: leads as a JSON array using the DB's snake_case column names, close to what Supabase returned, so adapting the CRM later is easy. Document the shape in this file once built.
 - New `src/app/api/crm/leads/ack/route.ts`, `POST { ids: string[] }`: sets `crm_synced = true` and inserts a `lead_events` row (`type='crm_synced'`) per lead, in one transaction. Same auth.
-- **How the CRM reaches it**: call it **over localhost**, `http://127.0.0.1:<FREE_PORT>/api/crm/leads`, so traffic never leaves the server. In the PIKORUA Nginx site file, add `location /api/crm/ { return 404; }` so the endpoint is not reachable from the internet at all. The API key stays required anyway.
+- **How the CRM reaches it**: call it **over localhost**, `http://127.0.0.1:3100/api/crm/leads`. That works if the CRM runs directly on the host (port 3001 is a host `node` process). If the CRM runs in a container, it must use the Docker host gateway (`host.docker.internal` with `extra_hosts: host-gateway`) instead of `127.0.0.1`. Either way, traffic never leaves the server. In the PIKORUA Nginx site file, add `location /api/crm/ { return 404; }` so the endpoint is not reachable from the internet at all. The API key stays required anyway.
 - Remove the empty `pushToCrm` stub from `/api/leads`, and add `CRM_API_KEY` to `.env.local.example` and `.env.production`.
 - **CRM-side change: DEFERRED.** The user will update the CRM later, separately from this migration. This migration only builds and tests the website endpoint; it makes no CRM changes.
   - Until the CRM is switched, new website leads land in the PIKORUA DB with `crm_synced = false` and are visible in `/admin`. Nothing is lost: when the CRM is pointed at `/api/crm/leads?unsynced=true`, it picks up the whole backlog.
@@ -157,17 +161,21 @@ The in-house CRM on the same VPS pulls leads from the website through a protecte
 
 **Local test**: run Postgres locally (Docker `postgres:17`), restore the same dump plus `post_restore.sql`, and point `DATABASE_URL` at it. Then `npm run check` and `npm run build`, and click through every admin action and public page.
 
-## Phase 5: Deploy the app on the VPS
-1. `git clone` to `/var/www/pikorua` as the `pikorua` user. First confirm the path doesn't already exist; if it does, use `/home/pikorua/app` instead. Create `.env.production` with `chmod 600`, containing all Vercel vars plus the new ones, with `NEXT_PUBLIC_SITE_URL=https://www.pikorua.in` and `NEXT_PUBLIC_SITE_LIVE` matching production.
-2. `npm ci && npm run build`. **`.env.production` (with `DATABASE_URL`) must exist before the build, and the DB must already be restored.** Otherwise statically generated pages are baked without DB content (the build still passes, logging `Missing required environment variable: DATABASE_URL`) and only pick it up on their daily revalidation.
-3. Run PM2 as `pikorua` in **fork mode with 1 instance**, because the in-memory rate limiter and the ISR file cache assume a single process: `pm2 start npm --name pikorua -- start -- -p <FREE_PORT>`. Then run `pm2 save` and `pm2 startup` **as `pikorua`**. This creates a separate `pm2-pikorua` systemd unit and leaves other apps' PM2 alone. Use `pm2 install pm2-logrotate` in this user's PM2 only.
-4. **New** Nginx file `/etc/nginx/sites-available/pikorua.in`, symlinked into `sites-enabled`. Don't edit any existing site file or `nginx.conf`. First check with `grep -r pikorua /etc/nginx/` that no existing site already claims the domain.
-   - `location /media/ { alias /var/www/pikorua-media/; expires 1y; add_header Cache-Control "public, immutable"; }`
-   - `location / { proxy_pass http://127.0.0.1:<FREE_PORT>; }` with `Host`, `X-Forwarded-For`, `X-Forwarded-Proto` and `X-Real-IP` headers.
+## Phase 5: Deploy the app on the VPS (Docker Compose)
+Files in the repo: `Dockerfile` (Next.js `output: "standalone"`, Node 22, runs as UID 1001), `docker-compose.yml` (project `pikorua-website`: `app` on `127.0.0.1:3100`, `db` Postgres 17 on `127.0.0.1:5433`), `deploy/deploy.sh`, `deploy/nginx/pikorua.in.conf`.
+
+1. As `deploy_website`: `git clone https://github.com/pikoruarealty/pikoruawebsite.git /home/deploy_website/pikorua-website` and check out the release branch.
+2. Create `.env.production` in the repo dir with `chmod 600`, following `.env.local.example`. Values must be **unquoted**. Set `POSTGRES_PASSWORD`, `DATABASE_URL=...@db:5432/pikorua`, `BUILD_DATABASE_URL=...@127.0.0.1:5433/pikorua`, `NEXT_PUBLIC_SITE_URL=https://www.pikorua.in`, `NEXT_PUBLIC_SITE_LIVE=true`, `ADMIN_*` and `CRM_API_KEY`, plus the optional ones.
+3. Start the DB and migrate data (Phase 2), and copy media (Phase 3).
+4. `deploy/deploy.sh`: git pull, then `up -d --wait db`, `build app`, `up -d --wait app`. **The DB must be restored before the first build**, because statically generated pages are built from it. The build mounts `.env.production` as a BuildKit secret, so no secrets end up in the image, and reaches the DB through `BUILD_DATABASE_URL` on the host network.
+   - The app runs as one container, which the in-memory rate limiter and the ISR file cache need. The ISR cache lives in the container and is rebuilt after each deploy.
+5. **New** Nginx file from `deploy/nginx/pikorua.in.conf` → `/etc/nginx/sites-available/pikorua.in` (`APP_PORT` → `3100`), symlinked into `sites-enabled`. Don't edit any existing site file or `nginx.conf`. First resolve the 1a open question (existing `pikorua-*` configs and `cloudflared` routing). It contains:
+   - `location /media/` → `alias /var/www/pikorua-media/` with long cache headers
+   - `location /api/crm/` → `return 404` (the CRM uses `127.0.0.1:3100` directly)
+   - `location /` → `proxy_pass http://127.0.0.1:3100` with the forwarding headers
    - `client_max_body_size 20m;` (server actions allow 15MB), gzip on.
-   - Apply with `nginx -t && systemctl reload nginx`.
-5. `deploy/deploy.sh`: `git pull && npm ci && npm run build && pm2 reload pikorua`, which reloads only this process. Optionally add a GitHub Action that SSHes in as `pikorua` and runs it on push to `main`.
-6. The `pikorua` user owns `/var/www/pikorua-media`, so admin uploads work. Nginx needs read access (`chmod o+rx` on the path).
+   - Apply with `sudo nginx -t && sudo systemctl reload nginx`.
+6. Logs: `docker compose --env-file .env.production logs -f app`. Restart policy is `unless-stopped`, so both containers come back after a reboot through the Docker daemon, with no systemd unit of our own.
 
 ## Phase 6: Vercel crons are dropped (decided)
 The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), `CRON_SECRET` or `OPENROUTER_API_KEY`. `CRON_SECRET` was never set on Vercel, so all 3 routes have been returning 401 and never ran; nothing is lost.
@@ -182,7 +190,7 @@ The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), 
 
 ## Phase 8: Cutover (low-traffic window, ~1 hr)
 1. Freeze admin edits on the old site.
-2. Run a final delta: dump, restore and run `post_restore.sql` again (into a fresh DB, then swap), and re-run the storage export with rsync, which copies only new files.
+2. Run a final delta: take a fresh Supabase dump, then reset the DB with `psql -h 127.0.0.1 -p 5433 -U pikorua_app -d pikorua -c 'drop schema public cascade; create schema public;'`, restore, and run `post_restore.sql` again. Then re-run `deploy/deploy.sh` so pages rebuild from the final data. Re-run the storage export and rsync, which copies only new files.
 3. Change DNS A records for `pikorua.in` and `www` to the VPS IP. Remove the Vercel domain assignment only after the new site is confirmed.
 4. `certbot --nginx -d pikorua.in -d www.pikorua.in`, which edits only the PIKORUA site file. Check renewal with `certbot renew --dry-run --cert-name pikorua.in`.
 5. **CRM:** no change at cutover; the switch is deferred (4i). Just confirm the endpoint works with a local `curl` using the key. Submit a test lead and confirm it arrives in the CRM.
@@ -190,10 +198,10 @@ The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), 
 7. Google Search Console: no change needed (same domain). Watch crawl errors for a week.
 
 ## Phase 9: Post-migration
-- **Backups**: a nightly cron in the `pikorua` crontab that runs `pg_dump -Fc pikorua` (this DB only) and a `tar` of `/var/www/pikorua-media`, keeps 14 days locally, and copies offsite (rclone to Google Drive or Backblaze B2). **Test one restore.**
-- **Monitoring**: UptimeRobot (free) on `/` and one API route, plus `pm2 logs pikorua`.
+- **Backups**: a nightly cron in the `deploy_website` crontab that runs `docker exec pikorua-website-db pg_dump -U pikorua_app -Fc pikorua > backup.dump` (this DB only) and a `tar` of `/var/www/pikorua-media`, keeps 14 days locally, and copies offsite (rclone to Google Drive or Backblaze B2). **Test one restore.**
+- **Monitoring**: UptimeRobot (free) on `/` and one API route, plus `docker compose --env-file .env.production logs app`.
 - **Rollback window**: keep the Vercel project and Supabase project (paused, not deleted) for 2 weeks. Rolling back means pointing DNS back.
-- **Later (separate task): switch the in-house CRM** to `http://127.0.0.1:<FREE_PORT>/api/crm/leads` with `CRM_API_KEY`, replacing its Supabase URL and key. Then confirm that the backlog of unsynced leads arrives.
+- **Later (separate task): switch the in-house CRM** to `http://127.0.0.1:3100/api/crm/leads` with `CRM_API_KEY`, replacing its Supabase URL and key. Then confirm that the backlog of unsynced leads arrives.
 - **Decommission**: after 2 stable weeks **and once the CRM has been switched**, take a final Supabase dump for the archive, then delete the Supabase project, the Vercel project and `vercel.json`. Cancel the Brevo account and API key.
 - Optional later: with Brevo gone, there is no instant alert on a new lead. If wanted, add a small non-blocking notification (Resend, or a Telegram/WhatsApp bot) after the DB commit.
 
@@ -203,5 +211,5 @@ The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), 
 3. DB: per-table row counts match Supabase. `... WHERE col LIKE '%supabase.co%'` returns 0 across the rewritten columns.
 4. Media: file count and size match the bucket, and an upload via admin renders on the site.
 5. CRM endpoint (tested with `curl` on the VPS, since the CRM switch is deferred): `GET /api/crm/leads?unsynced=true` with the key returns the test leads, `POST /ack` flips `crm_synced` to `true`, and a `lead_events` 'crm_synced' row exists. A request to `/api/crm/leads` without the key returns 401, and `https://www.pikorua.in/api/crm/leads` from outside the server returns 404.
-6. Other apps unaffected: re-run the Phase 1a inventory after each phase. Other PM2 processes, Nginx sites, listening ports and databases are unchanged, and the other sites still load.
+6. Other apps unaffected: re-run the Phase 1a inventory after each phase. Other containers, Nginx sites, listening ports and host databases are unchanged, and the other sites still load.
 7. Production: the Phase 7 checklist passes on the live domain, the SSL cert is valid, and no browser requests go to supabase.co.

@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
-# Deploys the latest code on the VPS. Run as the `pikorua` user from the app
-# directory. Touches only the `pikorua` PM2 process — never other apps.
+# Deploys the latest code on the VPS. Run from the repo directory as a user in
+# the docker group. Touches only the `pikorua-website` Compose project —
+# never other containers, images or volumes.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
 if [ ! -f .env.production ]; then
-  echo "Missing .env.production — the build needs DATABASE_URL (see docs/VPS_MIGRATION_PLAN.md)." >&2
+  echo "Missing .env.production (see .env.local.example and docs/VPS_MIGRATION_PLAN.md)." >&2
   exit 1
 fi
 
+compose() { docker compose --env-file .env.production "$@"; }
+
 git pull --ff-only
-npm ci
-npm run build
-pm2 reload pikorua --update-env
-pm2 save
+
+# The image build reads the DB (BUILD_DATABASE_URL), so the db must be up first.
+compose up -d --wait db
+compose build app
+compose up -d --wait app
 
 echo "Deployed $(git rev-parse --short HEAD)"
+compose ps

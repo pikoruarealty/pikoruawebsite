@@ -1,0 +1,15 @@
+.git
+.next
+node_modules
+npm-debug.log*
+*.log
+.env*
+!.env.local.example
+media-export
+WEB
+docs
+deploy
+.codex-*
+Dockerfile
+docker-compose.yml
+.dockerignore

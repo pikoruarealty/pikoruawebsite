@@ -1,0 +1,54 @@
+# PIKORUA website stack: app + its own Postgres. Both ports are published on
+# host loopback only; host Nginx proxies www.pikorua.in to 127.0.0.1:3100.
+# Always run with the env file, e.g. via deploy/deploy.sh:
+#   docker compose --env-file .env.production up -d
+name: pikorua-website
+
+services:
+  db:
+    image: postgres:17
+    container_name: pikorua-website-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pikorua
+      POSTGRES_USER: pikorua_app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env.production}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      # Loopback only — used by the image build, backups and migrations.
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pikorua_app -d pikorua"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      # Lets the build reach the db at 127.0.0.1:5433 (BUILD_DATABASE_URL).
+      network: host
+      secrets:
+        - env_production
+    image: pikorua-website:latest
+    container_name: pikorua-website-app
+    restart: unless-stopped
+    env_file: .env.production
+    environment:
+      MEDIA_DIR: /app/media
+    volumes:
+      # Host Nginx serves this same folder under /media.
+      - /var/www/pikorua-media:/app/media
+    ports:
+      - "127.0.0.1:3100:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+secrets:
+  env_production:
+    file: .env.production
+
+volumes:
+  pgdata:
