@@ -55,7 +55,10 @@ Other apps already run on this VPS. The migration only **adds** PIKORUA-specific
 - Ports in use (all loopback except 22/80/443): 3001 (node, likely the CRM), 5432 (host Postgres 17.11), 8012 (uvicorn), 18001/18002/18081/18100/27018 (docker-proxy), 18080 (nginx), 20241 (cloudflared). **Chosen: app 3100, db 5433.**
 - Running: Docker 29.8.1, Nginx 1.28.3, host Postgres 17.11 (DBs: `pikorua_hrm`), cloudflared, Certbot 5.8.0. ufw inactive. No Node/PM2 on the host (not needed with Docker).
 - Existing deploy users follow `deploy_<app>` (`deploy`, `deploy_hrm`, `deploy_propsight`).
-- Existing Nginx files named `pikorua-live`, `pikorua-tls-hold`, `pikorua-acme`, `pikorua-phase5-loopback`, `pikorua-apps`, `pikorua-crm`, `pikorua-hrm`, `pikorua-propsight`. **Open question:** check whether any of them already claims `pikorua.in`/`www.pikorua.in`, and how `cloudflared` routes hostnames, before adding the site config.
+- Existing Nginx sites (checked): `pikorua-apps` (port-80 `default_server`, `server_name _`), `pikorua-crm` (crm.pikoruarealty.com → `127.0.0.1:18100`, a **Docker container**), `pikorua-hrm` (hrm.pikoruarealty.com → `127.0.0.1:3001`, host Next.js), `pikorua-propsight` (→ 8012), `pikorua-live`/`tls-hold`/`acme`/`phase5-loopback` (all blast*.pikoruarealty.com). **None claims `pikorua.in` or `www.pikorua.in`**, so a new site file is conflict-free.
+- Existing Certbot certs: `apps.pikoruarealty.com`, `hrm.pikoruarealty.com`, `pikorua-crm`, **`pikorua` (the blast sites)**, `propsight.pikoruarealty.com`. **Ours must use `--cert-name pikorua-website`.**
+- `cloudflared` runs as a token-based, dashboard-managed tunnel. Website traffic doesn't use it; nothing to change.
+- DNS today: `pikorua.in` → 216.198.79.1 and `www` → CNAME `…vercel-dns-017.com` (Vercel).
 
 **1b. Add only what's missing**
 - **Linux user**: create `deploy_website` (matching the `deploy_<app>` convention), add only your SSH key to its `authorized_keys`, and add it to the `docker` group. Don't change `sshd_config`. Note that docker-group access is effectively root; that's the same as the other deploy users presumably have.
@@ -152,7 +155,7 @@ The in-house CRM on the same VPS pulls leads from the website through a protecte
   - Query: `?since=<ISO timestamp>` and/or `?unsynced=true`, `&limit=` (default 100, max 500), ordered by `created_at ASC`. The response includes each lead's `property_enquiries`/`consultation_bookings` row, if any, and a `next_since` cursor.
   - Response shape: leads as a JSON array using the DB's snake_case column names, close to what Supabase returned, so adapting the CRM later is easy. Document the shape in this file once built.
 - New `src/app/api/crm/leads/ack/route.ts`, `POST { ids: string[] }`: sets `crm_synced = true` and inserts a `lead_events` row (`type='crm_synced'`) per lead, in one transaction. Same auth.
-- **How the CRM reaches it**: call it **over localhost**, `http://127.0.0.1:3100/api/crm/leads`. That works if the CRM runs directly on the host (port 3001 is a host `node` process). If the CRM runs in a container, it must use the Docker host gateway (`host.docker.internal` with `extra_hosts: host-gateway`) instead of `127.0.0.1`. Either way, traffic never leaves the server. In the PIKORUA Nginx site file, add `location /api/crm/ { return 404; }` so the endpoint is not reachable from the internet at all. The API key stays required anyway.
+- **How the CRM reaches it**: call it **over localhost**, `http://127.0.0.1:3100/api/crm/leads`. **The CRM runs in a Docker container** (behind `127.0.0.1:18100`), where `127.0.0.1` is the container itself. So it must call `http://host.docker.internal:3100/api/crm/leads`, with `extra_hosts: ["host.docker.internal:host-gateway"]` in the CRM's compose service. Our app port is published on host loopback only, so if that route is blocked, the alternative is attaching the CRM to the `pikorua-website_default` network and calling `http://app:3000`. Either way, traffic never leaves the server. In the PIKORUA Nginx site file, add `location /api/crm/ { return 404; }` so the endpoint is not reachable from the internet at all. The API key stays required anyway.
 - Remove the empty `pushToCrm` stub from `/api/leads`, and add `CRM_API_KEY` to `.env.local.example` and `.env.production`.
 - **CRM-side change: DEFERRED.** The user will update the CRM later, separately from this migration. This migration only builds and tests the website endpoint; it makes no CRM changes.
   - Until the CRM is switched, new website leads land in the PIKORUA DB with `crm_synced = false` and are visible in `/admin`. Nothing is lost: when the CRM is pointed at `/api/crm/leads?unsynced=true`, it picks up the whole backlog.
@@ -169,7 +172,7 @@ Files in the repo: `Dockerfile` (Next.js `output: "standalone"`, Node 22, runs a
 3. Start the DB and migrate data (Phase 2), and copy media (Phase 3).
 4. `deploy/deploy.sh`: git pull, then `up -d --wait db`, `build app`, `up -d --wait app`. **The DB must be restored before the first build**, because statically generated pages are built from it. The build mounts `.env.production` as a BuildKit secret, so no secrets end up in the image, and reaches the DB through `BUILD_DATABASE_URL` on the host network.
    - The app runs as one container, which the in-memory rate limiter and the ISR file cache need. The ISR cache lives in the container and is rebuilt after each deploy.
-5. **New** Nginx file from `deploy/nginx/pikorua.in.conf` → `/etc/nginx/sites-available/pikorua.in` (`APP_PORT` → `3100`), symlinked into `sites-enabled`. Don't edit any existing site file or `nginx.conf`. First resolve the 1a open question (existing `pikorua-*` configs and `cloudflared` routing). It contains:
+5. **New** Nginx file from `deploy/nginx/pikorua.in.conf` → `/etc/nginx/sites-available/pikorua-website.conf`, symlinked into `sites-enabled` (no conflicts, per 1a). Don't edit any existing site file or `nginx.conf`. It contains:
    - `location /media/` → `alias /var/www/pikorua-media/` with long cache headers
    - `location /api/crm/` → `return 404` (the CRM uses `127.0.0.1:3100` directly)
    - `location /` → `proxy_pass http://127.0.0.1:3100` with the forwarding headers
@@ -184,7 +187,8 @@ The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), 
 - The admin AI buttons (SEO/excerpt/FAQ/alt-text generation in `actions.ts`, which call OpenRouter) will fail without the key. Hide those buttons, or make them return a clear "AI not configured" message instead of erroring.
 
 ## Phase 7: Staging check (before DNS switch)
-- Test via a `hosts` file override for `www.pikorua.in` pointing at the VPS IP, or via a temporary `staging.pikorua.in` A record with its own cert.
+- Use a temporary **`staging.pikorua.in`** A record → VPS IP. A `hosts` file override won't work, because the site sends HSTS (`includeSubDomains; preload`), so browsers require a valid certificate, and Let's Encrypt can't issue one for `www` while DNS still points to Vercel.
+- The Nginx site file starts with `server_name staging.pikorua.in;`. Get the cert with `sudo certbot --nginx --cert-name pikorua-website -d staging.pikorua.in`.
 - Checklist: home, properties list and detail, blog list and detail, about (`pages` table), testimonials, FAQs, sitemap.xml and `/sitemap/*.xml`, `llms.txt`, `/studio` (Sanity), **every lead form (row appears in DB and in `/admin`)**, `/admin` login plus edit and save for each entity, **image upload** (file lands in `/var/www/pikorua-media/properties/` and renders).
 - Confirm no requests go to `supabase.co`: run `rg supabase.co src` (should be empty) and check the browser Network tab.
 
@@ -192,7 +196,7 @@ The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), 
 1. Freeze admin edits on the old site.
 2. Run a final delta: take a fresh Supabase dump, then reset the DB with `psql -h 127.0.0.1 -p 5433 -U pikorua_app -d pikorua -c 'drop schema public cascade; create schema public;'`, restore, and run `post_restore.sql` again. Then re-run `deploy/deploy.sh` so pages rebuild from the final data. Re-run the storage export and rsync, which copies only new files.
 3. Change DNS A records for `pikorua.in` and `www` to the VPS IP. Remove the Vercel domain assignment only after the new site is confirmed.
-4. `certbot --nginx -d pikorua.in -d www.pikorua.in`, which edits only the PIKORUA site file. Check renewal with `certbot renew --dry-run --cert-name pikorua.in`.
+4. As soon as DNS resolves to the VPS, change the site file to `server_name pikorua.in www.pikorua.in;` and expand the cert with `sudo certbot --nginx --cert-name pikorua-website -d pikorua.in -d www.pikorua.in`. **Never use the cert name `pikorua`**, which belongs to the blast sites. This edits only our site file. Expect a few minutes of certificate errors for visitors who reach the VPS before the cert exists, so keep the TTL low and run Certbot right away. Check renewal with `sudo certbot renew --dry-run --cert-name pikorua-website`. Then remove the `staging.pikorua.in` DNS record.
 5. **CRM:** no change at cutover; the switch is deferred (4i). Just confirm the endpoint works with a local `curl` using the key. Submit a test lead and confirm it arrives in the CRM.
 6. Sanity webhook: the URL `https://www.pikorua.in/api/revalidate` is unchanged. Publish a test edit and confirm revalidation.
 7. Google Search Console: no change needed (same domain). Watch crawl errors for a week.
