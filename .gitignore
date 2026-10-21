@@ -55,3 +55,5 @@ next-env.d.ts
 
 # Database dumps (contain lead PII) — never commit
 *.dump
+# Supabase CSV exports (contain lead PII) — never commit
+/supabase-export/
