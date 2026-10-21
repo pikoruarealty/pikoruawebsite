@@ -6,7 +6,7 @@ import { ContactFormSection } from "@/components/contact/ContactFormSection";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { FAQ_ITEMS } from "@/lib/data/faq";
 import { createMetadata, serializeJsonLd } from "@/lib/seo";
-import { getPageSeoData, getSupabaseGeneralFaqs } from "@/lib/supabase/queries";
+import { getPageSeoData, getSupabaseGeneralFaqs } from "@/lib/db/queries";
 import type { LeadPurpose, GeneralFaq } from "@/types";
 
 // ─── URL purpose → LeadPurpose mapping ───────────────────────────────────────

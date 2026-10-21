@@ -49,3 +49,6 @@ next-env.d.ts
 /public/videos/
 
 .vercel
+
+# Supabase storage export (scripts/export-storage.ts) — copied to the VPS, never committed
+/media-export/

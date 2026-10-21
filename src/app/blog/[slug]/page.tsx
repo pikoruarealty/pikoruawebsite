@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
-import { getSupabaseBlogs, getSupabaseBlogBySlug } from "@/lib/supabase/queries";
+import { getSupabaseBlogs, getSupabaseBlogBySlug } from "@/lib/db/queries";
 import { renderFormattedText } from "@/lib/utils";
 import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";

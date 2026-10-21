@@ -5,7 +5,10 @@ import { revalidatePath, revalidateTag as _revalidateTag } from "next/cache";
 // Next.js 16 added a second `profile` arg to revalidateTag — cast to the
 // traditional single-argument signature for standard ISR tag invalidation.
 const revalidateTag = _revalidateTag as (tag: string) => void;
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { query, queryOne, upsert, toJson, errorMessage } from "@/lib/db";
+import { MEDIA_BASE } from "@/lib/media";
+import { promises as fs } from "fs";
+import path from "path";
 import { fetchRealEstateNews, generateBlogDraftFromNews } from "@/lib/ai/blogAutomation";
 import { submitToIndexNow } from "@/lib/index-now";
 import { notifyGoogleIndexing } from "@/lib/google-indexing";
@@ -87,23 +90,20 @@ async function requireAuth() {
  */
 export async function getLeads() {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { data, error } = await supabase
-    .from("leads")
-    .select(`
-      *,
-      consultation_bookings (*),
-      property_enquiries (*)
-    `)
-    .order("created_at", { ascending: false });
-
-  if (error) {
+  try {
+    // Same shape PostgREST returned for `*, consultation_bookings (*), property_enquiries (*)`.
+    return await query(`
+      SELECT l.*,
+        COALESCE((SELECT json_agg(cb) FROM consultation_bookings cb WHERE cb.lead_id = l.id), '[]'::json) AS consultation_bookings,
+        COALESCE((SELECT json_agg(pe) FROM property_enquiries pe WHERE pe.lead_id = l.id), '[]'::json) AS property_enquiries
+      FROM leads l
+      ORDER BY l.created_at DESC
+    `);
+  } catch (error) {
     console.error("Error fetching leads:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
-
-  return data || [];
 }
 
 /**
@@ -111,29 +111,22 @@ export async function getLeads() {
  */
 export async function updateLeadStatus(leadId: string, status: string) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
   // Update status
-  const { error: statusError } = await supabase
-    .from("leads")
-    .update({ status })
-    .eq("id", leadId);
-
-  if (statusError) {
+  try {
+    await query("UPDATE leads SET status = $1 WHERE id = $2", [status, leadId]);
+  } catch (statusError) {
     console.error("Error updating lead status:", statusError);
-    throw new Error(statusError.message);
+    throw new Error(errorMessage(statusError));
   }
 
   // Create audit event
-  const { error: eventError } = await supabase
-    .from("lead_events")
-    .insert({
-      lead_id: leadId,
-      type: "status_changed",
-      payload: { status },
-    });
-
-  if (eventError) {
+  try {
+    await query(
+      "INSERT INTO lead_events (lead_id, type, payload) VALUES ($1, 'status_changed', $2)",
+      [leadId, toJson({ status })]
+    );
+  } catch (eventError) {
     console.error("Error logging lead event:", eventError);
   }
 
@@ -165,11 +158,10 @@ async function autoGeneratePropertySeo(property: any) {
 }
 
 /**
- * Creates or updates a property in the Supabase database.
+ * Creates or updates a property in the database.
  */
 export async function createOrUpdateProperty(property: any) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
   let seoTitle = property.seoTitle || property.seo_title || null;
   let seoDescription = property.seoDescription || property.seo_description || null;
@@ -209,13 +201,11 @@ export async function createOrUpdateProperty(property: any) {
     image_alts: property.imageAlts || property.image_alts || {},
   };
 
-  const { error } = await supabase
-    .from("properties")
-    .upsert(dbProperty, { onConflict: "id" });
-
-  if (error) {
+  try {
+    await upsert("properties", dbProperty, { jsonColumns: ["image_alts"] });
+  } catch (error) {
     console.error("Error upserting property:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   // Revalidate frontend caches
@@ -237,16 +227,12 @@ export async function createOrUpdateProperty(property: any) {
  */
 export async function updatePropertyImageAlts(id: string, imageAlts: Record<string, string>) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { error } = await supabase
-    .from("properties")
-    .update({ image_alts: imageAlts })
-    .eq("id", id);
-
-  if (error) {
+  try {
+    await query("UPDATE properties SET image_alts = $1 WHERE id = $2", [toJson(imageAlts), id]);
+  } catch (error) {
     console.error("Error updating property image alts:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   revalidatePath("/properties");
@@ -258,16 +244,12 @@ export async function updatePropertyImageAlts(id: string, imageAlts: Record<stri
  */
 export async function deleteProperty(id: string, slug: string) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { error } = await supabase
-    .from("properties")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
+  try {
+    await query("DELETE FROM properties WHERE id = $1", [id]);
+  } catch (error) {
     console.error("Error deleting property:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   // Revalidate frontend caches
@@ -286,10 +268,9 @@ export async function deleteProperty(id: string, slug: string) {
  */
 export async function createOrUpdateTestimonial(testimonial: any) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
   const dbTestimonial = {
-    id: testimonial.id || undefined, // undefined lets Supabase auto-generate UUID on insert
+    id: testimonial.id || undefined, // undefined lets Postgres auto-generate UUID on insert
     client_name: testimonial.clientName || testimonial.client_name,
     quote: testimonial.quote,
     context: testimonial.context,
@@ -299,13 +280,11 @@ export async function createOrUpdateTestimonial(testimonial: any) {
     is_published: testimonial.isPublished !== undefined ? testimonial.isPublished : testimonial.is_published,
   };
 
-  const { error } = await supabase
-    .from("testimonials")
-    .upsert(dbTestimonial);
-
-  if (error) {
+  try {
+    await upsert("testimonials", dbTestimonial);
+  } catch (error) {
     console.error("Error upserting testimonial:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   revalidatePath("/testimonials");
@@ -318,16 +297,12 @@ export async function createOrUpdateTestimonial(testimonial: any) {
  */
 export async function deleteTestimonial(id: string) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { error } = await supabase
-    .from("testimonials")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
+  try {
+    await query("DELETE FROM testimonials WHERE id = $1", [id]);
+  } catch (error) {
     console.error("Error deleting testimonial:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   revalidatePath("/testimonials");
@@ -336,7 +311,7 @@ export async function deleteTestimonial(id: string) {
 }
 
 /**
- * Uploads an image directly to Supabase Storage inside the "media" bucket.
+ * Saves an uploaded image to MEDIA_DIR on disk (served by Nginx under /media).
  */
 export async function uploadImageAction(formData: FormData) {
   try {
@@ -345,7 +320,10 @@ export async function uploadImageAction(formData: FormData) {
     return { success: false, error: "Unauthorized. Please log in again." };
   }
 
-  const supabase = createServerSupabaseClient();
+  const mediaDir = process.env.MEDIA_DIR;
+  if (!mediaDir) {
+    return { success: false, error: "MEDIA_DIR is not configured." };
+  }
 
   const file = formData.get("file") as File;
   if (!file || !file.name) {
@@ -353,6 +331,9 @@ export async function uploadImageAction(formData: FormData) {
   }
 
   const fileExt = file.name.split(".").pop()?.toLowerCase() || "jpg";
+  if (!ALLOWED_UPLOAD_EXTENSIONS.has(fileExt)) {
+    return { success: false, error: `File type .${fileExt} is not allowed.` };
+  }
   const fileName = `${Math.random().toString(36).substring(2, 10)}-${Date.now()}.${fileExt}`;
   const filePath = `properties/${fileName}`;
 
@@ -364,29 +345,20 @@ export async function uploadImageAction(formData: FormData) {
     return { success: false, error: "Failed to read file: " + e.message };
   }
 
-  const { data, error } = await supabase.storage
-    .from("media")
-    .upload(filePath, buffer, {
-      contentType: file.type || "application/octet-stream",
-      cacheControl: "3600",
-      upsert: false,
-    });
-
-  if (error) {
-    console.error("Supabase storage upload error:", error);
-    return { success: false, error: error.message };
+  try {
+    const absolutePath = path.join(mediaDir, filePath);
+    await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+    // "wx" fails instead of overwriting if the name somehow already exists.
+    await fs.writeFile(absolutePath, buffer, { flag: "wx" });
+  } catch (e) {
+    console.error("Media upload error:", e);
+    return { success: false, error: "Failed to save file: " + errorMessage(e) };
   }
 
-  if (!data?.path) {
-    return { success: false, error: "Upload succeeded but no path returned." };
-  }
-
-  const { data: { publicUrl } } = supabase.storage
-    .from("media")
-    .getPublicUrl(filePath);
-
-  return { success: true, url: publicUrl };
+  return { success: true, url: `${MEDIA_BASE}/${filePath}` };
 }
+
+const ALLOWED_UPLOAD_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "avif", "gif", "mp4"]);
 
 /**
  * Automatically generates blog SEO tags, excerpt, and FAQs in the background.
@@ -414,11 +386,10 @@ async function autoGenerateBlogSeo(blog: any) {
 }
 
 /**
- * Creates or updates a blog post in the Supabase database.
+ * Creates or updates a blog post in the database.
  */
 export async function createOrUpdateBlogPost(blog: any) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
   const cleanSlug = blog.slug ? blog.slug.replace(/^\//, "") : "";
 
@@ -459,13 +430,11 @@ export async function createOrUpdateBlogPost(blog: any) {
     faqs: faqs,
   };
 
-  const { error } = await supabase
-    .from("blogs")
-    .upsert(dbBlog, { onConflict: "id" });
-
-  if (error) {
+  try {
+    await upsert("blogs", dbBlog, { jsonColumns: ["faqs"] });
+  } catch (error) {
     console.error("Error upserting blog post:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   // Revalidate frontend caches
@@ -486,18 +455,19 @@ export async function createOrUpdateBlogPost(blog: any) {
  */
 export async function approveBlogDraft(id: string) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { data, error } = await supabase
-    .from("blogs")
-    .update({ pending_review: false, is_active: true })
-    .eq("id", id)
-    .select("slug")
-    .single();
-
-  if (error) {
+  let data: { slug: string } | null;
+  try {
+    data = await queryOne<{ slug: string }>(
+      "UPDATE blogs SET pending_review = false, is_active = true WHERE id = $1 RETURNING slug",
+      [id]
+    );
+  } catch (error) {
     console.error("Error approving blog draft:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
+  }
+  if (!data) {
+    throw new Error("Blog post not found.");
   }
 
   revalidatePath("/blog");
@@ -524,16 +494,12 @@ export async function approveBlogDraft(id: string) {
  */
 export async function deleteBlogPost(id: string, slug: string) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { error } = await supabase
-    .from("blogs")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
+  try {
+    await query("DELETE FROM blogs WHERE id = $1", [id]);
+  } catch (error) {
     console.error("Error deleting blog post:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   // Revalidate frontend caches
@@ -552,20 +518,17 @@ export async function deleteBlogPost(id: string, slug: string) {
  */
 export async function createOrUpdateAboutPage(aboutContent: any) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { error } = await supabase
-    .from("pages")
-    .upsert({
+  try {
+    await upsert("pages", {
       id: "about",
       title: "About Page",
       content: aboutContent,
       updated_at: new Date().toISOString()
-    }, { onConflict: "id" });
-
-  if (error) {
+    }, { jsonColumns: ["content"] });
+  } catch (error) {
     console.error("Error upserting About page:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   revalidatePath("/about");
@@ -577,19 +540,12 @@ export async function createOrUpdateAboutPage(aboutContent: any) {
  * General helper to get page content (like SEO details) from the pages table.
  */
 export async function getPageSeo(id: string) {
-  const supabase = createServerSupabaseClient();
-  const { data, error } = await supabase
-    .from("pages")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
-
-  if (error) {
+  try {
+    return await queryOne("SELECT * FROM pages WHERE id = $1", [id]);
+  } catch (error) {
     console.error(`Error fetching page SEO for ${id}:`, error);
     return null;
   }
-
-  return data;
 }
 
 /**
@@ -597,29 +553,19 @@ export async function getPageSeo(id: string) {
  */
 export async function getAllPagesSeo() {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
-  const { data, error } = await supabase
-    .from("pages")
-    .select("id, title, content");
-
-  if (error) {
+  try {
+    return await query("SELECT id, title, content FROM pages");
+  } catch (error) {
     console.error("Error fetching all pages SEO:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
-
-  return data || [];
 }
 
 export async function createOrUpdatePageSeo(id: string, title: string, content: any) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
   // Fetch existing content to prevent overwriting other fields (e.g. on About page)
-  const { data: existingPage } = await supabase
-    .from("pages")
-    .select("content")
-    .eq("id", id)
-    .maybeSingle();
+  const existingPage = await queryOne("SELECT content FROM pages WHERE id = $1", [id]);
 
   const existingContent = existingPage?.content && typeof existingPage.content === "object" ? existingPage.content : {};
   const mergedContent = {
@@ -627,18 +573,16 @@ export async function createOrUpdatePageSeo(id: string, title: string, content: 
     ...content,
   };
 
-  const { error } = await supabase
-    .from("pages")
-    .upsert({
+  try {
+    await upsert("pages", {
       id,
       title,
       content: mergedContent,
       updated_at: new Date().toISOString()
-    }, { onConflict: "id" });
-
-  if (error) {
+    }, { jsonColumns: ["content"] });
+  } catch (error) {
     console.error(`Error upserting page SEO for ${id}:`, error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   // Revalidate cache
@@ -653,14 +597,9 @@ export async function createOrUpdatePageSeo(id: string, title: string, content: 
 
 export async function createOrUpdateHomePage(homeContent: any) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
   // Load existing page settings (like SEO) to avoid overwriting them
-  const { data: existingPage } = await supabase
-    .from("pages")
-    .select("content")
-    .eq("id", "home")
-    .maybeSingle();
+  const existingPage = await queryOne("SELECT content FROM pages WHERE id = 'home'");
 
   const existingContent = existingPage?.content && typeof existingPage.content === "object" ? existingPage.content : {};
   const mergedContent = {
@@ -668,18 +607,16 @@ export async function createOrUpdateHomePage(homeContent: any) {
     ...homeContent,
   };
 
-  const { error } = await supabase
-    .from("pages")
-    .upsert({
+  try {
+    await upsert("pages", {
       id: "home",
       title: "Home Page",
       content: mergedContent,
       updated_at: new Date().toISOString()
-    }, { onConflict: "id" });
-
-  if (error) {
+    }, { jsonColumns: ["content"] });
+  } catch (error) {
     console.error("Error upserting Home page:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   revalidatePath("/");
@@ -692,7 +629,6 @@ export async function createOrUpdateHomePage(homeContent: any) {
  */
 export async function createOrUpdateGeneralFaq(faq: any) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
   const dbFaq = {
     id: faq.id || undefined, // auto-generate UUID if not present
@@ -702,13 +638,11 @@ export async function createOrUpdateGeneralFaq(faq: any) {
     category: faq.category || "general",
   };
 
-  const { error } = await supabase
-    .from("general_faqs")
-    .upsert(dbFaq);
-
-  if (error) {
+  try {
+    await upsert("general_faqs", dbFaq);
+  } catch (error) {
     console.error("Error upserting general FAQ:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   // Revalidate public pages where FAQs are displayed
@@ -723,16 +657,12 @@ export async function createOrUpdateGeneralFaq(faq: any) {
  */
 export async function deleteGeneralFaq(id: string) {
   await requireAuth();
-  const supabase = createServerSupabaseClient();
 
-  const { error } = await supabase
-    .from("general_faqs")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
+  try {
+    await query("DELETE FROM general_faqs WHERE id = $1", [id]);
+  } catch (error) {
     console.error("Error deleting general FAQ:", error);
-    throw new Error(error.message);
+    throw new Error(errorMessage(error));
   }
 
   // Revalidate public pages
@@ -754,7 +684,7 @@ export async function generateBlogMetadataAction(title: string, contentText: str
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    return { success: false, error: "OPENROUTER_API_KEY is not configured (add it to Vercel/hosting environment variables)" };
+    return { success: false, error: "AI features are not configured (OPENROUTER_API_KEY is not set)" };
   }
 
   // Use the HTML content if plain text is empty
@@ -868,7 +798,7 @@ export async function generatePropertySeoAction(
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    return { success: false, error: "OPENROUTER_API_KEY is not configured (add it to Vercel/hosting environment variables)" };
+    return { success: false, error: "AI features are not configured (OPENROUTER_API_KEY is not set)" };
   }
 
   if (!title || !configuration || !locationLabel) {
@@ -959,7 +889,7 @@ export async function generatePageSeoAction(pageId: string, pageContext?: string
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    return { success: false, error: "OPENROUTER_API_KEY is not configured (add it to Vercel/hosting environment variables)" };
+    return { success: false, error: "AI features are not configured (OPENROUTER_API_KEY is not set)" };
   }
 
   const pageNames: Record<string, string> = {
@@ -1085,7 +1015,7 @@ export async function generateImageAltAction(
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    return { success: false, error: "OPENROUTER_API_KEY is not configured (add it to Vercel/hosting environment variables)" };
+    return { success: false, error: "AI features are not configured (OPENROUTER_API_KEY is not set)" };
   }
 
   if (!imageUrl) {

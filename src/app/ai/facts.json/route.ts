@@ -12,7 +12,7 @@ import {
 } from "@/lib/data/keyword-clusters";
 import { getAiEntitySnapshot, getRealEstateAgentSchema } from "@/lib/entity-profile";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
-import { getSupabaseProperties } from "@/lib/supabase/queries";
+import { getSupabaseProperties } from "@/lib/db/queries";
 import { absoluteUrl, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { PROPERTY_STATUS_LABELS, RESIDENTIAL_CATEGORY_LABELS } from "@/types";
 import { ALL_CONTENT_HUB_PAGES } from "@/lib/data/content-hubs";

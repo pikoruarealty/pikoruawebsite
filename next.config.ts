@@ -35,8 +35,8 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https: http:",
-      "media-src 'self' https://cdn.sanity.io https://rwtueiruyktjzvsgdcoh.supabase.co",
-      "connect-src 'self' https://*.supabase.co https://api.sanity.io https://cdn.sanity.io https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://open.er-api.com https://www.clarity.ms https://*.clarity.ms",
+      "media-src 'self' https://cdn.sanity.io",
+      "connect-src 'self' https://api.sanity.io https://cdn.sanity.io https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://open.er-api.com https://www.clarity.ms https://*.clarity.ms",
       "frame-src https://www.youtube.com https://youtube.com https://www.google.com https://maps.google.com",
       "frame-ancestors 'self'",
     ].join("; "),
@@ -60,6 +60,7 @@ const nextConfig: NextConfig = {
       { pathname: "/blog/**", search: "" },
       { pathname: "/logo.png", search: "" },
       { pathname: "/logo-icon.png", search: "" },
+      { pathname: "/media/**", search: "" },
     ],
     remotePatterns: [
       {
@@ -69,8 +70,8 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "rwtueiruyktjzvsgdcoh.supabase.co",
-        pathname: "/storage/v1/object/public/media/**",
+        hostname: "www.pikorua.in",
+        pathname: "/media/**",
       },
       {
         protocol: "https",

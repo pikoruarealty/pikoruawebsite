@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
-import { getSupabaseBlogBySlug } from "@/lib/supabase/queries";
+import { getSupabaseBlogBySlug } from "@/lib/db/queries";
 import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const alt = "PIKORUA Realty - Insights & Advisory";
 export const size = {
   width: 1200,

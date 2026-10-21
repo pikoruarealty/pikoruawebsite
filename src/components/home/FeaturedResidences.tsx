@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSupabaseFeaturedProperties } from "@/lib/supabase/queries";
+import { getSupabaseFeaturedProperties } from "@/lib/db/queries";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
 import { LazyFeaturedResidencesGrid } from "./LazyFeaturedResidencesGrid";
 

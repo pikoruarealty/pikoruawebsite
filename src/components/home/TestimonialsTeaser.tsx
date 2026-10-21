@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSupabaseFeaturedTestimonials } from "@/lib/supabase/queries";
+import { getSupabaseFeaturedTestimonials } from "@/lib/db/queries";
 import type { Testimonial } from "@/types";
 
 const STATIC_TESTIMONIALS: Pick<Testimonial, "_id" | "clientName" | "quote" | "context" | "source" | "rating" | "reviewUrl">[] = [

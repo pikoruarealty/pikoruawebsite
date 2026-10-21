@@ -9,7 +9,7 @@ import { PropertyEnquiryForm } from "@/components/property/PropertyEnquiryForm";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
 import { getNriPropertyAdvisory } from "@/lib/data/nri-property-advisory";
 import { getLocationLandingPage } from "@/lib/data/geo";
-import { getSupabasePropertyBySlug, getSupabaseAllPropertySlugs } from "@/lib/supabase/queries";
+import { getSupabasePropertyBySlug, getSupabaseAllPropertySlugs } from "@/lib/db/queries";
 import { PROPERTY_STATUS_LABELS, RESIDENTIAL_CATEGORY_LABELS } from "@/types";
 import { ArrowLeft, ArrowRight, Building2, CalendarCheck, IndianRupee, MapPin, Ruler, ShieldCheck } from "lucide-react";
 import { renderFormattedText } from "@/lib/utils";

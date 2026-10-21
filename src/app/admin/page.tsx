@@ -8,7 +8,7 @@ import {
   getSupabaseAboutPageContent,
   getSupabaseHomePageContent,
   getSupabaseGeneralFaqs,
-} from "@/lib/supabase/queries";
+} from "@/lib/db/queries";
 import { STATIC_PROPERTIES, type StaticProperty } from "@/lib/data/properties";
 import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
 import type { Testimonial } from "@/types";
@@ -30,7 +30,7 @@ export default async function AdminPage() {
     return <AdminLogin />;
   }
 
-  // Fetch initial content data from Supabase for the dashboard
+  // Fetch initial content data from the database for the dashboard
   let properties: StaticProperty[] = [];
   let testimonials: Testimonial[] = [];
   let blogs: BlogPost[] = [];

@@ -37,7 +37,7 @@ import {
   getSupabaseBlogs,
   getSupabaseProperties,
   getSupabaseAllTestimonials,
-} from "@/lib/supabase/queries";
+} from "@/lib/db/queries";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { BRAND_MISSPELLING_KEYWORDS } from "@/lib/data/brand-keywords";
 import { ALL_CONTENT_HUB_PAGES } from "@/lib/data/content-hubs";

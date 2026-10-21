@@ -1,18 +1,19 @@
+import "server-only";
+
 import { cache } from "react";
-import { getSupabasePublicClient } from "./client";
+import { query, queryOne } from "@/lib/db";
+import { MEDIA_BASE } from "@/lib/media";
 import { STATIC_PROPERTIES, type StaticProperty } from "@/lib/data/properties";
 import type { Testimonial, AboutPageContent, GeneralFaq } from "@/types";
 import type { BlogPost } from "@/types/blog";
 
-// Helper to convert local image paths to absolute Supabase storage URLs if needed.
+// Helper to convert local image paths to absolute media URLs if needed.
 // (In db-seeding we keep relative paths; this function ensures they render correctly)
-const SUPABASE_BASE = "https://rwtueiruyktjzvsgdcoh.supabase.co/storage/v1/object/public/media";
-
-export function getSupabaseUrl(localPath: string): string {
+export function getMediaUrl(localPath: string): string {
   if (!localPath) return "";
   if (localPath.startsWith("http")) return localPath;
   if (localPath.startsWith("/properties/") || localPath.startsWith("/images/")) {
-    return `${SUPABASE_BASE}${localPath}`;
+    return `${MEDIA_BASE}${localPath}`;
   }
   return localPath;
 }
@@ -74,8 +75,8 @@ function mapDbPropertyToStatic(db: any): StaticProperty {
     configuration: db.configuration,
     sizeRange: db.size_range,
     status: db.status,
-    coverImage: getSupabaseUrl(db.cover_image),
-    images: (db.images || []).map(getSupabaseUrl),
+    coverImage: getMediaUrl(db.cover_image),
+    images: (db.images || []).map(getMediaUrl),
     isFeatured: db.is_featured,
     price: price,
     priceOnRequest: db.price_on_request ?? staticProp?.priceOnRequest,
@@ -113,28 +114,28 @@ export const getSupabaseProperties = cache(async function getSupabaseProperties(
   onlyActive?: boolean;
 }): Promise<StaticProperty[]> {
   try {
-    const supabase = getSupabasePublicClient();
-    let query = supabase.from("properties").select("*");
+    const conditions: string[] = [];
+    const params: unknown[] = [];
 
     if (filters?.location) {
-      query = query.eq("location", filters.location);
+      params.push(filters.location);
+      conditions.push(`location = $${params.length}`);
     }
     if (filters?.category) {
-      query = query.eq("category", filters.category);
+      params.push(filters.category);
+      conditions.push(`category = $${params.length}`);
     }
     if (filters?.onlyActive) {
-      query = query.eq("is_active", true);
+      conditions.push("is_active = true");
     }
 
-    query = query.order("is_featured", { ascending: false }).order("created_at", { ascending: false });
+    const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const rows = await query(
+      `SELECT * FROM properties ${where} ORDER BY is_featured DESC, created_at DESC`,
+      params
+    );
 
-    const { data, error } = await query;
-    if (error) {
-      console.error("Error fetching properties from Supabase:", error);
-      return [];
-    }
-
-    return (data || []).map(mapDbPropertyToStatic);
+    return rows.map(mapDbPropertyToStatic);
   } catch (err) {
     console.error("Unhandled error in getSupabaseProperties:", err);
     return [];
@@ -143,20 +144,10 @@ export const getSupabaseProperties = cache(async function getSupabaseProperties(
 
 export const getSupabaseFeaturedProperties = cache(async function getSupabaseFeaturedProperties(): Promise<StaticProperty[]> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("properties")
-      .select("*")
-      .eq("is_featured", true)
-      .eq("is_active", true)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching featured properties from Supabase:", error);
-      return [];
-    }
-
-    return (data || []).map(mapDbPropertyToStatic);
+    const rows = await query(
+      "SELECT * FROM properties WHERE is_featured = true AND is_active = true ORDER BY created_at DESC"
+    );
+    return rows.map(mapDbPropertyToStatic);
   } catch (err) {
     console.error("Unhandled error in getSupabaseFeaturedProperties:", err);
     return [];
@@ -165,19 +156,8 @@ export const getSupabaseFeaturedProperties = cache(async function getSupabaseFea
 
 export const getSupabasePropertyBySlug = cache(async function getSupabasePropertyBySlug(slug: string): Promise<StaticProperty | null> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("properties")
-      .select("*")
-      .eq("slug", slug)
-      .maybeSingle();
-
-    if (error) {
-      console.error(`Error fetching property by slug (${slug}) from Supabase:`, error);
-      return null;
-    }
-
-    return data ? mapDbPropertyToStatic(data) : null;
+    const row = await queryOne("SELECT * FROM properties WHERE slug = $1", [slug]);
+    return row ? mapDbPropertyToStatic(row) : null;
   } catch (err) {
     console.error("Unhandled error in getSupabasePropertyBySlug:", err);
     return null;
@@ -186,18 +166,8 @@ export const getSupabasePropertyBySlug = cache(async function getSupabasePropert
 
 export const getSupabaseAllPropertySlugs = cache(async function getSupabaseAllPropertySlugs(): Promise<string[]> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("properties")
-      .select("slug")
-      .eq("is_active", true);
-
-    if (error) {
-      console.error("Error fetching property slugs from Supabase:", error);
-      return [];
-    }
-
-    return (data || []).map((r) => r.slug);
+    const rows = await query<{ slug: string }>("SELECT slug FROM properties WHERE is_active = true");
+    return rows.map((r) => r.slug);
   } catch (err) {
     console.error("Unhandled error in getSupabaseAllPropertySlugs:", err);
     return [];
@@ -208,18 +178,10 @@ export const getSupabaseAllPropertySlugsWithDates = cache(async function getSupa
   { slug: string; updatedAt: string }[]
 > {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("properties")
-      .select("slug, updated_at")
-      .eq("is_active", true);
-
-    if (error) {
-      console.error("Error fetching property slugs/dates from Supabase:", error);
-      return [];
-    }
-
-    return (data || []).map((r) => ({ slug: r.slug, updatedAt: r.updated_at }));
+    const rows = await query<{ slug: string; updated_at: string }>(
+      "SELECT slug, updated_at FROM properties WHERE is_active = true"
+    );
+    return rows.map((r) => ({ slug: r.slug, updatedAt: r.updated_at }));
   } catch (err) {
     console.error("Unhandled error in getSupabaseAllPropertySlugsWithDates:", err);
     return [];
@@ -228,21 +190,10 @@ export const getSupabaseAllPropertySlugsWithDates = cache(async function getSupa
 
 export const getSupabaseFeaturedTestimonials = cache(async function getSupabaseFeaturedTestimonials(): Promise<Testimonial[]> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("testimonials")
-      .select("*")
-      .eq("is_featured", true)
-      .eq("is_published", true)
-      .order("created_at", { ascending: false })
-      .limit(3);
-
-    if (error) {
-      console.error("Error fetching featured testimonials from Supabase:", error);
-      return [];
-    }
-
-    return (data || []).map(mapDbTestimonialToTypes);
+    const rows = await query(
+      "SELECT * FROM testimonials WHERE is_featured = true AND is_published = true ORDER BY created_at DESC LIMIT 3"
+    );
+    return rows.map(mapDbTestimonialToTypes);
   } catch (err) {
     console.error("Unhandled error in getSupabaseFeaturedTestimonials:", err);
     return [];
@@ -251,19 +202,8 @@ export const getSupabaseFeaturedTestimonials = cache(async function getSupabaseF
 
 export const getSupabaseAllTestimonials = cache(async function getSupabaseAllTestimonials(): Promise<Testimonial[]> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("testimonials")
-      .select("*")
-      .eq("is_published", true)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching testimonials from Supabase:", error);
-      return [];
-    }
-
-    return (data || []).map(mapDbTestimonialToTypes);
+    const rows = await query("SELECT * FROM testimonials WHERE is_published = true ORDER BY created_at DESC");
+    return rows.map(mapDbTestimonialToTypes);
   } catch (err) {
     console.error("Unhandled error in getSupabaseAllTestimonials:", err);
     return [];
@@ -280,11 +220,11 @@ function mapDbBlogToBlogPost(db: any): BlogPost {
     publishedAt: db.published_at,
     readTime: db.read_time,
     excerpt: db.excerpt,
-    coverImage: getSupabaseUrl(db.cover_image),
+    coverImage: getMediaUrl(db.cover_image),
     author: {
       name: db.author_name,
       role: db.author_role,
-      avatar: getSupabaseUrl(db.author_avatar),
+      avatar: getMediaUrl(db.author_avatar),
     },
     isFeatured: db.is_featured,
     content: db.content || [],
@@ -301,21 +241,9 @@ function mapDbBlogToBlogPost(db: any): BlogPost {
 
 export const getSupabaseBlogs = cache(async function getSupabaseBlogs(onlyActive = false): Promise<BlogPost[]> {
   try {
-    const supabase = getSupabasePublicClient();
-    let query = supabase.from("blogs").select("*");
-
-    if (onlyActive) {
-      query = query.eq("is_active", true).eq("pending_review", false);
-    }
-
-    const { data, error } = await query.order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching blogs from Supabase:", error);
-      return [];
-    }
-
-    return (data || []).map(mapDbBlogToBlogPost);
+    const where = onlyActive ? "WHERE is_active = true AND pending_review = false" : "";
+    const rows = await query(`SELECT * FROM blogs ${where} ORDER BY created_at DESC`);
+    return rows.map(mapDbBlogToBlogPost);
   } catch (err) {
     console.error("Unhandled error in getSupabaseBlogs:", err);
     return [];
@@ -324,21 +252,11 @@ export const getSupabaseBlogs = cache(async function getSupabaseBlogs(onlyActive
 
 export const getSupabaseBlogBySlug = cache(async function getSupabaseBlogBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("blogs")
-      .select("*")
-      .or(`slug.eq.${slug},slug.eq./${slug}`)
-      .eq("is_active", true)
-      .eq("pending_review", false)
-      .maybeSingle();
-
-    if (error) {
-      console.error(`Error fetching blog by slug (${slug}) from Supabase:`, error);
-      return null;
-    }
-
-    return data ? mapDbBlogToBlogPost(data) : null;
+    const row = await queryOne(
+      "SELECT * FROM blogs WHERE (slug = $1 OR slug = $2) AND is_active = true AND pending_review = false LIMIT 1",
+      [slug, `/${slug}`]
+    );
+    return row ? mapDbBlogToBlogPost(row) : null;
   } catch (err) {
     console.error("Unhandled error in getSupabaseBlogBySlug:", err);
     return null;
@@ -347,24 +265,13 @@ export const getSupabaseBlogBySlug = cache(async function getSupabaseBlogBySlug(
 
 export const getSupabaseAboutPageContent = cache(async function getSupabaseAboutPageContent(): Promise<AboutPageContent | null> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("pages")
-      .select("content")
-      .eq("id", "about")
-      .single();
-
-    if (error) {
-      console.error("Error fetching About page content from Supabase:", error);
-      return null;
-    }
-
-    const content = data?.content as AboutPageContent | undefined;
+    const row = await queryOne<{ content: AboutPageContent }>("SELECT content FROM pages WHERE id = 'about'");
+    const content = row?.content;
     if (!content) return null;
 
     return {
       ...content,
-      founderAvatar: content.founderAvatar ? getSupabaseUrl(content.founderAvatar) : undefined,
+      founderAvatar: content.founderAvatar ? getMediaUrl(content.founderAvatar) : undefined,
     };
   } catch (err) {
     console.error("Unhandled error in getSupabaseAboutPageContent:", err);
@@ -374,20 +281,9 @@ export const getSupabaseAboutPageContent = cache(async function getSupabaseAbout
 
 export const getPageSeoData = cache(async function getPageSeoData(id: string): Promise<{ seoTitle?: string; seoDescription?: string } | null> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("pages")
-      .select("content")
-      .eq("id", id)
-      .maybeSingle();
-
-    if (error) {
-      console.error(`Error fetching page SEO for ${id} from Supabase:`, error);
-      return null;
-    }
-
-    if (!data || !data.content) return null;
-    const content = data.content as any;
+    const row = await queryOne("SELECT content FROM pages WHERE id = $1", [id]);
+    if (!row || !row.content) return null;
+    const content = row.content as any;
     return {
       seoTitle: content.seoTitle || undefined,
       seoDescription: content.seoDescription || undefined,
@@ -400,19 +296,8 @@ export const getPageSeoData = cache(async function getPageSeoData(id: string): P
 
 export const getSupabaseHomePageContent = cache(async function getSupabaseHomePageContent(): Promise<any | null> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("pages")
-      .select("content")
-      .eq("id", "home")
-      .maybeSingle();
-
-    if (error) {
-      console.error("Error fetching Home page content from Supabase:", error);
-      return null;
-    }
-
-    return data?.content || null;
+    const row = await queryOne("SELECT content FROM pages WHERE id = 'home'");
+    return row?.content || null;
   } catch (err) {
     console.error("Unhandled error in getSupabaseHomePageContent:", err);
     return null;
@@ -421,19 +306,7 @@ export const getSupabaseHomePageContent = cache(async function getSupabaseHomePa
 
 export const getSupabaseGeneralFaqs = cache(async function getSupabaseGeneralFaqs(): Promise<GeneralFaq[]> {
   try {
-    const supabase = getSupabasePublicClient();
-    const { data, error } = await supabase
-      .from("general_faqs")
-      .select("*")
-      .order("display_order", { ascending: true })
-      .order("created_at", { ascending: true });
-
-    if (error) {
-      console.error("Error fetching general FAQs from Supabase:", error);
-      return [];
-    }
-
-    return data || [];
+    return await query<GeneralFaq>("SELECT * FROM general_faqs ORDER BY display_order ASC, created_at ASC");
   } catch (err) {
     console.error("Unhandled error in getSupabaseGeneralFaqs:", err);
     return [];

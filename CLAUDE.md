@@ -4,9 +4,10 @@
 - **Framework**: Next.js 16 (App Router) + TypeScript
 - **Styling**: Tailwind CSS v4 — tokens defined in `src/app/globals.css` via `@theme`, never hardcode hex values
 - **CMS**: Sanity v3 — Studio at `/studio`, schemas in `src/sanity/schemas/`
-- **Database**: Supabase (Postgres) — leads + transactional data, plus the About page singleton (`pages` table, id `"about"`, managed via the custom `/admin` panel — `src/app/admin/actions.ts`). All other content lives in Sanity.
-- **Hosting**: Vercel — ISR revalidated via Sanity webhook at `/api/revalidate`
-- **Email**: Brevo (primary) + Resend (fallback) — Team notifications via `TEAM_NOTIFICATION_EMAIL`, lead notifications to `luxuryrealestateahmedabad@gmail.com` with source tracking
+- **Database**: PostgreSQL on the VPS, accessed with `pg` via `src/lib/db.ts` — leads + transactional data, properties, blogs, testimonials, FAQs and page singletons (`pages` table), managed via the custom `/admin` panel (`src/app/admin/actions.ts`).
+- **Media**: uploads written to `MEDIA_DIR` on disk and served by Nginx under `/media` (`MEDIA_BASE` in `src/lib/media.ts`).
+- **Hosting**: Hostinger VPS (shared with other apps) — Next.js under PM2 (single fork-mode process) behind Nginx. See `docs/VPS_MIGRATION_PLAN.md`.
+- **Email**: none for leads — leads are saved to the DB and pulled by the in-house CRM via `/api/crm/leads`.
 - **Validation**: Zod v4 — shared schemas in `src/lib/validations/lead.ts` used on both client and server
 
 ## Two non-negotiable constraints (from PRD)
@@ -19,11 +20,10 @@
 Use `renderListGuard()` from `src/lib/utils.ts` whenever rendering a list of properties or testimonials. This makes it structurally impossible to render an empty grid — the fallback must be an `EmptyStateRedirect` component. Never render "No Properties Found."
 
 ### Lead pipeline
-All form submissions → `POST /api/leads` → Zod validate → honeypot check → rate limit → Supabase write → Audit trail (lead_events) → **Side effects (non-blocking)**:
-  1. Team email to `TEAM_NOTIFICATION_EMAIL` (Resend/Brevo fallback)
-  2. Lead email to `luxuryrealestateahmedabad@gmail.com` via Brevo with source tracking (CONTENT FORM, PROPERTY ENQUIRY FORM, POPUP, etc.)
-  3. CRM push to Zoho/HubSpot (placeholder for implementation)
+All form submissions → `POST /api/leads` → rate limit → honeypot check → Zod validate → **one DB transaction**: `leads` row (+ `property_enquiries` / `consultation_bookings` row for those sources) + `lead_events` 'created' row. `is_hot` is set by the `set_is_hot` trigger. A DB failure returns 500 so the form shows an error instead of losing the lead.
 → Client redirected to `/thank-you?source=X&purpose=Y`.
+
+The in-house CRM (same VPS) pulls leads over localhost: `GET /api/crm/leads?unsynced=true` then `POST /api/crm/leads/ack { ids }` to set `crm_synced`. Both require `Authorization: Bearer <CRM_API_KEY>`; `/api/crm/` is blocked publicly in Nginx.
 
 ### ISR revalidation
 Sanity publishes content → POST to `/api/revalidate?secret=<SANITY_WEBHOOK_SECRET>` → `revalidateTag()` for the relevant data type. Queries in `src/lib/sanity/queries.ts` use `{ next: { tags: [...] } }` to opt into this.
@@ -37,27 +37,21 @@ Always use `next/image` with explicit `width` + `height` to avoid CLS. Use `sani
 ### Environment variables
 - Public vars (`NEXT_PUBLIC_*`): accessed via `env` export from `src/lib/env.ts`
 - Server-only vars: accessed via `getServerEnv()` from `src/lib/env.ts` — only call inside Route Handlers, Server Actions, or Server Components
-- `SUPABASE_SERVICE_ROLE_KEY` is **never** exposed to the client. Supabase RLS denies all public access to the `leads` table.
+- `DATABASE_URL` and `CRM_API_KEY` are server-only. The database listens on localhost only; there is no public DB access.
 
-#### Required for lead email pipeline:
-```env
-BREVO_API_KEY=sk_live_xxx           # Get from Brevo dashboard (Settings > SMTP & API)
-BREVO_SENDER_EMAIL=noreply@pikorua.in
-BREVO_SENDER_NAME=PIKORUA Realty
-TEAM_NOTIFICATION_EMAIL=connect@pikorua.in  # Where team emails go
-# Lead emails automatically go to: luxuryrealestateahmedabad@gmail.com via sendLeadToBrevo()
-```
-
-### Supabase client
-- `createServerSupabaseClient()` — server-side, uses service role key, bypasses RLS. Use in API routes only.
-- `supabasePublic` — anon key, for any future public reads (CMS content is in Sanity, not Supabase).
+### Database access
+- `src/lib/db.ts` (`server-only`): `query`, `queryOne`, `withTransaction`, `upsert(table, row, { jsonColumns })`. Always use `$1` parameters — never interpolate values into SQL. Pass jsonb columns in `jsonColumns` (arrays elsewhere go to Postgres `text[]`).
+- Timestamps come back as strings (type parsers set in `db.ts`), matching the old PostgREST shape.
+- Public read queries live in `src/lib/db/queries.ts` (function names still carry the historical `getSupabase*` prefix).
+- Schema changes: add a numbered SQL file under `supabase/migrations/` (folder name kept for history).
 
 ## Folder structure
 ```
 src/
   app/                    # Next.js App Router pages and API routes
     api/
-      leads/route.ts      # Lead submission handler
+      leads/route.ts      # Lead submission handler (saves to DB)
+      crm/leads/          # In-house CRM lead feed + ack
       revalidate/route.ts # Sanity ISR webhook
     studio/[[...tool]]/   # Sanity Studio
     thank-you/            # Post-submission confirmation
@@ -73,13 +67,15 @@ src/
   lib/
     env.ts                # Env var validation
     utils.ts              # cn, formatPrice, buildWhatsAppUrl, renderListGuard
-    rate-limit.ts         # In-memory rate limiter (upgrade to Upstash for scale)
+    rate-limit.ts         # In-memory rate limiter (single PM2 process)
     sanity/
       client.ts           # Sanity client + draft client
       queries.ts          # All GROQ queries
       image.ts            # imageUrlFor + sanityImageProps helpers
-    supabase/
-      client.ts           # Server + public Supabase clients
+    db.ts                 # pg pool + query helpers (server-only)
+    db/
+      queries.ts          # Cached public read queries
+    media.ts              # MEDIA_BASE + media URLs
     validations/
       lead.ts             # Zod schemas for all 5 form types
   sanity/
@@ -88,8 +84,9 @@ src/
   types/
     index.ts              # All shared TypeScript types
 supabase/
-  migrations/
-    001_initial_schema.sql  # Run in Supabase SQL editor to create tables
+  migrations/               # Numbered SQL migrations (run with psql)
+deploy/
+  sql/post_restore.sql      # One-time cleanup after restoring the Supabase dump
 ```
 
 ## Commands

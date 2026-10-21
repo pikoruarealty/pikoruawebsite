@@ -218,6 +218,7 @@ export interface Lead {
   email?: string;
   category?: ResidentialCategory;
   location?: LocationSlug;
+  locations?: LocationSlug[];
   budget_band?: BudgetBand;
   purpose?: LeadPurpose;
   timeline?: Timeline;

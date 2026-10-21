@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StatsStrip } from "@/components/ui/StatsStrip";
 import { MEDIA } from "@/lib/media";
-import { getSupabaseAboutPageContent, getPageSeoData } from "@/lib/supabase/queries";
+import { getSupabaseAboutPageContent, getPageSeoData } from "@/lib/db/queries";
 import { FOUNDER_NAME, DEFAULT_HERO_TITLE, DEFAULT_FOUNDER_STORY } from "@/lib/data/about";
 import {
   ENTITY_IDS,

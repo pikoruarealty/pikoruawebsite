@@ -1,9 +1,9 @@
 /**
  * Lightweight in-memory rate limiter for API route handlers.
  *
- * NOTE: In-memory state is not shared across Vercel serverless function
- * instances. For production traffic, replace with an Upstash Redis adapter:
- *   https://github.com/upstash/ratelimit
+ * NOTE: In-memory state lives in one Node process. The VPS runs the app as a
+ * single PM2 fork-mode instance, so this holds; if it is ever scaled to
+ * multiple processes, move this to a shared store (e.g. Redis or Postgres).
  *
  * For a low-traffic luxury advisory site this is sufficient as a spam
  * deterrent; the honeypot and Zod validation are the primary defences.
@@ -72,3 +72,7 @@ export const leadRateLimit = (ip: string) =>
 /** 30 revalidation calls per IP per minute (webhook only) */
 export const revalidateRateLimit = (ip: string) =>
   rateLimit(ip, { limit: 30, windowMs: 60 * 1000 });
+
+/** 60 CRM feed calls per IP per minute (in-house CRM polling) */
+export const crmRateLimit = (ip: string) =>
+  rateLimit(`crm:${ip}`, { limit: 60, windowMs: 60 * 1000 });

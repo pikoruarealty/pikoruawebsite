@@ -23,7 +23,7 @@ import {
 } from "@/lib/data/market-report";
 import { getKeywordClusterSummaryForSlug } from "@/lib/data/keyword-clusters";
 import { getAiEntitySnapshot } from "@/lib/entity-profile";
-import { getSupabaseBlogs, getSupabaseProperties } from "@/lib/supabase/queries";
+import { getSupabaseBlogs, getSupabaseProperties } from "@/lib/db/queries";
 import { SITE_URL } from "@/lib/seo";
 import { ALL_CONTENT_HUB_PAGES } from "@/lib/data/content-hubs";
 import { SIX_MONTH_PRIORITY_KEYWORDS } from "@/lib/data/six-month-priority-keywords";

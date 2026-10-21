@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { getSupabaseAllTestimonials, getPageSeoData } from "@/lib/supabase/queries";
+import { getSupabaseAllTestimonials, getPageSeoData } from "@/lib/db/queries";
 import { ENTITY_IDS, getAhmedabadAreaServedSchema, getGeoCoordinatesSchema } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import type { Testimonial } from "@/types";

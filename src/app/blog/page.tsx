@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
-import { getSupabaseBlogs } from "@/lib/supabase/queries";
+import { getSupabaseBlogs } from "@/lib/db/queries";
 import { createMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {

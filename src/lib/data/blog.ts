@@ -1,4 +1,5 @@
 import type { BlogPost } from "@/types/blog";
+import { MEDIA_BASE } from "@/lib/media";
 
 const ALL_STATIC_BLOG_POSTS: BlogPost[] = [
   {
@@ -310,15 +311,13 @@ const ALL_STATIC_BLOG_POSTS: BlogPost[] = [
 ];
 
 
-const SUPABASE_BASE = "https://rwtueiruyktjzvsgdcoh.supabase.co/storage/v1/object/public/media";
-
-function getSupabaseUrl(localPath: string): string {
+function getMediaUrl(localPath: string): string {
   if (!localPath) return "";
   if (localPath.startsWith("http")) return localPath;
-  // Blog-specific images live in public/blog/ — serve locally, not via Supabase
+  // Blog-specific images live in public/blog/ — serve locally, not from media storage
   if (localPath.startsWith("/blog/")) return localPath;
   if (localPath.startsWith("/")) {
-    return `${SUPABASE_BASE}${localPath}`;
+    return `${MEDIA_BASE}${localPath}`;
   }
   return localPath;
 }
@@ -326,9 +325,9 @@ function getSupabaseUrl(localPath: string): string {
 
 export const STATIC_BLOG_POSTS: BlogPost[] = ALL_STATIC_BLOG_POSTS.map((post) => ({
   ...post,
-  coverImage: getSupabaseUrl(post.coverImage),
+  coverImage: getMediaUrl(post.coverImage),
   author: {
     ...post.author,
-    avatar: getSupabaseUrl(post.author.avatar),
+    avatar: getMediaUrl(post.author.avatar),
   },
 }));

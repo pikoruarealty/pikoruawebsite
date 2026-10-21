@@ -1,24 +1,45 @@
-import { createClient } from "@supabase/supabase-js";
+/**
+ * Prints row counts for every table in the public schema, plus any rows that
+ * still reference Supabase storage URLs. Used to verify the Supabase → VPS
+ * migration (docs/VPS_MIGRATION_PLAN.md).
+ *
+ *   DATABASE_URL=postgres://... npx tsx scripts/count-db.ts
+ */
+import { Client } from "pg";
 import dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" });
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
 async function main() {
-  const { data: allProps, error: errAll } = await supabase.from("properties").select("*");
-  if (errAll) {
-    console.error("Error fetching properties:", errAll.message);
-    return;
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    console.error("Error: DATABASE_URL must be set (env or .env.local)");
+    process.exit(1);
   }
 
-  console.log(`Total properties in Supabase properties table: ${allProps?.length}`);
-  if (allProps && allProps.length > 0) {
-    console.log("Columns in properties table:", Object.keys(allProps[0]));
-    console.log("Sample property:", allProps[0]);
+  const client = new Client({ connectionString });
+  await client.connect();
+
+  try {
+    const { rows: tables } = await client.query<{ tablename: string }>(
+      "SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename"
+    );
+
+    console.log("table".padEnd(24), "rows".padStart(8), "supabase_urls".padStart(14));
+    for (const { tablename } of tables) {
+      const { rows } = await client.query<{ total: string; supabase: string }>(
+        `SELECT count(*) AS total,
+                count(*) FILTER (WHERE row_to_json(t)::text LIKE '%supabase.co%') AS supabase
+         FROM public.${client.escapeIdentifier(tablename)} t`
+      );
+      console.log(tablename.padEnd(24), rows[0].total.padStart(8), rows[0].supabase.padStart(14));
+    }
+  } finally {
+    await client.end();
   }
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

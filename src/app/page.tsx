@@ -16,7 +16,7 @@ import { LocationGrid } from "@/components/home/LocationGrid";
 import { PartnerMarquee } from "@/components/home/PartnerMarquee";
 import { StatsStrip } from "@/components/ui/StatsStrip";
 import { MEDIA } from "@/lib/media";
-import { getSupabaseAboutPageContent, getPageSeoData, getSupabaseHomePageContent } from "@/lib/supabase/queries";
+import { getSupabaseAboutPageContent, getPageSeoData, getSupabaseHomePageContent } from "@/lib/db/queries";
 import { FOUNDER_NAME, DEFAULT_FOUNDER_STORY } from "@/lib/data/about";
 import { getFirstSentence } from "@/lib/utils";
 import { createMetadata, serializeJsonLd } from "@/lib/seo";

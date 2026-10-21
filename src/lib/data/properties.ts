@@ -1,4 +1,5 @@
 import type { ResidentialCategory, LocationSlug, PropertyStatus } from "@/types";
+import { MEDIA_BASE } from "@/lib/media";
 
 export interface StaticProperty {
   id: string;
@@ -642,13 +643,11 @@ const ALL_STATIC_PROPERTIES: StaticProperty[] = [
   },
 ];
 
-const SUPABASE_BASE = "https://rwtueiruyktjzvsgdcoh.supabase.co/storage/v1/object/public/media";
-
-function getSupabaseUrl(localPath: string): string {
+function getMediaUrl(localPath: string): string {
   if (!localPath) return "";
   if (localPath.startsWith("http")) return localPath;
   if (localPath.startsWith("/properties/")) {
-    return `${SUPABASE_BASE}${localPath}`;
+    return `${MEDIA_BASE}${localPath}`;
   }
   return localPath;
 }
@@ -657,8 +656,8 @@ export const STATIC_PROPERTIES = ALL_STATIC_PROPERTIES
   .filter((p) => (p.coverImage && p.coverImage !== "") || p.isActive === true)
   .map((p) => ({
     ...p,
-    coverImage: getSupabaseUrl(p.coverImage),
-    images: p.images.map(getSupabaseUrl),
+    coverImage: getMediaUrl(p.coverImage),
+    images: p.images.map(getMediaUrl),
   }));
 
 export const FEATURED_PROPERTIES = STATIC_PROPERTIES.filter((p) => p.isFeatured);

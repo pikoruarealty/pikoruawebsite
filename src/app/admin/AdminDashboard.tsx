@@ -1101,7 +1101,7 @@ export default function AdminDashboard({
   };
 
   // Bulk-tags every property in the portfolio that has at least one image
-  // missing alt text, persisting to Supabase after each property so partial
+  // missing alt text, persisting to the database after each property so partial
   // progress survives if the browser tab closes mid-run.
   const handleBulkGenerateMissingAlts = async () => {
     const targets = properties.filter((p) => {
@@ -2401,7 +2401,7 @@ export default function AdminDashboard({
                         />
                       </label>
                     </div>
-                    <p className="text-[9px] text-ivory/30 mt-1">Host your video in Supabase Storage or upload it here.</p>
+                    <p className="text-[9px] text-ivory/30 mt-1">Upload your video here.</p>
                   </div>
                   <div className="space-y-1">
                     <div className="flex justify-between items-center">

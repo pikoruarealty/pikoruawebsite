@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
-import { getSupabasePropertyBySlug } from "@/lib/supabase/queries";
+import { getSupabasePropertyBySlug } from "@/lib/db/queries";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const alt = "PIKORUA Realty - Private Luxury Advisory";
 export const size = {
   width: 1200,
