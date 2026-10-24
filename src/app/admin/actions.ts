@@ -532,6 +532,7 @@ export async function createOrUpdateAboutPage(aboutContent: any) {
   }
 
   revalidatePath("/about");
+  revalidatePath("/");
 
   return { success: true };
 }

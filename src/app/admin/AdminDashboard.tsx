@@ -1395,9 +1395,15 @@ export default function AdminDashboard({
         ? aboutContent.founderStory.split("\n\n").map((p: string) => p.trim()).filter((p: string) => p !== "")
         : aboutContent.founderStory;
 
+      // Blank principles are dropped so the About page falls back to its built-in set.
+      const principlesArray = (aboutContent.principles || []).filter(
+        (pr: { label?: string; body?: string }) => pr?.label?.trim() || pr?.body?.trim()
+      );
+
       const payload = {
         ...aboutContent,
         founderStory: storyArray,
+        principles: principlesArray,
       };
 
       await createOrUpdateAboutPage(payload);
@@ -2943,7 +2949,6 @@ export default function AdminDashboard({
                           <label className="block text-[8px] uppercase tracking-wider text-ivory/30">Label / Heading</label>
                           <input
                             type="text"
-                            required
                             value={principle.label}
                             onChange={(e) => {
                               const newPrinciples = [...(aboutContent.principles || [])];
@@ -2958,7 +2963,6 @@ export default function AdminDashboard({
                           <label className="block text-[8px] uppercase tracking-wider text-ivory/30">Description Body</label>
                           <textarea
                             rows={3}
-                            required
                             value={principle.body}
                             onChange={(e) => {
                               const newPrinciples = [...(aboutContent.principles || [])];
