@@ -1,14 +1,25 @@
 # PIKORUA Realty: SEO + AEO Master Plan
 
 > **Drafted:** 26 October 2026 · **Owner:** you (solo, full-time) · **Implementation partner:** Claude Code
-> **Status:** plan only. Nothing in this document has been implemented yet.
-> **Site:** https://www.pikorua.in (Next.js app in Docker on the Hostinger VPS, deployed from branch `vps-migration`)
+> **Status:** the SEO/AEO workstreams in Part 4 (4.1–4.12, 4.16) have **not been started**. Separately, on 27 Oct 2026 the lead pipeline and hosting were repaired and changed (see below).
+> **Site:** https://www.pikorua.in (Next.js app in Docker on the Hostinger VPS, deployed from branch `vps-migration`; **since 27 Oct 2026 the domain's DNS is on Cloudflare and all visitor traffic goes through Cloudflare's proxy**)
 >
-> **Status update, 27 October 2026 [Measured]:** Still plan-only — no code from Part 4 has shipped yet. Today's session was triage/decisions only, no implementation:
-> - **Deferred by your own choice (not blocked, not forgotten), no date set:** 4.1–4.9 code clean-up (sitemap/URL dedup, schema clean-up, RERA number, ContentGuard removal, combo-page fixes), 4.15 uptime monitoring, and 4.15 backups. See the "What to do next" note after Part 7.1 and the updated 4.15 section below.
-> - **Resolved:** the 24 Oct firewall outage's root cause is now known — a coworker changed `ufw` by mistake. You've addressed it with him directly. No process fix (e.g. restricting who can touch `ufw`) has been decided yet; see Part 9.
-> - **Re-attempted, still blocked:** the backlink profile (VibeSEO's tool still errors on `pikorua.in`) — see 3.4.
-> - **In progress:** a Core Web Vitals/Lighthouse recheck. Google's PageSpeed API (no key) is still quota-exhausted; a local run via a freshly installed headless Chromium (Playwright) failed with `NO_FCP: The page did not paint any content` — not yet debugged. The 8/10 speed numbers in 3.1/3.2/4.12 are still yesterday's (26 Oct) lab numbers, unrefreshed.
+> **End-of-day status, 27 October 2026 [Measured].** The full, timed log with evidence is in **3.5**. Every open item, with an owner, is in **3.6**. Next steps are in **7.1b**.
+> - **Fixed and verified live:**
+>   1. **Enquiries with a ₹3–4 Cr, ₹5–7 Cr or ₹8–10 Cr budget were being rejected by the database.** Migration `012` had never been applied on the VPS. It was applied at 2:20 PM IST, and a test lead then saved.
+>   2. **Real names were rejected and visitors saw only "Validation failed".** Names like "R.K. Patel", "Dr. Mehta", "José" and Gujarati/Hindi names now pass, and forms show the actual reason. Commit `d35725a`, deployed 2:48 PM IST, tested on the live site at 2:56 PM IST.
+>   3. **pikorua.in was unreachable from Airtel connections.** The cause was routing between Airtel and Hostinger's IP range, not our server. Your colleague moved the domain to Cloudflare (nameservers switched 11:23 AM IST). It was fully working on Airtel by 1:01 PM IST.
+> - **Found and still open:**
+>   - **The CRM is not collecting website leads** (`WEBSITE_LEAD_SYNC_ENABLED=false`). Leads are safe in the website database, waiting.
+>   - **Credentials were exposed on screen and need rotating:** a Supabase service-role key and 5 Facebook page tokens, printed by a diagnostic command.
+>   - **Cloudflare settings to adjust:** the Web Analytics script is blocked by our security policy, and email obfuscation hides the contact email from crawlers.
+>   - **All 4 background videos are missing on the server** (404).
+>   - **pikoruarealty.com is slow from India or returns error 522.**
+>   - **The enquiry pop-up opens over the contact form.**
+>   - **The database holds no leads dated between 11 Aug and the move to the VPS.**
+> - **Deferred by your own choice (not blocked, not forgotten), no date set:** the 4.1–4.9 code clean-up, 4.15 uptime monitoring and 4.15 backups.
+> - **Still blocked:** the backlink profile, because the VibeSEO tool errors. A like-for-like PageSpeed comparison, because Google's free daily quota was exhausted.
+> - **Resolved:** the 24 Oct firewall outage was caused by a coworker's mistaken `ufw` change. You've addressed it with him.
 
 ---
 
@@ -166,6 +177,11 @@ Read once now; come back whenever a word is unclear.
 
 **Overall: about 4.4 / 10.** Strong: speed, AI crawler access, NRI pages. Weak: structure, trust, brand, off-site authority, measurement.
 
+**Note, 27 Oct 2026:** the scorecard above was **not re-scored**. What changed since then, and what was measured, is in 3.5.
+- Speed: a local Lighthouse run gave mobile 67 / desktop 86. It isn't comparable to the 90/93 above (different tool, location and network path; see 4.12), so row 1 stays as it was until a like-for-like PageSpeed run.
+- AI crawler access (row 2): still allowed through Cloudflare.
+- Technical foundation (row 4): Cloudflare now sits in front of the site.
+
 ### 3.2 Positives (keep and protect these)
 - **Pages that already rank. Never break these** (protected list in Appendix C):
   - `/luxury-property-consultant-ahmedabad`: **#1** for "best luxury property consultant in Ahmedabad for NRI"
@@ -180,6 +196,9 @@ Read once now; come back whenever a word is unclear.
 - **All AI bots allowed and served** (GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended, Bingbot) [Measured].
 - **Justdial:** 53 reviews at 4.9 on the Bodakdev listing [Measured].
 - **A solid lead pipeline:** forms → database in one transaction → CRM feed. It must not be touched carelessly.
+  - **Correction, 27 Oct 2026 [Measured]:** the "solid" label was only partly true. The **database step** was rejecting enquiries with ₹3–4 Cr, ₹5–7 Cr or ₹8–10 Cr budgets (fixed 27 Oct).
+  - The **CRM step** isn't connected yet: the CRM's website sync is switched off.
+  - Details in 3.5 and 4.13.
 - **Real NRI country guides** (USA, UK, UAE, Canada, Singapore, Australia) that rank abroad [Measured].
 
 ### 3.3 Negatives (each fixed in a workstream)
@@ -206,16 +225,166 @@ Read once now; come back whenever a word is unclear.
 | Satellite and duplicate brand sites: millionmindstechcity.in (registered to "PIKORUA"), pikoruarealty.com, and the public Lovable prototype claiming "since 2009" | 4.9 |
 | Absent from 7 of 7 checked "best consultant" articles | 4.10 |
 | No uptime monitoring. The 24 Oct outage (firewall change, ~35 min) was found by accident. **Root cause now known [Measured, 27 Oct 2026]:** a coworker changed `ufw` by mistake; you've addressed it with him directly. Monitoring itself is still not set up — deferred by your own choice on 27 Oct 2026, no date set. | 4.15 |
-| Live server has an Nginx change that isn't committed to git; `CLAUDE.md` still says PM2, but the site now runs in Docker | 4.15 |
+| Live server has an Nginx change that isn't committed to git; `CLAUDE.md` still says PM2, but the site now runs in Docker. **Update, 27 Oct 2026 [Measured]:** the Nginx change (gzip tuning, `^~ /media/`, browser caching for images/fonts) was committed in `03c1272`. The repo copy still lacks the `listen 443 ssl` / certificate lines that Certbot added to the live file (live lines 70–72 and 92–94). `CLAUDE.md` still says PM2. | 4.15 |
+| **New, 27 Oct 2026: lead database rejected 3 of the 5 budget ranges the forms offer** (`3-4cr`, `5-7cr`, `8-10cr`). Migration `012` was never applied on the VPS database. **Fixed 27 Oct 2026, 2:20 PM IST.** | 4.13, 5.5 |
+| **New, 27 Oct 2026: real names rejected, and visitors saw only "Validation failed".** Full stops, accents and Indian scripts were not allowed, and 3 of 4 forms hid the server's reason. **Fixed in `d35725a`, deployed 27 Oct 2026, 2:48 PM IST.** | 4.14 |
+| **New, 27 Oct 2026: the CRM doesn't collect website leads.** The CRM setting `WEBSITE_LEAD_SYNC_ENABLED=false`. Leads wait in the website DB with `crm_synced = false`. **Open; owned by the CRM coworker.** | 4.13 |
+| **New, 27 Oct 2026: the database has no lead rows between 11 Aug 2026 and the VPS move.** 30 rows in total; the latest before 27 Oct is "Test Final", 11 Aug 2026 11:49 UTC. Whether leads arrived in that period (in old Supabase or the CRM) is unknown. **Open.** | 4.13 |
+| **New, 27 Oct 2026: pikorua.in was unreachable from Airtel networks.** Airtel → Hostinger routing failure, not our server. **Worked around by moving the domain behind Cloudflare.** Hostinger's own Web console (`mum2.hostingervps.com`) is still unreachable from Airtel, so use a Jio hotspot. | 4.15 |
+| **New, 27 Oct 2026: Cloudflare injects its Web Analytics script, and the site's CSP blocks it.** It logs a console error, and Lighthouse Best Practices fell from 96 to 92. **Open; Cloudflare colleague to switch off Web Analytics auto-injection.** | 4.12, 4.15 |
+| **New, 27 Oct 2026: Cloudflare Email Obfuscation is on.** The footer email appears as `[email protected]` in the HTML, so crawlers and AI tools can't read it. JSON-LD `email` is unaffected. **Open; Cloudflare colleague to switch it off.** | 4.11 |
+| **New, 27 Oct 2026: all 4 background videos return 404** (`/media/videos/hero.mp4`, `hero2.mp4`, `bg.mp4`, `bg_1.mp4`). The homepage hero shows its still photo instead of the desktop video. Not caused by Cloudflare: the 404 comes from our Nginx, because the files aren't in `/var/www/pikorua-media/videos/`. **Open; files need copying to the server.** | 4.15 |
+| **New, 27 Oct 2026: the "A World of Luxury Living" pop-up opened over the contact form** while a test visitor was filling it in, and blocked the "Send Enquiry" button until closed. **Open; a decision (8.13).** | 4.14 |
+| **New, 27 Oct 2026: on the contact form, clicking the consent *sentence* doesn't tick the box**; only the small box itself responds. The label wraps a `div role="checkbox"`, not a form input. **Open; small fix.** | 4.14 |
+| **New, 27 Oct 2026: pikoruarealty.com is slow from India or returns Cloudflare error 522.** Measured first-byte times of 20.3 s, 0.9 s and 40.2 s, plus some 522s, while Germany and the US got it in 0.2–0.3 s. Different server from pikorua.in. **Open; Cloudflare colleague.** | 4.9 |
+| **New, 27 Oct 2026: secret credentials were displayed on screen.** A Supabase service-role key (microsites project) and 5 Facebook page access tokens, inside the CRM container's settings. My masking only covered top-level `KEY/SECRET/TOKEN/PASS` variables, not values inside JSON settings. **Open; the CRM coworker should rotate them. Delete the screenshots.** | 4.15, Part 9 |
 
 ### 3.4 What I could NOT verify (and how we'll get it)
 | Unknown | Why unknown | How we get it |
 |---|---|---|
-| Backlink profile | The SEO tool (VibeSEO) errored on every call. **Re-attempted 27 Oct 2026 for `pikorua.in`: same error** ("Tool get_backlink_profile has an output schema but did not return structured content"). Still [Unverified]. | Ahrefs Webmaster Tools (free once the site is verified), section 6.6, or wait for VibeSEO to be fixed, or you supply an export/screenshot from Ahrefs/SEMrush/Ubersuggest if you have access to one |
+| Backlink profile | The SEO tool (VibeSEO) errored on every call. **Re-attempted 27 Oct 2026 for `pikorua.in`: same error** ("Tool get_backlink_profile has an output schema but did not return structured content"). VibeSEO has no PIKORUA project; its only project is `maruti360.com`. Still [Unverified]. | Ahrefs Webmaster Tools (free once the site is verified), section 6.6, or wait for VibeSEO to be fixed, or you supply an export/screenshot from Ahrefs/SEMrush/Ubersuggest if you have access to one |
+| Like-for-like speed vs 26 Oct | Google PageSpeed Insights API returned HTTP 429 (daily quota exceeded) at about 10:40 AM and again about 12:35 PM IST, 27 Oct. No API key is configured. | Retry after the daily quota resets, or get a free PageSpeed API key (`console.cloud.google.com`) |
+| Cloudflare SSL/TLS mode for pikorua.in (Full vs Full (strict)) | Not visible from outside. "Flexible" is ruled out, because there is no redirect loop. | Cloudflare colleague checks the dashboard |
+| Whether **all** Airtel customers were affected by the 27 Oct unreachability, or only some lines | Tested from one Airtel broadband line (AS24560) only | Moot now that traffic goes through Cloudflare. A coworker's Airtel mobile data also failed (reported, not measured). |
+| How many real visitors were blocked by the old name rule before 27 Oct | The server doesn't log 422 rejections. It only logs database failures, and there were none from real visitors since 24 Oct, 5:14 PM IST. | Not recoverable. Going forward, GA4 events (4.13) would show form errors. |
+| Whether leads arrived between 11 Aug 2026 and the VPS move | The website DB has none; old Supabase and the CRM weren't checked | Whoever ran the migration, or the CRM coworker, checks Supabase and the CRM |
+| How the CRM displays the new budget values `3-4cr`, `5-7cr`, `8-10cr` | CRM code isn't in this repository | Check once the CRM's website sync is switched on |
+| Whether Cloudflare blocks *verified* Google/AI crawlers | Our tests sent bot user-agents from a normal IP; all got the real page. Cloudflare's bot rules for verified crawler IPs can't be tested from outside. | Cloudflare dashboard → Security → Bots ("Block AI bots" should be off); GSC URL Inspection once access exists |
 | Real AI answers | No AI API keys here; Perplexity requires login | Monthly manual AI Prompt Panel (Appendix B) and/or Finseo |
 | Google Business Profile rating, reviews, address | Google Maps blocked automated reading | You claim access (6.4) and read it directly |
 | Search Console history (clicks, queries, indexed pages) | No access | Get added to the existing property (6.2) |
 | Real traffic and lead sources | Analytics off; leads lack a source | 4.13 |
+
+### 3.5 What happened on 27 Oct 2026 (full log, with evidence)
+
+All times are IST unless marked UTC. "Tested from Airtel" means this Mac on Airtel broadband (public IP `110.226.115.27`, AS24560 Bharti Airtel Telemedia), unless a Jio hotspot (AS55836) is named. All live checks used fresh requests with a unique `?nocache=` value and `Cache-Control: no-cache`. Cloudflare reported `cf-cache-status: DYNAMIC` or `MISS` on every HTML and API response, meaning it was fetched live from the server, not served from a cached copy.
+
+#### 3.5.1 Morning: decisions and re-checks
+| Time | What | Result [Measured unless noted] |
+|---|---|---|
+| ~10:20 | Reviewed the 26 Oct "AEO audit" session | Its audit and plan are this document. No code was shipped on 26 Oct. |
+| ~10:30 | **Your decisions** | 4.1–4.9 code clean-up: later. Uptime monitoring: first "today", then deferred. Backups: deferred after the why/how/cost explanation. 24 Oct firewall root cause: a coworker's mistake, already discussed with him. |
+| ~10:40 | Backlink profile re-check (VibeSEO `get_backlink_profile`, domain `pikorua.in`) | Same error as 26 Oct. Still [Unverified]. |
+| ~10:40 | PageSpeed Insights API (no key) | HTTP 429, daily quota exceeded |
+| ~10:45 | Installed headless Chrome locally (Playwright; Chrome for Testing 156) and ran Lighthouse CLI | First run failed with `NO_FCP`. **Later explained:** the page never loaded because of the Airtel problem below, not a headless-browser fault. |
+| ~10:50 | The first version of this end-of-day update (header, 3.3, 3.4, 4.12, 4.15, 7.1b, Part 9) | Superseded by this version |
+
+#### 3.5.2 ~11:00–11:25: pikorua.in unreachable from Airtel, and the root cause
+| Check | Result |
+|---|---|
+| From Airtel: TCP to `187.126.115.164` on ports 443, 80 and 22 | **All timed out** (20 s). DNS was fine (`pikorua.in` and `www` → `187.126.115.164`). Google and GitHub loaded normally. |
+| check-host.net TCP/HTTP from Netherlands, Japan, Israel, Kazakhstan, Iran, Germany, US, Bulgaria, Turkey and India | **All connected; HTTP 200 for www.pikorua.in.** The server was up. |
+| Route trace from Airtel | Reached Airtel's backbone (hop 4, `182.79.211.35`), then nothing |
+| Neighbouring Hostinger IPs `187.126.115.100`, `.163`, `.165` (other customers' servers) | Reachable from India and Germany, **unreachable from Airtel**. So Airtel couldn't reach that Hostinger IP block at all; not something our server was doing. |
+| crm.pikoruarealty.com / hrm.pikoruarealty.com (same server, behind Cloudflare) from Airtel | **Loaded (200 / 307).** Proof that the Cloudflare path works from Airtel. |
+| Hostinger Web console, server-side checks (11:21–11:23) | Listening: Nginx on `0.0.0.0:80/443` and `[::]:80/443`; sshd on 22; app `127.0.0.1:3100`; DB `127.0.0.1:5433`. Nginx file `/etc/nginx/sites-enabled/pikorua-website.conf`: upstream `127.0.0.1:3100`, `listen 443 ssl` managed by Certbot (lines 70–72), cert `/etc/letsencrypt/live/pikorua-website/`. `nginx -t` OK. All containers up (website app since 24 Oct; DB healthy). `ufw` active: default deny incoming, allow 22/80/443 (v4+v6). App on 3100 → HTTP 200. Certificate valid until 22 Jan 2027 (87 days). **fail2ban not installed; 0 iptables and 0 nft rules mention `110.226`** (your IP). |
+| **Conclusion** | **Server healthy; it was not blocking you.** Airtel couldn't route to Hostinger's IP range. |
+| Unrelated note from the console | `Last login: Tue Oct 27 05:48:23 2026 from 42.105.33.199` (UTC), a root login 5 minutes before the DNS switch below. Probably your colleague; **not confirmed**. |
+
+#### 3.5.3 11:23 onwards: the move to Cloudflare (done by your colleague)
+| Time | Event / check | Result |
+|---|---|---|
+| **11:23:57** (05:53:57 UTC) | `.in` registry nameservers for pikorua.in changed to `brianna.ns.cloudflare.com` / `vicente.ns.cloudflare.com`, the same Cloudflare account as pikoruarealty.com | Confirmed via registry server `ns4.registry.in` and whois |
+| ~11:40 | Records at Cloudflare compared with the old GoDaddy zone | apex + www: proxied A `104.21.22.117`, `172.67.204.146` + AAAA. **MX `0 smtp.secureserver.net`, `10 mailstore1.secureserver.net`; TXT `"D5050534"`, SPF `v=spf1 include:secureserver.net -all`; `_dmarc` `p=quarantine` — all identical to GoDaddy → email unaffected.** No CAA (same as before). Google, Cloudflare, Quad9 and OpenDNS resolvers all returned Cloudflare. |
+| ~11:40 | Live via Cloudflare | www 200; pikorua.in → 308 to www; http → 301 https; property photos 200; `/api/leads` alive; `/api/crm/` still 404 to the public |
+| 11:40–11:52 | pikorua.in (no www) on Airtel | **Failed.** Airtel's DNS still asked GoDaddy until 11:51:43, then switched to Cloudflare's nameservers but kept the old address it had cached. |
+| 11:56–12:05 | Automatic 2-minute watcher | www 200 on every check. At 12:03:02 one check failed for both www and apex, even though DNS already pointed at Cloudflare. Cause unknown; it didn't recur. At 12:05:33 apex worked. |
+| 12:05–12:07 | 6 fresh checks | 6/6 OK. **I called it "fixed" here, which was premature.** |
+| 12:16–12:17 | Airtel router DNS asked 30 times; Airtel IPv6 DNS 10 times | **All returned the old address again**, with the timer counting down to about 12:33. Airtel's router had switched to a resolver that still held the old answer. |
+| 12:51:37 | Airtel DNS asked 10 times | 10/10 Cloudflare; pikorua.in → 308 → www |
+| **13:01:05** | **Final confirmation:** Airtel router DNS 30/30 and IPv6 DNS 10/10 Cloudflare; the Mac's own resolver Cloudflare. 20 fresh loads (https apex, http apex, https www, `/properties`) | **20/20 HTTP 200** after the expected redirects (apex: 1 hop; http apex: 2 hops; page paths kept). **Resolved on Airtel.** Cloudflare edge serving this Airtel line: `MRS` (Marseille) at ~12:30, `LHR` (London) at 13:01. |
+
+#### 3.5.4 12:16–12:40: full health check of the site behind Cloudflare
+| Area | Result |
+|---|---|
+| Edge certificate (Cloudflare) | Let's Encrypt `YE1`, CN `pikorua.in`, SAN `*.pikorua.in`, `pikorua.in`, expires 25 Jan 2027; curl verify result 0 (trusted) |
+| TLS versions | TLS 1.3 negotiated by default (HTTP/2; `alt-svc: h3` offered). **TLS 1.0 and 1.1 still accepted**, which is Cloudflare's default. |
+| Redirects | `http://pikorua.in/properties?x=1` → `https://pikorua.in/…` → `https://www.pikorua.in/properties?x=1` (2 hops, path and query kept). `http://www…` 1 hop. `https://pikorua.in/…` 308, 1 hop. Trailing slash `/about/` → `/about`. No loops. |
+| Security headers | HSTS (`max-age=63072000; includeSubDomains; preload`), CSP, `X-Frame-Options: SAMEORIGIN`, `nosniff`, `Referrer-Policy`, `Permissions-Policy` all present |
+| Sitemaps | `sitemap.xml` 200 (32 entries: 21 pages + 11 sitemap files); `sitemap/index.xml` 200; content 36, geo 159, properties 21, p-0…p-7 2,500 each → **20,235 unique URLs (20,000 `/p/` + 235 others)** |
+| All 235 non-combo sitemap URLs | **206 × 200, 29 × 404**, the exact same 29 as the 26 Oct audit (Appendix D). Nothing new broke. |
+| 100 random `/p/` combo URLs | 100 × 200 |
+| All 21 property detail pages | 21 × 200 |
+| 5 main pages + blog, thank-you, studio, admin | All 200; a made-up URL gets the custom 404 |
+| Protected ranking pages (Appendix C) | All 200, canonical = self, `index, follow` |
+| Homepage files (67 scripts, styles, fonts, images, video) | **66 × 200; 1 × 404 = `/media/videos/bg.mp4`**. All 41 property photos, founder photo, logos and hero images OK. |
+| All 4 video files the code expects (`src/lib/media.ts`) | **All 404**, from our Nginx (162-byte page, Cloudflare `MISS`). Missing on the server. |
+| robots.txt | 200, 92 lines, **exactly what the site generates**. Cloudflare didn't inject any AI-blocking lines. |
+| AI files | `llms.txt` 64,076 B, `llms-full.txt` 261,537 B, `/ai/facts.json` 578,019 B, `/blog/feed.xml` 159,623 B, all 200. `/manifest.webmanifest` 404, but no manifest exists in the code, so that's expected. |
+| Crawlers (Googlebot, Googlebot mobile, Bingbot, GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended, iPhone Safari) | All got the real homepage (200, 264,882 B); no Cloudflare challenge page. Caveat in 3.4. |
+| Lead API | Invalid JSON → 400; missing fields → 422 with field messages. **No lead created** (2 of the 10-per-10-minutes allowance used). |
+| Private endpoints | `/api/crm/leads`, `?unsynced=true`, `/ack` (GET and POST) → 404; `/api/revalidate` without secret → 401 |
+| Other apps on the VPS | crm 200, hrm 307, propsight 303, apps 200, blast 200, blast-api 200, blast-data 401 (all expected). **pikoruarealty.com / www timed out at 20 s; later 200 after 39.6 s, then error 522** (see 3.3). |
+| Cloudflare additions to our HTML | `/cdn-cgi/scripts/…/email-decode.min.js` (**Email Obfuscation on**; footer `connect@pikorua.in` becomes `[email protected]`; JSON-LD `"email":"connect@pikorua.in"` intact). `static.cloudflareinsights.com/beacon.min.js` (**Web Analytics on**), **blocked by our CSP** → console error. |
+| Speed (this Airtel line) | HTML first byte 0.57–1.05 s (Cloudflare → origin each time; HTML not cached at the edge); cached static JS 0.37–0.40 s (`HIT`); TLS handshake ~0.25 s, because the edge is in Europe |
+| Lighthouse (local CLI, simulated throttling) | **Mobile:** Perf 67, A11y 96, BP 92, SEO 100; LCP 7.7 s, CLS 0.001, TBT 270 ms, FCP 1.7 s, SI 4.4 s, root document 1,080 ms. **Desktop:** Perf 86, A11y 96, BP 92, SEO 100; LCP 1.9 s, CLS 0, TBT 0 ms, FCP 1.4 s, SI 1.5 s, root document 620 ms. Failed audits: `errors-in-console` (bg.mp4 404 + Cloudflare beacon CSP), `color-contrast`, `inspector-issues` (CSP). LCP element: the homepage H1 text. **Not comparable to 26 Oct's PageSpeed 90/93**: different tool, location and network. PageSpeed API still 429 at ~12:35. |
+
+#### 3.5.5 12:38–13:26: Hostinger's own login outage, and Airtel vs Hostinger's console
+| Time | Check | Result |
+|---|---|---|
+| 12:38–12:51 | `auth.hostinger.com` from Germany, India, Japan, Netherlands, Bulgaria, Turkey, US | **503 Service Unavailable** everywhere (US 403 = bot challenge). Your browser showed "no healthy upstream". hPanel front page and hostinger.com 200. Hostinger's status page still said "Operational". **A Hostinger outage; unrelated to us.** www.pikorua.in stayed 200 throughout. |
+| 13:26 | Same checks | Login 200 again (resolved) |
+| 13:26 | Web console `mum2.hostingervps.com` (`148.230.64.138`, Hostinger Mumbai) | Reachable from India, Germany and Netherlands (301), **times out from Airtel** (worked from Airtel at 11:21). **Opened fine on your Jio hotspot.** Same Airtel-to-Hostinger routing problem. |
+
+#### 3.5.6 13:20–14:24: enquiries failing to save, root cause and fix
+| Time | What | Result |
+|---|---|---|
+| 13:20 | Your live test on `/contact`, name `Om Patel (Test)` | "Validation failed". The name rule `^[A-Za-z][A-Za-z\s'-]*$` rejects brackets, and the form hid the real reason. |
+| 13:21 | Retest as `Om Patel Test`, ₹8–10 Cr, 1–3 months | **"We couldn't save your request…"** This message is only shown when the database insert fails (`src/app/api/leads/route.ts` lines 68–76). |
+| 13:28 | Server log (`docker logs pikorua-website-app`) | `new row for relation "leads" violates check constraint "leads_budget_band_check"` (code 23514), failing row `budget_band = 8-10cr` |
+| 13:28 | Live constraint | Allowed only `1-2cr`, `3-5cr`, `5-10cr`, `10cr-plus`, `custom`. **The forms send `1-2cr`, `3-4cr`, `5-7cr`, `8-10cr`, `10cr-plus`**, so 3 of 5 ranges were rejected (discovery form and pop-up). Migration `013` *was* applied (source `popup`, office/showroom, `locations` column present). **Migration `012` was not.** |
+| 13:28 | Lead history | 30 rows in total; latest before today 2026-08-11 11:49:39 UTC ("Test Final", contact); 0 in the last 3 days |
+| 13:34 | Damage assessment | App running since 2026-10-24 11:44:17 UTC (5:14 PM IST). Failed DB saves since then: **exactly 1, your 13:21 test**. So **no real visitor lost an enquiry at the database step since 24 Oct, 5:14 PM IST**, and no real visitor enquired through these forms in that time either. 422 (validation) rejections aren't logged, so they can't be counted. Live hot-lead rule was also the old version (hot only for `5-10cr`, `10cr-plus`). |
+| 13:31 | Your separate test, `10cr-plus` (allowed even before the fix) | Saved |
+| **14:20** | **Migration `012` applied** in the Web console. Server file's sha256 checked first (`e20783c3…eaf76`, identical to the reviewed repo file). Ran as one transaction with stop-on-error. Contents: drop and re-add `leads_budget_band_check` (superset of old values) + `CREATE OR REPLACE` `compute_is_hot()`. No data statements. | `ALTER TABLE`, `ALTER TABLE`, `CREATE FUNCTION`. Budget rule now accepts `1-2cr`, `3-4cr`, `5-7cr`, `8-10cr`, `10cr-plus`, `3-5cr`, `5-10cr`, `custom`. Hot rule: `5-7cr`, `8-10cr`, `5-10cr`, `10cr-plus`. |
+| 14:21 | Your retest, ₹8–10 Cr | **Thank-you page; row saved: `8-10cr`, `is_hot = t`, `crm_synced = f`** |
+| 14:24 | CRM container settings and logs (read-only) | **`WEBSITE_LEAD_SYNC_ENABLED=false`** → the CRM isn't collecting website leads (your coworker confirmed it isn't connected yet). `MICROSITE_LEAD_SYNC_ENABLED=true` (a separate Supabase project; last run imported 0). `META_LEAD_SYNC_ENABLED=true` (every 6 min; 0 imported, 0 failures for 2 h). **The command also displayed secret credentials on screen**; see 3.3 and Part 9. |
+
+#### 3.5.7 14:18–14:57: commits, the name fix, deploy and live verification
+| Time | What | Result |
+|---|---|---|
+| 14:18 | **Your commit `03c1272`**, pushed to `vps-migration` | `deploy/nginx/pikorua.in.conf` (+20/−1), `docs/SEO_AEO_MASTER_PLAN.md` (new), `docs/VPS_MIGRATION_PLAN.md` (+2/−1). Founder photo correctly **not** committed. |
+| ~14:30 | **Name fix written** | `src/lib/validations/lead.ts`: name allows letters in any script (`\p{L}`, plus `\p{M}` for Gujarati/Devanagari vowel signs), spaces, `.`, `'`, `’`, `-`; must start with a letter; **at least 2 letters**; vowel check only for names written in Latin letters; repeating-junk check unchanged. New message: "Name can only contain letters, spaces, dots, hyphens and apostrophes". `src/lib/utils.ts`: `leadFieldErrors()` helper (kept out of the validation file so Zod isn't shipped to browsers). `DiscoveryForm`, `QuickEnquiryForm`, `PropertyEnquiryForm`: show the server's field reason, highlighting the field, instead of "Validation failed". `LeadCapturePopup` already did. |
+| ~14:35 | **Tests before commit** | (1) 24 hand-picked names: 12 accepted, 12 rejected, all as intended. (2) **Throwaway local Postgres** with all 13 migrations + local site: `R.K. Patel`, `ઓમ પટેલ`, `Dr. Mehta` (₹5–7 Cr) saved and marked hot; `Om Patel (Test)` and `asdasd` rejected with the right reasons. (3) **Browser tests** (headless Chrome): contact form shows the real reason in red under the field and in the message box, then `R.K. Patel` reaches thank-you; quick-note form shows the reason, then `Dr. Mehta` reaches thank-you. (4) `tsc --noEmit` and `eslint` pass. Throwaway database deleted afterwards. |
+| ~14:40 | **Double-check for breakage** (your request) | Only `/api/leads` uses the name rule; only the 3 forms use the helper. **Old vs new rule on 310,044 names (≈10,000 real-name variations + 300,000 random): 0 real names lost.** Exhaustive 1–3 character test (819 strings): **48 junk strings now rejected that used to pass** (one letter + apostrophes, hyphens or spaces, e.g. `A-`, `a'`); no real name. Helper checked against 429, 500, 400, empty, null and plain-text replies: **same messages as before**. |
+| 14:41 | **Your commit `d35725a`**, pushed to `vps-migration` | Exactly the 5 tested files (+33/−12); `main` untouched (`db4c4c4`) |
+| 14:47–14:48 | **Deploy** (`./deploy/deploy.sh` in Web console, Jio hotspot) | `BRANCH OK`; fast-forward `4ad9ba6..d35725a` (8 files); image built in 202 s; DB healthy (not restarted); app recreated healthy; **`Deployed d35725a`** |
+| 14:50 | Live API check (no DB write) | 422 with the **new** message → new code is live. `/`, `/contact`, `/properties` 200 (homepage 4.5 s on the first hit after restart). |
+| 14:54 | DB encoding | `UTF8`, so Gujarati/Hindi names store correctly |
+| **14:56** | **Live end-to-end test** (headless Chrome, Jio, the real 4-step contact form) | `Om Patel (Test)` → server 422, reason shown twice, "Validation failed" not shown, no save. `R.K. Patel Test` → **server 200 `leadId 9663a2f8-9ead-4289-8ac1-5a560030e6d7` at 14:56:50 → "Your enquiry is received."** The site's pop-up opened over the form once during the test and had to be closed. |
+
+**Test leads now in the live database (delete after the CRM is connected and has collected them):** 13:31 `Om Patel Test` (10cr-plus), 14:21 `Om Patel Test` (8-10cr), 14:56 `R.K. Patel Test` (8-10cr). All use your test number.
+
+### 3.6 Every open item at end of day, 27 Oct 2026
+| # | Item | Owner | Priority | Status / next action |
+|---|---|---|---|---|
+| 1 | **CRM website lead sync** | CRM coworker | **High**: no website enquiry reaches sales | Switch `WEBSITE_LEAD_SYNC_ENABLED` on and point it at `http://host.docker.internal:3100/api/crm/leads` with `extra_hosts: ["host.docker.internal:host-gateway"]` and the website's `CRM_API_KEY`, then ack via `/api/crm/leads/ack` (`docs/VPS_MIGRATION_PLAN.md` Phase 4i). The 3 test leads are ready-made checks. Until then, someone runs the "waiting leads" query below daily. |
+| 2 | **Rotate exposed credentials** | CRM coworker | **High** | Roll the microsites Supabase service-role key; regenerate the 5 Meta page tokens; update the CRM settings and restart the CRM. You: delete the 2 screenshots and `clear` the Web terminal. |
+| 3 | Leads between 11 Aug and the VPS move | Whoever ran the migration / CRM coworker | High | Check old Supabase and the CRM for leads after 11 Aug 2026 that aren't in the VPS DB |
+| 4 | Cloudflare: turn off Web Analytics auto-injection | Cloudflare colleague | Medium | Removes the CSP console error (Best Practices 92 → back up) |
+| 5 | Cloudflare: turn off Email Obfuscation | Cloudflare colleague | Medium (AEO) | Lets crawlers and AI read the contact email |
+| 6 | Cloudflare: confirm SSL mode **Full (strict)** | Cloudflare colleague | Medium | Dashboard check |
+| 7 | Run `certbot renew --dry-run --cert-name pikorua-website` on the server | Cloudflare colleague / you | Medium | The origin cert expires 22 Jan 2027; renewal must still work behind Cloudflare |
+| 8 | Optional: Cloudflare minimum TLS 1.2 | Cloudflare colleague | Low | TLS 1.0/1.1 currently accepted |
+| 9 | Ask about the 12:03 blip | Cloudflare colleague | Low | Was anything changed in Cloudflare around 12:03 PM IST? |
+| 10 | pikoruarealty.com slow / 522 from India | Cloudflare colleague | Medium | Find that site's origin and why Cloudflare can't reach it quickly |
+| 11 | Copy the 4 background videos (`hero`, `hero2`, `bg`, `bg_1`.mp4) to `/var/www/pikorua-media/videos/` | You (find the files) + server copy | Medium | Find the originals first |
+| 12 | Pop-up over the contact form | You / boss (decision 8.13) | Medium (conversion) | Decide whether the pop-up should skip `/contact` and pages with a form |
+| 13 | Consent sentence not clickable on the contact form | Claude (small code fix) | Low–Medium | Say "go" |
+| 14 | Delete the 3 test leads | You (after item 1) | Low | After the CRM has collected them |
+| 15 | Move the founder photo out of the repo folder | You | Low | `WhatsApp Image 2026-10-24 at 14.36.20 1.png` (still untracked, correctly) |
+| 16 | Update `docs/VPS_MIGRATION_PLAN.md` (line 34 says pikorua.in is reached directly on the public IP; now it's Cloudflare) and `CLAUDE.md` (still says PM2) | Claude | Low | Say "go" |
+| 17 | Sync the repo Nginx file with the live one (add Certbot's 443 lines) | Claude + you | Low | Or document that Certbot owns those lines |
+| 18 | Migration tracking, so a missed migration (like `012`) is caught automatically | Claude | Medium | A check comparing `supabase/migrations/` with what the DB has. Proposal in 5.5. |
+| 19 | Like-for-like PageSpeed run | Claude | Low | Retry after the quota resets, or use a free API key |
+| 20 | Backlink profile | Blocked | Low | VibeSEO fix, or an export from you |
+| 21 | Uptime monitoring, backups | You (deferred) | Deferred by choice | 4.15 |
+| 22 | 4.1–4.9 SEO code clean-up, 4.13 analytics, 4.14a phone picker, Week-1 tasks (GSC access, GA4, checker, flags, change log) | You + Claude (deferred) | Deferred by choice | Part 7 |
+
+"Waiting leads" query (read-only; run in the Web terminal until item 1 is done):
+```bash
+docker exec pikorua-website-db psql -U pikorua_app -d pikorua -c "select created_at at time zone 'Asia/Kolkata' as received_ist, source, name, phone, email, budget_band, timeline, is_hot from leads where crm_synced = false and created_at > '2026-10-24' order by created_at desc;"
+```
 
 ---
 ## Part 4: Workstreams (the improvements)
@@ -703,6 +872,13 @@ What it buys you: higher conversion from cautious NRI/HNI visitors [Judgement; m
 
 **If it hurts** (any internal app stops loading after the redirect): delete the Cloudflare rule immediately. It takes effect within minutes.
 
+**Status, 27 Oct 2026 [Measured]:** not started.
+- New facts relevant here:
+  - **pikorua.in's DNS moved from GoDaddy to Cloudflare** today, into the same Cloudflare account that holds pikoruarealty.com. Any future redirect rules for both domains can live in one place.
+  - **pikoruarealty.com itself is unhealthy from India.** From an Airtel line: first byte 20.3 s, 0.9 s and 40.2 s, plus Cloudflare 522 ("can't reach the origin"). From Germany and the US: 0.2–0.3 s. The India test node returned nothing.
+- Its origin is a different server from pikorua.in's; which one isn't known from here. Open item #10 in 3.6.
+- Decision 8.5 (redirecting its root to pikorua.in) is unchanged. Fixing the slowness first would make any redirect cleaner.
+
 ---
 
 ### 4.10 Off-site authority: getting mentioned and linked by others
@@ -799,6 +975,13 @@ What it buys you: higher conversion from cautious NRI/HNI visitors [Judgement; m
 
 **If it underperforms.** Look at **which sources** the AI cited for each prompt: those are exactly the pages to get onto (feeds 4.10).
 
+**Status, 27 Oct 2026 [Measured]:** workstream not started. Checked after the move to Cloudflare:
+- **Crawler access still works.** GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended, Googlebot and Bingbot user-agents all received the real homepage (200, no challenge page).
+- **robots.txt** is exactly what the site generates. Cloudflare's managed AI-blocking robots.txt isn't active.
+- `llms.txt`, `llms-full.txt` and `/ai/facts.json` are unchanged in size and all return 200.
+- **New problem:** Cloudflare **Email Obfuscation** is on. The footer contact email reaches crawlers as `[email protected]`; only browsers that run Cloudflare's decode script see the address. The JSON-LD `email` field is untouched. Turning obfuscation off is open item #5 (3.6).
+- **Not testable from outside:** whether Cloudflare's bot settings block *verified* crawler IPs. Check Cloudflare → Security → Bots ("Block AI bots" should be off). Listed in 3.4.
+
 ---
 
 ### 4.12 Speed (Core Web Vitals)
@@ -817,7 +1000,26 @@ What it buys you: higher conversion from cautious NRI/HNI visitors [Judgement; m
 
 **If it hurts:** visual regressions are caught by before/after screenshots; revert the commit.
 
-**Status, 27 Oct 2026 [Measured]:** A recheck was attempted today, in progress, not yet complete. Google's PageSpeed Insights API (no API key, shared public quota) returned HTTP 429 quota-exceeded, same as yesterday. As a workaround, headless Chromium was installed locally via Playwright (`npx playwright install chromium --with-deps`, succeeded), and the Lighthouse CLI was run against `https://pikorua.in` — it failed with `NO_FCP: The page did not paint any content. Please ensure you keep the browser window in the foreground during the load and try again.`, a headless-rendering snag that hasn't been debugged yet. The 90/93 mobile/desktop scores quoted above and in 3.1/3.2 are still **yesterday's (26 Oct) numbers**, not refreshed today. Two ways to unblock this: (1) get a free Google PageSpeed Insights API key from `console.cloud.google.com` and hand it over, or (2) let the local-Lighthouse debugging continue (no input needed from you).
+**Status, 27 Oct 2026 [Measured]:** recheck done with a local tool; a like-for-like comparison is still pending.
+- **The morning's `NO_FCP` failure is explained.** pikorua.in was unreachable from the Airtel line at the time (3.5.2), so the page never loaded. It was not a headless-browser problem.
+- **Local Lighthouse run** (Lighthouse CLI + Chrome for Testing 156 via Playwright, simulated throttling, from Airtel through Cloudflare, ~12:30 IST):
+
+| | Perf | A11y | Best Pr. | SEO | LCP | CLS | TBT | FCP | Speed Index | Root document |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Mobile | **67** | 96 | **92** | 100 | **7.7 s** | 0.001 | 270 ms | 1.7 s | 4.4 s | 1,080 ms |
+| Desktop | **86** | 96 | **92** | 100 | 1.9 s | 0 | 0 ms | 1.4 s | 1.5 s | 620 ms |
+
+- **Failed audits:** `errors-in-console` and `inspector-issues`, both caused by (a) the missing `bg.mp4` (404) and (b) Cloudflare's Web Analytics script being blocked by our CSP. Also `color-contrast`. The LCP element is the homepage H1 text.
+- **Why it isn't comparable to 26 Oct's 90/93:**
+  - 26 Oct's numbers came from Google's PageSpeed service, run from Google's servers straight to the origin.
+  - Today's came from your Mac on Airtel, through Cloudflare's **Marseille/London** edge (`colo=MRS`, later `LHR`) and back to the Mumbai origin.
+  - Measured on that path: HTML first byte **0.57–1.05 s** (HTML isn't cached at the edge, `cf-cache-status: DYNAMIC`), versus 0.37–0.40 s for files Cloudflare does cache. TLS handshake ~0.25 s.
+  - Lighthouse's mobile model multiplies that slow first byte. So **this can't tell whether the site itself got slower.**
+- **PageSpeed Insights API** returned 429 (quota) at ~10:40 and ~12:35, so no like-for-like run was possible today.
+- **Next:**
+  1. A PageSpeed run after the quota resets (or with a free API key) for the true comparison.
+  2. Remove the two console errors (open items #4 and #11 in 3.6).
+  3. Later, consider whether Cloudflare should cache HTML at the edge. That's a design decision, because the site uses ISR/revalidation; don't flip it casually.
 
 ---
 
@@ -863,6 +1065,17 @@ What it buys you: higher conversion from cautious NRI/HNI visitors [Judgement; m
 **Did it work?** GA4 Realtime shows visits within minutes of the deploy. A test lead appears in GA4 as `generate_lead`, and in the DB with referrer and landing page filled in.
 
 **If it hurts** (any form error, missing lead or CRM sync issue): **immediate rollback** (Part 5.6). Leads are the business.
+
+**Status, 27 Oct 2026 [Measured]:** analytics and attribution are not started (still 1/10). The lead pipeline under it was checked end to end and partly repaired:
+1. **Database step (fixed 2:20 PM IST):**
+   - Until today the live `leads` table rejected `budget_band` values `3-4cr`, `5-7cr` and `8-10cr`, which the discovery form and pop-up offer. Migration `012` had never been applied on the VPS.
+   - Now applied. The hot-lead rule was updated in the same step, so ₹5–7 Cr and ₹8–10 Cr leads with an immediate or 1–3-month timeline are flagged hot.
+   - Verified with a live test lead (`8-10cr`, `is_hot = t`).
+2. **Damage:**
+   - Since the app started on 24 Oct, 5:14 PM IST, the only failed database save was your own test.
+   - The database's newest lead before today is from **11 Aug 2026**; whether leads came in between then and the move is unknown (open item #3).
+3. **CRM step (open):** the CRM's `WEBSITE_LEAD_SYNC_ENABLED=false`. Leads stay in the website DB with `crm_synced = false` until the CRM is connected; none are lost, but nobody is notified (open item #1).
+4. **Implication for this workstream:** when 4.13 adds lead-source columns, the test list in "Implement safely" must include a submission for **every budget range and every form**. Today's bug only showed up for 3 of the 5 ranges.
 
 ---
 
@@ -937,6 +1150,31 @@ What it buys you: higher conversion from cautious NRI/HNI visitors [Judgement; m
 
 Honest note: our traffic is too low for statistically valid A/B tests [Judgement], so we use careful before/after comparisons over 4-week windows.
 
+#### 4.14c Done on 27 Oct 2026: names and error messages [Measured]
+- **Problem found:**
+  - The name rule `^[A-Za-z][A-Za-z\s'-]*$` (plus "must contain a, e, i, o, u") rejected **R.K. Patel, Dr. Mehta, J. Shah, José Fernandes, ઓમ પટેલ, ओम पटेल**.
+  - The contact-page form, quick-note form and property enquiry form showed only "Validation failed", not why. The 4-step contact form only checked "at least 2 characters" before sending, so visitors learned this only after completing all 4 steps.
+- **Fix (commit `d35725a`, deployed 27 Oct 2026, 2:48 PM IST):**
+  - Names may contain letters in any script, spaces, full stops, apostrophes and hyphens; they must start with a letter and have at least 2 letters.
+  - The vowel check applies only to names written in Latin letters. The "repeating junk" check (`asdasd`) is unchanged.
+  - Digits, brackets and symbols are still rejected, now with the message "Name can only contain letters, spaces, dots, hyphens and apostrophes".
+  - All three forms now show the server's reason next to the field and in the message box. The pop-up already did.
+- **Evidence:**
+  - 0 real names lost in a 310,044-name old-vs-new comparison.
+  - 48 junk 1-letter strings (e.g. `A-`) now rejected that used to pass.
+  - Other error messages (too many requests, server error) are unchanged.
+  - Live browser test at 2:56 PM IST: bad name shows the reason; `R.K. Patel Test` reaches "Your enquiry is received." and saves (lead `9663a2f8…`).
+  - Full detail in 3.5.7.
+- **Not browser-tested:** the property enquiry form. It has the same 3-line change as the quick-note form, which was tested.
+
+#### 4.14d Found on 27 Oct 2026, still open [Measured]
+- **The enquiry pop-up ("A World of Luxury Living") opened over the 4-step contact form** during a live test and blocked "Send Enquiry" until closed.
+  - Code: it can open on page load (`setTimeout(…, 0)`) and re-shows 2 minutes after being dismissed (`RESHOW_DELAY_MS` in `src/components/ui/LeadCapturePopup.tsx`).
+  - The "Current state" above says "at 50% scroll"; the code today also opens it on mount under its conditions.
+  - It interrupts people who are already enquiring. **Decision 8.13.**
+- **Consent sentence not clickable** on the contact form. Only the small box ticks, because the label wraps a `div role="checkbox"`, not a form input. A visitor who clicks the sentence sees "Please give consent to continue". Small code fix pending your "go" (open item #13).
+- **4.14a phone country picker:** not started. Note that `src/lib/validations/lead.ts` (the name rule above) is the same file the picker's phone rule will change.
+
 **Before → After:** conversion rate, baseline (month 1) → improvement, measured per page [Target].
 
 **If it hurts** (conversion rate drops after a change): revert that change (each one is its own commit or flag).
@@ -962,7 +1200,35 @@ Honest note: our traffic is too low for statistically valid A/B tests [Judgement
 
 **Before → After:** uptime alerts none → within 5 min [Target]; uncommitted live config 1 file → 0; restore tested no → yes.
 
-**Status, 27 Oct 2026 [Measured]:** Not started. Both uptime monitoring and backups were discussed in depth today (what each is, how to set it up, cost, and payoff) and **you chose to defer both intentionally** — this is a priority call, not something blocked or forgotten. No monitor is signed up, no `/api/health` route exists, no cron or off-VPS backup target is configured. The root cause of the 24 Oct outage is now known (coworker's `ufw` mistake, addressed directly with him) — see 3.3 — but that doesn't substitute for monitoring: a different kind of failure would still go unnoticed today. Setting up either one needs either (a) VPS SSH access handed to Claude Code, or (b) you running a short set of copy-paste commands I provide, or (c) signing up for a free external monitor (UptimeRobot/Better Stack) yourself with my guidance. Backups specifically: nightly `pg_dump` of the Postgres DB + sync of `MEDIA_DIR` to off-VPS object storage (Backblaze B2 or Hetzner Storage Box), estimated **$1–3/month**, buys the ability to restore the whole site's data and photos within minutes-to-hours instead of losing them permanently if the VPS disk fails, the host has an incident, or someone runs a destructive command.
+**Status, 27 Oct 2026 [Measured]:**
+
+*Uptime monitoring and backups: not started; deferred by your choice.* Both were explained in full today (what each is, how to set it up, cost and payoff), and you chose to defer them. That's a priority call, not something blocked or forgotten.
+- Nothing exists yet: no monitor signed up, no `/api/health` route, no backup cron, no off-VPS backup target.
+- Setting either up needs one of: (a) SSH access for Claude Code, (b) you running copy-paste commands, or (c) you signing up for a free external monitor (UptimeRobot / Better Stack).
+- **Backups plan:** nightly `pg_dump` + `MEDIA_DIR` sync to Backblaze B2 or a Hetzner Storage Box, about **$1–3/month**. It means data and photos can be restored in minutes to hours instead of being lost if the disk fails, the host has an incident, or someone runs a destructive command.
+- **Today showed why monitoring matters:**
+  - pikorua.in was unreachable from Airtel for at least the morning, and was only noticed because I tested from an Airtel line.
+  - The database had been rejecting most budget ranges since the move, and nobody noticed until a test enquiry.
+  - A monitor that also submitted a test enquiry would have caught the second one.
+
+*Operations events today (detail in 3.5):*
+1. **Hosting path changed:** pikorua.in now goes through **Cloudflare**. Nameservers switched 11:23 AM IST by your colleague; same account as pikoruarealty.com. Email records were copied correctly.
+   - Cloudflare-side items still to do: Web Analytics off, Email Obfuscation off, SSL "Full (strict)", optional minimum TLS 1.2, plus a `certbot renew --dry-run` on the server (open items #4–#8).
+   - ufw still allows 80/443 from anywhere. Restricting them to Cloudflare's IP ranges is possible later, but **only with a written plan**: a ufw mistake caused the 24 Oct outage.
+2. **Airtel can't reach Hostinger's Mumbai IP ranges.** The site works around this via Cloudflare. Hostinger's **Web console does not**; it only opened on a Jio hotspot. Plan server work accordingly.
+3. **Hostinger login outage** (auth.hostinger.com 503 worldwide, ~12:38–13:25 IST). Not ours; their status page didn't show it.
+4. **Database migration `012` applied manually** at 2:20 PM IST (3.5.6). The repo had it; the VPS database didn't. Nothing records which migrations a database has had (see 5.5 rule 5).
+5. **Deploy `d35725a`** at 2:48 PM IST via `deploy/deploy.sh`: a clean fast-forward, 202 s build, app recreated healthy, DB untouched.
+6. **Repo vs live:**
+   - Nginx changes committed in `03c1272`, but the repo copy lacks Certbot's 443 lines.
+   - `CLAUDE.md` still says PM2.
+   - `docs/VPS_MIGRATION_PLAN.md` line 34 still says pikorua.in is reached directly on the public IP.
+   - These are open items #16 and #17.
+7. **Credentials exposure:** a read-only CRM diagnostic I gave you printed a Supabase service-role key and 5 Facebook page tokens, which sat inside JSON-valued settings my masking didn't cover.
+   - Rotation pending (open item #2).
+   - **Rule from now on:** never print a container's environment, even filtered. Check a single named variable's *presence* only.
+8. **Missing media:** all 4 background videos are absent from `/var/www/pikorua-media/videos/` (open item #11). They were likely not copied during the VPS move; I can't prove that from here.
+9. **Lead check while the CRM is disconnected:** the "waiting leads" query in 3.6.
 
 ---
 
@@ -1055,6 +1321,16 @@ You chose **all six layers** instead of a staging server. Here they are:
 2. Code must work with **both** the old and the new database shape. Then reverting code is always safe.
 3. **Back up before any migration:** a `pg_dump` of the website DB only (exact command in the runbook), plus a check that the file isn't empty.
 4. Never edit or delete existing lead rows during SEO work.
+5. **Every numbered migration must be confirmed as applied on the live database (added 27 Oct 2026).**
+   - On 27 Oct, migration `012` existed in git but had never been run on the VPS. Its absence made the database reject 3 of the 5 budget ranges the forms send. Nothing flagged it until a test enquiry failed.
+   - Proposal (open item #18 in 3.6):
+     - (a) a `schema_migrations` record of which files have run on each database;
+     - (b) a checker rule that compares the **allowed values in the database** (budget, category, source, timeline, purpose) with the **values the form schemas send** (`src/lib/validations/lead.ts`), and fails if any form value would be rejected.
+   - Until then: after any deploy or migration, submit one test lead per form **and** per budget range on the Mac (5.3 item 7).
+6. **Apply migrations safely, as done for `012` on 27 Oct:**
+   - verify the server file's checksum against the reviewed repo file;
+   - run it with `psql -v ON_ERROR_STOP=1 --single-transaction`;
+   - print the resulting rule to confirm it.
 
 ### 5.6 Rollback runbook (from fastest to slowest)
 | Type | When | How | Time |
@@ -1218,12 +1494,36 @@ Record and date: GSC 16-month export (queries, pages, countries, devices); Core 
 | **5–6** | 4.3 URL inventory + duplicate consolidation, **batch 1** (groups with no traffic); Bing IndexNow ping | Corridor rewrite #1–#2 (4.7); collect deal data for the Q1 price report; communities (Reddit/Quora) |
 | **7–8** | 4.3 batch 2; 4.2 Stage 2 redirects, batch 1; pikoruarealty.com root redirect (if 8.5 = yes) | Corridor rewrites #3–#4; CA/lawyer reviewer engaged (8.2); founder page and bylines (4.6) |
 
-### 7.1b What to do next, as of 27 Oct 2026 [Measured]
-This supersedes the Week-1 start date above for the items it covers — none of Week 1's code tasks have begun yet, and three of them now have an explicit decision attached:
-1. **Nothing in Part 4 is currently blocking anyone.** Phase 1 code clean-up, uptime monitoring (4.15), and backups (4.15) are all **explicitly deferred by your own choice** — not forgotten, not stuck — with no start date set yet. When you're ready to resume any of them, say so and Week 1 of the timeline above picks up as written.
-2. **The only item actively in progress:** finishing today's Core Web Vitals/Lighthouse recheck (4.12) — either by debugging the local headless-Chrome `NO_FCP` failure, or by you supplying a free PageSpeed API key. No decision needed from you unless you want to supply the key.
-3. **Still blocked, no action possible from this side:** the backlink profile (4.10, 3.4) — VibeSEO's tool keeps erroring on `pikorua.in`. Unblocks only when that tool is fixed, or you hand over an export/screenshot from another tool (Ahrefs/SEMrush/Ubersuggest).
-4. **Resolved today, no further action needed on it:** the 24 Oct firewall outage's root cause (3.3, Part 9) — a coworker's mistaken `ufw` change, already addressed by you directly.
+### 7.1b What to do next, as of end of day 27 Oct 2026 [Measured]
+None of Week 1's tasks above have started. The timeline restarts from Week 1 whenever you say "go". Until then, this is the order. The full list with owners is in **3.6**.
+
+**First (these affect leads today):**
+1. **CRM coworker: connect the CRM to the website lead feed** (3.6 #1). Until he does, check for new enquiries once or twice a day with the "waiting leads" query in 3.6.
+2. **CRM coworker: rotate the exposed Supabase service-role key and 5 Meta page tokens** (3.6 #2). You: delete the 2 screenshots.
+3. **Ask whoever ran the migration whether any leads arrived between 11 Aug and the VPS move** (3.6 #3).
+
+**Next (quick fixes, others' hands):**
+
+4. **Cloudflare colleague:**
+   - Web Analytics off; Email Obfuscation off; confirm SSL "Full (strict)"; run `certbot renew --dry-run --cert-name pikorua-website`.
+   - Optional: minimum TLS 1.2.
+   - Say whether anything changed around 12:03 PM.
+   - Look into pikoruarealty.com's slowness and 522 (3.6 #4–#10).
+5. **You:** find the 4 background video files (3.6 #11). Decide whether the pop-up should stay off the contact page (decision 8.13).
+
+**Then (Claude, each after your "go"):**
+
+6. Consent-sentence fix (#13).
+7. Update `docs/VPS_MIGRATION_PLAN.md` and `CLAUDE.md` for Cloudflare and Docker (#16).
+8. Sync the repo Nginx file (#17).
+9. Migration-tracking check (#18, 5.5 rule 5).
+10. Like-for-like PageSpeed run once the quota resets (#19).
+
+**Unchanged:**
+- Deferred by your choice: 4.1–4.9 clean-up, uptime monitoring, backups, 4.13 analytics, the 4.14a phone picker.
+- Blocked: the backlink profile.
+- Resolved: the 24 Oct firewall root cause.
+- **Done today:** the budget-range database fix, the name and error-message fix, and the Airtel reachability fix via Cloudflare (3.5).
 
 ### 7.2 Months 3–12
 | Months | Focus |
@@ -1269,6 +1569,10 @@ Google says SEO typically takes **four months to a year** to show benefit [Offic
 | 8.9 | Who owns the existing **Search Console** and **Google Business Profile** | Access to history and reviews | 6.2, 6.4 |
 | 8.10 | Pay for a **rank tracker**? | Daily positions by country vs manual monthly checks | 6.6 |
 | 8.11 | **Privacy policy** update for analytics and Clarity (legal review) | Compliance when adding tracking | 4.13 |
+| 8.12 | **When the CRM gets connected** to the website lead feed, and who checks website leads by hand until then (added 27 Oct 2026) | Website enquiries currently reach nobody automatically | 4.13, 3.6 #1 |
+| 8.13 | Should the **enquiry pop-up stay off `/contact`** and other pages that already have a form? (added 27 Oct 2026) | On 27 Oct it opened over the 4-step contact form mid-enquiry | 4.14d |
+| 8.14 | **Restrict who can run server-level commands** (e.g. `ufw`) on the shared VPS (added 27 Oct 2026) | The 24 Oct outage was a coworker's mistake; no process change has been decided | Part 9 |
+| 8.15 | Later: **cache HTML at Cloudflare's edge**, and/or **allow only Cloudflare to reach ports 80/443** on the VPS (added 27 Oct 2026) | Measured: uncached HTML takes 0.57–1.05 s to start from an Airtel line via a European edge. The origin is still directly reachable. Both need a written plan; the second touches `ufw`. | 4.12, 4.15 |
 
 ---
 
@@ -1286,7 +1590,14 @@ Google says SEO typically takes **four months to a year** to show benefit [Offic
 | Legal exposure from claims or domain names | Medium / Medium | Legal review of claims (ASCI) and of the microsite domain (8.6) |
 | Solo bandwidth / single point of failure | High / Medium | This document, the change log and the runbooks make the work hand-over-able; priorities are ordered by impact |
 | AI answers stay volatile despite the work | High / Low–Medium | Measure trends monthly, not single answers; focus on mentions that also help Google |
-| A tool outage limits measurement (e.g. VibeSEO, rate limits) | Medium / Low | Free official tools (GSC, BWT, GA4, AWT) are the primary sources |
+| A tool outage limits measurement (e.g. VibeSEO, rate limits) | Medium / Low | Free official tools (GSC, BWT, GA4, AWT) are the primary sources. **27 Oct 2026:** VibeSEO still erroring; PageSpeed API quota exhausted all day. |
+| **(Added 27 Oct 2026) A migration in git isn't applied on the live DB, so forms silently fail** | Happened / Very high | Happened with `012` (3.5.6). Fixed by applying it. Prevention: 5.5 rules 5–6 and open item #18. Until then: a test lead per form and budget range after every deploy. |
+| **(Added 27 Oct 2026) Website leads don't reach the sales team** | Happening / Very high | The CRM's website sync is off (3.6 #1). Leads are safe in the DB (`crm_synced = false`). Manual daily check with the "waiting leads" query until it's connected. |
+| **(Added 27 Oct 2026) Exposed credentials misused** (Supabase service-role key for microsites; 5 Meta page tokens) | Low / High | Exposed on your screen and screenshots, not publicly. Rotate both (3.6 #2); delete the screenshots. Never print container environments again (4.15 event 7). |
+| **(Added 27 Oct 2026) An ISP can't reach our host** (Airtel → Hostinger IP ranges) | Happened / High | The site is now behind Cloudflare, which Airtel reaches. Hostinger's Web console is still affected, so use a Jio hotspot. An external uptime monitor wouldn't catch an ISP-specific failure, so occasionally check from Airtel and Jio. |
+| **(Added 27 Oct 2026) A Cloudflare setting changes how the site behaves** (injected scripts, email obfuscation, bot blocking, SSL mode, caching) | Medium / Medium | Any Cloudflare change goes in the change log (5.10). After each one, re-run the 3.5.4-style check: pages, assets, redirects, robots.txt, bot user-agents, lead API, console errors. |
+| **(Added 27 Oct 2026) The origin certificate fails to renew behind Cloudflare** | Low / Very high (site down under "Full (strict)") | `certbot renew --dry-run --cert-name pikorua-website` now (3.6 #7), and monthly (4.15 step 5). The origin cert expires 22 Jan 2027. |
+| **(Added 27 Oct 2026) Hostinger-side outages block server access** (login 503 on 27 Oct) | Medium / Low–Medium | Keep a working SSH key so the Web console isn't the only way in. Hostinger's status page lagged reality. |
 
 ---
 
@@ -1479,6 +1790,31 @@ Indexable: 436 (80 per budget band + 36 without a budget). Noindex: 19,564.
 | Brand domains | pikoruarealty.com (GoDaddy 2025-04-03, Cloudflare); pikorua.com (DropCatch 2017); millionmindstechcity.in (registrant org PIKORUA, 2026-05-20); pikorua.in (GoDaddy 2023-10-21, DNS on GoDaddy) | whois, dig |
 | Rankings | See Appendix A | Firecrawl web search, location-specific |
 | Not measured | Backlinks (tool errors), AI answers (no API access), GBP data (blocked), GSC history (no access) | — |
+
+**27 Oct 2026 measurements (after the move to Cloudflare; full context in 3.5):**
+| Measurement (27 Oct 2026) | Value | Method |
+|---|---|---|
+| Nameservers | `brianna.ns.cloudflare.com`, `vicente.ns.cloudflare.com` since 05:53:57 UTC (11:23 IST) | `.in` registry server + whois |
+| DNS records (Cloudflare) | apex + www proxied (A `104.21.22.117`, `172.67.204.146`; AAAA `2606:4700:3031::ac43:cc92`, `2606:4700:3034::6815:1675`); MX/TXT/SPF/DMARC identical to GoDaddy; no CAA | dig against Cloudflare and GoDaddy nameservers |
+| Origin | `187.126.115.164`: Nginx 80/443, sshd 22 public; app `127.0.0.1:3100`, DB `127.0.0.1:5433` loopback only; ufw allow 22/80/443 | `ss`, `ufw` on server; external port checks |
+| Certificates | Edge: Let's Encrypt YE1, `*.pikorua.in` + `pikorua.in`, to 25 Jan 2027. Origin: Certbot `pikorua-website`, to 22 Jan 2027 | openssl; certbot on server |
+| TLS | 1.3 default, HTTP/2, h3 offered; TLS 1.0/1.1 accepted | curl/openssl |
+| Reachability from Airtel (AS24560) | Origin: no TCP on any port, 11:00–13:01+ (route stops at `182.79.211.35`). Via Cloudflare: OK. Apex DNS on Airtel stale until 12:51; confirmed 13:01 (30/30 + 10/10 lookups, 20/20 loads). | nc, traceroute, dig, curl |
+| Cloudflare edge for Airtel | `MRS` (~12:30), `LHR` (13:01) | `/cdn-cgi/trace` |
+| HTML first byte via Cloudflare (Airtel) | 0.57–1.05 s (`DYNAMIC`); cached static 0.37–0.40 s (`HIT`) | curl timings ×5 |
+| Sitemap pages | 235 non-combo: 206 OK / 29 × 404 (same as 26 Oct); 20,000 combo (sample 100/100 OK); 21/21 property pages OK | crawled live |
+| Homepage files | 66/67 OK; `/media/videos/bg.mp4` 404 (and `hero`, `hero2`, `bg_1` 404) | curl each |
+| Cloudflare injections | Email Obfuscation (`email-decode.min.js`); Web Analytics beacon (blocked by CSP) | HTML + Lighthouse console |
+| Bot user-agents | 10 UAs incl. GPTBot, ClaudeBot, PerplexityBot, Googlebot: real page, no challenge | curl per UA |
+| Lighthouse (local, simulated) | Mobile 67/96/92/100, LCP 7.7 s, TBT 270 ms; desktop 86/96/92/100, LCP 1.9 s | Lighthouse CLI + Chrome for Testing 156 |
+| PageSpeed API | 429 quota at ~10:40 and ~12:35 | API |
+| Lead DB before fix | `leads_budget_band_check` = `1-2cr`, `3-5cr`, `5-10cr`, `10cr-plus`, `custom`; 30 rows; latest 11 Aug 2026; 0 failed saves from real visitors since 24 Oct 11:44 UTC | psql + `docker logs` on server |
+| Lead DB after fix | Constraint adds `3-4cr`, `5-7cr`, `8-10cr`; hot rule `5-7cr`, `8-10cr`, `5-10cr`, `10cr-plus`; encoding UTF8; test leads 13:31, 14:21, 14:56 IST saved | psql on server |
+| CRM sync settings | Website sync **off**; microsites sync on (0 imported); Meta sync on, every 6 min (0 imported, 0 failures) | CRM container settings + logs |
+| Name rule change | 310,044-name old-vs-new comparison: 0 real names lost; 48 junk 1-letter strings now rejected | local differential test |
+| Live form test after deploy | Bad name → 422 + reason shown; `R.K. Patel Test` → 200, lead `9663a2f8-9ead-4289-8ac1-5a560030e6d7`, thank-you page | headless Chrome on www.pikorua.in |
+| pikoruarealty.com | From Airtel: 20.3 s / 0.9 s / 40.2 s, and 522s; Germany/US 0.2–0.3 s | curl + check-host |
+| Hostinger login | 503 from 7 countries 12:38–12:51 IST; 200 by 13:26 | check-host |
 
 ## Appendix F: Official sources referenced
 - Google spam policies (doorway abuse, scaled content abuse, link spam, keyword stuffing): https://developers.google.com/search/docs/essentials/spam-policies
