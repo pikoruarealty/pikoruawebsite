@@ -2,7 +2,7 @@
 
 import { useState, useId } from "react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn, leadFieldErrors } from "@/lib/utils";
 import { trackLeadSubmit } from "@/lib/analytics";
 import type { ResidentialCategory, LocationSlug, BudgetBand, LeadPurpose, Timeline } from "@/types";
 
@@ -192,7 +192,9 @@ export function DiscoveryForm({ initialPurpose = "", id = "discovery" }: Discove
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data?.error ?? "Submission failed. Please try again.");
+        const fieldErrors = leadFieldErrors(data);
+        if (Object.keys(fieldErrors).length) setErrors(fieldErrors);
+        throw new Error(Object.values(fieldErrors)[0] ?? data?.error ?? "Submission failed. Please try again.");
       }
       trackLeadSubmit("discovery", { lead_purpose: form.purpose });
       router.push(`/thank-you?source=discovery&purpose=${form.purpose}`);

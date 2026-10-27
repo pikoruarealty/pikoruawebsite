@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn, leadFieldErrors } from "@/lib/utils";
 import { trackLeadSubmit } from "@/lib/analytics";
 
 interface PropertyEnquiryFormProps {
@@ -84,7 +84,9 @@ export function PropertyEnquiryForm({
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        setServerError(body.error ?? "Something went wrong. Please try again.");
+        const fieldErrors = leadFieldErrors(body);
+        setErrors(fieldErrors as Partial<Record<keyof FormState, string>>);
+        setServerError(Object.values(fieldErrors)[0] ?? body.error ?? "Something went wrong. Please try again.");
         return;
       }
 

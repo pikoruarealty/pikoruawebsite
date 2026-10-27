@@ -145,6 +145,16 @@ export function extractUtm(
   return utm;
 }
 
+/** First message per field from a 422 /api/leads response. */
+export function leadFieldErrors(body: unknown): Record<string, string> {
+  const fields = (body as { fields?: Record<string, string[] | undefined> } | null)?.fields ?? {};
+  const out: Record<string, string> = {};
+  for (const [key, messages] of Object.entries(fields)) {
+    if (messages?.[0]) out[key] = messages[0];
+  }
+  return out;
+}
+
 export function renderFormattedText(text: string): string {
   if (!text) return "";
   

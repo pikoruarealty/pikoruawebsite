@@ -69,13 +69,17 @@ const emailSchema = z
     "Please use a permanent email address"
   );
 
-// Letters, spaces, hyphens, and apostrophes only; must contain a vowel and
-// not be built from a repeating block (catches "asdasd", "aaaaaa", "abcabc", etc.)
-const NAME_CHARS_RE = /^[A-Za-z][A-Za-z\s'-]*$/;
+// Letters in any script (\p{M} keeps Gujarati/Devanagari vowel signs), spaces,
+// dots, hyphens and apostrophes. Built with RegExp because \p{} needs ES2018+.
+const NAME_CHARS_RE = new RegExp("^\\p{L}[\\p{L}\\p{M}\\s.'’-]*$", "u");
+const LETTER_RE = new RegExp("\\p{L}", "gu");
+// The vowel check only makes sense for names written in Latin letters.
+const LATIN_NAME_RE = /^[A-Za-z\s.'’-]+$/;
 const VOWEL_RE = /[aeiouAEIOU]/;
 
+// Catches "asdasd", "aaaaaa", "abcabc", etc.
 function isRepeatingPattern(value: string): boolean {
-  const compact = value.replace(/[\s'-]/g, "").toLowerCase();
+  const compact = value.replace(/[\s.'’-]/g, "").toLowerCase();
   if (compact.length < 4) return false;
   for (let blockLen = 1; blockLen <= Math.floor(compact.length / 2); blockLen++) {
     if (compact.length % blockLen !== 0) continue;
@@ -90,8 +94,9 @@ const nameSchema = z
   .trim()
   .min(2, "Please enter your name")
   .max(100)
-  .regex(NAME_CHARS_RE, "Name can only contain letters")
-  .refine((v) => VOWEL_RE.test(v), "Please enter a valid name")
+  .regex(NAME_CHARS_RE, "Name can only contain letters, spaces, dots, hyphens and apostrophes")
+  .refine((v) => (v.match(LETTER_RE)?.length ?? 0) >= 2, "Please enter your name")
+  .refine((v) => !LATIN_NAME_RE.test(v) || VOWEL_RE.test(v), "Please enter a valid name")
   .refine((v) => !isRepeatingPattern(v), "Please enter a valid name");
 
 // Zod v4: errorMap removed — use message directly
