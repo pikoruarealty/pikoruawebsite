@@ -31,6 +31,7 @@ Other apps already run on this VPS. The migration only **adds** PIKORUA-specific
 - **Never run**: `apt upgrade`, `docker system prune`, `docker image/volume/network prune`, `docker stop $(docker ps -q)`, `docker compose down` outside `pikorua-website`, `systemctl restart docker|postgresql|nginx`, global edits to `postgresql.conf`/`nginx.conf`, or anything with `ufw`.
 - **Docker**: always use `docker compose --env-file .env.production ...` from the website repo directory, which scopes every command to the `pikorua-website` project.
 - **Nginx**: only `nginx -t && systemctl reload nginx` (reload, never restart), and only after `nginx -t` passes.
+- **Firewall (ufw)**: active since 2026-10-24, default deny incoming, allowing **22, 80 and 443** (v4 + v6). `pikorua.in` is the only site on this box that is reached directly on the public IP (the `*.pikoruarealty.com` apps go through `cloudflared`), so **removing 80/443 or running `ufw enable`/`ufw reset` without them takes the main website offline** while every other app keeps working. That is what caused the outage on 2026-10-24 (~12:40–13:15 UTC). Check with `ufw status verbose` after any firewall or server-hardening change.
 - Before every phase, look first (read-only), then add.
 
 ---
@@ -53,7 +54,7 @@ Other apps already run on this VPS. The migration only **adds** PIKORUA-specific
 **1a results (2026-10-21)**
 - Ubuntu 26.04.1, 2 vCPU, 7.7 GB RAM (5.5 GB available), 2 GB swap, 78 GB free disk.
 - Ports in use (all loopback except 22/80/443): 3001 (node, likely the CRM), 5432 (host Postgres 17.11), 8012 (uvicorn), 18001/18002/18081/18100/27018 (docker-proxy), 18080 (nginx), 20241 (cloudflared). **Chosen: app 3100, db 5433.**
-- Running: Docker 29.8.1, Nginx 1.28.3, host Postgres 17.11 (DBs: `pikorua_hrm`), cloudflared, Certbot 5.8.0. ufw inactive. No Node/PM2 on the host (not needed with Docker).
+- Running: Docker 29.8.1, Nginx 1.28.3, host Postgres 17.11 (DBs: `pikorua_hrm`), cloudflared, Certbot 5.8.0. ufw inactive at the time (now active, see the firewall rule above). No Node/PM2 on the host (not needed with Docker).
 - Existing deploy users follow `deploy_<app>` (`deploy`, `deploy_hrm`, `deploy_propsight`).
 - Existing Nginx sites (checked): `pikorua-apps` (port-80 `default_server`, `server_name _`), `pikorua-crm` (crm.pikoruarealty.com → `127.0.0.1:18100`, a **Docker container**), `pikorua-hrm` (hrm.pikoruarealty.com → `127.0.0.1:3001`, host Next.js), `pikorua-propsight` (→ 8012), `pikorua-live`/`tls-hold`/`acme`/`phase5-loopback` (all blast*.pikoruarealty.com). **None claims `pikorua.in` or `www.pikorua.in`**, so a new site file is conflict-free.
 - Existing Certbot certs: `apps.pikoruarealty.com`, `hrm.pikoruarealty.com`, `pikorua-crm`, **`pikorua` (the blast sites)**, `propsight.pikoruarealty.com`. **Ours must use `--cert-name pikorua-website`.**
