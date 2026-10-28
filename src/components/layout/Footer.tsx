@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LOCATION_LANDING_PAGES, PROPERTY_TYPE_LANDING_PAGES } from "@/lib/data/geo";
 import { GOOGLE_BUSINESS_PROFILE_URL } from "@/lib/seo";
 import { CALL_AGENT_NAME, CALL_AGENT_PHONE_DISPLAY, CALL_AGENT_PHONE_E164 } from "@/lib/data/callAgent";
+import { env } from "@/lib/env";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -82,12 +83,14 @@ export function Footer({
                   +91 6354 359 222
                 </a>
               </li>
-              <li>
-                <a href={`tel:${CALL_AGENT_PHONE_E164}`} className="hover:text-ivory transition-colors duration-150">
-                  {CALL_AGENT_PHONE_DISPLAY}
-                </a>
-                <span className="text-ivory/35 text-xs"> — Private Advisory Line ({CALL_AGENT_NAME})</span>
-              </li>
+              {env.MAYA_ENABLED && (
+                <li>
+                  <a href={`tel:${CALL_AGENT_PHONE_E164}`} className="hover:text-ivory transition-colors duration-150">
+                    {CALL_AGENT_PHONE_DISPLAY}
+                  </a>
+                  <span className="text-ivory/35 text-xs"> — Private Advisory Line ({CALL_AGENT_NAME})</span>
+                </li>
+              )}
               <li className="text-ivory/50 leading-relaxed text-xs">
                 Iskon-Ambli, Ahmedabad<br />Gujarat, India
               </li>

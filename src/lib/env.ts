@@ -37,4 +37,8 @@ export const env = {
   get SITE_LIVE() {
     return (process.env.NEXT_PUBLIC_SITE_LIVE ?? "false") === "true";
   },
+  /** Maya call agent (floating button, auto-popup, footer line). Off unless set to "true". */
+  get MAYA_ENABLED() {
+    return (process.env.NEXT_PUBLIC_MAYA_ENABLED ?? "false") === "true";
+  },
 } as const;
