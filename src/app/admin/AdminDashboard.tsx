@@ -2351,8 +2351,11 @@ export default function AdminDashboard({
                             <div className="text-ivory/40 text-[10px] mt-0.5 font-mono">
                               /blog/{blog.slug}
                             </div>
-                            {blog.pendingReview && blog.reviewNotes && (
-                              <div className="text-amber-300/80 text-[10px] mt-1 max-w-sm whitespace-pre-line" title="Why the automated quality gate held this draft">
+                            {blog.reviewNotes && (blog.pendingReview || blog.source === "ai_auto") && (
+                              <div
+                                className={`${blog.pendingReview ? "text-amber-300/80" : "text-ivory/40"} text-[10px] mt-1 max-w-sm whitespace-pre-line`}
+                                title={blog.pendingReview ? "Why the automated quality gate held this draft" : "What the automated pipeline changed before publishing"}
+                              >
                                 {blog.reviewNotes}
                               </div>
                             )}

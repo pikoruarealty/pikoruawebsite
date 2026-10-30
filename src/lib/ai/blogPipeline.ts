@@ -4,6 +4,7 @@ import { query, queryOne, errorMessage, toJson } from "@/lib/db";
 import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
 import { getRenderableGeoPages, getRenderablePublicPaths } from "@/lib/data/public-routes";
 import { ALL_CONTENT_HUB_PAGES } from "@/lib/data/content-hubs";
+import { getRelatedLandingPagesForText } from "@/lib/data/geo";
 import { pickPlaceholderCover } from "@/lib/data/blogPlaceholders";
 import { submitToIndexNow } from "@/lib/index-now";
 import { revalidateBlogPaths } from "@/lib/blog-revalidation";
@@ -12,17 +13,23 @@ import {
   PILLAR_ROTATION,
   draftBlogFromNews,
   fetchRealEstateNews,
+  reviseBlogDraft,
   type NewsItem,
   type NewsPillar,
 } from "@/lib/ai/blogAutomation";
 import {
   AUTOMATED_BYLINE,
   BLOG_CATEGORIES,
+  MIN_INTERNAL_LINKS,
+  autoPublishBlockers,
   evaluateDraft,
+  finalizeForAutoPublish,
   findTopicDuplicate,
+  keyNumbersHtml,
   htmlToText,
   type ExistingPostRef,
   type GateResult,
+  type ParsedBlogDraft,
 } from "@/lib/ai/blogQuality";
 import {
   BRIEF_SOURCE_PREFIX,
@@ -40,8 +47,13 @@ import {
  * Publishing is controlled by BLOG_AUTOPUBLISH:
  *  - unset/false (default): every draft that passes the gate is saved as
  *    pending review — the original Akshat-era behaviour.
- *  - "true": drafts that pass every check go live immediately; drafts with
- *    a flagged risk are still held, with the reasons in review_notes.
+ *  - "true" (management decision, 30 Oct 2026): nothing waits for a person.
+ *    A flagged draft gets one AI revision pass, then any sentence that is
+ *    still risky (guaranteed-return wording, a figure not in the source) is
+ *    removed, and the post goes live with topic disclaimers rendered on the
+ *    page (src/lib/data/blog-disclaimers.ts). A draft that can't be fixed
+ *    is discarded and the next headline is tried. What was changed is kept
+ *    in review_notes.
  * Either way a published post can be taken down from /admin (Inactive).
  *
  * Every run is logged in blog_automation_runs (migration 014). An admin can
@@ -267,7 +279,12 @@ async function executeRun(runId: number, slot: RunSlot, dryRun: boolean): Promis
   // Dry-run attempts are labelled so a later real run doesn't treat their
   // rejects as already-seen headlines.
   const label = (outcome: string) => (dryRun ? `dry-run ${outcome}` : outcome);
-  let accepted: { candidate: Candidate; gate: GateResult; model: string; usage: unknown; resolvedUrl: string } | null = null;
+  const autopublish = isAutoPublishEnabled();
+  let accepted: {
+    candidate: Candidate; gate: GateResult; model: string; usage: unknown; resolvedUrl: string;
+    /** Auto-publish only: the fixed draft and what was changed. */
+    fixed?: { draft: ParsedBlogDraft; notes: string[] };
+  } | null = null;
   for (const candidate of candidates.slice(0, MAX_DRAFT_ATTEMPTS)) {
     const generation = candidate.kind === "news"
       ? await draftBlogFromNews(candidate.item.title, candidate.item.link, undefined, pillar === "evergreen" ? undefined : pillar)
@@ -281,22 +298,43 @@ async function executeRun(runId: number, slot: RunSlot, dryRun: boolean): Promis
       if (/OPENROUTER_API_KEY|401|402|403/.test(generation.error)) break;
       continue;
     }
-    const gate = evaluateDraft({
-      raw: generation.generation.raw,
-      sourceText: candidate.kind === "brief" ? briefFactsText(candidate.brief) : generation.generation.sourceText,
-      existing,
-      knownPaths,
-    });
+    const sourceText = candidate.kind === "brief" ? briefFactsText(candidate.brief) : generation.generation.sourceText;
+    let gate = evaluateDraft({ raw: generation.generation.raw, sourceText, existing, knownPaths });
+    if (!dryRun) {
+      await query("UPDATE blog_automation_runs SET source_url = $2, source_title = $3 WHERE id = $1", [runId, candidate.key, candidate.title]);
+    }
+    const base = { candidate, model: generation.generation.model, usage: generation.generation.usage, resolvedUrl: generation.generation.resolvedUrl };
+
+    if (autopublish) {
+      // One revision pass for what a disclaimer can't cure, then remove
+      // whatever is still risky; publish or discard — never hold.
+      const blockers = autoPublishBlockers(gate);
+      if (gate.decision !== "reject" && blockers.length) {
+        const revision = await reviseBlogDraft(generation.generation.raw, blockers, sourceText);
+        if (revision.success) {
+          const revised = evaluateDraft({ raw: revision.raw, sourceText, existing, knownPaths });
+          if (revised.decision !== "reject" && autoPublishBlockers(revised).length <= blockers.length) gate = revised;
+        }
+      }
+      const final = finalizeForAutoPublish(gate, sourceText, knownPaths);
+      attempts.push({
+        headline: candidate.title, link: candidate.key,
+        outcome: label(final.ok ? `publish (auto): ${final.notes.join(" ") || "all checks passed"}` : `reject (auto): ${final.reason}`),
+      });
+      if (final.ok) {
+        accepted = { ...base, gate, fixed: { draft: final.draft, notes: final.notes } };
+        break;
+      }
+      continue;
+    }
+
     if (candidate.kind === "brief" && candidate.brief.alwaysHold && gate.decision === "publish") {
       gate.decision = "hold";
       gate.reasons.push("Editorial brief marked for human review (regulated or lifestyle topic).");
     }
     attempts.push({ headline: candidate.title, link: candidate.key, outcome: label(`${gate.decision}: ${gate.reasons.join(" ") || "all checks passed"}`) });
-    if (!dryRun) {
-      await query("UPDATE blog_automation_runs SET source_url = $2, source_title = $3 WHERE id = $1", [runId, candidate.key, candidate.title]);
-    }
     if (gate.decision !== "reject") {
-      accepted = { candidate, gate, model: generation.generation.model, usage: generation.generation.usage, resolvedUrl: generation.generation.resolvedUrl };
+      accepted = { ...base, gate };
       break;
     }
   }
@@ -311,22 +349,27 @@ async function executeRun(runId: number, slot: RunSlot, dryRun: boolean): Promis
   }
 
   // 3. Save: publish, or hold for review with the reasons.
-  const { candidate, gate, model, usage, resolvedUrl } = accepted;
-  const draft = gate.draft!;
+  const { candidate, gate, model, usage, resolvedUrl, fixed } = accepted;
+  const draft = fixed?.draft ?? gate.draft!;
 
   if (dryRun) {
-    const reason = `Dry run: would ${gate.decision === "publish" && isAutoPublishEnabled() ? "publish" : "hold"} "${draft.title}". ${gate.reasons.join(" ")}`.trim();
+    const reason = fixed
+      ? `Dry run: would publish "${draft.title}". ${fixed.notes.join(" ")}`.trim()
+      : `Dry run: would ${gate.decision === "publish" && autopublish ? "publish" : "hold"} "${draft.title}". ${gate.reasons.join(" ")}`.trim();
     await finishRun(runId, "skipped", reason, { pillar, attempts, gate: summarizeGate(gate), dryRun: true }, { model, usage });
     return {
       status: "skipped", reason, pillar, slug: draft.slug, title: draft.title,
-      preview: { decision: gate.decision, reasons: gate.reasons, warnings: gate.warnings, excerpt: draft.excerpt, words: gate.metrics.words, model, usage },
+      preview: { decision: fixed ? "publish" : gate.decision, reasons: fixed ? fixed.notes : gate.reasons, warnings: gate.warnings, excerpt: draft.excerpt, words: gate.metrics.words, model, usage },
     };
   }
-  const autopublish = isAutoPublishEnabled();
-  const publish = gate.decision === "publish" && autopublish;
-  const reviewNotes = gate.decision === "hold"
-    ? gate.reasons.join("\n")
-    : autopublish ? null : "Passed every automated check. Auto-publish is off (BLOG_AUTOPUBLISH), so it awaits approval.";
+  const publish = fixed ? true : gate.decision === "publish" && autopublish;
+  const reviewNotes = fixed
+    ? fixed.notes.join("\n") || null
+    : gate.decision === "hold"
+      ? gate.reasons.join("\n")
+      : autopublish ? null : "Passed every automated check. Auto-publish is off (BLOG_AUTOPUBLISH), so it awaits approval.";
+  const sourceLabel = candidate.kind === "news" ? candidate.item.source : candidate.brief.sources.map((src) => src.label).join("; ");
+  const bodyHtml = keyNumbersHtml(draft.keyNumbers, sourceLabel) + withRelatedLinks(draft);
 
   const id = "blog-auto-" + Date.now().toString(36);
   const row = {
@@ -343,7 +386,7 @@ async function executeRun(runId: number, slot: RunSlot, dryRun: boolean): Promis
     author_name: AUTOMATED_BYLINE.name,
     author_role: AUTOMATED_BYLINE.role,
     author_avatar: AUTOMATED_BYLINE.avatar,
-    html_content: draft.htmlContent + (candidate.kind === "news"
+    html_content: bodyHtml + (candidate.kind === "news"
       ? sourceAttribution(candidate.item, resolvedUrl)
       : briefAttribution(candidate.brief, draft.htmlContent)),
     faqs: draft.faqs,
@@ -414,7 +457,7 @@ function briefAttribution(brief: EditorialBrief, html: string): string {
   const sources = brief.sources.length
     ? `Sources: ${brief.sources.map((src) => `<a href="${escapeHtml(src.url)}" rel="nofollow noopener noreferrer" target="_blank">${escapeHtml(src.label)}</a>`).join("; ")}. `
     : "";
-  return `${related}\n<p><em>${sources}This article is general information, not legal, tax or investment advice.</em></p>`;
+  return sources ? `${related}\n<p><em>${sources.trim()}</em></p>` : related;
 }
 
 /** Credits the news article the post is based on (built here, not by the model). */
@@ -422,7 +465,19 @@ function sourceAttribution(item: NewsItem, resolvedUrl: string): string {
   const escape = escapeHtml;
   const url = /^https:\/\//.test(resolvedUrl) && !/news\.google\.com/.test(resolvedUrl) ? resolvedUrl : null;
   const label = `${escape(item.source)}: “${escape(item.title)}”`;
-  return `\n<p><em>Source: ${url ? `<a href="${escape(url)}" rel="nofollow noopener noreferrer" target="_blank">${label}</a>` : label}. This briefing is general information, not legal, tax or investment advice.</em></p>`;
+  return `\n<p><em>Source: ${url ? `<a href="${escape(url)}" rel="nofollow noopener noreferrer" target="_blank">${label}</a>` : label}.</em></p>`;
+}
+
+/** Appends links to related landing pages when the model linked fewer than the minimum. */
+function withRelatedLinks(draft: ParsedBlogDraft): string {
+  const linked = new Set([...draft.htmlContent.matchAll(/href="([^"]+)"/g)].map((m) => m[1]));
+  if (linked.size >= MIN_INTERNAL_LINKS) return draft.htmlContent;
+  const extra = getRelatedLandingPagesForText(`${draft.title} ${htmlToText(draft.htmlContent)}`, 6)
+    .filter((page) => !linked.has(page.href))
+    .slice(0, MIN_INTERNAL_LINKS - linked.size);
+  if (!extra.length) return draft.htmlContent;
+  const links = extra.map((page) => `<a href="${page.href}">${escapeHtml(page.h1)}</a>`).join(" · ");
+  return `${draft.htmlContent}\n<p>Related guides: ${links}</p>`;
 }
 
 function summarizeGate(gate: GateResult) {

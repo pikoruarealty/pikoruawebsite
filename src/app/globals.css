@@ -339,6 +339,38 @@ h1, h2, h3, h4, h5, h6, .font-display {
   text-decoration-color: rgba(226, 192, 122, 0.7);
 }
 
+/* "Key numbers" box at the top of automated posts (src/lib/ai/blogPipeline.ts) */
+.prose-blog aside.key-numbers {
+  border: 1px solid color-mix(in srgb, var(--champagne-gold) 25%, transparent);
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 2em;
+}
+.prose-blog aside.key-numbers > p:first-child {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--champagne-gold);
+  margin-bottom: 0.75em;
+}
+.prose-blog aside.key-numbers ul {
+  padding-left: 0;
+  margin-bottom: 0.75em;
+}
+.prose-blog aside.key-numbers li::before {
+  display: none;
+}
+.prose-blog aside.key-numbers li strong {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-right: 0.4em;
+}
+.prose-blog aside.key-numbers > p:last-child {
+  font-size: 0.75rem;
+  margin-bottom: 0;
+}
+
 .prose-blog ul,
 .prose-blog ol {
   padding-left: 1.5rem;

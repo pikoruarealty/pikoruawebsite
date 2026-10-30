@@ -12,7 +12,10 @@ import {
   BLOG_LINK_TARGETS,
   detectRegulatedTopics,
   evaluateDraft,
+  finalizeForAutoPublish,
   findGuaranteeClaims,
+  isExampleSentence,
+  keyNumbersHtml,
   findTopicDuplicate,
   findUnsupportedFigures,
   normalizeSeoTitle,
@@ -21,6 +24,7 @@ import {
   type ExistingPostRef,
 } from "../src/lib/ai/blogQuality";
 import { isRelevantHeadline } from "../src/lib/ai/blogAutomation";
+import { getAutomatedPostDisclaimers } from "../src/lib/data/blog-disclaimers";
 import { BRIEF_SOURCE_PREFIX, EDITORIAL_QUEUE, briefFactsText, briefToSourceText, pickNextBrief } from "../src/lib/ai/blogTopicQueue";
 import { ALL_GEO_LANDING_PAGES } from "../src/lib/data/geo";
 import { getRenderableGeoPages, getRenderablePublicPaths } from "../src/lib/data/public-routes";
@@ -376,6 +380,79 @@ test("brief source text grounds the figure check", () => {
   assert.match(briefToSourceText(noFacts), /state no specific figures/);
   // The 4 BHK brief's angle mentions "4"; that must not support a "4%" claim.
   assert.deepEqual(findUnsupportedFigures("A yield of 4% is typical in Thaltej.", briefFactsText(noFacts)), ["4%"]);
+});
+
+// ─── Auto-publish (BLOG_AUTOPUBLISH=true: nothing waits for a person) ───────
+
+test("labelled worked examples are not counted as unsupported figures", () => {
+  const example = "Example: if a ₹5 crore apartment rents for ₹1.25 lakh a month, its gross rental yield is 3% a year.";
+  assert.equal(isExampleSentence(example), true);
+  assert.deepEqual(findUnsupportedFigures(example, ""), []);
+  // A market claim dressed as an example (no "if"/"suppose") still counts.
+  assert.equal(isExampleSentence("Example: Thaltej prices rose 18% last year."), false);
+  assert.deepEqual(findUnsupportedFigures("Example: Thaltej prices rose 18% last year.", ""), ["18%"]);
+});
+
+test("key numbers keep only figures that are in the source", () => {
+  const gate = evaluateDraft({
+    raw: makeDraft({ keyNumbers: [{ value: "₹1,250 crore", label: "project investment" }, { value: "18%", label: "price growth" }] }),
+    sourceText: "The developer will invest ₹1,250 crore in the project.",
+    existing: [], knownPaths,
+  });
+  assert.deepEqual(gate.draft!.keyNumbers, [{ value: "₹1,250 crore", label: "project investment" }]);
+  assert.deepEqual(gate.metrics.keyNumbersDropped, ["18%"]);
+});
+
+const riskyBody = (extra: string) => {
+  const d = makeDraft();
+  return (d.htmlContent as string).replace("</p>", ` ${extra}</p>`);
+};
+
+test("auto-publish: a regulated-topic draft publishes with a note instead of being held", () => {
+  const raw = makeDraft({ excerpt: "What FEMA and repatriation rules mean for NRIs buying a Thaltej home this year." });
+  const gate = evaluateDraft({ raw, sourceText: "", existing: [], knownPaths });
+  assert.equal(gate.decision, "hold");
+  const final = finalizeForAutoPublish(gate, "", knownPaths);
+  assert.equal(final.ok, true);
+  assert.match(final.ok ? final.notes.join(" ") : "", /Regulated topic/);
+});
+
+test("auto-publish: guarantee wording and unsourced figures are removed, the rest publishes", () => {
+  const raw = makeDraft({ htmlContent: riskyBody("Buyers here enjoy assured returns every year. Prices rose 18% in 2025. Example: if a home rents for ₹1 lakh a month, that is ₹12 lakh a year.") });
+  const gate = evaluateDraft({ raw, sourceText: "", existing: [], knownPaths });
+  const final = finalizeForAutoPublish(gate, "", knownPaths);
+  assert.equal(final.ok, true, final.ok ? "" : final.reason);
+  if (!final.ok) return;
+  assert.equal(final.removed.length, 2);
+  assert.doesNotMatch(final.draft.htmlContent, /assured returns|18%/);
+  assert.match(final.draft.htmlContent, /Example: if a home rents/);
+});
+
+test("auto-publish: risky title or excerpt, or too little left after removal, is discarded", () => {
+  const badExcerpt = evaluateDraft({ raw: makeDraft({ excerpt: "Thaltej homes now come with guaranteed returns for every buyer this season." }), sourceText: "", existing: [], knownPaths });
+  assert.equal(finalizeForAutoPublish(badExcerpt, "", knownPaths).ok, false);
+  // Every paragraph is one long sentence with an invented figure: nothing usable is left.
+  const longSentence = (seed: string) => `<p>${Array.from({ length: 80 }, (_, i) => `${seed}${i}`).join(" ")} rose 18% in a year.</p>`;
+  const sections = ["A", "B", "C", "D"].map((h) => `<h2>${h}</h2>${longSentence(`${h}x`)}${longSentence(`${h}y`)}${longSentence(`${h}z`)}`).join("");
+  const thin = evaluateDraft({ raw: makeDraft({ htmlContent: `<p><a href="/locations/thaltej">Thaltej</a> and <a href="/locations/bodakdev">Bodakdev</a>.</p>${sections}` }), sourceText: "", existing: [], knownPaths });
+  assert.notEqual(thin.decision, "reject", thin.reasons.join("; "));
+  const final = finalizeForAutoPublish(thin, "", knownPaths);
+  assert.equal(final.ok, false);
+  assert.match(final.ok ? "" : final.reason, /Too thin/);
+});
+
+test("key numbers box is escaped, sourced, and empty without figures", () => {
+  assert.equal(keyNumbersHtml(undefined, "X"), "");
+  const html = keyNumbersHtml([{ value: "₹1,250 crore", label: "investment <b>planned</b>" }], "Times of India");
+  assert.match(html, /^<aside class="key-numbers"><p>Key numbers<\/p><ul><li><strong>₹1,250 crore<\/strong> investment &lt;b&gt;planned&lt;\/b&gt;<\/li><\/ul><p><em>Source: Times of India<\/em><\/p><\/aside>/);
+});
+
+test("disclaimers: general always, topic notes by content, sources when credited", () => {
+  const ids = (text: string, src = false) => getAutomatedPostDisclaimers(text, src).map((d) => d.id);
+  assert.deepEqual(ids("A walk around Bodakdev lanes."), ["general"]);
+  assert.deepEqual(ids("NRIs paying TDS on the sale under FEMA rules.", true), ["general", "tax", "nri", "sources"]);
+  assert.ok(ids("The Metro extension to GIFT City and a 3% yield.").includes("infrastructure"));
+  assert.ok(ids("The Metro extension to GIFT City and a 3% yield.").includes("figures"));
 });
 
 // ─── Report ─────────────────────────────────────────────────────────────────

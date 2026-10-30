@@ -41,6 +41,12 @@ export const blogDraftSchema = z.object({
     .array(z.object({ question: z.string().trim().min(10), answer: z.string().trim().min(20) }))
     .min(3)
     .max(6),
+  /** Up to 4 headline figures for the "Key numbers" box; each must come from the source. */
+  keyNumbers: z
+    .array(z.object({ value: z.string().trim().min(1).max(40), label: z.string().trim().min(3).max(90) }))
+    .max(4)
+    .optional()
+    .catch(undefined),
 });
 
 export type ParsedBlogDraft = z.infer<typeof blogDraftSchema>;
@@ -261,14 +267,36 @@ function normalizeNumber(value: string): string {
 
 /**
  * Figures in the article that don't appear (by their digits) in the source
- * article text. Without source text every figure is unsupported.
+ * article text. Without source text every figure is unsupported. Labelled
+ * worked examples (see isExampleSentence) are hypothetical arithmetic, not
+ * claims of fact, so their figures are not checked.
  */
 export function findUnsupportedFigures(articleText: string, sourceText: string): string[] {
   const sourceNumbers = new Set((sourceText.match(/\d[\d,]*(?:\.\d+)?/g) ?? []).map(normalizeNumber));
-  return extractFigures(articleText).filter((figure) => {
+  return extractFigures(withoutExampleSentences(articleText)).filter((figure) => {
     const digits = normalizeNumber(figure);
     return digits !== "" && !sourceNumbers.has(digits);
   });
+}
+
+/**
+ * A clearly labelled hypothetical calculation: starts with "Example:" (or
+ * "For example," / "Illustration:") and is framed as a supposition ("if",
+ * "suppose", "assume", "say"). The drafting prompt asks for exactly this form.
+ */
+export function isExampleSentence(sentence: string): boolean {
+  return (
+    /^\s*(?:example|for example|illustration|illustrative example|worked example)\s*[:,—–-]/i.test(sentence) &&
+    /\b(?:if|suppose|supposing|assum\w*|say|hypothetical\w*)\b/i.test(sentence)
+  );
+}
+
+export function splitSentences(text: string): string[] {
+  return text.split(/(?<=[.!?])\s+/).filter((s) => s.trim());
+}
+
+function withoutExampleSentences(text: string): string {
+  return splitSentences(text).filter((s) => !isExampleSentence(s)).join(" ");
 }
 
 // ─── Duplicate detection ────────────────────────────────────────────────────
@@ -403,6 +431,8 @@ export interface GateResult {
     unsupportedFigures: string[];
     bannedPhrases: string[];
     duplicateOf: string | null;
+    /** Key-number entries dropped because their figure is not in the source. */
+    keyNumbersDropped: string[];
   };
 }
 
@@ -426,6 +456,7 @@ export function evaluateDraft({ raw, sourceText, existing, knownPaths }: GateInp
   const metrics: GateResult["metrics"] = {
     words: 0, h2: 0, internalLinks: 0, linksRewritten: [], linksRemoved: [],
     regulatedTopics: [], guaranteeClaims: [], unsupportedFigures: [], bannedPhrases: [], duplicateOf: null,
+    keyNumbersDropped: [],
   };
   const reject = (reasons: string[]): GateResult => ({ decision: "reject", reasons, warnings: [], draft: null, metrics });
 
@@ -442,6 +473,17 @@ export function evaluateDraft({ raw, sourceText, existing, knownPaths }: GateInp
     seoTitle: normalizeSeoTitle(parsed.data.seoTitle, parsed.data.title),
     faqs: parsed.data.faqs.map((f) => ({ question: htmlToText(f.question), answer: htmlToText(f.answer) })),
   };
+  // Key numbers are shown as facts, so every figure in one must be in the source.
+  if (draft.keyNumbers) {
+    const kept = draft.keyNumbers
+      .map((k) => ({ value: htmlToText(k.value), label: htmlToText(k.label) }))
+      .filter((k) => {
+        const ok = extractFigures(k.value).length > 0 && findUnsupportedFigures(`${k.value} ${k.label}`, sourceText).length === 0;
+        if (!ok) metrics.keyNumbersDropped.push(k.value);
+        return ok;
+      });
+    draft.keyNumbers = kept.length ? kept : undefined;
+  }
 
   const text = htmlToText(draft.htmlContent);
   const fullText = `${draft.title}. ${draft.excerpt}. ${text} ${draft.faqs.map((f) => `${f.question} ${f.answer}`).join(" ")}`;
@@ -501,6 +543,122 @@ export function evaluateDraft({ raw, sourceText, existing, knownPaths }: GateInp
   }
 
   return { decision: reasons.length ? "hold" : "publish", reasons, warnings, draft, metrics };
+}
+
+// ─── Auto-publish (no human in the loop) ────────────────────────────────────
+
+/**
+ * With BLOG_AUTOPUBLISH on, nothing waits for a person (management decision,
+ * 30 Oct 2026). Two things still cannot be published, because a disclaimer
+ * does not cure them (CCPA misleading-advertisement guidelines, 2022; RERA
+ * s.10(c)): guaranteed-return wording and figures that are not in the
+ * source. They are removed sentence by sentence; anything else that would
+ * have held the draft (regulated topic, AI phrasing, few links) is published
+ * with the topic disclaimers shown on the post.
+ */
+export function autoPublishBlockers(gate: GateResult): string[] {
+  const out: string[] = [];
+  if (gate.metrics.guaranteeClaims.length) out.push(`guaranteed-return wording (${gate.metrics.guaranteeClaims.join(", ")})`);
+  if (gate.metrics.unsupportedFigures.length) out.push(`figures not in the source (${gate.metrics.unsupportedFigures.join(", ")})`);
+  return out;
+}
+
+/** True when a sentence would block auto-publishing (guarantee wording or an unsourced figure). */
+function isRiskySentence(sentence: string, sourceText: string): boolean {
+  return findGuaranteeClaims(sentence).length > 0 || findUnsupportedFigures(sentence, sourceText).length > 0;
+}
+
+/**
+ * Removes every sentence with guaranteed-return wording or a figure that is
+ * not in the source (labelled examples are kept), from the article body and
+ * FAQs. Returns null when the title, excerpt or SEO description itself is
+ * risky, because those cannot be cut down safely.
+ */
+export function stripRiskySentences(
+  draft: ParsedBlogDraft,
+  sourceText: string,
+  knownPaths: Set<string>
+): { draft: ParsedBlogDraft; removed: string[] } | null {
+  if ([draft.title, draft.excerpt, draft.seoTitle, draft.seoDescription].some((t) => isRiskySentence(t, sourceText))) return null;
+
+  const removed: string[] = [];
+  const keepSentences = (html: string) =>
+    html
+      .split(/(?<=[.!?])\s+(?=[<"“‘'A-Z0-9₹(])/)
+      .filter((piece) => {
+        const text = htmlToText(piece);
+        if (isExampleSentence(text) || !isRiskySentence(text, sourceText)) return true;
+        removed.push(text);
+        return false;
+      })
+      .join(" ");
+
+  const body = draft.htmlContent.replace(
+    /<(p|li|blockquote|td)>([\s\S]*?)<\/\1>/g,
+    (_, tag: string, inner: string) => {
+      const kept = keepSentences(inner).trim();
+      return htmlToText(kept) ? `<${tag}>${kept}</${tag}>` : "";
+    }
+  );
+  const faqs = draft.faqs.filter((f) => {
+    if (isRiskySentence(f.question, sourceText) || isRiskySentence(f.answer, sourceText)) {
+      removed.push(`FAQ: ${f.question}`);
+      return false;
+    }
+    return true;
+  });
+
+  // Re-sanitise so a cut through inline tags can't leave broken markup.
+  const html = sanitizeArticleHtml(body.replace(/<(ul|ol)>\s*<\/\1>/g, ""), knownPaths).html;
+  return { draft: { ...draft, htmlContent: html, faqs }, removed };
+}
+
+export type AutoPublishResult =
+  | { ok: true; draft: ParsedBlogDraft; removed: string[]; notes: string[] }
+  | { ok: false; reason: string };
+
+/**
+ * The auto-publish decision for a gated draft: publish (after removing risky
+ * sentences) or discard. There is no "hold". Discarded drafts make the
+ * pipeline try the next headline.
+ */
+export function finalizeForAutoPublish(gate: GateResult, sourceText: string, knownPaths: Set<string>): AutoPublishResult {
+  if (gate.decision === "reject" || !gate.draft) return { ok: false, reason: gate.reasons.join(" ") || "Rejected by the quality gate." };
+
+  let draft = gate.draft;
+  let removed: string[] = [];
+  if (autoPublishBlockers(gate).length) {
+    const stripped = stripRiskySentences(draft, sourceText, knownPaths);
+    if (!stripped) return { ok: false, reason: "Title, excerpt or SEO text has guaranteed-return wording or an unsourced figure." };
+    ({ draft, removed } = stripped);
+  }
+
+  const text = htmlToText(draft.htmlContent);
+  const words = text.split(/\s+/).filter(Boolean).length;
+  const h2 = (draft.htmlContent.match(/<h2>/g) ?? []).length;
+  const fullText = `${text} ${draft.faqs.map((f) => `${f.question} ${f.answer}`).join(" ")}`;
+  if (words < MIN_WORDS) return { ok: false, reason: `Too thin after removing ${removed.length} risky sentence(s): ${words} words.` };
+  if (h2 < MIN_H2) return { ok: false, reason: `Weak structure after removing risky sentences: ${h2} H2 sections.` };
+  if (findGuaranteeClaims(fullText).length || findUnsupportedFigures(fullText, sourceText).length) {
+    return { ok: false, reason: "Risky wording remained after automatic removal." };
+  }
+
+  const notes: string[] = [];
+  if (removed.length) notes.push(`Auto-removed ${removed.length} sentence(s) with guaranteed-return wording or unsourced figures.`);
+  if (gate.metrics.regulatedTopics.length) notes.push(`Regulated topic (${gate.metrics.regulatedTopics.join(", ")}): published with the topic disclaimers.`);
+  if (gate.metrics.bannedPhrases.length > MAX_BANNED_PHRASES) notes.push(`Formulaic AI phrasing: ${gate.metrics.bannedPhrases.join(", ")}.`);
+  if (gate.metrics.keyNumbersDropped.length) notes.push(`Key numbers dropped (not in source): ${gate.metrics.keyNumbersDropped.join(", ")}.`);
+  return { ok: true, draft, removed, notes };
+}
+
+/**
+ * The "Key numbers" box at the top of a post: only figures the gate matched
+ * to the source (built by the pipeline, not the model). Empty when none.
+ */
+export function keyNumbersHtml(keyNumbers: ParsedBlogDraft["keyNumbers"], sourceLabel: string): string {
+  if (!keyNumbers?.length) return "";
+  const items = keyNumbers.map((k) => `<li><strong>${escapeText(k.value)}</strong> ${escapeText(k.label)}</li>`).join("");
+  return `<aside class="key-numbers"><p>Key numbers</p><ul>${items}</ul><p><em>Source: ${escapeText(sourceLabel)}</em></p></aside>\n`;
 }
 
 // ─── Byline ─────────────────────────────────────────────────────────────────

@@ -11,6 +11,7 @@ import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { getLandingPagesBySlugs, getRelatedLandingPagesForText } from "@/lib/data/geo";
 import { AUTOMATED_BYLINE } from "@/lib/ai/blogQuality";
+import { getAutomatedPostDisclaimers, GUJRERA_AGENT_REGISTRATION_NO } from "@/lib/data/blog-disclaimers";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -64,6 +65,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const canonicalUrl = absoluteUrl(`/blog/${post.slug}`);
   const bodyText = post.htmlContent ? post.htmlContent.replace(/<[^>]+>/g, " ") : post.content.join(" ");
   const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
+  // AI-assisted posts carry a ★ by the title that links to these notes.
+  const disclaimers = post.source === "ai_auto"
+    ? getAutomatedPostDisclaimers(
+        `${post.title} ${bodyText} ${(post.faqs ?? []).map((f) => `${f.question} ${f.answer}`).join(" ")}`,
+        /Sources?:/.test(bodyText)
+      )
+    : [];
   const dateModified = post.updatedAt || post.publishedAt;
 
   const blogPostingSchema = {
@@ -178,6 +186,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               <h1 className="font-display text-[clamp(1.75rem,4.5vw,2.75rem)] font-normal text-ivory leading-[1.15] mb-8 uppercase tracking-wide">
                 {post.title}
+                {disclaimers.length > 0 && (
+                  <a
+                    href="#disclaimer"
+                    className="ml-2 align-super text-[0.45em] text-champagne-gold no-underline hover:text-antique-gold"
+                    aria-label="Read the disclaimer for this article"
+                    title="Disclaimer"
+                  >
+                    ★
+                  </a>
+                )}
               </h1>
 
               {/* Metadata */}
@@ -276,6 +294,35 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   ))}
                 </div>
               </div>
+            )}
+
+            {/* Disclaimer for AI-assisted posts (src/lib/data/blog-disclaimers.ts) */}
+            {disclaimers.length > 0 && (
+              <section id="disclaimer" className="mt-16 max-w-3xl mx-auto border-t border-white/[0.06] pt-8 scroll-mt-28">
+                <p className="text-[10px] uppercase tracking-[0.25em] text-champagne-gold font-sans mb-4">★ Disclaimer</p>
+                <div className="space-y-3 font-sans text-xs text-ivory/45 leading-relaxed">
+                  {disclaimers.map((d) => (
+                    <p key={d.id}>
+                      <strong className="text-ivory/65 font-semibold">{d.heading}.</strong>{" "}
+                      {d.id === "general" ? (
+                        <>
+                          {d.text.replace(/ Use of this website is governed by our Terms of Use\.$/, "")}{" "}
+                          Use of this website is governed by our{" "}
+                          <Link href="/terms" className="text-champagne-gold/80 hover:text-champagne-gold underline underline-offset-2">
+                            Terms of Use
+                          </Link>
+                          .
+                        </>
+                      ) : (
+                        d.text
+                      )}
+                    </p>
+                  ))}
+                  {GUJRERA_AGENT_REGISTRATION_NO && (
+                    <p>PIKORUA Realty GujRERA agent registration no. {GUJRERA_AGENT_REGISTRATION_NO}.</p>
+                  )}
+                </div>
+              </section>
             )}
 
             {/* Bottom CTA block */}

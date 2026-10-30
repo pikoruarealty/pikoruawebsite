@@ -1,0 +1,8 @@
+End-to-end auto-publish run, 30 Oct 2026 (local build, disposable DB, mock model; live Google News fetch only)
+Mock model calls: call 1 draft call 2 revise 
+post: zqrv-mock-nri-fema-bodakdev-payment active=true pending=false
+review_notes:
+Auto-removed 1 sentence(s) with guaranteed-return wording or unsourced figures.
+Regulated topic (FEMA, RBI rules, NRE/NRO/FCNR accounts): published with the topic disclaimers.
+Key numbers dropped (not in source): 18%.
+Rendered: guarantee wording 0, invented 18%/9% 0, labelled example kept, star link + disclaimer (General, Figures, NRI/FEMA, Third-party); Tax note shown on a stamp-duty post; key-numbers box renders with styles; manual posts show no star.
