@@ -11,6 +11,7 @@ import { submitToIndexNow } from "@/lib/index-now";
 import { notifyGoogleIndexing } from "@/lib/google-indexing";
 import { SITE_URL } from "@/lib/seo";
 import { revalidateBlogPaths, revalidateSitemap } from "@/lib/blog-revalidation";
+import { getAutoBlogPause, getRecentAutoBlogRuns, isAutoPublishEnabled, setAutoBlogPause } from "@/lib/ai/blogPipeline";
 
 import crypto, { createHash } from "crypto";
 
@@ -493,6 +494,47 @@ export async function approveBlogDraft(id: string) {
     ]).catch((err) => console.error("[indexing] blog approval submission error:", err));
   }
 
+  return { success: true };
+}
+
+/**
+ * State of the automated blog for the admin Blogs tab: whether it publishes
+ * directly, whether an admin has paused it, and the latest runs.
+ */
+export async function getBlogAutomationStatus() {
+  await requireAuth();
+  try {
+    const [pause, runs] = await Promise.all([getAutoBlogPause(), getRecentAutoBlogRuns(6)]);
+    return { available: true as const, autopublish: isAutoPublishEnabled(), ...pause, runs };
+  } catch (error) {
+    console.error("Error reading blog automation status:", error);
+    return { available: false as const, error: "Automation tables missing (apply migrations 014 and 015)." };
+  }
+}
+
+/**
+ * Pauses automated posting. `resumeOn` is a YYYY-MM-DD date (posting resumes
+ * at 00:00 IST that day), "indefinite" (until resumed), or null to resume now.
+ * Errors are returned, not thrown: production builds hide thrown messages.
+ */
+export async function setBlogAutomationPause(resumeOn: string | null): Promise<{ success: boolean; error?: string }> {
+  await requireAuth();
+
+  let until: string | null = null;
+  if (resumeOn === "indefinite") {
+    until = "infinity";
+  } else if (resumeOn !== null) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(resumeOn)) return { success: false, error: "Pick a valid date." };
+    until = `${resumeOn}T00:00:00+05:30`;
+    if (!(new Date(until).getTime() > Date.now())) return { success: false, error: "The resume date must be in the future." };
+  }
+
+  try {
+    await setAutoBlogPause(until);
+  } catch (error) {
+    console.error("Error setting blog automation pause:", error);
+    return { success: false, error: "Could not save the pause (is migration 015 applied?)." };
+  }
   return { success: true };
 }
 

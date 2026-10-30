@@ -44,7 +44,9 @@ import {
  *    a flagged risk are still held, with the reasons in review_notes.
  * Either way a published post can be taken down from /admin (Inactive).
  *
- * Every run is logged in blog_automation_runs (migration 014).
+ * Every run is logged in blog_automation_runs (migration 014). An admin can
+ * pause scheduled runs until a date or indefinitely (migration 015, /admin →
+ * Blogs); a paused run is logged as skipped.
  *
  * A dry run (trigger "dry-run") does everything except save: it exists to
  * verify the real AI integration on the server. It saves no post and doesn't
@@ -119,6 +121,20 @@ export async function runAutoBlog({
       WHERE status = 'running' AND started_at < now() - ($1 || ' minutes')::interval`,
     [String(STALE_RUN_MINUTES)]
   );
+
+  if (!dryRun) {
+    // Throws if migration 015 is missing, so a missing pause table never
+    // means "not paused".
+    const pause = await getAutoBlogPause();
+    if (pause.paused) {
+      const reason = `Paused by admin ${pause.pausedUntil === "infinity" ? "until resumed" : `until ${pause.pausedUntil}`}.`;
+      await query(
+        "INSERT INTO blog_automation_runs (trigger, status, reason, finished_at) VALUES ($1, 'skipped', $2, now())",
+        [trigger, reason]
+      );
+      return { status: "skipped", reason };
+    }
+  }
 
   if (!force && !dryRun) {
     const recent = await queryOne(
@@ -425,6 +441,23 @@ async function finishRun(
         SET status = $2, reason = $3, checks = $4, blog_id = $5, model = $6, usage = $7, finished_at = now()
       WHERE id = $1`,
     [runId, status, reason.slice(0, 4000), toJson(checks), extra.blogId ?? null, extra.model ?? null, toJson(extra.usage ?? null)]
+  );
+}
+
+/** Whether scheduled runs are paused (migration 015). `pausedUntil` is an ISO time, "infinity", or null. */
+export async function getAutoBlogPause(): Promise<{ paused: boolean; pausedUntil: string | null }> {
+  const row = await queryOne<{ paused_until: string | null; paused: boolean | null }>(
+    "SELECT paused_until, paused_until > now() AS paused FROM blog_automation_settings WHERE id"
+  );
+  return { paused: Boolean(row?.paused), pausedUntil: row?.paused ? row.paused_until : null };
+}
+
+/** Pause scheduled runs until `until` (a timestamptz literal, or "infinity"), or resume with null. */
+export async function setAutoBlogPause(until: string | null): Promise<void> {
+  await query(
+    `INSERT INTO blog_automation_settings (id, paused_until, updated_at) VALUES (true, $1, now())
+       ON CONFLICT (id) DO UPDATE SET paused_until = EXCLUDED.paused_until, updated_at = now()`,
+    [until]
   );
 }
 

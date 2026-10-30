@@ -27,6 +27,8 @@ import {
   generateImageAltAction,
   generateLeadReplyAction,
   submitToGoogleIndexingAction,
+  getBlogAutomationStatus,
+  setBlogAutomationPause,
 } from "./actions";
 import { STATIC_PROPERTIES, type StaticProperty } from "@/lib/data/properties";
 import {
@@ -51,10 +53,15 @@ import {
   HelpCircle,
   Sparkles,
   CheckCircle,
+  CirclePause,
 } from "lucide-react";
 import type { Lead, Testimonial, GeneralFaq } from "@/types";
 import type { BlogPost } from "@/types/blog";
 import Image from "next/image";
+
+/** The date `days` from now in India, as YYYY-MM-DD. */
+const istDateFromNow = (days: number) =>
+  new Date(Date.now() + days * 86_400_000).toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 
 const generateDiscreetSlug = (config: string, size: string, loc: string): string => {
   const clean = (str: string) => {
@@ -384,6 +391,39 @@ export default function AdminDashboard({
       fetchLeadsData();
     }
   }, [activeTab]);
+
+  // Automated blog: publish mode, admin pause and latest runs (Blogs tab)
+  const [automation, setAutomation] = useState<Awaited<ReturnType<typeof getBlogAutomationStatus>> | null>(null);
+  const [pauseResumeOn, setPauseResumeOn] = useState("");
+  const [minResumeOn] = useState(() => istDateFromNow(1));
+
+  useEffect(() => {
+    if (activeTab !== "blogs") return;
+    let cancelled = false;
+    getBlogAutomationStatus()
+      .then((status) => !cancelled && setAutomation(status))
+      .catch((err) => console.error("Failed to load blog automation status:", err));
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTab]);
+
+  const handleSetAutomationPause = async (resumeOn: string | null) => {
+    setActionLoading(true);
+    try {
+      const result = await setBlogAutomationPause(resumeOn);
+      if (!result.success) {
+        alert(result.error);
+        return;
+      }
+      setPauseResumeOn("");
+      setAutomation(await getBlogAutomationStatus());
+    } catch (err: unknown) {
+      alert("Error updating automated posting: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   const handleLogout = async () => {
     if (confirm("Are you sure you want to log out of the console?")) {
@@ -2168,6 +2208,90 @@ export default function AdminDashboard({
           {/* Tab 4: BLOGS */}
           {activeTab === "blogs" && (
             <div className="space-y-4">
+              {automation && (
+                <div className="bg-soft-black border border-white/[0.06] rounded-sm p-4 space-y-3">
+                  {!automation.available ? (
+                    <p className="text-xs text-ivory/40">Automated posting: {automation.error}</p>
+                  ) : (
+                    <>
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex items-center gap-2 text-xs">
+                          <CirclePause className="w-4 h-4 text-champagne-gold" />
+                          <span className="uppercase tracking-wider font-semibold text-ivory/70">Automated posting</span>
+                          <span className={automation.paused ? "text-amber-300/80" : "text-ivory/60"}>
+                            {automation.paused
+                              ? automation.pausedUntil === "infinity"
+                                ? "Paused until resumed"
+                                : `Paused — resumes ${new Date(automation.pausedUntil!).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" })} IST`
+                              : automation.autopublish
+                                ? "Active — publishes drafts that pass every check; flagged drafts wait here"
+                                : "Active — every draft waits here for approval"}
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          {automation.paused ? (
+                            <button
+                              onClick={() => handleSetAutomationPause(null)}
+                              disabled={actionLoading}
+                              className="border border-champagne-gold/40 text-champagne-gold text-[10px] uppercase tracking-wider font-semibold py-1.5 px-3 rounded-sm hover:border-champagne-gold transition-all cursor-pointer disabled:opacity-50"
+                            >
+                              Resume now
+                            </button>
+                          ) : (
+                            <>
+                              <button
+                                onClick={() => handleSetAutomationPause(istDateFromNow(7))}
+                                disabled={actionLoading}
+                                className="border border-white/[0.12] text-ivory/70 text-[10px] uppercase tracking-wider font-semibold py-1.5 px-3 rounded-sm hover:border-champagne-gold/40 transition-all cursor-pointer disabled:opacity-50"
+                              >
+                                Pause 1 week
+                              </button>
+                              <label className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-ivory/50">
+                                Resume on
+                                <input
+                                  type="date"
+                                  value={pauseResumeOn}
+                                  min={minResumeOn}
+                                  onChange={(e) => setPauseResumeOn(e.target.value)}
+                                  className="bg-lux-black border border-white/[0.12] rounded-sm px-2 py-1 text-ivory/80 text-xs normal-case"
+                                />
+                              </label>
+                              <button
+                                onClick={() => handleSetAutomationPause(pauseResumeOn)}
+                                disabled={actionLoading || !pauseResumeOn}
+                                className="border border-white/[0.12] text-ivory/70 text-[10px] uppercase tracking-wider font-semibold py-1.5 px-3 rounded-sm hover:border-champagne-gold/40 transition-all cursor-pointer disabled:opacity-50"
+                              >
+                                Pause
+                              </button>
+                              <button
+                                onClick={() => handleSetAutomationPause("indefinite")}
+                                disabled={actionLoading}
+                                className="border border-white/[0.12] text-ivory/70 text-[10px] uppercase tracking-wider font-semibold py-1.5 px-3 rounded-sm hover:border-champagne-gold/40 transition-all cursor-pointer disabled:opacity-50"
+                              >
+                                Pause indefinitely
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      {automation.runs.length > 0 && (
+                        <ul className="text-[10px] text-ivory/40 space-y-1 font-mono">
+                          {automation.runs.map((run) => (
+                            <li key={run.id} className="truncate" title={run.reason ?? ""}>
+                              {new Date(run.started_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" })}
+                              {" · "}
+                              <span className={run.status === "published" ? "text-champagne-gold" : run.status === "failed" ? "text-red-400/80" : ""}>{run.status}</span>
+                              {run.source_title ? ` · ${run.source_title}` : ""}
+                              {run.reason ? ` · ${run.reason}` : ""}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+
               <div className="flex justify-between items-center">
                 <p className="text-xs text-ivory/40">
                   Manage blog posts, insights, and corridor spotlights.

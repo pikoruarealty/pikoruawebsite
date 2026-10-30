@@ -9,12 +9,15 @@
  *   POST /api/cron/auto-blog?force=1   run even inside that window
  *   POST /api/cron/auto-blog?dryRun=1  draft + quality-gate one post without saving a blog
  *                                      post; records a dry-run row in blog_automation_runs
- *   GET  /api/cron/auto-blog           recent runs, for monitoring
+ *   GET  /api/cron/auto-blog           pause state and recent runs, for monitoring
+ *
+ * While an admin has paused posting (/admin → Blogs), POST runs are skipped
+ * and logged; dry runs still work.
  */
 
 import { timingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
-import { getRecentAutoBlogRuns, isAutoPublishEnabled, runAutoBlog } from "@/lib/ai/blogPipeline";
+import { getAutoBlogPause, getRecentAutoBlogRuns, isAutoPublishEnabled, runAutoBlog } from "@/lib/ai/blogPipeline";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -50,10 +53,10 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    const runs = await getRecentAutoBlogRuns(15);
-    return NextResponse.json({ autopublish: isAutoPublishEnabled(), runs });
+    const [pause, runs] = await Promise.all([getAutoBlogPause(), getRecentAutoBlogRuns(15)]);
+    return NextResponse.json({ autopublish: isAutoPublishEnabled(), ...pause, runs });
   } catch (err) {
     console.error("[cron/auto-blog] status failed:", err);
-    return NextResponse.json({ error: "Could not read runs (is migration 014 applied?)" }, { status: 500 });
+    return NextResponse.json({ error: "Could not read runs (are migrations 014 and 015 applied?)" }, { status: 500 });
   }
 }

@@ -122,27 +122,28 @@ Not verified: a real OpenRouter call (no key in this environment), real IndexNow
 
 > **Order corrected 30 Oct 2026 (release review):** the website itself does not need migration 014 (only `/api/cron/auto-blog` reads `blog_automation_runs`; `review_notes` is optional), and 014 is additive, so apply it *before* deploying — then an app rollback never needs a DB rollback. `deploy/deploy.sh` runs `git pull --ff-only`, so it deploys only what is committed and pushed, not a local working tree. The full release and rollback checklist is in `docs/seo/RELEASE_REVIEW_2026-10-30.md`.
 
-1. **Back up the DB, then apply the migration** (idempotent; re-run tested locally on PostgreSQL 17.11, single transaction, stops on error): `sudo docker exec -i pikorua-website-db psql -U pikorua_app -d pikorua -v ON_ERROR_STOP=1 -1 < supabase/migrations/014_blog_automation_runs.sql`.
+1. **Back up the DB, then apply the migrations** (both idempotent; re-run tested locally on PostgreSQL 17.11, single transaction, stop on error): `sudo docker exec -i pikorua-website-db psql -U pikorua_app -d pikorua -v ON_ERROR_STOP=1 -1 < supabase/migrations/014_blog_automation_runs.sql`, then the same with `015_blog_automation_pause.sql`. Without 015 every run fails closed (no post).
 2. **Deploy** the reviewed, committed and pushed branch (`deploy/deploy.sh`). The website release does not need any of the steps below; they only switch on automation.
 3. **Nginx (before setting `CRON_SECRET`):** add `location /api/cron/ { return 404; }` from `deploy/nginx/pikorua.in.conf` to the *live* site file by hand, then `sudo nginx -t && sudo systemctl reload nginx`. Do not copy the repo file over the live one: the live file has Certbot's TLS lines that the repo copy lacks (master plan §3.3). Until this is done, `/api/cron/` is reachable from the internet; with `CRON_SECRET` unset it answers 401 to everyone.
 4. **`.env.production`** (then `docker compose --env-file .env.production up -d --force-recreate app` so the container picks up the new values; no rebuild is needed for these server-only variables):
    - `CRON_SECRET=$(openssl rand -hex 32)`
    - `OPENROUTER_API_KEY=…` (OpenRouter account with credit; this also re-enables the admin AI helpers)
-   - Keep `BLOG_AUTOPUBLISH=false`. Do not enable automatic publication after a fixed trial period; changing it requires verified real-model output quality, duplication controls, failure handling and publication safeguards, followed by explicit management authorization.
+   - `BLOG_AUTOPUBLISH=true` — **decided by management on 30 Oct 2026**: drafts that pass every check publish with no approval. Flagged drafts (regulated legal/tax/NRI topics, guarantee wording, figures not in the source) are still held in `/admin` with the reason; duplicates and broken drafts are always rejected. Admins take a post down with Inactive/Delete and pause posting from `/admin` → Blogs (migration 015).
    - `INDEX_NOW_KEY=dc8ee02b…733f` (the name of the key file already in `public/`)
 5. **Verify the real AI integration before scheduling anything.** The dry run makes a real OpenRouter call and consumes normal API credit. It writes a `skipped` dry-run record to `blog_automation_runs`, but saves no blog post or draft; its logged headlines and brief are not treated as used on later runs:
    ```
    curl -s -X POST -H "Authorization: Bearer $(grep ^CRON_SECRET= /opt/pikorua-website/.env.production | cut -d= -f2-)" "http://127.0.0.1:3100/api/cron/auto-blog?dryRun=1"
    ```
    Expect `"status":"skipped"`, a `preview` with the real model name and token usage, and a reason starting "Dry run: would hold/publish". A `failed` status prints the OpenRouter error. Review the run record and preview before repeating; each attempt uses model credits.
-6. **Host crontab** for user `deep` (`crontab -e`). Mon/Wed/Fri 04:00 UTC = 09:30 IST, the old Vercel schedule. Check the server clock with `timedatectl`:
+6. **Host crontab** for the account that runs deploys (`crontab -e`; it must be able to read `.env.production`). Mon/Wed/Fri 04:00 UTC = 09:30 IST, the old Vercel schedule. Check the server clock with `timedatectl`:
    ```
    0 4 * * 1,3,5 curl -fsS -m 300 -X POST -H "Authorization: Bearer $(grep ^CRON_SECRET= /opt/pikorua-website/.env.production | cut -d= -f2-)" http://127.0.0.1:3100/api/cron/auto-blog >> $HOME/auto-blog.log 2>&1
    ```
 7. **Monitor:** `curl -s -H "Authorization: Bearer …" http://127.0.0.1:3100/api/cron/auto-blog` lists recent runs, or query `blog_automation_runs`. Add the cron URL's failure (non-200) to the uptime monitor when that is set up.
 8. **Review held drafts** in `/admin` → Blogs: the amber text under each title says why it was held. Approve, edit, or discard.
+9. **Pause** from `/admin` → Blogs → Automated posting: "Pause 1 week", "Resume on <date>" (resumes 00:00 IST that day), "Pause indefinitely", "Resume now". A paused run, including `?force=1`, is logged as skipped; dry runs still work. The panel also lists the latest runs.
 
-**Rollback:** set `BLOG_AUTOPUBLISH=false` (drafts only), or remove the crontab line (nothing runs). A published post is taken down by setting it Inactive in `/admin`.
+**Rollback:** pause from `/admin` (no server access needed), set `BLOG_AUTOPUBLISH=false` (drafts only), or remove the crontab line (nothing runs). A published post is taken down by setting it Inactive in `/admin`.
 
 ---
 

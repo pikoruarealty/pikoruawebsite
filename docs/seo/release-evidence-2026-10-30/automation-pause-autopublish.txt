@@ -1,0 +1,23 @@
+unauthenticated pause -> paused_until: null
+past date: resume date must be in the future | junk: Pick a valid date | db: null
+pause indefinitely -> db: infinity
+  cron while paused: {"status":"skipped","reason":"Paused by admin until resumed."} HTTP 200
+  cron force while paused: {"status":"skipped","reason":"Paused by admin until resumed."} HTTP 200
+pause, resume on 2026-11-02 -> db: 2026-11-02 00:00:00+05:30
+  cron while paused: {"status":"skipped","reason":"Paused by admin until 2026-11-02 00:00:00+05:30."} HTTP 200
+  status action: "paused":true,"pausedUntil":"2026-11-02 00:00:00+05:30"
+  cron GET: {"autopublish":true,"paused":true,"pausedUntil":"2026-11-02 00:00:00+05:30","runs":[{"id":
+resume now -> db: null
+  cron run 1 (mock clean draft): {"pillar":"nri","status":"published","reason":"Passed every check; published.","blogId":"blog-auto-mvujwwjh","slug":"zqrv-mock-bodakdev-quiet-lanes","title":"ZQRV mock: quiet lanes and club access around Bodakdev homes","runId":14
+  published page: 200 | sitemap: 1 | feed: 2 | index: 1
+  byline (schema author type): "author":{"@type":"Organization"
+  cron run 2 within 20h (should skip): {"status":"skipped","reason":"A run already produced a post in the last 20 hours."} HTTP 200
+  cron run 3 forced (mock FEMA draft): {"pillar":"nri","status":"held","reason":"Regulated topic (FEMA, repatriation): verify against current RBI/FEMA, Income-tax or GujRERA sources before publishing.","blogId":"blog-auto-mvujwxhq","slug":"zqrv-mock-nri-remittance-pape
+  held draft public page: 404 | in sitemap: 0
+  db: zqrv-mock-bodakdev-quiet-lanes|t|f|ai_auto|
+  db: zqrv-mock-nri-remittance-paperwork|f|t|ai_auto|Regulated topic (FEMA, repatriation): verify against current RBI/FEMA, Income-ta
+  run: 15|held|cron-force|Regulated topic (FEMA, repatriation): verify against current RBI/FEMA,
+  run: 14|published|cron|Passed every check; published.
+  run: 13|skipped|cron|Paused by admin until 2026-11-02 00:00:00+05:30.
+  run: 12|skipped|cron-force|Paused by admin until resumed.
+  run: 11|skipped|cron|Paused by admin until resumed.
