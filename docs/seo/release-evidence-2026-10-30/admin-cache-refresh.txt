@@ -1,0 +1,14 @@
+unauthenticated approve: 
+pending row still pending: t
+wrong password login: "success":false
+login: 
+1) before approval (caches primed):
+  zqrv-db-only-pending: page 404 sitemap no feed no index no
+   after approveBlogDraft:
+  zqrv-db-only-pending: page 200 sitemap yes feed yes index yes
+2) deactivate + rename via createOrUpdateBlogPost (zqrv-b1 -> zqrv-renamed, inactive):
+  zqrv-db-only-published: page 200 sitemap yes feed yes index yes
+  zqrv-db-only-published: page 404 sitemap no feed no index no
+  zqrv-renamed: page 404 sitemap no feed no index no
+3) delete a DB row that overrode a static post (ambli-bopal-evolution -> static fallback returns):
+  override marker before/after delete: 1/0; page 200

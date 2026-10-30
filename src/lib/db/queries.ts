@@ -174,14 +174,15 @@ export const getSupabaseAllPropertySlugs = cache(async function getSupabaseAllPr
   }
 });
 
+/** Every DB property slug, inactive ones included (an inactive row still owns its slug). */
 export const getSupabaseAllPropertySlugsWithDates = cache(async function getSupabaseAllPropertySlugsWithDates(): Promise<
-  { slug: string; updatedAt: string }[]
+  { slug: string; updatedAt: string; isActive: boolean }[]
 > {
   try {
-    const rows = await query<{ slug: string; updated_at: string }>(
-      "SELECT slug, updated_at FROM properties WHERE is_active = true"
+    const rows = await query<{ slug: string; updated_at: string; is_active: boolean | null }>(
+      "SELECT slug, updated_at, is_active FROM properties"
     );
-    return rows.map((r) => ({ slug: r.slug, updatedAt: r.updated_at }));
+    return rows.map((r) => ({ slug: r.slug, updatedAt: r.updated_at, isActive: r.is_active !== false }));
   } catch (err) {
     console.error("Unhandled error in getSupabaseAllPropertySlugsWithDates:", err);
     return [];
@@ -236,6 +237,7 @@ function mapDbBlogToBlogPost(db: any): BlogPost {
     updatedAt: db.updated_at || db.published_at,
     pendingReview: db.pending_review ?? false,
     source: db.source ?? "manual",
+    reviewNotes: db.review_notes || undefined,
   };
 }
 
@@ -253,7 +255,7 @@ export const getSupabaseBlogs = cache(async function getSupabaseBlogs(onlyActive
 export const getSupabaseBlogBySlug = cache(async function getSupabaseBlogBySlug(slug: string): Promise<BlogPost | null> {
   try {
     const row = await queryOne(
-      "SELECT * FROM blogs WHERE (slug = $1 OR slug = $2) AND is_active = true AND pending_review = false LIMIT 1",
+      "SELECT * FROM blogs WHERE slug = $1 OR slug = $2 ORDER BY (is_active = true AND pending_review = false) DESC, created_at DESC LIMIT 1",
       [slug, `/${slug}`]
     );
     return row ? mapDbBlogToBlogPost(row) : null;

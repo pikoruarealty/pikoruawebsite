@@ -188,11 +188,11 @@ const ALL_STATIC_BLOG_POSTS: BlogPost[] = [
       "### 3. Shilaj and Vaishno Devi: Plotted and Villa Hubs",
       "For buyers prioritizing land and independent living, the Shilaj and Vaishno Devi corridors are the primary beneficiaries of capital inflows. Shilaj offers premium gated villa communities with quick access to the western business districts, while Vaishno Devi serves as a major growth corridor due to its proximity to the SG Highway and the northern expansion zone. Investors here benefit from relatively lower entry points and high appreciation headroom on land parcels.",
       "### 4. Key Factors Influencing 2026 Growth",
-      "Successful investments in 2026 will depend on three major factors: RERA compliance, developer track record, and design layout. Large-format single-floor apartments (5,000+ sq.ft.) are outperforming duplex formats in resale value due to their universal appeal and accessibility. Partnering with a private advisory like PIKORUA ensures access to off-market inventory in these high-appreciation zones before they reach public listings.",
+      "Successful investments in 2026 will depend on three major factors: RERA compliance, developer track record, and design layout. Many buyers prefer large-format single-floor apartments (5,000+ sq.ft.) to duplex formats for their accessibility; check resale evidence for the specific building rather than assuming a format premium. A private advisory like PIKORUA can introduce off-market inventory in these corridors before it reaches public listings.",
       "### 5. Thaltej: The Stable, Metro-Accessible Alternative",
-      "Thaltej is the sleeper corridor of western Ahmedabad's appreciation story. Less volatile than Iskon-Ambli and less dependent on commercial adjacency than Sindhu Bhavan Road, Thaltej has delivered consistent 8–12% annual appreciation over the past five years. The forthcoming Ahmedabad Metro Phase II east-west extension to Thaltej station represents the single most significant infrastructure catalyst for this corridor — metro access historically triggers a 15–25% pricing re-rating in Indian residential markets within 2–3 years of station opening.",
+      "Thaltej is one of several western Ahmedabad locations buyers may compare. Review building quality, verified rental demand, access, holding costs, and exit liquidity using dated evidence. Confirm the status of any transit project against official updates; planned access alone does not establish a property price effect.",
       "### 6. What Smart Investors Are Doing in 2026",
-      "The most sophisticated HNI and NRI investors in Ahmedabad's 2026 market are doing two things: first, acquiring near-possession or ready apartments in proven corridors (Iskon-Ambli, SBR) at current pricing before the metro connectivity re-rating arrives; second, taking early positions in plotted land in Shilaj and Vaishno Devi where the entry price is still below the long-term equilibrium value implied by the infrastructure pipeline. Both strategies are best executed through a private advisory that has access to off-market inventory in both categories.",
+      "Many HNI and NRI buyers in Ahmedabad's 2026 market compare two approaches: near-possession or ready apartments in established corridors (Iskon-Ambli, SBR), and plotted land in Shilaj and Vaishno Devi. They carry different holding costs, approval risks and exit liquidity, and neither should rest on an expected infrastructure-led price change. Both are best evaluated through a private advisory that has access to off-market inventory in both categories.",
       "### 7. What to Avoid",
       "Not all western Ahmedabad real estate is a good investment. Corridors and buildings to approach with caution include: high-density towers with more than 8 apartments per floor (resale is difficult); buildings without clear RERA registration or with pending legal challenges; corridors dependent on a single infrastructure catalyst that may be delayed; and properties priced at the top of the band for an area without clear scarcity justification. PIKORUA Realty's advisory process is explicitly designed to surface and eliminate these risk categories before any buyer introduction.",
     ],
@@ -331,3 +331,35 @@ export const STATIC_BLOG_POSTS: BlogPost[] = ALL_STATIC_BLOG_POSTS.map((post) =>
     avatar: getMediaUrl(post.author.avatar),
   },
 }));
+
+/** A database post is public only after it is active and out of review. */
+export function isPublishedBlogPost(post: BlogPost): boolean {
+  return post.isActive !== false && !post.pendingReview;
+}
+
+/**
+ * The public blog is made of published database posts plus static posts that
+ * have no database row. An inactive or pending row intentionally suppresses
+ * its same-slug static fallback.
+ */
+export function getPublishedBlogPosts(databasePosts: BlogPost[]): BlogPost[] {
+  const postsBySlug = new Map<string, BlogPost>();
+  for (const post of databasePosts) {
+    if (!post.slug) continue;
+    const existing = postsBySlug.get(post.slug);
+    if (!existing || (isPublishedBlogPost(post) && !isPublishedBlogPost(existing))) {
+      postsBySlug.set(post.slug, post);
+    }
+  }
+
+  return [
+    ...[...postsBySlug.values()].filter(isPublishedBlogPost),
+    ...STATIC_BLOG_POSTS.filter((post) => !postsBySlug.has(post.slug)),
+  ];
+}
+
+/** Resolve a requested blog slug using the same publication rule as its sitemap. */
+export function resolvePublicBlogPost(slug: string, databasePost: BlogPost | null): BlogPost | null {
+  if (databasePost) return isPublishedBlogPost(databasePost) ? databasePost : null;
+  return STATIC_BLOG_POSTS.find((post) => post.slug === slug) ?? null;
+}

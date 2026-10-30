@@ -14,6 +14,7 @@ import {
 import { generateComboPage } from "@/lib/data/combo-content-engine";
 import { getRelatedCombos } from "@/lib/data/combo-linker";
 import { ALL_STATIC_COMBO_PARAMS } from "@/lib/data/combo-seeder";
+import { isComboIndexable, matchComboProperties } from "@/lib/data/combo-matching";
 import { ProgrammaticPageTemplate } from "@/components/seo/ProgrammaticPageTemplate";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { ENTITY_IDS } from "@/lib/entity-profile";
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: ComboPageProps): Promise<Meta
   if (!parsed?.location) return {};
 
   const page = generateComboPage(parsed);
-  const properties = matchProperties(parsed);
+  const properties = matchComboProperties(parsed, STATIC_PROPERTIES);
 
   return createMetadata({
     title: page.title,
@@ -52,60 +53,8 @@ export async function generateMetadata({ params }: ComboPageProps): Promise<Meta
       ...(parsed.budget ? [parsed.budget.label] : []),
       ...(parsed.intent ? [parsed.intent.label] : []),
     ],
-    // Apply noindex if no properties match — set after property matching below
-    noIndex: properties.length === 0,
+    noIndex: !isComboIndexable(parsed, properties),
   });
-}
-
-/** Match properties against the combo using simple keyword matching. */
-function matchProperties(parsed: ParsedCombo) {
-  const loc = parsed.location;
-  const type = parsed.type;
-  const bhk = parsed.bhk;
-  const budget = parsed.budget;
-
-  return STATIC_PROPERTIES.filter((p) => {
-    // Location match
-    if (loc) {
-      const locSlug = loc.slug.toLowerCase();
-      const propLoc = (p.locationLabel ?? "").toLowerCase();
-      const propSlug = (p.location ?? "").toLowerCase();
-      if (!propLoc.includes(locSlug) && !propSlug.includes(locSlug) &&
-          !locSlug.split("-").some((word) => propLoc.includes(word) || propSlug.includes(word))) {
-        return false;
-      }
-    }
-
-    // Type match
-    if (type && p.category) {
-      const typeMap: Record<string, string[]> = {
-        "luxury-flats": ["apartment", "condo", "condominium"],
-        "penthouses": ["penthouse", "penthouse-suite"],
-        "villas": ["villa", "bungalow", "townhouse", "townhome", "row-house", "estate"],
-        "duplex": ["duplex", "duplex-condo"],
-        "office-space": ["commercial-office", "office", "office-condo"],
-        "retail-space": ["commercial-retail", "retail", "showroom"],
-        "commercial-plots": ["commercial-plot", "plot"],
-        "warehouse": ["warehouse"],
-      };
-      const validCategories = typeMap[type.slug] ?? [];
-      if (validCategories.length > 0 && !validCategories.some((c) => p.category?.includes(c))) {
-        return false;
-      }
-    }
-
-    // BHK match
-    if (bhk && type?.bhkApplicable && p.configuration) {
-      if (!p.configuration.includes(bhk.shortLabel)) return false;
-    }
-
-    // Budget match (basic — properties need a parseable price)
-    if (budget && p.price) {
-      return true;
-    }
-
-    return true;
-  }).slice(0, 12);
 }
 
 function buildSchemas(parsed: ParsedCombo, page: ReturnType<typeof generateComboPage>, pageUrl: string) {
@@ -189,12 +138,11 @@ export default async function ComboPage({ params }: ComboPageProps) {
   if (!parsed) notFound();
 
   const page = generateComboPage(parsed);
-  const properties = matchProperties(parsed);
+  const properties = matchComboProperties(parsed, STATIC_PROPERTIES);
   const relatedLinks = getRelatedCombos(parsed);
   const pageUrl = absoluteUrl(page.href);
 
-  // Set noindex if no properties match
-  if (properties.length === 0) {
+  if (!isComboIndexable(parsed, properties)) {
     page.noindex = true;
   }
 

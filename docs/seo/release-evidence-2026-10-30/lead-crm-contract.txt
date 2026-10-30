@@ -1,0 +1,32 @@
+discovery    200 {"ok":true,"leadId":"1515fa73-d90b-4658-948c-3e93056983be"}
+enquiry      200 {"ok":true,"leadId":"b03a6a59-2a1a-4a01-bea5-0d43c6e1aa7a"}
+callback     200 {"ok":true,"leadId":"7d73487a-a024-4297-ad1d-34db871d4e8d"}
+consultation 200 {"ok":true,"leadId":"f5f4884b-cf10-420c-a557-aa0ced757c76"}
+contact      200 {"ok":true,"leadId":"4cb71b4d-add6-43ee-86e3-f928f7b4e198"}
+popup        200 {"ok":true,"leadId":"a3e97c89-e705-4ebf-a0f0-7b90fbe899f8"}
+invalid(empty body)   422 {"error":"Validation failed","fields":{"name":["Invalid input: expected string, 
+invalid(bad phone)    422 {"error":"Validation failed","fields":{"phone":["Enter a valid 10-digit Indian m
+honeypot              200 {"ok":true}
+unknown source        400 {"error":"Unknown submission source"}
+
+== DB rows (synthetic only)
+  discovery|apartment|5-7cr|investment|thaltej|thaltej+sg-highway|t|0|0|created
+  enquiry||||||f|1|0|created
+  callback||||||f|0|0|created
+  consultation||||||f|0|1|created
+  contact||10cr-plus||||f|0|0|created
+  popup||||||f|0|0|created
+  enquiry ref=zqrv-prop-active msg=ZQRV enquiry message
+  consult 2026-11-05 10:00 nri ZQRV consult notes
+
+== CRM contract
+no key        401
+wrong key     401
+valid key     leads returned: 6 | keys: ['count', 'leads', 'next_since']
+  sources: ['callback', 'consultation', 'contact', 'discovery', 'enquiry', 'popup']
+  enquiry child rows: True | consultation child rows: True
+ack           200 {"ok":true,"synced":["1515fa73-d90b-4658-948c-3e93056983be","b03a6a59-2a1a-4a01-
+ack no key    401
+unsynced after ack: 0
+  crm_synced=true: 6/6
+  crm_synced events: 6

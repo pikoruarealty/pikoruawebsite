@@ -22,7 +22,7 @@
 import { NextResponse } from "next/server";
 import { AI_ANSWER_BLOCKS } from "@/lib/ai/answer-blocks";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
-import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
+import { getPublishedBlogPosts } from "@/lib/data/blog";
 import { PARTNER_DEVELOPER_NAMES, PARTNER_SEARCH_PHRASES, PORTFOLIO_PROJECT_NAMES } from "@/lib/data/developer-partners";
 import { LOCATION_LANDING_PAGES, NRI_LANDING_PAGES, PROPERTY_TYPE_LANDING_PAGES } from "@/lib/data/geo";
 import {
@@ -59,11 +59,8 @@ export async function GET() {
     if (dbProps.length > 0) liveProperties = dbProps;
   } catch { /* fall back to static */ }
 
-  let liveBlogPosts = STATIC_BLOG_POSTS;
-  try {
-    const dbBlogs = await getSupabaseBlogs(true);
-    if (dbBlogs.length > 0) liveBlogPosts = dbBlogs;
-  } catch { /* fall back to static */ }
+  // Same publication rule as the post pages and /sitemap/blog.xml.
+  const liveBlogPosts = getPublishedBlogPosts(await getSupabaseBlogs(false));
 
   let testimonialLines: string[] = [];
   try {

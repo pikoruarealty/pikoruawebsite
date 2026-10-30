@@ -1,0 +1,95 @@
+# Release review: SEO, blog publication and automation changes (`vps-migration`, 30 Oct 2026)
+
+For the release approver and the VPS operator. Nothing here has been committed, pushed, deployed or run against production.
+
+**Recommendation: ready for approval, subject to gates G1–G5 below.** No open code defect blocks the release. The gates are operational: a backup, an exact committed artifact, a named owner for lead follow-up, and a decision on the investment claims. Testing covered the scope described in §4 only, so this is not a promise that nothing can break.
+
+---
+
+## 1. State reviewed
+
+- Branch `vps-migration`. Production runs commit `091c9e0` (the current `HEAD`). Everything under review is **uncommitted** working-tree changes: 31 tracked files modified, plus new files (the pipeline, quality gate, topic queue, route resolver, combo matching, cron route, migration 014, scripts and `docs/seo/`).
+- Preserved: the `.gitignore` edit (private-runbook exclusion) and `WhatsApp Image 2026-10-24 at 14.36.20 1.png`. Both are byte-identical to their state at the start of the review (SHA-256 checked). The image has nothing to do with this release, so **do not `git add -A`**.
+
+## 2. Findings (most severe first) and what was done
+
+| # | Severity | Finding | Evidence | Action |
+|---|---|---|---|---|
+| 1 | High | **Blog sitemap never refreshed after admin changes.** The cached `/sitemap/blog.xml` entry is tagged with the public rewrite path (`_N_T_/sitemap/blog.xml`), but the code revalidated only `/xml-sitemap/blog.xml`. Approved posts stayed out of the sitemap, and deactivated posts stayed in it, for up to 24 h. This also applied to the pipeline's existing publish call. | Live build: cache `HIT` with stale content after `approveBlogDraft`, and the cache meta tags showed the cause. | New `src/lib/blog-revalidation.ts` revalidates both path forms, plus the feed, index, `llms*.txt` and the old and new slug on a rename. Admin and pipeline use it. Re-verified: sitemap, page, feed and index all update on the next request (`release-evidence-2026-10-30/admin-cache-refresh.txt`). |
+| 2 | High | **Blog index, RSS feed, `llms.txt` and `llms-full.txt` used a different publication rule** from the post pages and sitemap: DB posts only if any existed, otherwise *all* static posts. That meant (a) static-only posts were in the sitemap but missing from the index and feed, and (b) with no published DB post, withdrawn static posts were listed with links that 404. | Code review. Fixed behaviour verified across 10 fixture states (`blog-property-surfaces.txt`). | All four surfaces now use `getPublishedBlogPosts()`. |
+| 3 | Medium | **An inactive DB property hid nothing in the sitemap.** A static entry with the same slug kept the URL submitted, while the page renders the inactive DB row. | Fixture `5-bhk-3300-6300-sindhu-bhavan`. | `getSitemapPropertySlugs()` in `public-routes.ts`, plus a regression test. The admin property save/delete now refreshes the property sitemap. |
+| 4 | Medium | **Duplicate sitemap entries**: `/nri-property-investment-ahmedabad` and `/nri-property-consultant-ahmedabad` were in both `/sitemap.xml` and `/sitemap/geo.xml`. The crawler's `Set` hid them. | Hardened crawler. | Removed from the core sitemap; `geo.xml` lists them. |
+| 5 | Medium | **The crawler could report a clean run on broken sitemaps**: a non-200 child was only logged (exit 0), and empty children, raw duplicates, `X-Robots-Tag` noindex and hidden FAQ *answers* were not checked. | Mock server: 500 child and empty child. Exit 1 now. | `scripts/seo-crawl-check.ts` hardened. |
+| 6 | Medium | **Contradiction introduced by the claim edits**: in `/blog/capital-appreciation-hotspots-western-ahmedabad`, paragraph 5 was rewritten ("planned access alone does not establish a property price effect"), but paragraph 6 still advised buying "before the metro connectivity re-rating arrives". | `src/lib/data/blog.ts:191,195`. | Both sentences rewritten narrowly (recorded in the addendum). |
+| 7 | Medium | **The claims tracker is accurate but not exhaustive.** 16 more rendered, untracked performance or market claims remain, several with specific figures (e.g. "appreciated 14–22% in 2025 — outperforming Mumbai…"). | Sweep plus route cross-check. | Listed in `content-claims-review-addendum-2026-10-30.csv` for management (gate G4). The 75-row tracker is unchanged. |
+| 8 | Low (latent) | `checkSession()` accepted a computable cookie if `ADMIN_PASSWORD` were ever unset (login refused in that state, the guard did not). | Code review. | One-line guard added. |
+| 9 | Low | `revalidateTag("blogs")` was a no-op (nothing carries that tag; DB reads use React `cache()`), and comments claimed it flushed pages. | `grep`; Next 16.2.7 docs. | Removed from the blog paths. Comments corrected. |
+| 10 | Docs | CLAUDE.md said PM2 (Compose since `eb86bf0`); the migration plan said "not started"; the blog report ran the migration after deploy and said to "reinstall" the Nginx file. | — | Corrected (CLAUDE.md, `rate-limit.ts` comment, plan status note, report §7). |
+
+**Not changed — pre-existing, recorded for follow-up (non-blocking):**
+- **DB outage behaviour.** Every DB read catches errors and returns empty or null. During an outage (or a build without DB access), static posts that a DB row had withdrawn reappear, and published DB-only posts 404. The 404 is then cached for up to 24 h. Whether the first case matters depends on production data: run read-only query Q1 (§5). Proposed follow-up: let blog reads throw, so ISR keeps serving the last good page. This changes failure semantics site-wide, so it was not done in a release review.
+- Inactive DB properties still render at 200 with `index, follow` (they're only kept out of the sitemap). Decide whether they should 404, show "no longer available", or be noindexed.
+- `/properties` shows DB rows only when any exist, so static-only properties are in the sitemap but not the listing. The listing also links to the redirecting legacy slug if its DB row is active.
+- The rate limiter keys on the first `X-Forwarded-For` value, which Nginx (`$proxy_add_x_forwarded_for`) passes through from the client, so the lead limit is bypassable. Fix: key on `X-Real-IP` / Cloudflare's `CF-Connecting-IP` behind `real_ip` config.
+- Migrations 001–014 replayed on an empty DB don't create `blogs.html_content` and `blogs.faqs` (dashboard drift that came in with the dump). Disaster recovery must restore from dumps, or a migration should capture the drift.
+- Full `npm run lint`: 180 errors in 5 files (admin dashboard/actions/page, `db/queries.ts`, `scratch/test_ai_news.js`), **identical at `HEAD` and in this tree**, so none are new.
+- The UI only sends `discovery`, `contact`, `enquiry` and `popup` leads. `callback` and `consultation` exist only at the API level.
+
+## 3. Reconciled numbers
+
+- **29 baseline 404s**: CSV rows match the saved live baseline exactly (8 Ahmedabad slug mismatches, 20 locality-format, 1 NRI). Those routes use `dynamicParams = false`, so the entries render at no URL and never had live equity. None of the 20 locality entries has an `/ahmedabad/locations/…` equivalent, and `page-map.csv` already maps the main long-tail intents elsewhere. Keeping them as 404s is justified; no redirects were added.
+- **Sitemaps (local, synthetic DB):** 6 files, 651 entries, 651 unique, all 200, self-canonical and indexable. 0 errors. 465 title-length and 2 description-length warnings. The fixture-independent part is **620** (core 19, content 36, geo 130, combo batch 435). Blog (10) and property (21) URLs depend on DB rows, so production will differ. Codex's 650 used different fixtures and its `Set` hid the 2 duplicates. The older 661 came from a different snapshot that can no longer be reproduced.
+- **Claims tracker (75 rows):** classes 61 / 5 / 5 / 2 / 2 and dispositions 60 rewritten/fixed, 10 management verification, 4 route-mismatch, 1 orphan: both total 75. All 60 "fixed" claims are gone from source: 9 matched only on a retained FAQ question or list lead-in, and their changed text was checked one by one. All 10 management claims are still present. The 4 route-mismatch rows are on non-rendering pages. "Zero open rows" does not mean everything is substantiated (finding 7).
+
+## 4. What was tested, and where
+
+Environment: an isolated copy of the working tree with **no `.env.production`**, a throwaway **PostgreSQL 17.11** cluster on loopback (same major as Compose), synthetic `zqrv` fixtures, random test secrets, and **no** OpenRouter, IndexNow or Google keys. `BLOG_AUTOPUBLISH=false`, `SEO_COMBO_STRICT_MATCHING=false`. The production `server.js` standalone bundle was used. No production DB, CRM, staff or customer was contacted. (Next.js loads `.env.production` automatically for `next build`/`next start`, so running them in the repo folder loads production settings. That is the likely source of the earlier "cannot resolve `db`" build.)
+
+Verified locally (evidence in `docs/seo/release-evidence-2026-10-30/`):
+- `npm run check` passes: 22 answer blocks / 241 routes, 24 pipeline tests, routing tests including the new collision and all-unpublished cases, scoped lint, typecheck. `git diff --check` is clean. Production build passes (812 static pages) with no DB errors; seeded DB-only fixtures appear in the rendered pages and sitemaps, which proves the DB was really used.
+- Migrations 001–013, then 014 twice with `-1` and `ON_ERROR_STOP`: the second run only emits "already exists" notices. FK `ON DELETE SET NULL`, the started-at index, the status check, and the single-running-run unique index (rejects a second `running` row) were all confirmed.
+- Blog publication across detail, index, feed, `llms.txt`, `llms-full.txt` and sitemap for: published, pending, inactive, active-but-pending, DB override of a static post, pending/inactive suppressors, leading-slash slug, and two rows normalising to one slug. The OG image of a withdrawn post shows only generic text.
+- Admin (real server actions): unauthenticated approve refused, wrong password refused, approve / deactivate + rename / delete all refresh every surface immediately.
+- Automation with no AI key: the dry run is logged `failed` and stops after one attempt. The run lock skips; a stale run expires and is recovered; a missing table gives a 500 with a generic message. No blog row was ever written.
+- Leads: all six sources return 200 with the correct child rows, `created` events and field mapping. `is_hot` trigger fires. Invalid input → 422, honeypot → silent 200 with no row, unknown source → 400. A DB failure → 500 with the transaction rolled back. All four UI forms check `res.ok` before redirecting. CRM: no key or a wrong key → 401; valid key returns 6 leads with child rows; ACK → `crm_synced` on 6/6 with 6 events.
+- Crawl and links: 658 pages scanned (all sitemap pages plus thank-you, filtered listings, hubs, a 404 and a withdrawn post): 2,061 internal link targets, 0 broken, 0 links to the 29 baseline 404s. New redirects return 308. `/sitemap/p-99.xml` returns 404.
+
+**Not verified** (needs production or a browser): real browser and mobile rendering (no browser automation was available), popups and WhatsApp links, client-side errors, gallery behaviour, admin uploads; Cloudflare caching of sitemaps and feeds; real OpenRouter output; real CRM pickup; any lead notification (none exists); live SEO effect.
+
+## 5. Release gates
+
+| Gate | Owner | Exact next action |
+|---|---|---|
+| **G1 Backup** (none automated today) | VPS operator | Before anything else: a custom-format dump of the website DB (`pg_dump -Fc` via `docker exec`), a tar of the media folder, a copy of the live Nginx site file and `.env.production` stored securely, a note of the running image ID, and `crontab -l` for the deploy user. Check the dump with `pg_restore --list` and keep it off the server. |
+| **G2 Exact artifact** | Developer + approver | Review this diff and commit **named files only** (not the WhatsApp image or Codex screenshots and logs), then push. Note the commit SHA. `deploy.sh` deploys only that pushed SHA, never this working tree. |
+| **G3 Lead follow-up owner** | Management | Today leads reach **only `/admin`**: no notification, and the CRM is not switched (the runbook recorded no calls to `/api/crm/leads` as of 29 Oct). Name the person who checks `/admin` and how often. The real CRM switch and ACK test are separate and still pending. This release doesn't change the risk, but don't treat lead delivery as verified. |
+| **G4 Claims** | Management | Either supply evidence for the 10 retained claims (source, period, sample size and selection, methodology, gross vs net, limitations), or approve the fallback wording below. Decide on the 16 addendum items. Content-only, so it can follow the code release if management accepts that interval. |
+| **G5 Read-only checks** | VPS operator | Q1 `SELECT ltrim(slug,'/') AS slug, is_active, pending_review FROM blogs WHERE ltrim(slug,'/') IN ('ambli-bopal-evolution','discretion-in-high-value-transactions','rise-of-single-floor-penthouses','nri-guide-asset-curation-gujarat','nri-residential-buying-checklist-gujarat','capital-appreciation-hotspots-western-ahmedabad','stamp-duty-registration-ahmedabad-2026','sindhu-bhavan-road-luxury-market-guide','5-bhk-vs-penthouse-ahmedabad');` (rows with `is_active=false` or `pending_review=true` are withdrawn static posts: confirm that's intended). Q2 `SELECT to_regclass('public.blog_automation_runs'), (SELECT count(*) FROM information_schema.columns WHERE table_name='blogs' AND column_name='review_notes');` (is 014 already applied?). Q3 `SELECT slug FROM properties WHERE NOT is_active;` (these pages still render, see §2). |
+
+**Fallback wording if evidence can't be supplied** (narrow changes for management review): replace each figure with *"PIKORUA keeps internal records of selected transactions in this corridor. Past results varied widely by building, entry price and holding period and do not predict future returns; ask us for a property-specific analysis with dated comparables."* For the two yield claims (`content-hubs.ts:453`, `:1037`): *"Gross rental yield depends on the specific property, rent achieved, vacancy and costs; we calculate it per property from a verified lease."* For `nri-geo-pages.ts:195`: drop the 40–60% figure and keep the rupee/currency-risk discussion.
+
+## 6. Operator release sequence (after G1–G5 and written approval)
+
+All commands run in the repo directory on the VPS and touch only the `pikorua-website` Compose project. Never run them in the shell where `.env.production` values are echoed. Off-peak only.
+
+1. **Pre-checks.** `git status` is clean on the VPS checkout; `docker compose --env-file .env.production ps` shows both containers up and db healthy; `pgrep -af "compose.*build"` shows no build running.
+2. **Rollback point.** `docker tag "$(docker inspect -f '{{.Image}}' pikorua-website-app)" pikorua-website:rollback` (re-tag every release).
+3. **Migration 014** (skip if Q2 shows it is applied; it's safe to repeat anyway):
+   `docker exec -i pikorua-website-db psql -U pikorua_app -d pikorua -v ON_ERROR_STOP=1 -1 < supabase/migrations/014_blog_automation_runs.sql`, then re-run Q2. It's additive and the running `091c9e0` ignores it. Do **not** replay 001–013 or `deploy/sql/post_restore.sql`, and don't restore, rewrite URLs or touch DNS.
+4. **Configuration** (names only; values stay in `.env.production`): confirm `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SITE_LIVE=true`, `DATABASE_URL` (runtime, `db` host) and `BUILD_DATABASE_URL` (build, loopback) both point at this DB, `MEDIA_DIR`, `ADMIN_EMAIL`, a non-empty `ADMIN_PASSWORD`, and `CRM_API_KEY`. Keep `BLOG_AUTOPUBLISH=false` and `SEO_COMBO_STRICT_MATCHING=false`. **Leave `CRON_SECRET` unset** for this release, and add no crontab entry: automation is a separate approval (see `BLOG_AUTOMATION_REPORT.md` §7, which first requires the live Nginx `/api/cron/` block).
+5. **Deploy** `./deploy/deploy.sh` (runs `git pull --ff-only`, starts db, builds, swaps app). Check that it prints the approved SHA. The build needs the DB and Google Fonts; a failed build leaves the old container serving.
+6. **Verify on the server** (`127.0.0.1:3100`) **and publicly:**
+   - `/`, `/properties`, `/about`, `/testimonials`, `/contact`, `/blog`, `/nri`, and one property, locality, NRI, invest and compare page return 200. `/shilaj-properties` returns 308.
+   - `/sitemap.xml`, `/sitemap/index.xml` and each child return 200 with URLs. Run `npm run check:seo-crawl -- --base http://127.0.0.1:3100 --skip-combos` from a checkout: 0 sitemap errors, 0 URL errors.
+   - Published blog posts appear in `/blog`, the feed and `/sitemap/blog.xml`; withdrawn ones in none.
+   - Publicly, `/api/crm/leads` → 404; `/api/cron/auto-blog` → 401 (404 once Nginx is updated). `POST /api/leads` with an empty body → 422.
+   - One approved synthetic enquiry through the real browser form (name it clearly as a test). Confirm it appears in `/admin` and the DB, then delete it **with its child rows and events**, and tell whoever watches `/admin`. Don't ACK it via the CRM feed unless the CRM owner agrees.
+   - In `/admin`, toggle a blog post Inactive and back. The sitemap and index should follow on the next request. Check `cf-cache-status` on `/sitemap/blog.xml`; if Cloudflare caches it, purge after admin changes.
+   - Log scan: `docker logs --since 10m pikorua-website-app | grep -iE "error|failed"` (known `NoFallbackError` bot noise aside). Nothing like `Failed to save lead` or DB connection errors.
+
+## 7. Rollback
+
+- **Triggers:** any core page or sitemap non-200; lead POST not returning 200/422 as expected, or a lead missing from the DB; admin login or saves failing; new DB or `Failed to save lead` errors; crawl errors that weren't there before. Owner: the VPS operator, with the approver informed.
+- **App rollback (about 10 s):** `docker tag pikorua-website:rollback pikorua-website:latest && docker compose --env-file .env.production up -d --no-build app`. Restore `.env.production` from the G1 copy if it was changed.
+- **Leave the database alone.** Migration 014 is additive and the old code ignores it, so leads and admin edits made after deploy stay in place. Restore the G1 dump only for real data corruption: restore it into a scratch database first, export the leads, `lead_events` and content rows created after the backup time, restore, then re-insert them, and reconcile lead counts against `/admin`.
+- If a scheduler was enabled separately, remove its crontab line. Setting `BLOG_AUTOPUBLISH=false` alone is **not** a website rollback.

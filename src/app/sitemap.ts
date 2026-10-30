@@ -2,25 +2,18 @@ export const revalidate = 86400;
 
 import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/lib/seo";
-import { getTotalComboBatches } from "@/lib/data/combo-seeder";
 
 /**
- * Sitemap index — lists all sub-sitemaps.
+ * Core-page sitemap (/sitemap.xml) — hand-built hub pages only.
  *
- * Google accepts sitemap index files at /sitemap.xml.
- * Each sub-sitemap contains up to 2,500 URLs (well under the 50,000 limit).
- *
- * Sub-sitemaps:
- *   /sitemap/geo.xml        — 90+ GEO landing pages
- *   /sitemap/properties.xml — property detail pages
- *   /sitemap/p-0.xml        — first 2,500 combo pages (highest priority)
- *   /sitemap/p-1.xml …      — remaining combo batches
- *
- * The actual URL lists are generated in /sitemap/[id]/route.ts.
+ * Generated pages live in the sub-sitemaps listed by /sitemap/index.xml
+ * (content, blog, geo, properties, p-N), served by
+ * src/app/xml-sitemap/[id]/route.ts. Both sitemaps are declared in
+ * robots.txt. Sub-sitemap files are not listed here: a <urlset> may only
+ * contain page URLs.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date("2026-07-21T12:00:00Z");
-  const totalBatches = getTotalComboBatches(2500);
 
   const sitemapUrls: MetadataRoute.Sitemap = [
     // Core pages
@@ -34,8 +27,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/property-types"), lastModified, changeFrequency: "weekly", priority: 0.88 },
     { url: absoluteUrl("/gift-city"), lastModified, changeFrequency: "weekly", priority: 0.88 },
     { url: absoluteUrl("/nri"), lastModified, changeFrequency: "weekly", priority: 0.95 },
-    { url: absoluteUrl("/nri-property-investment-ahmedabad"), lastModified, changeFrequency: "weekly", priority: 0.90 },
-    { url: absoluteUrl("/nri-property-consultant-ahmedabad"), lastModified, changeFrequency: "weekly", priority: 0.90 },
+    // /nri-property-investment-ahmedabad and /nri-property-consultant-ahmedabad
+    // are geo landing pages, listed in /sitemap/geo.xml — not repeated here.
     { url: absoluteUrl("/compare"), lastModified, changeFrequency: "monthly", priority: 0.72 },
     { url: absoluteUrl("/invest"), lastModified, changeFrequency: "monthly", priority: 0.75 },
     { url: absoluteUrl("/learn"), lastModified, changeFrequency: "monthly", priority: 0.72 },
@@ -60,31 +53,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/press"), lastModified, changeFrequency: "monthly", priority: 0.6 },
     { url: absoluteUrl("/privacy"), lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: absoluteUrl("/terms"), lastModified, changeFrequency: "yearly", priority: 0.3 },
-    // Sub-sitemap references (helps some crawlers discover split sitemaps)
-    {
-      url: absoluteUrl("/sitemap/index.xml"),
-      lastModified,
-      changeFrequency: "daily",
-      priority: 0.5,
-    },
-    {
-      url: absoluteUrl("/sitemap/geo.xml"),
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: absoluteUrl("/sitemap/properties.xml"),
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
-    ...Array.from({ length: totalBatches }, (_, i) => ({
-      url: absoluteUrl(`/sitemap/p-${i}.xml`),
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    })),
   ];
 
   return sitemapUrls;

@@ -1,4 +1,6 @@
 import type { LocationSlug, ResidentialCategory } from "@/types";
+// Related-page helpers skip data pages whose href 404s (see public-routes.ts).
+import { isRenderableGeoPage } from "@/lib/data/public-routes";
 import type { StaticProperty } from "@/lib/data/properties";
 import { propertyMatchesCategoryIntent } from "@/lib/propertyFilters";
 import { ALL_AHMEDABAD_SEO_PAGES, AHMEDABAD_TYPE_PAGES, AHMEDABAD_FILTER_PAGES, AHMEDABAD_LONGTAIL_PAGES } from "@/lib/data/ahmedabad-seo-pages";
@@ -447,7 +449,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "How does the Ahmedabad Metro Phase II affect Thaltej property values?",
         answer:
-          "The proposed Thaltej Metro Station on the east-west Phase II corridor is expected to trigger a 15–25% pricing re-rating, consistent with metro-adjacent residential re-ratings observed in other Indian markets. Early buyers in Thaltej before station completion stand to benefit from this infrastructure-led appreciation.",
+          "Check the official status and timing of any proposed transit project. Compare completed local transactions and assess current connectivity, holding costs, and exit options; planned infrastructure does not establish a future property price change.",
       },
     ],
     relatedSlugs: ["iskon-ambli", "shilaj", "luxury-apartments-ahmedabad"],
@@ -532,7 +534,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       "### What to Check Before Buying in Shilaj",
       "The diligence requirements for Shilaj purchases are more intensive than for apartment transactions. Buyers must verify: (a) that the land is classified as non-agricultural (NA) and has correct residential zoning under the Ahmedabad Urban Development Authority (AUDA) town planning scheme; (b) that approach road width meets minimum standards for clear vehicular access; (c) that utilities (water, electricity, sewage) are connected or have a clear connection pathway; and (d) that any society maintenance structure has a functional committee and clear charge schedule. PIKORUA Realty coordinates all diligence through empanelled property lawyers and surveyors.",
       "### NRI Suitability",
-      "Shilaj is particularly well-suited for NRIs who intend to build a custom private residence in Ahmedabad over a 3–7 year horizon. Purchasing a residential plot under FEMA is straightforward (general permission, no RBI approval needed) and allows the NRI to control construction phasing, design brief, and future use — whether as a family home, seasonal residence, or long-term rental asset. Land parcels in Shilaj have historically appreciated at 12–18% CAGR over 10-year windows, making them among the strongest land-backed investments in Gujarat.",
+      "Shilaj is particularly well-suited for NRIs who intend to build a custom private residence in Ahmedabad over a 3–7 year horizon. Purchasing a residential plot under FEMA is straightforward (general permission, no RBI approval needed) and allows the NRI to control construction phasing, design brief, and future use — whether as a family home, seasonal residence, or long-term rental asset. Compare Shilaj land parcels using title, zoning, access, completed sales, holding costs, and exit liquidity. Past price changes do not establish a future return.",
       "### Connectivity from Shilaj",
       "Shilaj is approximately 6 km from the SG Highway interchange and 8 km from Iskon-Ambli Road. The corridor is served by the BRTS Bopal route, with the proposed Ghuma-Science City metro extension expected to further improve connectivity by 2028. Sardar Vallabhbhai Patel International Airport is approximately 30 minutes by car, making Shilaj practical for frequent business travellers despite its low-density, village-adjacent character.",
     ],
@@ -798,7 +800,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
     title: "Luxury Property near Rajpath Club, Ahmedabad",
     h1: "Luxury Property near Rajpath Club",
     description:
-      "Premium residences and luxury properties near Rajpath Club — Ahmedabad's most prestigious social club address on SG Highway.",
+      "Premium residences and luxury properties near Rajpath Club and Rajpath Rangoli Road, Bodakdev — one of Ahmedabad's most prestigious addresses on SG Highway.",
     heroImage: "/properties/swati-senor/swati-senor-2-hall.jpg",
     intro:
       "Rajpath Club on SG Highway is Ahmedabad's most prestigious social address. Properties within 1–2 km of the club carry a distinct prestige premium, attracting HNI buyers who value both lifestyle access and the social cachet of a Rajpath Club-adjacent address.",
@@ -822,6 +824,11 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
         question: "What type of luxury properties are available near Rajpath Club in Ahmedabad?",
         answer:
           "The Rajpath Club neighbourhood primarily features luxury 4 BHK and 5 BHK apartments in premium towers, bungalow estates in private lanes, and a small number of sky-mansion and penthouse residences in newer developments on and off SG Highway.",
+      },
+      {
+        question: "Where is Rajpath Rangoli Road in Ahmedabad?",
+        answer:
+          "Rajpath Rangoli Road is in Bodakdev, on the SG Highway side of west Ahmedabad, beside Rajpath Club; addresses on it are also written as Rajpath Club Road, and some are filed under Thaltej. With Sindhu Bhavan Road it is one of Bodakdev's main streets, so homes on it are usually compared with the Rajpath Club, Sindhu Bhavan Road and Thaltej micro-markets.",
       },
       {
         question: "Which corridors are closest to Rajpath Club?",
@@ -2014,7 +2021,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/penthouses-ahmedabad",
     label: "Penthouses And Duplexes",
     eyebrow: "Property Type",
-    title: "Penthouses in Ahmedabad | Luxury Duplex & Sky Villas",
+    title: "Luxury Penthouses & Duplexes in Ahmedabad",
     h1: "Penthouses and Duplex Homes in Ahmedabad",
     description:
       "Private advisory for luxury penthouses, duplex homes, and sky villas in Ahmedabad across Iscon-Ambli, Sindhu Bhavan Road, Thaltej, and SG Highway.",
@@ -2286,7 +2293,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     relatedSlugs: ["luxury-bungalows-ahmedabad", "luxury-villas-ahmedabad", "shilaj", "vaishno-devi"],
     bodyContent: [
       "### Residential Plots in Ahmedabad: Land as a Long-Term Asset",
-      "Premium residential plots in Ahmedabad represent one of the most compelling long-term wealth preservation assets available to HNI and NRI buyers. Unlike an apartment — which depreciates through use and maintenance intensity — a correctly positioned residential plot appreciates through both land scarcity and infrastructure development. The western Ahmedabad belt (Shilaj, Vaishno Devi, Bopal-Ghuma, Sanand Road) has historically delivered land appreciation of 12–20% CAGR over 10-year horizons, significantly outperforming many equity benchmark periods on a risk-adjusted basis.",
+      "Premium residential plots in Ahmedabad represent one of the most compelling long-term wealth preservation assets available to HNI and NRI buyers. Unlike an apartment — which depreciates through use and maintenance intensity — a correctly positioned residential plot appreciates through both land scarcity and infrastructure development. Compare land parcels with dated, like-for-like completed transactions and include title, zoning, infrastructure, holding costs, and liquidity risks. Do not infer future land returns from past price changes or broad equity comparisons.",
       "### What 'Premium' Means for Plots in Ahmedabad",
       "Not all residential plots are equal. A 'premium' residential plot in Ahmedabad meets four specific criteria: (a) clear title with no encumbrances in the past 30-year chain; (b) classified as Non-Agricultural (NA) with residential zoning under the relevant TP (Town Planning) scheme; (c) minimum 18-foot approach road with independent entry (corner or double-frontage plots command a 15–25% premium); and (d) location within a zone with completed or committed utility infrastructure (water, power, sewage). Plots that fail on any of these dimensions carry risk that brochure presentation obscures.",
       "### AUDA vs. AMC Jurisdiction",
@@ -2347,7 +2354,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "What rental yield can I expect from an investment property in Ahmedabad?",
         answer:
-          "Luxury residential properties in Ahmedabad typically generate rental yields of 2–4% annually on capital value in the primary corridors. Premium furnished 4 BHK and above apartments on Sindhu Bhavan Road and Iskon-Ambli Road rent at ₹60,000–₹1,50,000 per month, drawing tenants from senior executives, GIFT City professionals, and expat consultants.",
+          "There is no single rental-yield figure that applies across Ahmedabad. Estimate gross yield from current, comparable rent against the property's total purchase cost, then account for vacancy, maintenance, property tax, furnishing, brokerage and financing. Ask for recent lease evidence for the specific building and treat future rent or resale growth as uncertain.",
       },
       {
         question: "How much can NRIs repatriate after selling an investment property in Ahmedabad?",
@@ -2364,11 +2371,11 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     ],
     bodyContent: [
       "### Luxury Residential Investment in Ahmedabad: The Honest Framework",
-      "Ahmedabad's luxury residential market offers genuine investment upside — but only when acquisition decisions are made at the micro-market level, not at a city-level or macro-India level. The corridors that have historically outperformed (Iskon-Ambli, Sindhu Bhavan Road) did so because of structural scarcity, not speculation. The corridors that have underperformed did so because of oversupply in low-differentiation buildings on secondary roads. The key skill in Ahmedabad residential investment is distinguishing the former from the latter — a distinction that requires ground-level market intelligence, not brochure reading.",
+      "Ahmedabad's luxury residential market needs to be assessed at the property and micro-market level. Compare the building's legal status, condition, current asking price, recent comparable transactions, likely rent, vacancy risk, holding costs and resale demand. City-level averages and past performance elsewhere do not establish the return on a particular purchase.",
       "### Ready vs. Under-Construction: The Core Trade-off",
       "Ready or near-possession properties eliminate construction risk, allowing buyers to verify the finished quality before committing. However, they typically trade at a premium to under-construction pricing of 15–30% in the same building. Under-construction properties offer lower entry prices but require confidence in the developer's track record and financial stability, and carry a 2–4 year timeline risk. For NRI investors who are not in a hurry, a selective under-construction purchase in a proven developer's project in a strong corridor can deliver the best combined entry price and capital appreciation outcome.",
       "### Rental Yield as a Component of Return",
-      "Luxury residential properties in Ahmedabad generate rental yields of 2–4% annually on capital value in the primary corridors. This is lower than commercial properties but provides stable, low-maintenance income from a high-quality tenant profile: senior executives, GIFT City professionals, expat consultants, and CXOs of Ahmedabad-based corporations. Premium furnished apartments of 4 BHK and above on Sindhu Bhavan Road and Iskon-Ambli rent at ₹60,000–₹1,50,000 per month. Adding rental income to capital appreciation produces total return profiles that are attractive on a risk-adjusted basis for HNI portfolios.",
+      "Rental income depends on the specific unit, its condition and furnishing, lease terms, tenant demand and periods without a tenant. Compare recent leases in the same building with the full acquisition cost. Net income should also account for vacancy, maintenance, society charges, property tax, brokerage, furnishing and financing. Keep any estimate separate from uncertain future resale value.",
       "### Capital Gains and Repatriation for NRI Investors",
       "NRI investors should plan exit taxation from the acquisition stage. Long-term capital gains (LTCG) on residential property held for more than 24 months attract a 20% tax after indexation benefits. Short-term gains are taxed at the applicable income slab. Upon sale, NRIs can repatriate the proceeds of up to two residential properties to their country of residence per financial year, subject to filing Form 15CA/15CB and obtaining tax clearance. PIKORUA Realty's advisory process includes connecting investors with experienced tax advisors to structure entry and exit efficiently.",
     ],
@@ -2379,7 +2386,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/commercial-property-ahmedabad",
     label: "Commercial Properties",
     eyebrow: "Property Type",
-    title: "Premium Commercial Property in Ahmedabad — Office & Showroom",
+    title: "Commercial Property in Ahmedabad",
     h1: "Premium Commercial Properties in Ahmedabad",
     description:
       "Private advisory for premium commercial properties in Ahmedabad — luxury office spaces, showrooms, and weekend villas for HNI and corporate buyers.",
@@ -2426,7 +2433,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "### Premium Commercial Property in Ahmedabad: A Select Advisory Category",
       "PIKORUA Realty's core expertise is luxury residential real estate advisory. However, we selectively advise HNI and corporate clients on premium commercial property requirements in Ahmedabad — specifically luxury office spaces, flagship showrooms, and weekend villa estates — where the acquisition process benefits from the same discretion and relationship-led access that characterises our residential model.",
       "### Luxury Office Spaces in Ahmedabad",
-      "Ahmedabad's premium commercial office market is concentrated in Prahlad Nagar Corporate Road and select SG Highway buildings. Grade A office floors in Prahlad Nagar are the most institutionally credible address for corporate headquarters and regional offices. Pricing for outright purchase of premium office floors ranges from ₹8,000–₹15,000 per sq.ft. for well-specified buildings. Rental yields on commercial property in Ahmedabad range from 5–8% annually — significantly higher than residential yields — making premium office and showroom assets attractive for HNI investors seeking yield-generating commercial exposure.",
+      "Ahmedabad's premium commercial office market is concentrated in Prahlad Nagar Corporate Road and select SG Highway buildings. Grade A office floors in Prahlad Nagar are a considered option for corporate headquarters and regional offices. For an investment comparison, review recent leases and the full purchase cost for the specific building, then account for vacancy, tenant incentives, fit-out, maintenance, property tax, brokerage and financing. Gross rent alone does not establish net yield or make an asset suitable for an investor.",
       "### Flagship Showrooms and Retail Spaces",
       "Premium showroom spaces in Ahmedabad — particularly on Sindhu Bhavan Road, SG Highway, and select C.G. Road buildings — command high prices per sq.ft. and rarely come to market publicly. For luxury automotive brands, premium furniture retailers, high-end jewellery houses, and designer apparel labels, an Ahmedabad showroom on the right corridor is a strategic priority. PIKORUA Realty can access showroom inventory through private channels before it reaches public listing.",
       "### Weekend Villas near Ahmedabad",
@@ -2638,6 +2645,11 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
         question: "Is Ahmedabad good for NRI investment compared to other Indian cities?",
         answer:
           "Ahmedabad offers lower entry pricing than Mumbai with strong appreciation in scarce western corridors, plus a large Gujarati diaspora base that supports resale demand. The right comparison depends on the buyer's budget, rental goals, and family-use plans across cities.",
+      },
+      {
+        question: "Does PIKORUA Realty work with Non-Resident Gujaratis?",
+        answer:
+          "Yes. PIKORUA Realty advises NRI clients, including the Gujarati diaspora in the US, UK, UAE, Canada, Singapore and Australia, on buying homes in Ahmedabad: shortlisting, RERA verification, legal due diligence and transaction coordination, with virtual property tours for buyers who cannot visit.",
       },
     ],
     relatedSlugs: [
@@ -4425,13 +4437,13 @@ export function getRelatedLandingPages(page: GeoLandingPage): GeoLandingPage[] {
   if (!page.relatedSlugs?.length) return [];
   return page.relatedSlugs
     .map((slug) => ALL_GEO_LANDING_PAGES.find((candidate) => candidate.slug === slug))
-    .filter((candidate): candidate is GeoLandingPage => Boolean(candidate));
+    .filter((candidate): candidate is GeoLandingPage => Boolean(candidate) && isRenderableGeoPage(candidate!));
 }
 
 export function getLandingPagesBySlugs(slugs: string[]): GeoLandingPage[] {
   return slugs
     .map((slug) => ALL_GEO_LANDING_PAGES.find((candidate) => candidate.slug === slug))
-    .filter((candidate): candidate is GeoLandingPage => Boolean(candidate));
+    .filter((candidate): candidate is GeoLandingPage => Boolean(candidate) && isRenderableGeoPage(candidate!));
 }
 
 function slugToPhrase(slug: string): string {
@@ -4449,6 +4461,7 @@ export function getRelatedLandingPagesForText(
 ): GeoLandingPage[] {
   const haystack = text.toLowerCase().replace(/-/g, " ");
   const matches = ALL_GEO_LANDING_PAGES.filter((page) => {
+    if (!isRenderableGeoPage(page)) return false;
     const keywords = page.matchKeywords?.length
       ? page.matchKeywords
       : page.kind === "property-type"

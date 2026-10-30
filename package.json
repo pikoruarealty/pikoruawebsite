@@ -7,11 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lint:ai": "eslint scripts/validate-ai-surfaces.ts src/lib/entity-profile.ts src/lib/seo.ts src/lib/ai/answer-blocks.ts src/lib/ai/blogAutomation.ts src/app/layout.tsx src/app/about/page.tsx src/app/ai/facts.json/route.ts src/app/llms.txt/route.ts src/app/llms-full.txt/route.ts src/app/[slug]/page.tsx src/app/nri/[slug]/page.tsx src/app/locations/[slug]/page.tsx src/app/property-types/[slug]/page.tsx src/app/properties/page.tsx src/app/properties/[slug]/page.tsx src/app/blog/[slug]/page.tsx src/app/testimonials/page.tsx",
-    "check": "npm run validate:ai && npm run lint:ai && npm run typecheck",
+    "lint:ai": "eslint scripts/validate-ai-surfaces.ts src/lib/entity-profile.ts src/lib/seo.ts src/lib/ai/answer-blocks.ts src/lib/ai/blogAutomation.ts src/lib/ai/blogQuality.ts src/lib/ai/blogPipeline.ts src/app/api/cron/auto-blog/route.ts src/app/layout.tsx src/app/about/page.tsx src/app/ai/facts.json/route.ts src/app/llms.txt/route.ts src/app/llms-full.txt/route.ts src/app/[slug]/page.tsx src/app/nri/[slug]/page.tsx src/app/locations/[slug]/page.tsx src/app/property-types/[slug]/page.tsx src/app/properties/page.tsx src/app/properties/[slug]/page.tsx src/app/blog/[slug]/page.tsx src/app/testimonials/page.tsx",
+    "check": "npm run validate:ai && npm run test:seo && npm run test:seo-routing && npm run lint:ai && npm run typecheck",
     "check:deploy": "npm run check && npm run build",
     "validate:ai": "tsx scripts/validate-ai-surfaces.ts",
     "seed": "tsx scripts/seed-sanity.ts",
+    "test:seo": "tsx scripts/test-blog-pipeline.ts",
+    "test:seo-routing": "tsx scripts/test-seo-routing.ts",
+    "audit:blog-backlog": "tsx scripts/blog-backlog-audit.ts",
+    "check:seo-crawl": "tsx scripts/seo-crawl-check.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

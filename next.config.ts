@@ -219,6 +219,22 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        // Linked from published AI-drafted blog posts (old drafting prompt).
+        source: "/shilaj-properties",
+        destination: "/locations/shilaj",
+        permanent: true,
+      },
+      {
+        source: "/penthouses-duplexes-ahmedabad",
+        destination: "/penthouses-ahmedabad",
+        permanent: true,
+      },
+      {
+        source: "/luxury-penthouses-ahmedabad",
+        destination: "/penthouses-ahmedabad",
+        permanent: true,
+      },
+      {
         source: "/nri-investment-ahmedabad",
         destination: "/nri-property-investment-ahmedabad",
         permanent: true,

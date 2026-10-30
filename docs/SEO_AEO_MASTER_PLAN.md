@@ -4,6 +4,8 @@
 > **Status:** the SEO/AEO workstreams in Part 4 (4.1–4.12, 4.16) have **not been started**. Separately, on 27 Oct 2026 the lead pipeline and hosting were repaired and changed (see below).
 > **Site:** https://www.pikorua.in (Next.js app in Docker on the Hostinger VPS, deployed from branch `vps-migration`; **since 27 Oct 2026 the domain's DNS is on Cloudflare and all visitor traffic goes through Cloudflare's proxy**)
 >
+> **Update, 29 October 2026 (code, not deployed):** parts of 4.1 (sitemaps: blog posts added, 404s and noindex combos removed, 661 URLs all 200/indexable/self-canonical) and 4.2 Stage 1 (strict combo matching behind `SEO_COMBO_STRICT_MATCHING`, off until the GSC export) are implemented; broken internal links fixed; automated blogging rebuilt with a quality gate. See `docs/seo/SEO_GROWTH_STRATEGY.md` and `docs/seo/BLOG_AUTOMATION_REPORT.md`.
+>
 > **End-of-day status, 27 October 2026 [Measured].** The full, timed log with evidence is in **3.5**. Every open item, with an owner, is in **3.6**. Next steps are in **7.1b**.
 > - **Fixed and verified live:**
 >   1. **Enquiries with a ₹3–4 Cr, ₹5–7 Cr or ₹8–10 Cr budget were being rejected by the database.** Migration `012` had never been applied on the VPS. It was applied at 2:20 PM IST, and a test lead then saved.

@@ -13,13 +13,12 @@
  *   • Media RSS (media:content for cover images)
  *   • content:encoded for full HTML body (enables AI full-text ingestion)
  *
- * ISR: re-generated at most every hour. Flushed immediately when a new
- * post is approved — revalidatePath("/blog/feed.xml") is called inside
- * approveBlogDraft in admin/actions.ts.
+ * ISR: re-generated at most daily. Blog saves, approvals and deletions call
+ * revalidateBlogPaths() (src/lib/blog-revalidation.ts) to refresh it at once.
  */
 
 import { NextResponse } from "next/server";
-import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
+import { getPublishedBlogPosts } from "@/lib/data/blog";
 import { getSupabaseBlogs } from "@/lib/db/queries";
 import { absoluteUrl, SITE_URL, SITE_NAME } from "@/lib/seo";
 
@@ -44,14 +43,8 @@ function rfcDate(isoDate: string): string {
 }
 
 export async function GET() {
-  // Live posts from Supabase; fall back to static list
-  let posts = STATIC_BLOG_POSTS;
-  try {
-    const dbPosts = await getSupabaseBlogs(true);
-    if (dbPosts.length > 0) posts = dbPosts;
-  } catch {
-    // Supabase unavailable — use static fallback
-  }
+  // Same publication rule as the post pages and /sitemap/blog.xml.
+  const posts = getPublishedBlogPosts(await getSupabaseBlogs(false));
 
   // Sort newest-first
   const sorted = [...posts].sort(

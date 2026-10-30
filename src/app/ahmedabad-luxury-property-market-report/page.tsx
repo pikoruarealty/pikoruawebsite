@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, FileText, Quote, ShieldCheck } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import {
   AHMEDABAD_LUXURY_MARKET_REPORT as REPORT,
   MARKET_REPORT_PATH,
@@ -386,6 +387,19 @@ export default function AhmedabadLuxuryPropertyMarketReportPage() {
                 Luxury Consultancy
               </Link>
             </div>
+          </div>
+        </section>
+
+        {/* Visible copy of the FAQPage schema above (markup must match the page). */}
+        <section className="bg-lux-black py-16 lg:py-24 border-t border-white/[0.06]" aria-labelledby="report-faq-heading">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <h2
+              id="report-faq-heading"
+              className="mb-10 text-center font-display text-[clamp(1.5rem,3vw,2rem)] font-light uppercase tracking-wider text-white"
+            >
+              Frequently Asked Questions
+            </h2>
+            <FaqAccordion items={[...REPORT.faq]} />
           </div>
         </section>
       </main>

@@ -6,7 +6,7 @@
 - **CMS**: Sanity v3 — Studio at `/studio`, schemas in `src/sanity/schemas/`
 - **Database**: PostgreSQL on the VPS, accessed with `pg` via `src/lib/db.ts` — leads + transactional data, properties, blogs, testimonials, FAQs and page singletons (`pages` table), managed via the custom `/admin` panel (`src/app/admin/actions.ts`).
 - **Media**: uploads written to `MEDIA_DIR` on disk and served by Nginx under `/media` (`MEDIA_BASE` in `src/lib/media.ts`).
-- **Hosting**: Hostinger VPS (shared with other apps) — Next.js under PM2 (single fork-mode process) behind Nginx. See `docs/VPS_MIGRATION_PLAN.md`.
+- **Hosting**: Hostinger VPS (shared with other apps) — Docker Compose project `pikorua-website` (one Next.js standalone `app` container + its own Postgres 17 `db` container) behind host Nginx. See `docker-compose.yml`, `deploy/deploy.sh` and `docs/VPS_MIGRATION_PLAN.md`.
 - **Email**: none for leads — leads are saved to the DB and pulled by the in-house CRM via `/api/crm/leads`.
 - **Validation**: Zod v4 — shared schemas in `src/lib/validations/lead.ts` used on both client and server
 
@@ -27,6 +27,12 @@ The in-house CRM (same VPS) pulls leads over localhost: `GET /api/crm/leads?unsy
 
 ### ISR revalidation
 Sanity publishes content → POST to `/api/revalidate?secret=<SANITY_WEBHOOK_SECRET>` → `revalidateTag()` for the relevant data type. Queries in `src/lib/sanity/queries.ts` use `{ next: { tags: [...] } }` to opt into this.
+
+### Automated blog
+`POST /api/cron/auto-blog` (Bearer `CRON_SECRET`, host crontab on 127.0.0.1 only; Nginx 404s `/api/cron/`) → `runAutoBlog()` in `src/lib/ai/blogPipeline.ts`: next editorial pillar → Google News → OpenRouter draft → quality gate (`src/lib/ai/blogQuality.ts`: schema, HTML allowlist sanitiser, link validation, topic de-duplication, regulated-topic / guarantee / unsupported-figure holds) → publish if `BLOG_AUTOPUBLISH=true` and every check passed, else save as pending review with `review_notes`. Every run is logged in `blog_automation_runs`. Two of every eight slots draft evergreen briefs from `src/lib/ai/blogTopicQueue.ts` (facts with sources only). `?dryRun=1` drafts and gates without saving. Never attribute unreviewed AI posts to a person, never use scraped images. Report: `docs/seo/BLOG_AUTOMATION_REPORT.md`.
+
+### Sitemaps and SEO routes
+Sitemaps and generated internal links come from `src/lib/data/public-routes.ts` (pages that actually render), never from raw data lists — several data hrefs 404. `/p/[...combo]` matching lives in `src/lib/data/combo-matching.ts`; `SEO_COMBO_STRICT_MATCHING=true` enables real filters. Only indexable URLs go in sitemaps. FAQPage/structured data must match visible content; check with `npm run check:seo-crawl -- --base <url>`. Keyword-to-page map: `docs/seo/page-map.csv` (one page per intent; don't add variant pages).
 
 ### Sanity queries
 All in `src/lib/sanity/queries.ts`. Always filter `isPublished == true`. Never fetch unpublished documents on the public site.
@@ -53,6 +59,7 @@ src/
       leads/route.ts      # Lead submission handler (saves to DB)
       crm/leads/          # In-house CRM lead feed + ack
       revalidate/route.ts # Sanity ISR webhook
+      cron/auto-blog/     # Automated blog trigger (host crontab, CRON_SECRET)
     studio/[[...tool]]/   # Sanity Studio
     thank-you/            # Post-submission confirmation
     not-found.tsx         # Custom 404
@@ -67,7 +74,7 @@ src/
   lib/
     env.ts                # Env var validation
     utils.ts              # cn, formatPrice, buildWhatsAppUrl, renderListGuard
-    rate-limit.ts         # In-memory rate limiter (single PM2 process)
+    rate-limit.ts         # In-memory rate limiter (single app container)
     sanity/
       client.ts           # Sanity client + draft client
       queries.ts          # All GROQ queries

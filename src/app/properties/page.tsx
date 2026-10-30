@@ -14,7 +14,7 @@ import { getPriorityKeywordsForPath } from "@/lib/data/six-month-priority-keywor
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeoData("properties");
-  const defaultTitle = "Luxury Properties in Ahmedabad | 4/5 BHK, Villas, Penthouses";
+  const defaultTitle = "Luxury Properties in Ahmedabad";
   const defaultDesc = "Explore curated luxury homes in Ahmedabad across Iscon-Ambli, Sindhu Bhavan, Thaltej, and SG Highway. Private advisory for HNI and NRI buyers.";
 
   return createMetadata({

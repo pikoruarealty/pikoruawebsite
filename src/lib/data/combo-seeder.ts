@@ -20,8 +20,15 @@ import {
   SEO_BHK_OPTIONS,
   SEO_BUDGET_RANGES,
   SEO_INTENTS,
-  type ParsedCombo,
+  parseComboSegments,
 } from "@/lib/data/seo-dimensions";
+import { STATIC_PROPERTIES } from "@/lib/data/properties";
+import {
+  NON_INDEXABLE_COMBO_TYPES,
+  isComboIndexable,
+  isStrictComboMatching,
+  matchComboProperties,
+} from "@/lib/data/combo-matching";
 
 interface ScoredCombo {
   segments: string[];
@@ -109,20 +116,37 @@ export const ALL_STATIC_COMBO_PARAMS: { combo: string[] }[] = (() => {
 })();
 
 /**
- * For sitemap generation: produces all valid combo hrefs in priority order.
- * Capped at 5,000 to keep sitemap generation fast.
+ * Combo hrefs to submit in sitemaps, in priority order: only combos whose
+ * page would be indexable (see combo-matching.ts) and never the non-allowed
+ * commercial types. Submitting noindex URLs in a sitemap sends conflicting
+ * signals — 19,564 of the previous 20,000 submitted combos were noindex.
  */
+const getSitemapComboHrefs = (() => {
+  let cached: { strict: boolean; hrefs: string[] } | null = null;
+  return (): string[] => {
+    const strict = isStrictComboMatching();
+    if (cached?.strict === strict) return cached.hrefs;
+    const hrefs = allCombos()
+      .sort((a, b) => b.score - a.score)
+      .filter(({ segments }) => {
+        const parsed = parseComboSegments(segments);
+        if (!parsed?.location) return false;
+        if (parsed.type && NON_INDEXABLE_COMBO_TYPES.has(parsed.type.slug)) return false;
+        return isComboIndexable(parsed, matchComboProperties(parsed, STATIC_PROPERTIES));
+      })
+      .map((c) => `/p/${c.segments.join("/")}`);
+    cached = { strict, hrefs };
+    return hrefs;
+  };
+})();
+
 export function getComboSitemapBatch(batchIndex: number, batchSize = 2500): string[] {
-  const allSorted = allCombos()
-    .sort((a, b) => b.score - a.score)
-    .slice(batchIndex * batchSize, (batchIndex + 1) * batchSize);
-  return allSorted.map((c) => `/p/${c.segments.join("/")}`);
+  return getSitemapComboHrefs().slice(batchIndex * batchSize, (batchIndex + 1) * batchSize);
 }
 
 /**
- * Total number of generated combo pages (for sitemap index).
+ * Number of combo sub-sitemaps (for the sitemap index).
  */
 export function getTotalComboBatches(batchSize = 2500): number {
-  const total = allCombos().length;
-  return Math.ceil(Math.min(total, 20000) / batchSize);
+  return Math.ceil(getSitemapComboHrefs().length / batchSize);
 }

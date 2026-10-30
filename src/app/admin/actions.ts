@@ -1,10 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { revalidatePath, revalidateTag as _revalidateTag } from "next/cache";
-// Next.js 16 added a second `profile` arg to revalidateTag — cast to the
-// traditional single-argument signature for standard ISR tag invalidation.
-const revalidateTag = _revalidateTag as (tag: string) => void;
+import { revalidatePath } from "next/cache";
 import { query, queryOne, upsert, toJson, errorMessage } from "@/lib/db";
 import { MEDIA_BASE } from "@/lib/media";
 import { promises as fs } from "fs";
@@ -13,6 +10,7 @@ import { fetchRealEstateNews, generateBlogDraftFromNews } from "@/lib/ai/blogAut
 import { submitToIndexNow } from "@/lib/index-now";
 import { notifyGoogleIndexing } from "@/lib/google-indexing";
 import { SITE_URL } from "@/lib/seo";
+import { revalidateBlogPaths, revalidateSitemap } from "@/lib/blog-revalidation";
 
 import crypto, { createHash } from "crypto";
 
@@ -70,6 +68,9 @@ export async function logoutAction() {
  * Checks if the user is authenticated on the server side.
  */
 export async function checkSession() {
+  // Without a configured password the token is computable from the default
+  // email alone, so no session is valid (loginAction refuses too).
+  if (!getAdminPassword()) return false;
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session");
   return session?.value === getSessionToken();
@@ -211,6 +212,7 @@ export async function createOrUpdateProperty(property: any) {
   // Revalidate frontend caches
   revalidatePath("/properties");
   revalidatePath(`/properties/${property.slug}`);
+  revalidateSitemap("properties");
 
   // Trigger Google Indexing API ping in background
   const absoluteUrl = `https://pikorua.in/properties/${property.slug}`;
@@ -255,6 +257,7 @@ export async function deleteProperty(id: string, slug: string) {
   // Revalidate frontend caches
   revalidatePath("/properties");
   revalidatePath(`/properties/${slug}`);
+  revalidateSitemap("properties");
 
   // Trigger Google Indexing API deletion in background
   const absoluteUrl = `https://pikorua.in/properties/${slug}`;
@@ -430,16 +433,24 @@ export async function createOrUpdateBlogPost(blog: any) {
     faqs: faqs,
   };
 
+  let previousSlug: string | undefined;
   try {
+    if (dbBlog.id) {
+      previousSlug = (await queryOne<{ slug: string }>("SELECT slug FROM blogs WHERE id = $1", [dbBlog.id]))?.slug;
+    }
     await upsert("blogs", dbBlog, { jsonColumns: ["faqs"] });
+    // Saving a pending AI draft as Active is an approval: without clearing
+    // the flag the post stays hidden from the public queries.
+    if (dbBlog.is_active) {
+      await query("UPDATE blogs SET pending_review = false WHERE id = $1 AND pending_review", [dbBlog.id]);
+    }
   } catch (error) {
     console.error("Error upserting blog post:", error);
     throw new Error(errorMessage(error));
   }
 
-  // Revalidate frontend caches
-  revalidatePath("/blog");
-  revalidatePath(`/blog/${blog.slug}`);
+  // Revalidate frontend caches (both URLs when the slug was changed)
+  revalidateBlogPaths([cleanSlug, previousSlug]);
 
   // Trigger Google Indexing API ping in background
   const absoluteUrl = `https://pikorua.in/blog/${cleanSlug}`;
@@ -470,11 +481,7 @@ export async function approveBlogDraft(id: string) {
     throw new Error("Blog post not found.");
   }
 
-  revalidatePath("/blog");
-  if (data?.slug) revalidatePath(`/blog/${data.slug}`);
-  revalidatePath("/blog/feed.xml");
-  // Flush ISR cache so blog listing and post pages regenerate immediately
-  revalidateTag("blogs");
+  revalidateBlogPaths([data.slug]);
 
   // Fire-and-forget: notify search engines of the new URL immediately.
   // Must never block or throw — any failure is non-fatal.
@@ -503,8 +510,7 @@ export async function deleteBlogPost(id: string, slug: string) {
   }
 
   // Revalidate frontend caches
-  revalidatePath("/blog");
-  revalidatePath(`/blog/${slug}`);
+  revalidateBlogPaths([slug]);
 
   // Trigger Google Indexing API deletion in background
   const absoluteUrl = `https://pikorua.in/blog/${slug}`;

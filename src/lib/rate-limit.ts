@@ -2,7 +2,7 @@
  * Lightweight in-memory rate limiter for API route handlers.
  *
  * NOTE: In-memory state lives in one Node process. The VPS runs the app as a
- * single PM2 fork-mode instance, so this holds; if it is ever scaled to
+ * single Node process in one Docker container, so this holds; if it is ever scaled to
  * multiple processes, move this to a shared store (e.g. Redis or Postgres).
  *
  * For a low-traffic luxury advisory site this is sufficient as a spam

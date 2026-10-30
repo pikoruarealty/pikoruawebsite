@@ -57,3 +57,6 @@ next-env.d.ts
 *.dump
 # Supabase CSV exports (contain lead PII) — never commit
 /supabase-export/
+
+# Private production runbook (infrastructure details) — never commit or push
+/production-runbook.md

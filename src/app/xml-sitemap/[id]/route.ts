@@ -8,18 +8,29 @@
  *   /sitemap/p-0.xml → first 2,500 combo URLs (highest priority)
  *   /sitemap/p-1.xml → next 2,500
  *   /sitemap/geo.xml → existing GEO landing pages
+ *   /sitemap/blog.xml → published blog posts (DB + static fallback posts)
  */
 
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { getComboSitemapBatch, getTotalComboBatches } from "@/lib/data/combo-seeder";
-import { ALL_GEO_LANDING_PAGES } from "@/lib/data/geo";
+import { getRenderableGeoPages, getSitemapPropertySlugs } from "@/lib/data/public-routes";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
+import { getPublishedBlogPosts } from "@/lib/data/blog";
 import { ALL_CONTENT_HUB_PAGES } from "@/lib/data/content-hubs";
+import { getSupabaseAllPropertySlugsWithDates, getSupabaseBlogs } from "@/lib/db/queries";
 import { absoluteUrl } from "@/lib/seo";
 
 const BATCH_SIZE = 2500;
+
 const LAST_MOD = "2026-07-21T12:00:00+05:30";
+
+/** A DB timestamp or date string as a sitemap <lastmod>, else the default. */
+function toLastMod(value: string | undefined): string {
+  if (!value) return LAST_MOD;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? LAST_MOD : date.toISOString();
+}
 
 function xmlEscape(str: string) {
   return str
@@ -71,6 +82,9 @@ export async function GET(
     // Content hub sub-sitemap
     urls.push(absoluteUrl("/sitemap/content.xml"));
 
+    // Blog posts sub-sitemap
+    urls.push(absoluteUrl("/sitemap/blog.xml"));
+
     // GEO sub-sitemap
     urls.push(absoluteUrl("/sitemap/geo.xml"));
 
@@ -106,8 +120,10 @@ export async function GET(
   }
 
   // ── /sitemap/geo.xml — GEO landing pages ──────────────────────────────────
+  // Only pages that render at their href — 29 data-defined hrefs 404 (see
+  // src/lib/data/public-routes.ts).
   if (id === "geo") {
-    const urls = ALL_GEO_LANDING_PAGES.map((page) => ({
+    const urls = getRenderableGeoPages().map((page) => ({
       loc: absoluteUrl(page.href),
       lastmod: LAST_MOD,
       priority: "0.72",
@@ -121,16 +137,40 @@ export async function GET(
   }
 
   // ── /sitemap/properties.xml — property detail pages ───────────────────────
+  // Active DB properties plus static entries that have no DB row (see
+  // getSitemapPropertySlugs).
   if (id === "properties") {
-    const urls = STATIC_PROPERTIES.map((p) => ({
-      loc: absoluteUrl(`/properties/${p.slug}`),
-      lastmod: LAST_MOD,
+    const dbProperties = await getSupabaseAllPropertySlugsWithDates();
+    const updatedAt = new Map(dbProperties.map((p) => [p.slug, p.updatedAt]));
+    const slugs = getSitemapPropertySlugs(dbProperties, STATIC_PROPERTIES.map((p) => p.slug));
+    const urls = slugs.map((slug) => ({
+      loc: absoluteUrl(`/properties/${slug}`),
+      lastmod: toLastMod(updatedAt.get(slug)),
       priority: "0.60",
     }));
     return new NextResponse(buildSitemapXml(urls), {
       headers: {
         "Content-Type": "application/xml; charset=utf-8",
         "Cache-Control": "public, max-age=86400",
+      },
+    });
+  }
+
+  // ── /sitemap/blog.xml — published blog posts ──────────────────────────────
+  // Published DB posts, plus static posts that have no DB row at all (a DB
+  // row that is inactive or pending review means the post was taken down).
+  if (id === "blog") {
+    const dbPosts = await getSupabaseBlogs(false);
+    const published = getPublishedBlogPosts(dbPosts);
+    const urls = published.map((post) => ({
+      loc: absoluteUrl(`/blog/${post.slug}`),
+      lastmod: toLastMod(post.updatedAt || post.publishedAt),
+      priority: "0.65",
+    }));
+    return new NextResponse(buildSitemapXml(urls), {
+      headers: {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, max-age=3600",
       },
     });
   }

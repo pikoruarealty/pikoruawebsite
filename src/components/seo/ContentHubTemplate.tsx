@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { ContentHubPage } from "@/lib/data/content-hubs";
+import { parseComboSegments } from "@/lib/data/seo-dimensions";
 import { buildWhatsAppUrl } from "@/lib/utils";
 import { env } from "@/lib/env";
 import {
@@ -69,6 +70,11 @@ function extractCompareLabels(h1: string): { a: string; b: string } {
 // ─────────────────────────────────────────────────────────────────────────────
 export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplateProps) {
   const breadcrumbs = buildBreadcrumbs(page);
+  // Only link combo URLs the /p/ route can serve (some data hrefs use
+  // segments such as "ready-to-move" that don't exist and 404).
+  const listingHrefs = page.relatedListingHrefs.filter(
+    (href) => !href.startsWith("/p/") || parseComboSegments(href.slice(3).split("/")) !== null
+  );
   const compareLabels = extractCompareLabels(page.h1);
   const formattedEyebrow = cleanEyebrow(page.eyebrow);
   const whatsappUrl = buildWhatsAppUrl(
@@ -249,7 +255,7 @@ export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplatePro
           </article>
 
           {/* ─── Matching Shortlists ─── */}
-          {page.relatedListingHrefs.length > 0 && (
+          {listingHrefs.length > 0 && (
             <div className="rounded-sm border border-white/10 bg-soft-black/30 p-6 sm:p-8 space-y-4">
               <div>
                 <h2 className="font-display text-xl sm:text-2xl uppercase tracking-wider text-ivory font-light">
@@ -260,7 +266,7 @@ export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplatePro
                 </p>
               </div>
               <div className="flex flex-wrap gap-2.5 pt-2">
-                {page.relatedListingHrefs.map((href) => {
+                {listingHrefs.map((href) => {
                   const label = href.replace("/p/", "").split("/").map((s) => s.replace(/-/g, " ")).join(" › ");
                   return (
                     <Link

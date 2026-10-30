@@ -114,19 +114,15 @@ const organizationSchema = {
         "@id": ENTITY_IDS.realEstateAgent,
       },
       inLanguage: "en-IN",
-      // Sitelinks Searchbox — targets the /properties collection, which reads the
-      // ?q= param and filters the residence list (see PropertiesGrid).
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${SITE_URL}/properties?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
-      },
+      // No SearchAction: Google retired the sitelinks search box (Nov 2024).
     },
     {
       "@type": ["Organization", "RealEstateAgent", "LocalBusiness"],
       "@id": ENTITY_IDS.realEstateAgent,
       name: SITE_NAME,
-      alternateName: BRAND_MISSPELLING_KEYWORDS,
+      // Genuine names only. Misspellings stay in llms.txt / facts.json; in
+      // markup Google treats alternateName as real alternate names.
+      alternateName: ["PIKORUA", "Pikorua Realty"],
       url: SITE_URL,
       logo: absoluteUrl("/logo-icon.png"),
       image: absoluteUrl("/logo.png"),
@@ -272,44 +268,12 @@ const organizationSchema = {
       address: getPostalAddressSchema(),
       geo: getGeoCoordinatesSchema(),
       hasMap: BUSINESS_MAP_URL,
-      review: [
-        {
-          "@type": "Review",
-          author: {
-            "@type": "Person",
-            name: "Krunal Patel",
-          },
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: "5",
-          },
-          reviewBody: "We are incredibly grateful to Jitendra bhai for helping us find and purchase our dream home! From the very beginning, he was professional, attentive, and genuinely invested in understanding our needs.",
-        },
-        {
-          "@type": "Review",
-          author: {
-            "@type": "Person",
-            name: "Rutuja Joshi",
-          },
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: "5",
-          },
-          reviewBody: "Navigating the complexities of luxury real estate requires not just expertise, but a rare blend of patience, discernment, and unwavering integrity; qualities that Jitendra embodies effortlessly.",
-        },
-      ],
+      // No review/aggregateRating: ratings a business publishes about itself
+      // are not eligible for review rich results and carry manual-action risk.
       email: BUSINESS_EMAIL,
       telephone: BUSINESS_PHONE_E164,
       priceRange: "₹₹₹₹",
       contactPoint: getBusinessContactPoints(),
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "5.0",
-        bestRating: "5",
-        worstRating: "1",
-        ratingCount: "6",
-        reviewCount: "6",
-      },
       makesOffer: getBusinessOfferCatalog(),
     },
     {

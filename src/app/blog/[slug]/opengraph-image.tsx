@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getSupabaseBlogBySlug } from "@/lib/db/queries";
-import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
+import { resolvePublicBlogPost } from "@/lib/data/blog";
 
 export const runtime = "nodejs";
 export const alt = "PIKORUA Realty - Insights & Advisory";
@@ -12,10 +12,7 @@ export const contentType = "image/png";
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  let post = await getSupabaseBlogBySlug(slug);
-  if (!post) {
-    post = STATIC_BLOG_POSTS.find((p) => p.slug === slug) || null;
-  }
+  const post = resolvePublicBlogPost(slug, await getSupabaseBlogBySlug(slug));
 
   const title = post?.title || "Luxury Insights";
   const category = post?.categoryLabel || "MARKET REPORT";

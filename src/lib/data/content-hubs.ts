@@ -87,15 +87,15 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     description: "A data-driven comparison of commercial real estate and gold as investment vehicles in Ahmedabad's 2026 market. Covers yield, liquidity, appreciation, and tax treatment.",
     h1: "Commercial Property vs Gold: Which Investment Wins in Ahmedabad?",
     eyebrow: "Investment Analysis · PIKORUA Advisory",
-    intro: "Gold and commercial real estate are the two assets most HNI investors in Ahmedabad hold simultaneously — yet their risk-return profiles differ fundamentally. This analysis, drawn from Ahmedabad's 2024–2026 transaction data, gives you a framework for allocating between the two based on your income horizon, liquidity needs, and capital base.",
+    intro: "Gold and commercial real estate have different income, liquidity, operating-cost, and risk profiles. This guide offers a framework for comparing them using current product terms and verified property-level evidence; it does not predict or promise returns." ,
     heroImage: H.capstone,
     keyTakeaways: [
-      "Commercial property in Ahmedabad's prime corridors has delivered 9–13% total return (yield + appreciation) versus gold's 11% price return — but commercial income is recurrent while gold gains are unrealised until sold.",
+      "Property income and price changes vary by asset and period; gold returns vary by instrument and purchase date. Compare dated, like-for-like evidence and account for costs, taxes, liquidity, and risk.",
       "Gold scores higher on liquidity — any quantity sellable within hours. Commercial property requires 60–180 days for a quality exit in Ahmedabad's market.",
       "Tax treatment favours commercial property for HNIs: depreciation benefits, indexation on long-term capital gains, and rental income as deductible business expense where applicable.",
     ],
     comparisonTable: [
-      { label: "Typical annual return", a: "9–13% (yield + appreciation)", b: "8–12% (price only)" },
+      { label: "Return evidence", a: "Use verified rent, costs, and comparable transactions", b: "Use the chosen instrument's dated price and income records" },
       { label: "Income generation", a: "Monthly rental income", b: "None (price appreciation only)" },
       { label: "Liquidity", a: "60–180 days exit", b: "Immediate — hours" },
       { label: "Minimum investment", a: "₹50L–₹2 Cr (strata office)", b: "Any amount" },
@@ -131,13 +131,13 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
       },
     ],
     faqs: [
-      { question: "Is commercial property better than gold in Ahmedabad right now?", answer: "For income-seeking HNI investors with a 5+ year horizon, preleased commercial property in Ahmedabad's prime corridors delivers superior total returns (9–13% vs gold's 8–12%) plus monthly rental income. Gold wins on liquidity and portfolio stability. Most PIKORUA clients hold both." },
+      { question: "Is commercial property better than gold in Ahmedabad right now?", answer: "The comparison depends on the specific property, lease, gold instrument, costs, taxes, liquidity needs, and holding period. Review current terms and dated performance records for the assets being compared; neither option guarantees a return." },
       { question: "What is the minimum investment for commercial property in Ahmedabad?", answer: "Strata office units in Prahladnagar and CG Road corridors start at ₹50L–₹80L for 200–400 sq.ft. units. Whole-floor Grade-A commercial starts at ₹3–5 Cr. GIFT City office units command a premium, starting at ₹1.2 Cr for smaller configurations." },
       { question: "How is commercial property taxed vs gold in India?", answer: "Both attract 20% LTCG with indexation after the holding period (24 months for property, 24 months for gold post-2024 budget). Commercial property additionally generates rental income taxed as 'income from house property' with a 30% standard deduction. Gold held as SGB is tax-free on maturity if held to 8 years." },
     ],
     relatedListingHrefs: ["/p/prahladnagar/office-space", "/p/cg-road/office-space", "/p/gift-city/office-space", "/p/sg-highway/office-space/for-investment"],
     relatedHubSlugs: ["commercial-property-vs-fd", "preleased-property-guide", "gift-city-investment-guide"],
-    marketSignals: ["Grade-A office vacancy in Ahmedabad at 8.2% — decade low.", "Prahladnagar corridor average rental: ₹75–95/sq.ft./month.", "Gold delivered 22% price appreciation in 12 months to mid-2026."],
+    marketSignals: ["Compare dated, like-for-like evidence for each asset.", "Include vacancy, lease terms, operating costs, taxes, and transaction costs.", "Review liquidity and risk against the buyer's time horizon."],
     publishedAt: "2026-07-21",
     category: "comparison",
   },
@@ -149,17 +149,17 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     description: "Comprehensive comparison of commercial real estate versus fixed deposits for Ahmedabad investors. Covers yield, risk, liquidity, and tax efficiency in the 2026 rate environment.",
     h1: "Commercial Property vs Fixed Deposit: The 2026 Yield Reality",
     eyebrow: "Investment Analysis · PIKORUA Advisory",
-    intro: "With bank FD rates declining as the RBI moves into an easing cycle in 2026, the yield argument for fixed deposits has weakened materially. Commercial property in Ahmedabad now offers 6–8% gross yield before appreciation — compared to SBI's 6.5–7.0% FD rate. But the comparison is more nuanced than the headline yield gap. Here is what Ahmedabad's HNI investors need to know.",
+    intro: "Fixed deposits and commercial property differ in income terms, liquidity, operating demands, risk, and tax treatment. Compare current bank quotes with verified property rent and full ownership costs; rates and property cash flows vary, and neither headline figure is a total-return forecast." ,
     heroImage: H.maruti,
     keyTakeaways: [
-      "At current FD rates (6.5–7%), commercial property's rental yield (6–8%) is comparable — but property adds capital appreciation of 6–10% p.a., making total returns materially superior.",
+      "A fixed deposit has stated interest terms, while property income depends on occupancy, lease terms, costs, and tenant performance. Property sale value may rise or fall; compare full cash flows and risks over the same period.",
       "FDs are fully liquid and DICGC-insured up to ₹5L per bank. Commercial property requires 60–180 days to exit and has no insurance. Liquidity premium is real.",
       "Tax treatment significantly favours FDs for investors in lower tax brackets; commercial property wins for HNIs with ₹30L+ taxable income due to depreciation and indexation benefits.",
     ],
     comparisonTable: [
-      { label: "Current yield / interest rate", a: "6–8% gross rental yield", b: "6.5–7.0% (SBI, HDFC)" },
-      { label: "Capital appreciation", a: "6–10% p.a. in prime corridors", b: "Zero" },
-      { label: "Total expected return", a: "12–18% p.a.", b: "6.5–7.0% p.a." },
+      { label: "Income input", a: "Verify rent, occupancy, and ownership costs", b: "Use the bank's current quote and product terms" },
+      { label: "Value at exit", a: "Market-dependent; sale value is not assured", b: "Subject to deposit terms and applicable protections" },
+      { label: "Return estimate", a: "Depends on verified income, costs, and exit value", b: "Based on stated interest terms, before tax" },
       { label: "Liquidity", a: "60–180 day exit", b: "Immediate (premature penalty)" },
       { label: "Safety", a: "No insurance; tenant risk", b: "DICGC insured to ₹5L" },
       { label: "Tax (30% bracket)", a: "Rental income + 20% LTCG with indexation", b: "30% on interest (TDS 10% on ₹40K+)" },
@@ -170,16 +170,16 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
       {
         heading: "Why FDs Made Sense — And Why the Calculus Has Shifted",
         body: [
-          "When FD rates peaked at 7.5–8.5% in 2023–2024, a high-credit-rating bank FD delivered near-comparable nominal yield to commercial real estate — with zero illiquidity risk and no management overhead. Many Ahmedabad HNIs rationally parked capital in FDs during that window.",
-          "That window is closing. As the RBI's 2025–2026 easing cycle progresses, SBI's 3-year FD rate has retreated to 6.7% (June 2026). Post-tax return for an investor in the 30% bracket is approximately 4.7% — below inflation in a meaningful way. Real returns on FDs are effectively negative for peak-rate investors who rolled over to current rates.",
+          "When comparing a fixed deposit with commercial property, use the bank's rate and lock-in terms for the relevant date. Property also involves vacancy, tenant, operating, financing, and resale risks that a deposit comparison should account for.",
+          "Bank rates change over time. Check the current product quote and calculate the after-tax result for the investor's circumstances; do not rely on a historic rate or assumed tax bracket as a current offer.",
         ],
       },
       {
         heading: "The Commercial Property Yield Stack in Ahmedabad",
         body: [
-          "PIKORUA tracks active commercial transactions across Prahladnagar, CG Road, SG Highway, and GIFT City. Current gross yields on preleased Grade-A office range from 6.2% (GIFT City — premium location discount) to 8.1% (Prahladnagar Road — deepest tenant pool). After 10% TDS deduction and maintenance charges, net yield sits at 5.5–7.0% — comparable to an FD's gross yield.",
-          "The structural advantage of commercial property is what happens in year 3 and year 6: standard lease structures in Ahmedabad include 10–15% rent escalation clauses every 33 months. A property bought at 7% yield today escalates to an effective 8.05% yield in year 3 on the same purchase price — while an FD rolled over at market rates may see the inverse.",
-          "Add 6–8% annual capital appreciation in prime Ahmedabad corridors, and the 10-year total return on commercial property (yield + appreciation, compounded) comfortably outperforms an FD by 8–12% cumulatively. The cost: illiquidity and active management requirements.",
+          "PIKORUA tracks active commercial transactions across Prahladnagar, CG Road, SG Highway, and GIFT City. Estimate property income from verified lease documents and comparable transactions. Deduct vacancy, maintenance, property charges, financing, taxes, and transaction costs using inputs relevant to the specific asset and investor; seek qualified tax advice.",
+          "Lease terms vary by contract and tenant. Verify the registered lease, escalation clause, break options, and renewal conditions; future rent and deposit rates are not guaranteed.",
+          "Do not assume annual appreciation when comparing alternatives. Model several property exit-price scenarios alongside verified rent, vacancy, ownership costs, taxes, and the deposit's stated terms, and show the assumptions explicitly.",
         ],
       },
       {
@@ -476,7 +476,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
     slug: "high-roi-luxury-property-ahmedabad",
     prefix: "invest",
     href: "/invest/high-roi-luxury-property-ahmedabad",
-    title: "High ROI Luxury Property Investment in Ahmedabad 2026 | PIKORUA",
+    title: "High ROI Luxury Property in Ahmedabad | PIKORUA",
     description: "PIKORUA's analysis of the highest ROI luxury property opportunities in Ahmedabad for 2026. Covers corridors, configurations, and strategies for HNI and NRI investors.",
     h1: "Highest ROI Luxury Property Investments in Ahmedabad — 2026 Analysis",
     eyebrow: "Investment Advisory · PIKORUA Realty",
@@ -506,15 +506,15 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
       {
         heading: "PIKORUA's 2026 High-ROI Investment Thesis",
         body: [
-          "For 2026 entry, PIKORUA identifies three high-conviction investment opportunities in Ahmedabad's luxury market: (1) Ready-possession 4 BHK on Iscon Ambli Road — scarce inventory, immediate NRI rental premium, strong resale depth; (2) New launch 3 or 4 BHK on SG Highway from a Tier-1 developer — GIFT City expansion is the structural rental demand driver that will reprice this corridor in 2026–2028; (3) Preleased Grade-A commercial strata in Prahladnagar — 6.5–8% gross yield, professional tenant base, quarterly income.",
-          "PIKORUA does not recommend chase-buying into corridors that have already delivered 85%+ appreciation without a clear demand catalyst for the next cycle. Shela, while affordable, requires a 7–10 year hold for the next price step-up, which suits only a specific investor profile.",
+          "For 2026 entry, compare ready-possession homes, new launches and preleased commercial units using property-specific evidence. Check current asking and lease terms, title and RERA status, developer delivery history, vacancy, tenant covenants, all-in costs and resale depth. Planned employment or infrastructure changes can be delayed and do not establish future prices or rents.",
+          "Avoid choosing a corridor from past appreciation alone. In Shela and other growth areas, test the current supply pipeline, access, holding costs and likely resale audience; do not rely on a predicted date for a price increase.",
         ],
       },
     ],
     faqs: [
-      { question: "What is the best area for high ROI property investment in Ahmedabad?", answer: "For capital appreciation ROI, Iscon Ambli Road and Sindhubhavan Road have delivered the highest per-sq.ft. returns (85–110% over 5 years). For income ROI (rental yield), SG Highway and Prahladnagar deliver 3.5–5% gross yield from corporate and GIFT City tenant demand. PIKORUA's advisory identifies the right corridor based on your income vs. appreciation priority." },
-      { question: "Is luxury property in Ahmedabad a good investment in 2026?", answer: "Yes, with selectivity. Ahmedabad's luxury market is supported by structural demand (NRI buyer wave, GIFT City employment expansion, limited prime supply), strong developer quality in the premium segment, and competitive pricing relative to Mumbai and Bengaluru. Top corridors are still 30–50% below Mumbai equivalent values on a per-sq.ft. basis, suggesting meaningful upside over a 7–10 year horizon." },
-      { question: "What return can I expect from luxury property in Ahmedabad?", answer: "PIKORUA-tracked luxury transactions in prime corridors have delivered 12–22% annualised total return (appreciation + yield) over 2020–2026. This includes periods of COVID disruption. Forward-looking, a 10–15% annualised total return over 5 years is a reasonable base case for quality properties in Bodakdev, Thaltej, and Iscon Ambli Road — with upside if GIFT City expansion accelerates." },
+      { question: "What is the best area for high ROI property investment in Ahmedabad?", answer: "There is no corridor that guarantees the best return. Compare each shortlisted property's current price, recent comparable sales and leases, vacancy risk, maintenance and taxes, financing, and likely resale audience. Historical corridor results vary by building and do not predict a future return; PIKORUA can help compare a specific shortlist." },
+      { question: "Is luxury property in Ahmedabad a good investment in 2026?", answer: "It depends on the specific property, purchase price, legal status, costs, liquidity needs and holding period. Infrastructure plans, NRI demand and price comparisons with other cities are not guarantees of future demand or value. Review current comparable transactions and leases, and assess downside and exit options before committing capital." },
+      { question: "What return can I expect from luxury property in Ahmedabad?", answer: "No future return can be reliably stated from a corridor name alone. PIKORUA maintains internal transaction observations for selected prime-corridor properties, but those historical results are not representative of every property and do not forecast future performance. Ask for the sample definition, dates and calculation method before relying on those records; assess current rent, vacancy, costs and resale liquidity separately." },
     ],
     relatedListingHrefs: ["/p/iscon-ambli-road/luxury-flats/4-bhk/for-investment", "/p/sindhubhavan-road/penthouses/high-roi", "/p/thaltej/luxury-flats/4-bhk/high-roi", "/p/sg-highway/luxury-flats/for-investment"],
     relatedHubSlugs: ["thaltej-investment-guide", "sg-highway-vs-iscon-ambli-road", "nri-property-investment-guide-ahmedabad"],
@@ -592,7 +592,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
     intro: "Thaltej is PIKORUA's most recommended corridor for first-time luxury property investors in Ahmedabad — not because it is the flashiest address, but because it offers the most defensible combination of entry pricing, rental demand depth, appreciation potential, and infrastructure support. Here is everything an investor needs to know before committing capital to Thaltej.",
     heroImage: H.kalrav,
     keyTakeaways: [
-      "Thaltej has delivered 78–88% appreciation over 2020–2026 — among the highest of any Ahmedabad corridor — driven by metro connectivity, Science City employment, and dual-corridor access to both SG Highway and western Ahmedabad.",
+      "Evaluate Thaltej using dated comparable sales, property condition, access, verified rental demand, costs, and resale liquidity. Past price changes do not establish a future return.",
       "Rental yield in Thaltej is 3.2–4.5% — the highest of any western Ahmedabad corridor outside SG Highway. The tenant pool includes pharma executives, IT professionals, and GIFT City commuters.",
       "Thaltej Metro Station (BRTS) has been the single largest price driver in the corridor over 2023–2026 — properties within 500m of the station have appreciated 15–20% more than those 1 km away.",
     ],
@@ -608,7 +608,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
         heading: "Current Pricing and What to Expect",
         body: [
           "As of mid-2026, quality 3 BHK luxury apartments in Thaltej range ₹1.8–2.5 Cr (2,000–2,800 sq.ft. carpet); 4 BHK units range ₹2.4–3.5 Cr. Premium towers with Science City views, club amenities, and branded lobbies command the upper end. Entry-point transactions for smaller 2 BHK configurations are available at ₹1.1–1.5 Cr — these are rare in the luxury segment but exist in towers transitioning from upper-mid to luxury positioning.",
-          "PIKORUA's forward view: Thaltej pricing will see the next leg of appreciation from two catalysts — the BRTS metro network expansion connecting Thaltej directly to GIFT City (under progress), and the Science City Phase 2 expansion which will add 10,000+ high-income professional positions within the tenant catchment. We project 15–22% cumulative appreciation in Thaltej over 2026–2028.",
+          "Future pricing depends on current supply, property-level condition, buyer demand and the status and timing of infrastructure or employment plans. Proposed projects can change or be delayed, so buyers should verify current details with the relevant authorities and should not rely on a price-appreciation forecast.",
         ],
       },
     ],
@@ -654,7 +654,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
       },
     ],
     faqs: [
-      { question: "Will Ahmedabad property prices increase in 2026?", answer: "PIKORUA's base case projects 12–18% appreciation in prime luxury corridors in 2026, supported by constrained supply, rising NRI demand, GIFT City employment expansion, and Ahmedabad's continued undervaluation relative to Mumbai on a per-sq.ft. basis. A broader economic slowdown would moderate but not reverse this trend." },
+      { question: "Will Ahmedabad property prices increase in 2026?", answer: "No one can reliably predict the price direction for every Ahmedabad corridor or property in 2026. Prices depend on supply, financing, buyer demand, construction and the specific asset. Review current comparable sales and leases, holding costs, vacancy risk and exit options; treat infrastructure plans and past performance as uncertain rather than a return forecast." },
       { question: "Is 2026 a good time to buy luxury property in Ahmedabad?", answer: "Yes, for investors with a 5+ year horizon. Prices are still 40–60% below Mumbai equivalents, prime supply is genuinely constrained, and the GIFT City employment catalyst is in early innings. The risk is overpaying in corridors that have already delivered 85%+ appreciation — PIKORUA's advisory identifies value within corridors, not just corridors." },
     ],
     relatedListingHrefs: ["/p/iscon-ambli-road/luxury-flats", "/p/sindhubhavan-road/penthouses", "/p/thaltej/luxury-flats/for-investment", "/p/sg-highway/luxury-flats/high-roi"],
@@ -674,7 +674,7 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
     slug: "what-is-preleased-property",
     prefix: "learn",
     href: "/learn/what-is-preleased-property",
-    title: "What is Preleased Property? Complete Guide India 2026 | PIKORUA",
+    title: "What Is Preleased Property? Investor Guide | PIKORUA",
     description: "Everything you need to know about preleased property investments in India. Covers how preleasing works, yield calculation, risk, due diligence, and Ahmedabad examples.",
     h1: "What is Preleased Property? The Complete Investor's Guide",
     eyebrow: "Property Education · PIKORUA Realty",
@@ -682,7 +682,7 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
     heroImage: H.maruti,
     keyTakeaways: [
       "A preleased property delivers immediate rental income from day one of purchase — eliminating the 3–9 months of vacancy that vacant commercial property purchases typically involve.",
-      "Preleased yield is calculated as: Annual Rent ÷ Purchase Price × 100. A ₹1 Cr property generating ₹6.5L annual rent delivers 6.5% gross yield — comparable to or above current FD rates.",
+      "Preleased yield is calculated as: Annual Rent ÷ Purchase Price × 100. For a purely hypothetical illustration, ₹6.5 lakh annual rent on a ₹1 crore purchase price equals 6.5% gross yield before vacancy, taxes, maintenance, financing, and transaction costs. This example is not a market quote or forecast.",
       "Key due diligence before buying preleased property: verify the tenant's creditworthiness, read the lease agreement for termination clauses, confirm registered lease (mandatory for agreements over 11 months), and check rental escalation schedule.",
     ],
     sections: [
@@ -704,15 +704,15 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
       {
         heading: "Calculating the Real Yield — Net of All Costs",
         body: [
-          "Gross yield (Annual Rent ÷ Purchase Price) understates the true investment picture. Net yield adjusts for: maintenance charges (typically 8–15% of annual rent), property tax (0.5–1% of capital value annually in Ahmedabad), income tax on rental income (30% for HNIs after 30% standard deduction = 21% effective), and vacancy during lease renewal periods.",
-          "A property with 7% gross yield, after all costs, delivers approximately 4.5–5.5% net yield for an HNI investor in the 30% tax bracket — still superior to FD on a post-tax basis, and without considering capital appreciation.",
+          "Gross yield (annual rent divided by purchase price) excludes important costs. Estimate net cash flow from the specific lease and property, allowing for vacancy, maintenance, property charges, financing, transaction costs, and taxes based on current qualified advice. Inputs vary by asset and investor.",
+          "A property's net return cannot be inferred from gross yield alone. Compare its verified rent after vacancy, operating expenses, financing, taxes, and transaction costs with the current terms of a specific deposit product; neither return is guaranteed.",
         ],
       },
     ],
     faqs: [
       { question: "What is a preleased property in India?", answer: "A preleased property is a commercial or residential property that has an existing tenant already in occupation. When bought, the purchaser acquires both the asset and the ongoing tenancy — receiving rental income from day one. Preleased properties in India's commercial segment carry a 10–20% premium over vacant equivalents, reflecting the value of immediate income certainty." },
-      { question: "Is preleased property a good investment?", answer: "For yield-focused investors, preleased commercial property in Ahmedabad delivers 5.5–7.5% gross yield from quality tenants — materially above FD rates. The risk is tenant departure at lease expiry, during which the property may experience 3–9 months of vacancy. PIKORUA advises buying preleased only from institutional or corporate tenants with strong track records." },
-      { question: "How is preleased property yield calculated?", answer: "Gross yield = Annual Rent ÷ Purchase Price × 100. A ₹1.2 Cr commercial unit generating ₹7.8L annual rent delivers 6.5% gross yield. Net yield after tax (30% bracket, 30% standard deduction) and maintenance charges is approximately 4.2–5.0%. Always calculate net yield, not just gross, before committing." },
+      { question: "Is preleased property a good investment?", answer: "It depends on the property price, verified lease, tenant covenant, remaining term, vacancy risk, operating costs, financing, taxes, and resale options. Review the lease and calculate property-specific net cash flow; a tenant or return is not guaranteed." },
+      { question: "How is preleased property yield calculated?", answer: "Gross yield = annual rent ÷ purchase price × 100. For a purely hypothetical illustration, ₹7.8 lakh annual rent on a ₹1.2 crore purchase price equals 6.5% gross yield before vacancy and ownership costs; it is not a market quote or forecast. Estimate net cash flow from the actual lease and expenses, using qualified current tax advice for the investor." },
     ],
     relatedListingHrefs: ["/p/prahladnagar/office-space/rental-income", "/p/cg-road/office-space/for-investment", "/p/sg-highway/office-space/high-roi"],
     relatedHubSlugs: ["commercial-property-vs-fd", "commercial-property-vs-gold", "types-of-commercial-property-india"],
@@ -880,7 +880,7 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
     keyTakeaways: [
       "Office space delivers the most stable commercial yield (6–9% for Grade-A) with long leases and corporate tenants — the dominant choice for HNI investors seeking income.",
       "Retail space carries higher yield potential (8–12%) but more volatile tenant risk — anchored retail in established centres performs; standalone retail is higher risk.",
-      "Warehousing and industrial property (4–7% yield) has emerged as the most institutionally sought commercial category post-COVID — driven by e-commerce and manufacturing expansion.",
+      "Warehousing and industrial assets may attract buyers interested in logistics and manufacturing uses, but tenant demand, occupancy, lease terms, and operating costs vary by property and location. Verify current local evidence before comparing opportunities.",
     ],
     sections: [
       {
@@ -906,7 +906,7 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
       },
     ],
     faqs: [
-      { question: "Which type of commercial property gives the best return in India?", answer: "For HNI investors, Grade-A preleased office space in Ahmedabad's prime corridors (Prahladnagar, SG Highway, GIFT City) delivers the best risk-adjusted return: 6.5–8.5% gross yield from corporate tenants with 3–5 year leases and structured escalation. High-street retail can yield 8–12% but carries higher tenant risk. Industrial/warehousing is excellent for yields with long-term institutional tenants." },
+      { question: "Which type of commercial property gives the best return in India?", answer: "There is no universal best-return category. Compare property-specific rent, tenant and lease risk, vacancy, maintenance, taxes, financing, transaction costs, and exit liquidity against the investor's objectives." },
       { question: "What is the minimum investment for commercial property in Ahmedabad?", answer: "Strata office units in Prahladnagar and SG Highway start at ₹50–80L for 200–400 sq.ft. units. Grade-A office floors start at ₹3–5 Cr. GIFT City office strata starts at ₹1.2 Cr. Retail strata on CG Road starts at ₹60–90L. Industrial sheds in Sanand start at ₹20–40L for small units." },
     ],
     relatedListingHrefs: ["/p/prahladnagar/office-space", "/p/cg-road/retail-space", "/p/gift-city/office-space", "/p/sanand/warehouse"],
@@ -957,7 +957,7 @@ export const GIFT_CITY_PAGES: ContentHubPage[] = [
         heading: "Residential Demand Spillover — SG Highway and Bhat",
         body: [
           "GIFT City's residential spillover effect is the more accessible play for most individual investors. The GIFT City residential zone has limited housing supply (by design — the master plan is commercial-first), meaning the 25,000+ GIFT City workforce predominantly lives in adjacent areas: SG Highway corridor, Bhat (5 min from GIFT City), Chandkheda, and Gandhinagar's Kudasan sector.",
-          "PIKORUA's rental data shows SG Highway 3 BHK apartments within 15 minutes of GIFT City command a 20–28% premium over SG Highway properties beyond 20 minutes. This GIFT City proximity premium is structural — it grows as the workforce expands. For rental income investors, a quality 3 BHK on SG Highway bought at ₹1.8–2.5 Cr and rented to a GIFT City financial services professional at ₹55,000–₹75,000/month delivers 3.3–4.5% gross yield with very low vacancy.",
+          "PIKORUA's rental data shows SG Highway 3 BHK apartments within 15 minutes of GIFT City command a 20–28% premium over SG Highway properties beyond 20 minutes. This GIFT City proximity premium is structural — it grows as the workforce expands. For rental income investors, verify recent rents and completed sales for comparable SG Highway units, and account for vacancy, lease terms, maintenance, taxes, financing, and transaction costs before estimating net yield.",
         ],
       },
       {
@@ -969,7 +969,7 @@ export const GIFT_CITY_PAGES: ContentHubPage[] = [
       },
     ],
     faqs: [
-      { question: "Is GIFT City a good investment for real estate?", answer: "Yes — for investors with a 7–10 year horizon. GIFT City's IFSC framework is India's most powerful employment demand generator in the financial sector, with 75,000+ professional target by 2028. Commercial office yields of 6.2–7.5% with institutional tenant covenants, and residential spillover demand on SG Highway delivering 3.5–4.5% yield, make GIFT City's real estate ecosystem compelling for both commercial and residential investors." },
+      { question: "Is GIFT City a good investment for real estate?", answer: "Assess GIFT City property using verified tenant and lease information, current employment and occupancy evidence, purchase and holding costs, financing, and exit options. An investment horizon does not guarantee a return; verify development and workforce forecasts with current official sources." },
       { question: "What is the price of commercial property in GIFT City?", answer: "Grade-A office strata in GIFT City's IFSC zone starts at ₹12,000–₹18,000 per sq.ft. for operational buildings, with newer towers under development at pre-launch pricing of ₹9,000–₹13,000 per sq.ft. Minimum strata unit sizes are typically 500–1,000 sq.ft., making minimum investment ₹60L–₹1.5 Cr for a strata unit." },
       { question: "Where do GIFT City employees live in Ahmedabad?", answer: "The majority of GIFT City's 25,000+ workforce lives on SG Highway (12–18 min commute), in Bhat/Chandkheda (5–10 min), and in Gandhinagar's Kudasan and Infocity sectors. SG Highway is the most active rental market for GIFT City commuters — 3 BHK luxury apartments rent at ₹55,000–₹85,000/month from IFSC-employed tenants." },
     ],
@@ -991,7 +991,7 @@ export const GIFT_CITY_PAGES: ContentHubPage[] = [
     heroImage: H.maruti,
     keyTakeaways: [
       "GIFT City Grade-A office is occupied by regulated IFSC entities — banks, insurance companies, capital market intermediaries, and fintech firms — providing the highest covenant quality of any commercial tenant universe in India outside BKC Mumbai.",
-      "Gross yield on preleased GIFT City office space: 6.2–7.5%. While lower than Prahladnagar's 7.2–8.1% yield, the quality differential of IFSC-regulated tenants justifies the spread compression.",
+      "Compare preleased office opportunities using verified rent, lease terms, tenant covenant, vacancy risk, operating costs, and comparable purchase prices. Tenant regulation alone does not establish a return or justify a price premium.",
       "GIFT City office leases typically include 15–18% rental escalation every 36 months — compared to Ahmedabad's standard 10–15% — reflecting the international benchmarking of IFSC lease structures.",
     ],
     sections: [
@@ -1007,13 +1007,13 @@ export const GIFT_CITY_PAGES: ContentHubPage[] = [
         body: [
           "Strata office pricing in GIFT City's IFSC zone: ₹12,000–₹18,000 per sq.ft. for completed and occupied buildings from credible developers. Pre-launch pricing for under-construction towers: ₹9,000–₹13,000 per sq.ft. from Tier-1 developers.",
           "Preleased gross yield: 6.2–7.5% for IFSC-registered tenants. The lower yield vs. Prahladnagar reflects the quality premium — IFSC tenants are better covenant, longer leases (5–9 years typical vs. 3–5 years in conventional Ahmedabad commercial), and more structured escalation schedules.",
-          "Net yield after maintenance, property tax, and tax (30% bracket investor): approximately 4.0–5.5%. This exceeds FD net returns materially when combined with 7–10% annual capital appreciation in GIFT City's appreciating commercial market.",
+          "Estimate net income from the actual lease and property costs, then apply current tax advice for the investor. Do not assume capital appreciation or compare a property estimate with deposit returns without explicit, dated inputs.",
         ],
       },
     ],
     faqs: [
-      { question: "Is GIFT City commercial property a good investment?", answer: "For investors seeking Grade-A commercial yield with blue-chip institutional tenants, GIFT City is Ahmedabad's best commercial opportunity. Gross yield of 6.2–7.5%, IFSC-regulated tenants with 5–9 year leases, and 10–12% annual capital appreciation driven by GIFT City expansion make this a compelling investment. Minimum entry: ₹60L for strata office." },
-      { question: "What is the rental yield in GIFT City?", answer: "Preleased Grade-A office in GIFT City's IFSC zone yields 6.2–7.5% gross on current market values. Lease structures include 15–18% escalation every 36 months. Net yield for a 30% bracket investor after tax and maintenance: 4.0–5.5% — above FD net returns with additional capital appreciation upside." },
+      { question: "Is GIFT City commercial property a good investment?", answer: "For investors considering Grade-A commercial property, review the specific unit, verified tenant and lease, building status, purchase and operating costs, financing, tax treatment, and resale options. Verify current pricing and project details before deciding; tenant status or location does not guarantee a return." },
+      { question: "What is the rental yield in GIFT City?", answer: "Calculate gross and net yield from the specific lease, purchase price, vacancy assumptions, operating costs, and current tax advice. Confirm escalation and renewal terms in the registered lease; future rent, sale value, and deposit rates are not guaranteed." },
     ],
     relatedListingHrefs: ["/p/gift-city/office-space", "/p/gift-city/office-space/for-investment", "/p/gift-city/office-space/high-roi"],
     relatedHubSlugs: ["investment-guide", "gift-city-nri-investment", "commercial-property-vs-fd"],

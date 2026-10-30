@@ -825,6 +825,7 @@ export default function AdminDashboard({
         "advisory": "Private Advisory",
         "nri-insights": "NRI Insights",
         "corridor-spotlight": "Corridor Spotlight",
+        "luxury-living": "Luxury Living",
       };
       
       const contentStr = Array.isArray(rawContent) ? rawContent.join("\n\n") : (rawContent || "");
@@ -2226,6 +2227,11 @@ export default function AdminDashboard({
                             <div className="text-ivory/40 text-[10px] mt-0.5 font-mono">
                               /blog/{blog.slug}
                             </div>
+                            {blog.pendingReview && blog.reviewNotes && (
+                              <div className="text-amber-300/80 text-[10px] mt-1 max-w-sm whitespace-pre-line" title="Why the automated quality gate held this draft">
+                                {blog.reviewNotes}
+                              </div>
+                            )}
                           </div>
                         </td>
                         <td className="p-4 text-ivory/40">

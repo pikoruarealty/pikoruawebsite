@@ -15,6 +15,8 @@ import { LazyVirtualTours } from "@/components/home/LazyVirtualTours";
 import { LocationGrid } from "@/components/home/LocationGrid";
 import { PartnerMarquee } from "@/components/home/PartnerMarquee";
 import { StatsStrip } from "@/components/ui/StatsStrip";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
+import type { FaqItem } from "@/lib/data/faq";
 import { MEDIA } from "@/lib/media";
 import { getSupabaseAboutPageContent, getPageSeoData, getSupabaseHomePageContent } from "@/lib/db/queries";
 import { FOUNDER_NAME, DEFAULT_FOUNDER_STORY } from "@/lib/data/about";
@@ -43,6 +45,42 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export const revalidate = 86400;
 
+// Shown on the page and marked up from the same list, so the FAQPage schema
+// always matches visible content. Questions whose answers quote prices or
+// rates were dropped from the homepage until those figures are sourced.
+const HOMEPAGE_FAQS: FaqItem[] = [
+  {
+    question: "What is PIKORUA Realty?",
+    answer:
+      "PIKORUA Realty is Ahmedabad's private luxury residential real estate advisory. We curate exclusive apartments, penthouses, duplexes, villas, and bungalows for HNI and NRI buyers across premium corridors including Iskon-Ambli Road, Sindhu Bhavan Road, Thaltej, Shilaj, and SG Highway.",
+  },
+  {
+    question: "Which areas in Ahmedabad does PIKORUA Realty cover?",
+    answer:
+      "PIKORUA Realty specialises in Ahmedabad's top luxury residential corridors: Iskon-Ambli Road (Billionaires' Row), Sindhu Bhavan Road, Thaltej, Shilaj, Vaishno Devi Circle, and SG Highway. These are the most sought-after addresses for HNI families and NRI buyers in Gujarat.",
+  },
+  {
+    question: "Does PIKORUA Realty assist NRI buyers purchasing property in Ahmedabad?",
+    answer:
+      "Yes. PIKORUA Realty has extensive experience advising NRI clients — including Gujarati diaspora based in the US, UK, UAE, Canada, Singapore, and Australia — on purchasing residential property in Ahmedabad. We handle end-to-end advisory: property selection, legal due diligence, RERA verification, and transaction coordination.",
+  },
+  {
+    question: "Does PIKORUA Realty list properties on 99acres or MagicBricks?",
+    answer:
+      "PIKORUA Realty operates as a private advisory and does not list properties on public portals like 99acres, MagicBricks, or Housing.com. Our curated collection is shared exclusively with registered clients who contact us directly. This ensures complete privacy for both buyers and sellers.",
+  },
+  {
+    question: "How is luxury property valuation done in Ahmedabad?",
+    answer:
+      "Luxury property valuation in Ahmedabad considers comparable recent transactions in the same corridor, the property's floor, view, and specification quality, current market supply and qualified buyer depth, and any legal or structural factors affecting salability. PIKORUA Realty provides private valuation assessments for sellers and buyers as part of our advisory process — integrated into our representation model, not as a standalone service.",
+  },
+  {
+    question: "How do I contact PIKORUA Realty to enquire about a luxury property in Ahmedabad?",
+    answer:
+      "You can reach PIKORUA Realty by WhatsApp, by emailing connect@pikorua.in, or by submitting an enquiry at pikorua.in/contact. We respond to all qualified enquiries within 24 hours and schedule a private consultation to understand your requirements before sharing curated options.",
+  },
+];
+
 export default async function HomePage() {
   if (!env.SITE_LIVE) {
     return <HoldingPage />;
@@ -70,168 +108,11 @@ export default async function HomePage() {
   const homepageFaqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is PIKORUA Realty?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PIKORUA Realty is Ahmedabad's private luxury residential real estate advisory. We curate exclusive apartments, penthouses, duplexes, villas, and bungalows for HNI and NRI buyers across premium corridors including Iskon-Ambli Road, Sindhu Bhavan Road, Thaltej, Shilaj, and SG Highway.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Which areas in Ahmedabad does PIKORUA Realty cover?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PIKORUA Realty specialises in Ahmedabad's top luxury residential corridors: Iskon-Ambli Road (Billionaires' Row), Sindhu Bhavan Road, Thaltej, Shilaj, Vaishno Devi Circle, and SG Highway. These are the most sought-after addresses for HNI families and NRI buyers in Gujarat.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does PIKORUA Realty assist NRI buyers purchasing property in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. PIKORUA Realty has extensive experience advising NRI clients — including Gujarati diaspora based in the US, UK, UAE, Canada, Singapore, and Australia — on purchasing residential property in Ahmedabad. We handle end-to-end advisory: property selection, legal due diligence, RERA verification, and transaction coordination.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What types of luxury properties are available in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PIKORUA Realty's curated collection includes 3 BHK, 4 BHK, and 5 BHK luxury apartments, duplex penthouses, sky villas, independent bungalows, and premium residential plots — all in Ahmedabad's most exclusive western corridors. Properties range from ₹2.5 crore to over ₹15 crore.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How do I find the best luxury real estate agent in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PIKORUA Realty is a trusted luxury property consultancy in Ahmedabad, specialising in premium residential real estate for HNI and NRI buyers. Unlike large portals, we work with a select number of clients at a time, ensuring deeply personalised advisory. You can reach us via WhatsApp, email at connect@pikorua.in, or by filling our private consultation form at pikorua.in/contact.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is the price of luxury apartments on Iskon-Ambli Road, Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Premium apartments on Iskon-Ambli Road, Ahmedabad currently trade between ₹11,000 and ₹15,000 per sq.ft. A typical 4 BHK of 3,500–4,500 sq.ft ranges from ₹4 crore to ₹7 crore. Larger penthouses and sky villas can exceed ₹10 crore. Prices vary by floor, tower, and developer. Contact PIKORUA Realty for current off-market availability.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does PIKORUA Realty list properties on 99acres or MagicBricks?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PIKORUA Realty operates as a private advisory and does not list properties on public portals like 99acres, MagicBricks, or Housing.com. Our curated collection is shared exclusively with registered clients who contact us directly. This ensures complete privacy for both buyers and sellers.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How do I contact PIKORUA Realty to enquire about a luxury property in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "You can reach PIKORUA Realty by WhatsApp, by emailing connect@pikorua.in, or by submitting an enquiry at pikorua.in/contact. We respond to all qualified enquiries within 24 hours and schedule a private consultation to understand your requirements before sharing curated options.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Who is the best luxury real estate consultant in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PIKORUA Realty, founded by Jitendra Pareek, is a specialist luxury property consultancy in Ahmedabad — operating as a private advisory rather than a portal or high-volume brokerage. We provide personalised advisory to a selective number of HNI and NRI clients at any given time. Reach out via pikorua.in/contact for a private consultation.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does PIKORUA Realty offer NRI property advisory in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. PIKORUA Realty is a specialist NRI property consultant in Ahmedabad. We guide Gujarati and Indian NRI clients based in the US, UK, UAE, Canada, Singapore, and Australia through the full process of identifying, evaluating, and acquiring luxury residential properties in Ahmedabad — remotely and securely, including Power of Attorney facilitation, NRE/NRO fund routing guidance, and RERA verification.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Which is the best area to buy luxury property in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The strongest luxury residential corridors in Ahmedabad are Iskon-Ambli Road (highest price per sq.ft., most sought-after for penthouses and sky mansions), Sindhu Bhavan Road (established prestige, strong bungalow and large-apartment market), and Thaltej (growing corridor with strong value and connectivity). The right choice depends on property type, lifestyle needs, commute, and investment horizon. PIKORUA Realty provides detailed corridor comparison during private advisory.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is the average price of a luxury 4 BHK in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "A luxury 4 BHK apartment in Ahmedabad typically prices between ₹3.5 Crore and ₹8 Crore depending on corridor, building specification, and floor. On Iskon-Ambli Road, 4 BHK apartments of 3,000–4,500 sq.ft. trade at ₹4 Crore to ₹8 Crore. On Sindhu Bhavan Road, equivalent units range from ₹3.5 Crore to ₹7 Crore. In Thaltej, quality 4 BHK apartments price from ₹2.5 Crore to ₹5 Crore.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is Sindhu Bhavan Road a good location to buy property in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Sindhu Bhavan Road (SBR) is one of Ahmedabad's most established and recognised luxury addresses. It offers a strong mix of large-format apartments, penthouses, and independent bungalow estates, and is well-connected to premium dining, private schools, and the SG Highway business belt. For buyers who value a mature, prestigious address with strong resale depth, SBR is one of the strongest choices in the city.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is Iscon Ambli Road good for luxury real estate investment in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Iscon-Ambli Road is Ahmedabad's highest-priced luxury residential corridor and commands consistently strong demand from HNI buyers and NRIs. Premium apartments here trade between ₹11,000 and ₹15,000 per sq.ft. The corridor's combination of address prestige, building quality, and scarcity makes it a strong long-term investment, particularly for penthouses and large-format 4 BHK and 5 BHK floor plates.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is better for luxury living: SBR or Thaltej in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Sindhu Bhavan Road (SBR) is better for buyers who want an established, centrally connected luxury address with a mix of apartments and bungalows in a mature neighbourhood. Thaltej is better for buyers who want a quieter, more spacious residential environment at a lower price per sq.ft. while still within 10 minutes of the SG Highway corridor. SBR has stronger resale brand recognition; Thaltej offers better value-to-quality ratio at present.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Should I buy a ready possession or under-construction luxury home in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Ready possession homes allow you to inspect the finished quality before committing and eliminate construction risk — ideal for end-users who want immediate occupancy. Under-construction homes offer entry at 15–25% below ready possession prices in the same building, but require confidence in the developer's track record and a 2–4 year timeline. PIKORUA Realty evaluates both options during private advisory.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Which locations in Ahmedabad have the best rental yield for luxury property?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Iskon-Ambli Road and Sindhu Bhavan Road consistently produce the strongest rental yields for luxury residential property in Ahmedabad, with premium furnished 4 BHK and 5 BHK apartments renting at ₹50,000–₹1,50,000 per month. Thaltej and Vastrapur offer strong yields from the senior executive and healthcare professional tenant profile.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How do I sell my luxury apartment in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Selling a luxury apartment in Ahmedabad works best through private, relationship-led advisory rather than public portal exposure. Public listings attract unqualified enquiries, extend marketing timelines, and can erode perceived value through overexposure. PIKORUA Realty represents luxury sellers through a discreet model — presenting the property to a curated shortlist of pre-qualified buyers without public listing. Contact us at pikorua.in/contact to discuss seller representation.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How is luxury property valuation done in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Luxury property valuation in Ahmedabad considers comparable recent transactions in the same corridor, the property's floor, view, and specification quality, current market supply and qualified buyer depth, and any legal or structural factors affecting salability. PIKORUA Realty provides private valuation assessments for sellers and buyers as part of our advisory process — integrated into our representation model, not as a standalone service.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Which real estate developers does PIKORUA Realty partner with in Ahmedabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PIKORUA Realty advises on premium properties from Ahmedabad's leading real estate developers, including Adani Realty, Venus Infrastructure, Goyal & Co., The Capstone Developers, Swati Procon, HN Safal, Godrej Properties, Sun Builders, Shaligram Group, Maruti Group, Triveni Group, Gala Group, Constera Realty, A. Shridhar, Satyamev Group, and Ravi Desai Group. As an independent consultancy, we provide unbiased, relationship-led guidance rather than promoting any single builder's inventory.",
-        },
-      },
-    ],
+    mainEntity: HOMEPAGE_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
   };
 
   return (
@@ -272,6 +153,24 @@ export default async function HomePage() {
 
         {/* What Our Clients Say */}
         <TestimonialsTeaser />
+
+        <section className="bg-lux-black py-16 lg:py-24 border-t border-white/[0.06]" aria-labelledby="home-faq-heading">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <div className="space-y-2 flex flex-col items-center mb-10">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-champagne-gold font-sans font-medium">
+                Common Questions
+              </p>
+              <div className="w-8 h-px bg-champagne-gold/50" aria-hidden="true" />
+              <h2
+                id="home-faq-heading"
+                className="font-display text-[clamp(1.5rem,3vw,2rem)] font-light text-white uppercase tracking-wider text-center mt-2"
+              >
+                Frequently Asked Questions
+              </h2>
+            </div>
+            <FaqAccordion items={HOMEPAGE_FAQS} />
+          </div>
+        </section>
 
         {/* Contact Us */}
         <FinalCTABand />

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
+import { getPublishedBlogPosts } from "@/lib/data/blog";
 import { getSupabaseBlogs } from "@/lib/db/queries";
 import { createMetadata, SITE_URL } from "@/lib/seo";
 
@@ -25,15 +25,13 @@ export const metadata: Metadata = {
   },
 };
 
-// ISR: re-render at most every hour. Tag-based invalidation in admin/actions.ts
-// (revalidateTag("blogs")) flushes this cache immediately when a post is approved.
+// ISR: re-render at most daily. Blog saves, approvals and deletions call
+// revalidateBlogPaths() (src/lib/blog-revalidation.ts) to refresh it at once.
 export const revalidate = 86400;
 
 export default async function BlogListingPage() {
-  let posts = await getSupabaseBlogs(true);
-  if (posts.length === 0) {
-    posts = STATIC_BLOG_POSTS;
-  }
+  // Same publication rule as the post pages and /sitemap/blog.xml.
+  const posts = getPublishedBlogPosts(await getSupabaseBlogs(false));
 
   const featuredPost = posts.find((post) => post.isFeatured) || posts[0];
   const regularPosts = posts.filter((post) => post.id !== featuredPost?.id);

@@ -191,7 +191,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     intro:
       "USA-based NRI investors have a unique opportunity in Ahmedabad real estate — combining India's growth-market capital appreciation with the USD/INR currency advantage, strong diaspora rental demand, and reliable PIKORUA advisory support for remote investment management.",
     marketSignals: [
-      "Ahmedabad prime corridor capital appreciation (8–15% annually) combined with USD/INR tailwind can deliver compelling dollar-denominated total returns.",
+      "For US buyers, currency movements can increase or reduce the USD value of an Indian property. Assess currency exposure alongside property-level costs, verified rent, transaction evidence, and remittance requirements.",
       "US NRI investors who entered Iscon Ambli Road or Sindhu Bhavan Road in 2019–2021 have achieved 40–60% capital appreciation in rupee terms.",
     ],
     idealFor: [
@@ -203,7 +203,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
       {
         question: "Is Ahmedabad real estate a good investment for USA NRIs?",
         answer:
-          "For US NRIs with a 5–7 year horizon, Ahmedabad's prime western corridors have delivered 8–15% annual capital appreciation in rupee terms. Combined with the USD/INR currency angle and growing rental demand from GIFT City, the total return case is strong compared to mature US real estate markets.",
+          "For US NRIs, compare a specific Ahmedabad property with dated comparable transactions, verified rent, purchase and exit costs, currency conversion, remittance rules, and the investor's holding period. Past local price changes do not establish a future INR or USD return.",
       },
       {
         question: "Can USA NRIs repatriate profits from Ahmedabad property sales?",
@@ -215,7 +215,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
       "### Ahmedabad vs US Real Estate: An NRI Comparison",
       "US NRI investors face a genuine choice between Indian and US real estate. US real estate offers dollar exposure, mature market data, and established legal frameworks — but also high entry prices (especially in coastal cities), property taxes, vacancy risk, and management challenges. Ahmedabad offers India growth-market exposure, family utility, potential currency appreciation, and a growing institutional rental market — but also FEMA compliance complexity, remote management requirements, and builder risk.",
       "### The USD/INR Investment Angle",
-      "For US NRIs, the rupee exchange rate is not just a currency conversion — it is a potential return amplifier. If an NRI buys a ₹4 Cr Ahmedabad flat when the rate is ₹84/USD (costing US$476,000), and the flat appreciates to ₹5 Cr when the rate has returned to ₹80/USD, the US dollar value of the property is US$625,000 — a 31% dollar return on a 25% rupee appreciation. Currency can work significantly in the buyer's favour over 5–7 year horizons.",
+      "For US NRIs, currency conversion can increase or reduce a property's USD value. Purely hypothetical arithmetic, not a forecast: a ₹4 crore property at ₹84/USD converts to about US$476,190; ₹5 crore at ₹80/USD converts to US$625,000. This simplified comparison excludes transaction costs, taxes, remittance fees, and timing; property prices and exchange rates can move either way.",
       "### Rental Income from the USA",
       "PIKORUA Realty's network of Ahmedabad property managers enables US NRI investors to receive rental income into their NRO account without requiring a single India visit. Monthly rental income is transferred to the NRO account and can be repatriated to the US within FEMA limits after applicable Indian tax deduction (TDS). The net rental yield after management fees and TDS is typically 1.5–3.5% for prime western Ahmedabad luxury apartments.",
     ],
@@ -274,7 +274,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
       {
         question: "What is the GBP equivalent of Ahmedabad luxury flat prices?",
         answer:
-          "At approximately ₹108 per GBP (mid-2026), a ₹3 Cr luxury flat costs approximately £277,000 — comparable to entry-level London outer zone properties but in a prime Ahmedabad western corridor with stronger appreciation potential.",
+          "A ₹3 crore purchase price converts to a GBP amount that changes with the exchange rate and transaction date. Compare purchase, remittance, ownership, tax, and exit costs; do not treat currency conversion as a return forecast.",
       },
       {
         question: "Do I need to pay any UK tax when buying Indian property?",
@@ -284,11 +284,11 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     ],
     bodyContent: [
       "### The UK NRI Buying Context",
-      "UK-based NRIs buying Ahmedabad luxury property benefit from the GBP/INR exchange rate — at approximately ₹108 per GBP, the pound stretches further in Ahmedabad's premium market than in London. A 3 BHK luxury flat in Thaltej at ₹3 Cr costs approximately £277,000 — equivalent to entry-level UK regional property but in a prime Ahmedabad corridor with 7–10% annual appreciation potential.",
+      "UK-based NRIs should account for GBP/INR movements, which can change the cost and exit value of an Ahmedabad purchase. A ₹3 crore purchase price converts to a GBP amount that changes with the exchange rate and transaction date. Compare the full purchase, remittance, ownership, tax, and exit costs; do not treat a currency conversion as a return forecast.",
       "### UK NRI Legal Framework",
       "UK-based NRIs with Indian passports or OCI cards can buy residential property in India under the standard FEMA framework. UK NRIs who have British citizenship (not OCI) may face additional restrictions — legal advice from a qualified Indian property lawyer is essential before proceeding. All payments should route through NRE/NRO accounts via SWIFT remittance from the UK bank. UK-apostilled Powers of Attorney are valid for Indian property registration.",
       "### HMRC Tax Considerations",
-      "UK tax residents who own Indian rental property must declare rental income on their UK self-assessment return as foreign income. Capital gains from the sale of Indian property may be subject to UK CGT (currently 18–24% for residential property above the Annual Exempt Amount for the 2026/27 tax year). Double Taxation Agreement (DTA) between India and UK provides some relief against double taxation. A UK accountant with India expertise should be engaged before any transaction.",
+      "UK tax residents who own Indian rental property must declare rental income on their UK self-assessment return as foreign income. Capital gains from Indian property may also have UK tax consequences for UK tax residents. Treatment depends on current rules, residence, the transaction, and any treaty relief; obtain qualified UK and Indian tax advice and check current HMRC guidance before a sale. Double Taxation Agreement (DTA) between India and UK provides some relief against double taxation. A UK accountant with India expertise should be engaged before any transaction.",
     ],
   },
   {
@@ -423,7 +423,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     intro:
       "Dubai NRIs considering Ahmedabad property investment have a unique comparison to make — a market they understand directly (Dubai) against a market with strong family connections (Ahmedabad). PIKORUA Realty provides an honest, data-backed comparison to help Dubai NRIs make informed India allocation decisions.",
     marketSignals: [
-      "Ahmedabad prime corridors offer 8–15% annual INR appreciation versus Dubai's more volatile price cycles.",
+      "Compare specific Indian and Dubai properties using dated transaction evidence, rental cash flows, financing, taxes, currency, liquidity, and ownership costs; historic market movement does not predict future returns.",
       "Indian property ownership provides family utility, cultural connection, and India wealth allocation that AED-denominated Dubai property cannot.",
     ],
     idealFor: [

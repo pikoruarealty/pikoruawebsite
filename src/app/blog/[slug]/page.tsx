@@ -4,35 +4,32 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { STATIC_BLOG_POSTS } from "@/lib/data/blog";
+import { getPublishedBlogPosts, resolvePublicBlogPost } from "@/lib/data/blog";
 import { getSupabaseBlogs, getSupabaseBlogBySlug } from "@/lib/db/queries";
 import { renderFormattedText } from "@/lib/utils";
 import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { getLandingPagesBySlugs, getRelatedLandingPagesForText } from "@/lib/data/geo";
+import { AUTOMATED_BYLINE } from "@/lib/ai/blogQuality";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const dbBlogs = await getSupabaseBlogs(true);
-  const allBlogs = dbBlogs.length > 0 ? dbBlogs : STATIC_BLOG_POSTS;
-  return allBlogs.map((post) => ({
+  const dbBlogs = await getSupabaseBlogs(false);
+  return getPublishedBlogPosts(dbBlogs).map((post) => ({
     slug: post.slug,
   }));
 }
 
-// ISR: re-render at most every hour. Tag-based invalidation in admin/actions.ts
-// (revalidateTag("blogs")) flushes this cache immediately when a post is approved.
+// ISR: re-render at most daily. Blog saves, approvals and deletions call
+// revalidateBlogPaths() (src/lib/blog-revalidation.ts) to refresh it at once.
 export const revalidate = 86400;
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  let post = await getSupabaseBlogBySlug(slug);
-  if (!post) {
-    post = STATIC_BLOG_POSTS.find((p) => p.slug === slug) || null;
-  }
+  const post = resolvePublicBlogPost(slug, await getSupabaseBlogBySlug(slug));
   if (!post) return {};
 
   return createMetadata({
@@ -46,10 +43,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  let post = await getSupabaseBlogBySlug(slug);
-  if (!post) {
-    post = STATIC_BLOG_POSTS.find((p) => p.slug === slug) || null;
-  }
+  const post = resolvePublicBlogPost(slug, await getSupabaseBlogBySlug(slug));
 
   if (!post) {
     notFound();
@@ -65,10 +59,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const relatedLandingPages = post.relatedLandingSlugs?.length
     ? getLandingPagesBySlugs(post.relatedLandingSlugs)
-    : getRelatedLandingPagesForText(`${post.title} ${post.excerpt} ${post.content.join(" ")}`);
+    : getRelatedLandingPagesForText(`${post.title} ${post.excerpt} ${post.htmlContent ? post.htmlContent.replace(/<[^>]+>/g, " ") : post.content.join(" ")}`);
 
   const canonicalUrl = absoluteUrl(`/blog/${post.slug}`);
-  const wordCount = post.content.join(" ").split(/\s+/).filter(Boolean).length;
+  const bodyText = post.htmlContent ? post.htmlContent.replace(/<[^>]+>/g, " ") : post.content.join(" ");
+  const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
   const dateModified = post.updatedAt || post.publishedAt;
 
   const blogPostingSchema = {
@@ -81,15 +76,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     datePublished: post.publishedAt,
     dateModified: dateModified,
     wordCount: wordCount,
-    author: {
-      "@type": "Person",
-      name: post.author.name,
-      worksFor: {
-        "@type": "RealEstateAgent",
-        "@id": ENTITY_IDS.realEstateAgent,
-        name: SITE_NAME,
-      },
-    },
+    // Unreviewed automated posts are credited to the organisation, not a person.
+    author: post.author.name === AUTOMATED_BYLINE.name
+      ? { "@type": "Organization", "@id": ENTITY_IDS.realEstateAgent, name: SITE_NAME }
+      : {
+          "@type": "Person",
+          name: post.author.name,
+          worksFor: {
+            "@type": "RealEstateAgent",
+            "@id": ENTITY_IDS.realEstateAgent,
+            name: SITE_NAME,
+          },
+        },
     publisher: {
       "@type": "Organization",
       "@id": ENTITY_IDS.realEstateAgent,

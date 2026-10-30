@@ -1,6 +1,8 @@
 # PIKORUA Website: Vercel + Supabase → Hostinger VPS (KVM 2, 8GB)
 
 > Status: **planned, not started** (drafted 2026-10-21). Nothing in this document has been executed yet.
+>
+> **Update, 30 Oct 2026:** the migration was carried out between 2026-10-24 and 2026-10-27 (DB restore with the URL rewrite in `post_restore.sql`, media copy, TLS, DNS) and the site runs from this Compose stack. This document is now history. For a normal code release, do **not** re-run its restore, URL-rewrite, schema or DNS steps; follow `docs/seo/RELEASE_REVIEW_2026-10-30.md` instead. Still pending from the plan: backups, monitoring, the CRM switch to `/api/crm/leads`, and secret rotation.
 
 ## Context
 The site (Next.js 16 App Router) runs on Vercel and uses Supabase for two things:
@@ -182,6 +184,8 @@ Files in the repo: `Dockerfile` (Next.js `output: "standalone"`, Node 22, runs a
 6. Logs: `docker compose --env-file .env.production logs -f app`. Restart policy is `unless-stopped`, so both containers come back after a reboot through the Docker daemon, with no systemd unit of our own.
 
 ## Phase 6: Vercel crons are dropped (decided)
+> **Update, 29 Oct 2026:** the premise below was wrong for the auto-blog route. The `blogs` table shows it **did** run on Vercel (22 AI drafts, 10 Jul – 5 Oct 2026). Management has asked for automated blogging back, so it was rebuilt for the VPS: `src/app/api/cron/auto-blog`, triggered by the host crontab over loopback, with a quality gate. Setup steps: `docs/seo/BLOG_AUTOMATION_REPORT.md` §7. IndexNow and URL-inspection crons stay dropped.
+
 The user doesn't need the scheduled jobs (auto-blog, IndexNow, URL inspection), `CRON_SECRET` or `OPENROUTER_API_KEY`. `CRON_SECRET` was never set on Vercel, so all 3 routes have been returning 401 and never ran; nothing is lost.
 - Delete `src/app/api/cron/` (all 3 routes) and `vercel.json`. No crontab entries are added for them.
 - `src/lib/ai/blogAutomation.ts`, `index-now.ts` and `google-url-inspection.ts`: delete them if nothing else imports them (check with `rg`).

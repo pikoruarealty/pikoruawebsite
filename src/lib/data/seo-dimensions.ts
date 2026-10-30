@@ -84,7 +84,7 @@ export const SEO_LOCATIONS: SeoDimLocation[] = [
     area: "Thaltej",
     weight: 9,
     marketNote:
-      "Best-balanced corridor — 7–10% appreciation plus 3–4% rental yield near SG Highway and Science City.",
+      "A balanced corridor for both self-use and rental demand, close to SG Highway and Science City.",
     priceContext: "₹6,500–₹11,000 per sq.ft.",
     lifestyle: "Strong SG Highway, Science City, and Thaltej Metro Station connectivity.",
     coordinates: { lat: "23.0500", lng: "72.5167" },

@@ -2,7 +2,7 @@ export interface BlogPost {
   id: string;
   title: string;
   slug: string;
-  category: "market-report" | "advisory" | "nri-insights" | "corridor-spotlight";
+  category: "market-report" | "advisory" | "nri-insights" | "corridor-spotlight" | "luxury-living";
   categoryLabel: string;
   publishedAt: string;
   readTime: string;
@@ -29,4 +29,6 @@ export interface BlogPost {
   pendingReview?: boolean;
   /** 'ai_auto' for posts drafted by the automated news pipeline, 'manual' otherwise */
   source?: "manual" | "ai_auto";
+  /** Why the automated quality gate held this AI draft for review (admin only) */
+  reviewNotes?: string;
 }

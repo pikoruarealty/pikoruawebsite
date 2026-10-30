@@ -250,7 +250,9 @@ function buildFaqs(combo: ParsedCombo): { question: string; answer: string }[] {
   if (!intent || intent.slug === "for-investment" || intent.slug === "high-roi") {
     faqList.push({
       question: `Is ${loc.label} good for property investment in Ahmedabad?`,
-      answer: `${loc.label} has historically delivered ${loc.corridor === "west" ? "7–12% annual capital appreciation" : loc.corridor === "gift-city" ? "8–14% annual appreciation driven by GIFT City expansion" : loc.corridor === "sg-highway" ? "7–10% capital appreciation with 3.5–5% gross rental yield" : "6–9% annual appreciation"} in premium buildings. ${type ? type.marketNote : ""} PIKORUA Realty's investment advisory covers corridor selection, building due diligence, and exit strategy planning.`,
+      // No return figures: this template fills every location, so a number
+      // here can't be location data. Returns depend on the specific building.
+      answer: `Investment performance in ${loc.label} depends on the specific building, purchase price, supply pipeline and infrastructure timing, so past returns elsewhere in the city are not a reliable guide and no return is guaranteed. ${type ? type.marketNote : ""} PIKORUA Realty's investment advisory covers corridor selection, recent registered transactions for the building, due diligence, and exit planning.`,
     });
   }
 

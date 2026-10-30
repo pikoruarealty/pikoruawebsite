@@ -1,0 +1,26 @@
+slug                                             status sitemap  index  feed  llms  llmsF 
+zqrv-db-only-published                           200    yes      yes    yes   yes   yes   
+zqrv-db-only-pending                             404    no       no     no    no    no    
+zqrv-db-only-inactive                            404    no       no     no    no    no    
+zqrv-active-but-pending                          404    no       no     no    no    no    
+ambli-bopal-evolution                            200    yes      yes    yes   yes   yes   
+discretion-in-high-value-transactions            404    no       no     no    no    no    
+rise-of-single-floor-penthouses                  404    no       no     no    no    no    
+zqrv-legacy-slash                                200    yes      yes    yes   yes   yes   
+zqrv-dup                                         200    yes      yes    yes   yes   yes   
+nri-guide-asset-curation-gujarat                 200    yes      yes    yes   yes   yes   
+override title rendered on ambli-bopal-evolution: yes
+dup renders published variant: yes
+canonical legacy-slash: <link rel="canonical" href="https://www.pikorua.in/blog/zqrv-legacy-slash"
+OG image (published / pending) status: 200 / 200
+blog sitemap entries: 10
+
+property                                             status sitemap  listing robots
+zqrv-prop-active                                     200    yes      yes     <meta name="robots" content="index, follow"
+zqrv-prop-inactive                                   200    no       no      <meta name="robots" content="index, follow"
+5-bhk-3300-6300-sindhu-bhavan                        200    no       no      <meta name="robots" content="index, follow"
+4-5-bhk-duplex-5700-7500-iskon-ambli                 200    yes      yes     <meta name="robots" content="index, follow"
+4-5-bhk-penthouse-duplex-7300-15500-sindhu-bhavan    308    no       yes     
+4-5-bhk-penthouse-5200-7500-sindhu-bhavan            200    yes      no      <meta name="robots" content="index, follow"
+inactive override renders DB row: yes
+property sitemap entries: 21
