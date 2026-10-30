@@ -915,6 +915,75 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
     publishedAt: "2026-07-21",
     category: "education",
   },
+  {
+    slug: "jantri-rates-ahmedabad",
+    prefix: "learn",
+    href: "/learn/jantri-rates-ahmedabad",
+    title: "Jantri Rate Ahmedabad: How to Check It",
+    description: "What Gujarat's jantri rate is, how to look it up for an Ahmedabad property on the official GARVI portal, and how it affects stamp duty and registration.",
+    h1: "Jantri Rates in Ahmedabad: What They Are and How to Check Them",
+    eyebrow: "Buyer Guide · PIKORUA Realty",
+    intro: "Jantri is the Gujarat government's Annual Statement of Rates: the reference value per square metre that the state sets for land and buildings in each area. It is the reference the state uses when it values a property for stamp duty and registration, which is why every buyer in Ahmedabad, and every NRI buying from abroad, should check it before agreeing a price. This guide explains what jantri is, how to look it up on the official portal, and what it means for your purchase.",
+    heroImage: H.anurita,
+    keyTakeaways: [
+      "Check jantri only on official sources: the GARVI portal (garvi.gujarat.gov.in) and the Gujarat Revenue Department's jantri page. Third-party rate lists can be out of date.",
+      "The statement currently published on GARVI is the Annual Statement of Rate - 2023, revised under a Revenue Department resolution dated 13 April 2023. Reports since 2024 have described a proposed further revision, so confirm on GARVI whether a newer statement has been notified before you rely on any figure.",
+      "Jantri is a government reference value, not a market price. A property's agreed price can be above or below it; stamp duty and registration are worked out under the Gujarat rules and the official jantri guidelines, so ask your advocate or the registration office to confirm the amount for your deal.",
+    ],
+    sections: [
+      {
+        heading: "What jantri means",
+        body: [
+          "Jantri (જંત્રી) is the Gujarat term for the Annual Statement of Rates (ASR), the government's schedule of reference values for land and constructed property, published area by area. Other states call the same idea a circle rate or ready reckoner rate.",
+          "The rates are set by the state government. The statement published on GARVI today is titled Annual Statement of Rate - 2023 and records that rates were revised under a Revenue Department resolution dated 13 April 2023, with separately published corrections for some areas.",
+        ],
+      },
+      {
+        heading: "How to check the jantri rate online",
+        body: [
+          "Go to the GARVI portal (garvi.gujarat.gov.in), run by the Gujarat government with NIC, and open the option to view the jantri rate or market value. You then choose the district, the taluka and the village or town planning area, and enter the survey or plot number for the property.",
+          "For a flat, ask the seller or developer for the survey number or final plot number of the land the building stands on; it appears in the title documents and the GujRERA registration. The Revenue Department's jantri page (revenuedepartment.gujarat.gov.in) links to the latest statement, and the Stamps and Registration Department publishes the jantri guidelines that explain how values are applied, for example to older construction and to flats.",
+        ],
+      },
+      {
+        heading: "Why jantri matters when you buy",
+        body: [
+          "Jantri is the reference the state uses when it values a property for stamp duty and registration, so it affects what you pay on top of the price. It also shows up in valuation discussions with banks and, when you later sell, in the paperwork your chartered accountant prepares.",
+          "Because the rules for how jantri is applied are technical, have your advocate or the sub-registrar's office confirm the stamp duty and registration amounts for your specific agreement before you sign. PIKORUA's stamp duty guide covers the overall costs of registering a home in Ahmedabad.",
+        ],
+      },
+      {
+        heading: "Jantri and market price are different",
+        body: [
+          "Jantri is set by the government for a whole area and updated occasionally; market prices are agreed between buyers and sellers and change with each building and each deal. Do not read a jantri rate as the price you should pay, and do not read a gap between the two as a bargain or a warning on its own.",
+          "To judge a price, compare it with recent registered sales of similar homes in the same building or street, and with the property's condition, floor, view and amenities.",
+        ],
+      },
+      {
+        heading: "For NRIs buying from abroad",
+        body: [
+          "The jantri check, stamp duty calculation and registration all happen in Gujarat, so an NRI buyer usually relies on a family member, a lawyer or a power-of-attorney holder to complete them. Ask for a screenshot of the GARVI result and the stamp duty working before you transfer funds.",
+        ],
+      },
+      {
+        heading: "Sources",
+        body: [
+          "GARVI portal, Government of Gujarat (garvi.gujarat.gov.in), including the Annual Statement of Rate - 2023 page. Revenue Department, Government of Gujarat: jantri page (revenuedepartment.gujarat.gov.in). Stamps and Registration Department, Government of Gujarat: jantri guidelines (stampsregistration.gujarat.gov.in). Read on 30 October 2026. Rates and rules can change; this guide is general information, not legal or tax advice.",
+        ],
+      },
+    ],
+    faqs: [
+      { question: "What is the jantri rate in Ahmedabad?", answer: "Jantri is the Gujarat government's Annual Statement of Rates: the reference value it sets for land and buildings in each area of Ahmedabad and the rest of the state. Look up the rate for a specific property on the official GARVI portal (garvi.gujarat.gov.in)." },
+      { question: "How do I check the jantri rate for my property?", answer: "On garvi.gujarat.gov.in, choose the option to view the jantri rate or market value, then select the district, taluka and village or town planning area and enter the survey or plot number from the property's documents." },
+      { question: "Which jantri rates apply in 2026?", answer: "The statement published on GARVI is the Annual Statement of Rate - 2023, revised under a Revenue Department resolution dated 13 April 2023. A further revision has been reported as proposed; check GARVI for whether a newer statement has been notified." },
+      { question: "Is the jantri rate the same as the market price?", answer: "No. Jantri is a government reference value for an area; the market price is what a buyer and seller agree for a specific home. Compare prices with recent registered sales of similar homes." },
+    ],
+    relatedListingHrefs: [],
+    relatedHubSlugs: ["rera-gujarat-guide", "carpet-area-vs-built-up-area", "how-to-buy-property-as-nri-ahmedabad"],
+    marketSignals: [],
+    publishedAt: "2026-10-30",
+    category: "education",
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────

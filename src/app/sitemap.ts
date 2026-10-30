@@ -31,6 +31,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // are geo landing pages, listed in /sitemap/geo.xml — not repeated here.
     { url: absoluteUrl("/compare"), lastModified, changeFrequency: "monthly", priority: 0.72 },
     { url: absoluteUrl("/invest"), lastModified, changeFrequency: "monthly", priority: 0.75 },
+    { url: absoluteUrl("/invest/rental-yield-calculator-ahmedabad"), lastModified: new Date("2026-10-30T12:00:00Z"), changeFrequency: "monthly", priority: 0.7 },
+    { url: absoluteUrl("/nri/property-budget-currency-converter"), lastModified: new Date("2026-10-30T12:00:00Z"), changeFrequency: "daily", priority: 0.75 },
     { url: absoluteUrl("/learn"), lastModified, changeFrequency: "monthly", priority: 0.72 },
     {
       url: absoluteUrl("/private-client-advisory"),

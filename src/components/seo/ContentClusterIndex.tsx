@@ -9,11 +9,14 @@ export function ContentClusterIndex({
   eyebrow,
   description,
   pages,
+  tools = [],
 }: {
   title: string;
   eyebrow: string;
   description: string;
   pages: ContentHubPage[];
+  /** Interactive tools shown before the guides, in the same card style. */
+  tools?: { href: string; title: string; description: string }[];
 }) {
   return (
     <>
@@ -30,6 +33,22 @@ export function ContentClusterIndex({
         </section>
         <section className="py-16 lg:py-24">
           <div className="mx-auto grid max-w-7xl gap-px bg-white/[0.07] px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
+            {tools.map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="group min-h-64 bg-lux-black p-7 transition-colors hover:bg-soft-black"
+              >
+                <p className="text-[9px] uppercase tracking-[0.2em] text-champagne-gold/60">Tool</p>
+                <h2 className="mt-5 font-display text-xl uppercase leading-snug tracking-wide group-hover:text-champagne-gold">
+                  {tool.title}
+                </h2>
+                <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-ivory/48">{tool.description}</p>
+                <span className="mt-7 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-champagne-gold/65">
+                  Open tool <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </Link>
+            ))}
             {pages.map((page) => (
               <Link
                 key={page.href}

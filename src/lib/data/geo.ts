@@ -4374,6 +4374,153 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
     ],
   },
   ...NRI_COUNTRY_INDEX_PAGES,
+  {
+    kind: "nri",
+    slug: "non-resident-gujarati-property-ahmedabad",
+    href: "/nri/non-resident-gujarati-property-ahmedabad",
+    label: "Non-Resident Gujaratis",
+    eyebrow: "Non-Resident Gujarati (NRG) Desk",
+    title: "Property for Non-Resident Gujaratis (NRG)",
+    h1: "Ahmedabad Property for Non-Resident Gujaratis",
+    description:
+      "How Non-Resident Gujaratis in the USA, UK, Gulf, East Africa, Canada and Australia buy a home in Ahmedabad: rules, remote process and family-led shortlisting.",
+    heroImage: "/properties/vastrapur/vastrapur-3-facade.jpg",
+    categories: ["apartment", "penthouse", "villa", "bungalow"],
+    seoKeywords: [
+      "property for non resident gujaratis",
+      "NRG property Ahmedabad",
+      "Non-Resident Gujarati home in Ahmedabad",
+      "Gujarati NRI property Ahmedabad",
+    ],
+    collectionHref: "/contact?purpose=nrg-property",
+    intro:
+      "For many Gujarati families abroad, a home in Ahmedabad is about more than an investment: a base for visits, a home for parents, or a place to return to later. PIKORUA's NRG desk helps families in the USA, UK, the Gulf, East Africa, Canada and Australia shortlist, verify and buy residential property in Ahmedabad without needing to be in India for every step.",
+    marketSignals: [
+      "Family members in Ahmedabad can attend inspections while the buyer joins by video.",
+      "Payment must come through Indian banking channels: an inward remittance or an NRE, FCNR(B) or NRO account.",
+      "Agricultural land, farmhouses and plantation property are outside what NRIs and OCIs may buy.",
+    ],
+    idealFor: [
+      "Gujarati families abroad buying a home for parents or for future return.",
+      "Second-generation Gujaratis with an OCI card buying their first home in Ahmedabad.",
+      "Families comparing western Ahmedabad corridors from overseas.",
+    ],
+    relatedSlugs: ["nri-property-investment-ahmedabad", "nri-home-buying-process-india", "nri-property-eligibility-fema"],
+    nriDetails: NRI_BASE_DETAILS,
+    faqs: [
+      {
+        question: "Who is a Non-Resident Gujarati (NRG)?",
+        answer:
+          "NRG is the term the Gujarat government uses for people of Gujarati origin living outside Gujarat. Its Gujarat State Non-Resident Gujaratis' Foundation (nri.gujarat.gov.in) runs programmes such as the Gujarat Card. For buying property, what matters legally is your status under Indian foreign exchange rules: resident, NRI or OCI.",
+      },
+      {
+        question: "Can a Non-Resident Gujarati buy a flat or bungalow in Ahmedabad?",
+        answer:
+          "Yes, if they are an Indian citizen living abroad (NRI) or an Overseas Citizen of India (OCI). According to the RBI's FAQ on purchase of immovable property (updated 6 April 2023), NRIs and OCIs may buy property in India other than agricultural land, farmhouses or plantation property, paying through Indian banking channels.",
+      },
+      {
+        question: "Can I buy a home in Ahmedabad without travelling to India?",
+        answer:
+          "Much of the process can run remotely: video walkthroughs, family inspections and document review. Registration needs either your presence or a properly executed power of attorney; confirm the documents with a lawyer before you sign.",
+      },
+      {
+        question: "Can PIKORUA help me buy a home for my parents in Ahmedabad?",
+        answer:
+          "Yes. We shortlist homes that suit everyday life for older parents (lift access, nearby hospitals, a manageable size) and coordinate inspections with family members in Ahmedabad.",
+      },
+    ],
+    bodyContent: [
+      "### Why Gujarati families abroad buy in Ahmedabad",
+      "The reasons are usually personal before they are financial: parents who want to stay close to family and community, regular visits for weddings and festivals, children's ties to the city, and a possible return later in life. These goals decide the right home more than any market headline, so the shortlist starts with how the family will actually use it.",
+      "### Where NRG families usually look",
+      "Most overseas Gujarati buyers we speak with compare the western corridors: Sindhu Bhavan Road, Bodakdev (including Rajpath Rangoli Road), Thaltej, Iskon-Ambli Road, Shilaj, Shela and Vaishno Devi Circle. Families buying for parents often weigh distance to relatives, hospitals and places of worship above prestige of address. PIKORUA's Ahmedabad locations guide compares each area.",
+      "### How the purchase works from abroad",
+      "A typical sequence is: a video brief, a shortlist with recorded walkthroughs, an in-person or family inspection, document and RERA checks, a payment plan agreed with your bank, then agreement and registration in person or through a power of attorney. PIKORUA coordinates the property side; your lawyer, chartered accountant and bank advise on legal, tax and payment questions.",
+      "### The rules in brief",
+      "The RBI's FAQ on purchase of immovable property (updated 6 April 2023) says NRIs and OCIs may buy residential and commercial property in India, but not agricultural land, farmhouses or plantation property. Payment has to come through Indian banking channels: an inward remittance from abroad or a debit to an NRE, FCNR(B) or NRO account; traveller's cheques and foreign currency notes are not allowed. Our NRI and OCI property rules guide covers them in full; confirm your case with a qualified adviser.",
+    ],
+  },
+  {
+    kind: "nri",
+    slug: "nri-property-eligibility-fema",
+    href: "/nri/nri-property-eligibility-fema",
+    label: "NRI and OCI Property Rules",
+    eyebrow: "RBI and FEMA Rules",
+    title: "Can NRIs and OCIs Buy Property in India?",
+    h1: "Can NRIs and OCIs Buy Property in India?",
+    description:
+      "What the RBI allows NRIs and OCIs to buy, how to pay, gifts, inheritance, selling and repatriating sale proceeds: a dated summary of the RBI FAQ.",
+    heroImage: "/properties/capstone/capstone-1-courtyard.jpg",
+    seoKeywords: [
+      "can nri buy property in india",
+      "can oci buy property in india",
+      "rbi rules for nri property purchase",
+      "can nri buy agricultural land in india",
+      "FEMA property rules NRI",
+    ],
+    collectionHref: "/contact?purpose=nri-rules",
+    intro:
+      "Yes: Non-Resident Indians (NRIs) and Overseas Citizens of India (OCIs) can buy residential and commercial property in India, but not agricultural land, farmhouses or plantation property. This page summarises what the Reserve Bank of India's FAQ on purchase of immovable property (updated 6 April 2023) says, as read on 30 October 2026. It is general information, not legal advice.",
+    marketSignals: [
+      "Allowed: residential and commercial property. Not allowed: agricultural land, farmhouses, plantation property.",
+      "Pay through Indian banking channels: inward remittance, or an NRE, FCNR(B) or NRO account.",
+      "Repatriation of sale proceeds for residential property is limited to not more than two properties.",
+    ],
+    idealFor: [
+      "NRIs and OCIs checking eligibility before shortlisting.",
+      "Families planning how to pay for, gift or inherit a property in India.",
+      "Owners abroad planning a future sale and repatriation.",
+    ],
+    relatedSlugs: ["nri-home-buying-process-india", "repatriation-of-property-sale-proceeds-nri", "nre-vs-nro-property-payment"],
+    nriDetails: {
+      ...NRI_BASE_DETAILS,
+      reviewNote:
+        "Last editorial update: October 30, 2026. Source: RBI FAQ on Purchase of Immovable Property (updated as on April 6, 2023), which refers to the Foreign Exchange Management (Non-Debt Instruments) Rules, 2019 and Master Direction No. 12. Rules can change; confirm your transaction with a qualified Indian lawyer, chartered accountant and your authorised dealer bank. This page is not a legal, tax or FEMA opinion.",
+    },
+    faqs: [
+      {
+        question: "Can NRIs buy property in India?",
+        answer:
+          "Yes. According to the RBI FAQ on purchase of immovable property (updated 6 April 2023), NRIs and OCIs may acquire immovable property in India other than agricultural land, farm house or plantation property, by purchase from a resident, an NRI or an OCI.",
+      },
+      {
+        question: "Can an OCI card holder buy property in India?",
+        answer:
+          "Yes, on the same footing as NRIs in the RBI FAQ: residential and commercial property may be bought; agricultural land, farmhouses and plantation property may not.",
+      },
+      {
+        question: "Can NRIs or OCIs buy agricultural land or a farmhouse?",
+        answer:
+          "Not by purchase or gift. The RBI FAQ excludes agricultural land, farm houses and plantation property from what NRIs and OCIs may acquire, and agricultural land they already hold may be sold or gifted only to a person resident in India.",
+      },
+      {
+        question: "How must an NRI pay for property in India?",
+        answer:
+          "Through Indian banking channels: an inward remittance from outside India, or a debit to the buyer's NRE, FCNR(B) or NRO account. The RBI FAQ says payment cannot be made by traveller's cheques or foreign currency notes.",
+      },
+      {
+        question: "Can an NRI take the sale proceeds out of India?",
+        answer:
+          "Subject to conditions. The RBI FAQ allows remittance where the property was acquired under the foreign exchange law in force and paid for through eligible channels; for residential property, repatriation is limited to not more than two properties. Tax and bank documentation apply, so plan the sale with a chartered accountant and your bank.",
+      },
+    ],
+    bodyContent: [
+      "### What NRIs and OCIs may buy",
+      "The RBI FAQ lists purchase of immovable property in India, other than agricultural land, farm house or plantation property, from a person resident in India, an NRI or an OCI as a permitted transaction. In practice that covers flats, bungalows, villas, penthouses, residential plots, offices and showrooms. The FAQ reserves prior RBI permission for other cases, for example most acquisitions by foreign nationals; it notes that citizens of certain neighbouring countries need RBI permission, a restriction it says does not apply to OCIs.",
+      "### How to pay",
+      "Payment has to be received in India through banking channels: an inward remittance from any place outside India, or a debit to the buyer's NRE, FCNR(B) or NRO account. Traveller's cheques and foreign currency notes are not accepted. Keep the remittance and bank records; they matter later if you want to repatriate the sale proceeds.",
+      "### Gifts and inheritance",
+      "NRIs and OCIs may receive residential or commercial property as a gift from a relative who is a resident, an NRI or an OCI. They may inherit property from a person resident in India, or from a person who acquired it in line with the foreign exchange law in force at the time. Agricultural land, farmhouses and plantation property cannot be received as a gift.",
+      "### Selling and gifting property you own",
+      "Residential and commercial property may be sold or gifted to a resident, an NRI or an OCI. Agricultural land, farmhouses and plantation property may be sold or gifted only to a person resident in India.",
+      "### Taking sale proceeds abroad",
+      "The RBI FAQ allows NRIs and PIOs to remit sale proceeds when the property was acquired under the foreign exchange law and paid for through eligible channels. For residential property, repatriation is restricted to not more than two properties, and agricultural land, farmhouses and plantation property are excluded. The FAQ also refers to remittance of up to USD 1 million per financial year for eligible categories under the Remittance of Assets Regulations, 2016. Your bank will ask for tax documentation; PIKORUA's repatriation and TDS guides explain the process.",
+      "### Spouses and joint purchase",
+      "The RBI FAQ allows a foreign-national spouse of an NRI or OCI to acquire one immovable property, other than agricultural land, farmhouse or plantation property, jointly with the NRI or OCI spouse, subject to the conditions it sets out. Check the current conditions before you plan a joint purchase.",
+      "### Sources",
+      "Reserve Bank of India, FAQ on Purchase of Immovable Property (updated as on April 6, 2023), rbi.org.in. The FAQ refers to the Foreign Exchange Management (Non-Debt Instruments) Rules, 2019 and Master Direction No. 12 on Acquisition and Transfer of Immovable Property under FEMA, 1999. Read on 30 October 2026.",
+    ],
+  },
 ];
 
 export const ALL_GEO_LANDING_PAGES = [

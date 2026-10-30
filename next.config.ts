@@ -218,6 +218,15 @@ const nextConfig: NextConfig = {
         destination: "/locations/vastrapur",
         permanent: true,
       },
+      // Duplicate automated blog posts about the same story, merged into one
+      // post each (30 Oct 2026). The duplicates are also set Inactive in the DB.
+      { source: "/blog/million-minds-tech-city-ahmedabad-luxury-real-estate-sw7m", destination: "/blog/million-minds-tech-city-ahmedabad-luxury-real-estate", permanent: true },
+      { source: "/blog/ahmedabad-million-minds-tech-city-luxury-real-estate", destination: "/blog/million-minds-tech-city-ahmedabad-luxury-real-estate", permanent: true },
+      { source: "/blog/ahmedabad-luxury-housing-venus-group-universe", destination: "/blog/the-universe-venus-group-ahmedabad-luxury", permanent: true },
+      { source: "/blog/ahmedabad-luxury-real-estate-infrastructure-demand", destination: "/blog/ahmedabad-luxury-real-estate-infrastructure-growth", permanent: true },
+      { source: "/blog/resset-group-south-bopal-acquisition-ahmedabad-luxury-property", destination: "/blog/south-bopal-resset-group-land-acquisition-ahmedabad-luxury-market", permanent: true },
+      { source: "/blog/ahmedabad-cwg-gift-city-luxury-real-estate", destination: "/blog/ahmedabad-commonwealth-games-luxury-real-estate", permanent: true },
+      { source: "/blog/ahmedabad-luxury-property-market-2026-growth-outlook", destination: "/blog/ahmedabad-luxury-real-estate-boom-2026-hni-nri", permanent: true },
       {
         // Linked from published AI-drafted blog posts (old drafting prompt).
         source: "/shilaj-properties",

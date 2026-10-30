@@ -16,6 +16,13 @@ export default function InvestIndexPage() {
       eyebrow="Define the Acquisition"
       description="Budget bands and investment decisions translated into realistic Ahmedabad property formats, corridors and rejection criteria."
       pages={getContentHubsByPrefix("invest")}
+      tools={[
+        {
+          href: "/invest/rental-yield-calculator-ahmedabad",
+          title: "Rental Yield Calculator",
+          description: "Gross and net rental yield from your own price, rent, maintenance, tax, vacancy and buying costs.",
+        },
+      ]}
     />
   );
 }

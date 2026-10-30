@@ -48,6 +48,7 @@ export const NRI_CENTRE_SECTIONS: NriCentreSection[] = [
       { href: "/nri/singapore", label: "Singapore", description: "SGD budgeting, close time-zone coordination and compact inspection trips." },
       { href: "/nri/australia", label: "Australia", description: "AUD budgeting, recorded walkthroughs and limited-travel execution." },
       { href: "/nri/global", label: "Other Countries", description: "A global guide for overseas buyers outside the main country hubs." },
+      { href: "/nri/non-resident-gujarati-property-ahmedabad", label: "Non-Resident Gujaratis", description: "For Gujarati families abroad buying a home in Ahmedabad, often for parents or a future return." },
     ],
   },
   {
@@ -63,6 +64,8 @@ export const NRI_CENTRE_SECTIONS: NriCentreSection[] = [
     title: "Legal, Banking and Tax",
     description: "Dated educational guides that require transaction-specific review by qualified professionals.",
     links: [
+      { href: "/nri/nri-property-eligibility-fema", label: "NRI and OCI Property Rules", description: "What the RBI allows NRIs and OCIs to buy, how to pay, gifts, inheritance and repatriation." },
+      { href: "/nri/property-budget-currency-converter", label: "Budget Currency Converter", description: "Crore and lakh to USD, GBP, AED, CAD, AUD and SGD at indicative rates." },
       { href: "/power-of-attorney-for-nri-property-purchase", label: "Power of Attorney", description: "Scope, execution and local-use planning for remote buyers." },
       { href: "/nre-vs-nro-property-payment", label: "NRE vs NRO Property Payment", description: "Payment-channel and future-repatriation questions to review with your bank." },
       { href: "/nri-home-loans-india", label: "NRI Home Loans in India", description: "Eligibility, documents, bank process and POA considerations." },
