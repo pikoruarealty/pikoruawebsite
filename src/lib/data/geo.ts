@@ -1308,10 +1308,10 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/luxury-apartments-ahmedabad",
     label: "Luxury Apartments",
     eyebrow: "Property Type",
-    title: "Luxury Apartments in Ahmedabad | 4/5 BHK Flats",
+    title: "Luxury Apartments in Ahmedabad: 4 & 5 BHK Flats",
     h1: "Luxury Apartments in Ahmedabad",
     description:
-      "Curated luxury 4 BHK and 5 BHK apartments in Ahmedabad across Iscon-Ambli, Sindhu Bhavan Road, Thaltej, and SG Highway. Private HNI/NRI advisory.",
+      "4 and 5 BHK luxury apartments in Ahmedabad: compare Iscon-Ambli, Sindhu Bhavan Road, Thaltej and SG Highway, with private advice for HNI and NRI buyers.",
     heroImage: "/properties/swati-senor/swati-senor-2-hall.jpg",
     categories: ["apartment"],
     matchKeywords: [
@@ -2024,7 +2024,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     title: "Luxury Penthouses & Duplexes in Ahmedabad",
     h1: "Penthouses and Duplex Homes in Ahmedabad",
     description:
-      "Private advisory for luxury penthouses, duplex homes, and sky villas in Ahmedabad across Iscon-Ambli, Sindhu Bhavan Road, Thaltej, and SG Highway.",
+      "Penthouses in Ahmedabad: luxury duplex homes and sky villas across Iscon-Ambli, Sindhu Bhavan Road, Thaltej and SG Highway, with private advice.",
     heroImage: "/properties/ikebana/ikebana1.png",
     categories: ["penthouse", "duplex"],
     matchKeywords: ["penthouse", "penthouses", "duplex", "duplex penthouse", "triplex penthouse", "sky villa"],

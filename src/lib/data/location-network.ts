@@ -501,6 +501,25 @@ function resolveAlternativeSlug(item: string): string | null {
   return null;
 }
 
+/**
+ * Meta description for a locality page: leads with the area name and what is
+ * actually on offer there (unique per page), within the 155 characters Google
+ * shows. Replaces a template that ended mid-sentence ("Compare formats,
+ * indicative...") on most pages.
+ */
+function localityDescription(profile: LocationProfile): string {
+  const tail = " Area guide with indicative pricing, access and buyer fit.";
+  const head = `${profile.label}, Ahmedabad: `;
+  let formats = profile.formats.replace(/\.$/, "");
+  const room = 155 - head.length - tail.length - 1;
+  if (formats.length > room) {
+    const cut = formats.slice(0, room);
+    const at = Math.max(cut.lastIndexOf(","), cut.lastIndexOf(" and "));
+    formats = at > 20 ? cut.slice(0, at) : cut.slice(0, cut.lastIndexOf(" "));
+  }
+  return `${head}${formats}.${tail}`;
+}
+
 function toPage(profile: LocationProfile, index: number): GeoLandingPage {
   const alternatives = profile.alternatives.join("; ");
   return {
@@ -509,9 +528,9 @@ function toPage(profile: LocationProfile, index: number): GeoLandingPage {
     href: `/locations/${profile.slug}`,
     label: profile.label,
     eyebrow: profile.group,
-    title: `Luxury Property in ${profile.label}, Ahmedabad`,
+    title: `${profile.label}: Luxury Homes & Area Guide`,
     h1: `Luxury Property in ${profile.label}`,
-    description: `${profile.positioning} Compare formats, indicative pricing, infrastructure, buyer fit and alternatives.`,
+    description: localityDescription(profile),
     heroImage: profile.hero ?? HEROES[index % HEROES.length],
     coordinates: { latitude: profile.coordinates[0], longitude: profile.coordinates[1] },
     intro: profile.positioning,
