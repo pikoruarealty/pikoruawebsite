@@ -249,14 +249,33 @@ export function countBannedPhrases(text: string): string[] {
   return BANNED_PHRASES.filter((phrase) => lower.includes(phrase));
 }
 
+// Money in any currency: a currency symbol (Unicode \p{Sc}: ₹ $ £ € ¥ ₩ ₪ ฿ …,
+// optionally prefixed as in US$, C$, A$, S$, HK$, NZ$, R$), an ISO code or
+// common abbreviation (USD, GBP, AED, SAR, Rs, Dhs …) before or after the
+// amount, or a currency word after it ("250,000 dollars"). Amounts may carry
+// a magnitude (crore, lakh, thousand, million, billion, k, m, bn …).
+const NUM = String.raw`\d[\d,]*(?:\.\d+)?`;
+const MAGNITUDE = String.raw`(?:\s*(?:crores?|cr|lakhs?|lacs?|l|thousand|million|billion|trillion|mn|bn|k|m|b)\b)?`;
+const CURRENCY_CODES = String.raw`(?:INR|USD|GBP|EUR|AED|SAR|QAR|KWD|OMR|BHD|CAD|AUD|NZD|SGD|HKD|JPY|CNY|RMB|CHF|ZAR|MYR|THB|SEK|NOK|DKK|KES|NGN|MUR)`;
+const CURRENCY_BEFORE = String.raw`(?:(?:US|C|A|S|HK|NZ|NT|R)?\p{Sc}|\b(?:${CURRENCY_CODES}|Rs|Dhs?)\.?)`;
+const CURRENCY_WORDS = String.raw`(?:dollars?|pounds?|euros?|dirhams?|riyals?|rials?|dinars?|rupees?|yen|yuan|renminbi|francs?|ringgits?|rand|shillings?|naira)`;
+const FIGURE_PATTERN = new RegExp(
+  [
+    String.raw`${CURRENCY_BEFORE}\s?${NUM}${MAGNITUDE}`,
+    String.raw`\b${NUM}${MAGNITUDE}\s*${CURRENCY_CODES}\b`,
+    String.raw`\b${NUM}${MAGNITUDE}\s+${CURRENCY_WORDS}\b`,
+    String.raw`\b${NUM}\s*(?:%|per\s*cent|percent)`,
+    String.raw`\b${NUM}\s*(?:crores?|cr|lakhs?|lacs?)\b`,
+  ].join("|"),
+  "giu"
+);
+
 /**
- * Specific figures in the article: rupee amounts, percentages, per-sq.ft
- * rates, crore/lakh amounts and years-out projections.
+ * Specific figures in the article: money in any currency, percentages, and
+ * crore/lakh amounts. Plain counts, sizes and years are not figures here.
  */
 export function extractFigures(text: string): string[] {
-  const pattern =
-    /₹\s?\d[\d,]*(?:\.\d+)?(?:\s*(?:crore|cr|lakh|lac|l)\b)?|\b\d[\d,]*(?:\.\d+)?\s*(?:%|per\s*cent|percent)|\b\d[\d,]*(?:\.\d+)?\s*(?:crore|cr|lakh|lac)\b/gi;
-  return [...new Set(text.match(pattern) ?? [])].map((f) => f.trim());
+  return [...new Set(text.match(FIGURE_PATTERN) ?? [])].map((f) => f.trim());
 }
 
 /** "5.50" → "5.5", "11,000" → "11000", "12.0" → "12". */

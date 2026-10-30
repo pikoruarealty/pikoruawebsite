@@ -441,6 +441,38 @@ test("auto-publish: risky title or excerpt, or too little left after removal, is
   assert.match(final.ok ? "" : final.reason, /Too thin/);
 });
 
+test("figures in any currency are checked against the source", () => {
+  const cases: [string, string][] = [
+    ["A villa in Dubai costs $238,000.", "$238,000"],
+    ["Prices start at US$1.2 million.", "US$1.2 million"],
+    ["The London flat sold for £450,000.", "£450,000"],
+    ["Budgets of €300k are common.", "€300k"],
+    ["Homes near the Marina go for AED 1.5 million.", "AED 1.5 million"],
+    ["Rents are Dhs 8,000 a month.", "Dhs 8,000"],
+    ["A deposit of 250,000 dollars is needed.", "250,000 dollars"],
+    ["Savings of 500,000 USD were moved.", "500,000 USD"],
+    ["The flat costs Rs 5 crore.", "Rs 5 crore"],
+    ["Budgets reach INR 50 lakh.", "INR 50 lakh"],
+    ["Fees are ¥10,000.", "¥10,000"],
+    ["Condos list at SGD 800,000 and S$900,000.", "SGD 800,000"],
+    ["A ₹2.5 crore home.", "₹2.5 crore"],
+  ];
+  for (const [sentence, figure] of cases) {
+    assert.ok(findUnsupportedFigures(sentence, "").includes(figure), `${figure} should be detected in: ${sentence}`);
+    assert.deepEqual(findUnsupportedFigures(sentence, sentence), [], `${figure} is supported when the source states it`);
+  }
+  // Sizes, configurations and years are not money figures.
+  assert.deepEqual(findUnsupportedFigures("A 4 BHK of 3,500 sq.ft. completed in 2026 on a 500 sq yd plot.", ""), []);
+  // A labelled example in dollars is still exempt.
+  assert.deepEqual(findUnsupportedFigures("Example: if you remit $100,000 at a rate of 83, that is ₹83 lakh.", ""), []);
+  // Dollar key numbers are kept when the source states them.
+  const gate = evaluateDraft({
+    raw: makeDraft({ keyNumbers: [{ value: "$238,000", label: "Dubai villa price" }, { value: "£9,999", label: "invented" }] }),
+    sourceText: "The villa was listed at $238,000.", existing: [], knownPaths,
+  });
+  assert.deepEqual(gate.draft!.keyNumbers, [{ value: "$238,000", label: "Dubai villa price" }]);
+});
+
 test("key numbers box is escaped, sourced, and empty without figures", () => {
   assert.equal(keyNumbersHtml(undefined, "X"), "");
   const html = keyNumbersHtml([{ value: "₹1,250 crore", label: "investment <b>planned</b>" }], "Times of India");
