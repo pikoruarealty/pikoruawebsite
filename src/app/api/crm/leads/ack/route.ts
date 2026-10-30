@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { withTransaction } from "@/lib/db";
 import { checkCrmRequest } from "@/lib/crm-auth";
+import { markLeadsSynced } from "@/lib/crm-leads";
 
 const ackSchema = z.object({
   ids: z.array(z.uuid()).min(1).max(500),
@@ -13,7 +13,8 @@ const ackSchema = z.object({
  *   POST /api/crm/leads/ack   { "ids": ["<lead uuid>", ...] }
  *
  * Sets crm_synced = true and records a 'crm_synced' lead event for each lead
- * that wasn't already synced. Returns the ids that were newly marked.
+ * that wasn't already synced. Returns the ids that were newly marked; repeated
+ * or unknown ids are ignored, so acking twice is safe.
  */
 export async function POST(req: NextRequest) {
   const denied = checkCrmRequest(req);
@@ -27,21 +28,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const synced = await withTransaction(async (client) => {
-      const { rows } = await client.query<{ id: string }>(
-        "UPDATE leads SET crm_synced = true WHERE id = ANY($1::uuid[]) AND crm_synced = false RETURNING id",
-        [ids]
-      );
-      const syncedIds = rows.map((r) => r.id);
-      if (syncedIds.length > 0) {
-        await client.query(
-          "INSERT INTO lead_events (lead_id, type) SELECT unnest($1::uuid[]), 'crm_synced'",
-          [syncedIds]
-        );
-      }
-      return syncedIds;
-    });
-
+    const synced = await markLeadsSynced(ids);
     return NextResponse.json({ ok: true, synced });
   } catch (err) {
     console.error("[crm/leads/ack] Failed to mark leads synced:", err);

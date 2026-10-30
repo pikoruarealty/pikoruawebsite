@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { after, NextRequest, NextResponse } from "next/server";
 import { ZodError, type ZodTypeAny } from "zod";
 import {
   discoverySchema,
@@ -9,6 +9,7 @@ import {
 } from "@/lib/validations/lead";
 import { withTransaction, toJson } from "@/lib/db";
 import { getClientIdentifier, leadRateLimit } from "@/lib/rate-limit";
+import { pushLeadToCrm } from "@/lib/crm-push";
 import type { LeadSource } from "@/types";
 
 const SCHEMAS: Record<string, ZodTypeAny> = {
@@ -67,6 +68,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const leadId = await saveLead(source, data);
+    // Runs after the response is sent, so the visitor never waits on the CRM.
+    after(() => pushLeadToCrm(leadId));
     return NextResponse.json({ ok: true, leadId });
   } catch (err) {
     console.error("[leads/route] Failed to save lead:", err);

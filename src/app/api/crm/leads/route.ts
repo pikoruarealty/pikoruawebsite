@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
 import { checkCrmRequest } from "@/lib/crm-auth";
+import { selectCrmLeads } from "@/lib/crm-leads";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +13,7 @@ const MAX_LIMIT = 500;
  *
  *   GET /api/crm/leads?unsynced=true&since=<ISO timestamp>&limit=100
  *
- * Returns leads oldest-first in the DB's snake_case shape, each with its
+ * Returns leads oldest-first in the DB's snake_case shape (phones in E.164), each with its
  * consultation_bookings / property_enquiries rows, plus `next_since` to pass
  * as `since` on the next call. Mark received leads via POST /api/crm/leads/ack.
  */
@@ -37,21 +37,9 @@ export async function GET(req: NextRequest) {
 
   const requested = Number.parseInt(params.get("limit") ?? "", 10);
   const limit = Number.isFinite(requested) && requested > 0 ? Math.min(requested, MAX_LIMIT) : DEFAULT_LIMIT;
-  values.push(limit);
-
-  const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
 
   try {
-    const leads = await query<{ created_at: string }>(
-      `SELECT l.*,
-        COALESCE((SELECT json_agg(cb) FROM consultation_bookings cb WHERE cb.lead_id = l.id), '[]'::json) AS consultation_bookings,
-        COALESCE((SELECT json_agg(pe) FROM property_enquiries pe WHERE pe.lead_id = l.id), '[]'::json) AS property_enquiries
-      FROM leads l
-      ${where}
-      ORDER BY l.created_at ASC
-      LIMIT $${values.length}`,
-      values
-    );
+    const leads = await selectCrmLeads(conditions, values, limit);
 
     return NextResponse.json({
       leads,

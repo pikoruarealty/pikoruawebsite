@@ -23,7 +23,7 @@ Use `renderListGuard()` from `src/lib/utils.ts` whenever rendering a list of pro
 All form submissions → `POST /api/leads` → rate limit → honeypot check → Zod validate → **one DB transaction**: `leads` row (+ `property_enquiries` / `consultation_bookings` row for those sources) + `lead_events` 'created' row. `is_hot` is set by the `set_is_hot` trigger. A DB failure returns 500 so the form shows an error instead of losing the lead.
 → Client redirected to `/thank-you?source=X&purpose=Y`.
 
-The in-house CRM (same VPS) pulls leads over localhost: `GET /api/crm/leads?unsynced=true` then `POST /api/crm/leads/ack { ids }` to set `crm_synced`. Both require `Authorization: Bearer <CRM_API_KEY>`; `/api/crm/` is blocked publicly in Nginx.
+In-house CRM sync (spec: `docs/crm-integration.md`): after the response, `/api/leads` pushes the new lead to `CRM_WEBHOOK_URL`, HMAC-signed with `CRM_WEBHOOK_SECRET` (`src/lib/crm-push.ts`, 3 tries, marks `crm_synced` on 2xx). Backup: the CRM pulls `GET /api/crm/leads?unsynced=true` then `POST /api/crm/leads/ack { ids }` (Bearer `CRM_API_KEY`). Push and pull share `src/lib/crm-leads.ts` (same payload, phones in E.164). The two containers talk over the external Docker network `pikorua-integrations`; `/api/crm/` is blocked publicly in Nginx.
 
 ### ISR revalidation
 Sanity publishes content → POST to `/api/revalidate?secret=<SANITY_WEBHOOK_SECRET>` → `revalidateTag()` for the relevant data type. Queries in `src/lib/sanity/queries.ts` use `{ next: { tags: [...] } }` to opt into this.
@@ -43,7 +43,7 @@ Always use `next/image` with explicit `width` + `height` to avoid CLS. Use `sani
 ### Environment variables
 - Public vars (`NEXT_PUBLIC_*`): accessed via `env` export from `src/lib/env.ts`
 - Server-only vars: accessed via `getServerEnv()` from `src/lib/env.ts` — only call inside Route Handlers, Server Actions, or Server Components
-- `DATABASE_URL` and `CRM_API_KEY` are server-only. The database listens on localhost only; there is no public DB access.
+- `DATABASE_URL`, `CRM_API_KEY` and `CRM_WEBHOOK_SECRET` are server-only. The database listens on localhost only; there is no public DB access.
 
 ### Database access
 - `src/lib/db.ts` (`server-only`): `query`, `queryOne`, `withTransaction`, `upsert(table, row, { jsonColumns })`. Always use `$1` parameters — never interpolate values into SQL. Pass jsonb columns in `jsonColumns` (arrays elsewhere go to Postgres `text[]`).

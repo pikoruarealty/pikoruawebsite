@@ -17,6 +17,9 @@ compose() { "${DOCKER[@]}" compose --env-file .env.production "$@"; }
 
 git pull --ff-only
 
+# Shared network with the in-house CRM container (see docker-compose.yml).
+"${DOCKER[@]}" network inspect pikorua-integrations >/dev/null 2>&1   || "${DOCKER[@]}" network create pikorua-integrations
+
 # The image build reads the DB (BUILD_DATABASE_URL), so the db must be up first.
 compose up -d --wait db
 compose build app
