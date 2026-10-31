@@ -1,0 +1,183 @@
+# CI on every pull request and push to main. On main, Actions then builds the
+# Docker image and pushes it to GHCR, and the deploy job (after approval in the
+# `production` environment) has the VPS pull and run it.
+#
+# VPS secrets are repository secrets: the deploy key can only deploy commits
+# already on main or tunnel to the DB port, and the DB login is read-only on
+# public content. Only the deploy job waits for approval.
+#
+# The build pre-renders pages from the live content, so it reads the website DB
+# through an SSH tunnel as the read-only `pikorua_build` role (content tables
+# only), and takes NEXT_PUBLIC_* values from the server's .env.production.
+# SQL migrations are never run here: the developer applies them on the VPS,
+# then runs this workflow by hand with "migrations applied" ticked.
+name: CI/CD
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      migrations_applied:
+        description: "This deploy adds SQL migrations and I have already applied them on the VPS"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/pikoruarealty/pikoruawebsite
+
+jobs:
+  check:
+    name: Check and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    concurrency:
+      group: check-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # AI-surface validation, SEO tests, lint and typecheck.
+      - run: npm run check
+
+      # Pull requests only: compile check without a DB (public queries fall
+      # back to empty results). On main the image job does the real build.
+      - name: next build
+        if: github.event_name == 'pull_request'
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NEXT_PUBLIC_SITE_LIVE: "true"
+          NEXT_PUBLIC_SITE_URL: https://www.pikorua.in
+          NEXT_PUBLIC_MEDIA_BASE_URL: https://www.pikorua.in/media
+          DATABASE_URL: postgres://ci:ci@127.0.0.1:1/ci
+
+  image:
+    name: Build image
+    needs: check
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up SSH
+        env: &ssh-env
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: &ssh-setup |
+          install -m 700 -d ~/.ssh
+          install -m 600 /dev/null ~/.ssh/deploy_key
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host vps
+            HostName $VPS_HOST
+            User $VPS_USER
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            ServerAliveInterval 30
+            ServerAliveCountMax 10
+          EOF
+
+      # Kept outside the build context and mounted only as a BuildKit secret,
+      # so it never lands in an image layer.
+      - name: Build env from the server
+        env:
+          BUILD_DATABASE_URL: ${{ secrets.BUILD_DATABASE_URL }}
+        run: |
+          install -m 600 /dev/null "$RUNNER_TEMP/build.env"
+          ssh vps public-env > "$RUNNER_TEMP/build.env"
+          grep -qx 'NEXT_PUBLIC_SITE_LIVE=true' "$RUNNER_TEMP/build.env" \
+            || { echo "NEXT_PUBLIC_SITE_LIVE=true missing from the server env"; exit 1; }
+          echo "BUILD_DATABASE_URL=$BUILD_DATABASE_URL" >> "$RUNNER_TEMP/build.env"
+          sed 's/=.*//' "$RUNNER_TEMP/build.env"
+
+      - name: Open DB tunnel
+        run: ssh -M -S "$RUNNER_TEMP/tunnel.sock" -f -N -o ExitOnForwardFailure=yes -L 5433:127.0.0.1:5433 vps
+
+      # Never build against an empty or unreachable DB: pages would pre-render empty.
+      - name: Check build DB
+        env:
+          BUILD_DATABASE_URL: ${{ secrets.BUILD_DATABASE_URL }}
+        run: |
+          command -v psql >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client; }
+          for t in properties blogs testimonials pages; do
+            n=$(psql "$BUILD_DATABASE_URL" -Atc "select count(*) from $t")
+            echo "$t: $n"
+            [ "$n" -gt 0 ] || { echo "$t is empty; refusing to build"; exit 1; }
+          done
+
+      - name: docker login ghcr.io
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+      - name: Build and push ${{ env.IMAGE }}:${{ github.sha }}
+        run: |
+          DOCKER_BUILDKIT=1 docker build --network host \
+            --secret id=env_production,src="$RUNNER_TEMP/build.env" \
+            --label org.opencontainers.image.source="https://github.com/$GITHUB_REPOSITORY" \
+            --label org.opencontainers.image.revision="$GITHUB_SHA" \
+            -t "$IMAGE:$GITHUB_SHA" .
+          docker push "$IMAGE:$GITHUB_SHA"
+
+      - name: Clean up
+        if: always()
+        run: |
+          [ -S "$RUNNER_TEMP/tunnel.sock" ] && ssh -S "$RUNNER_TEMP/tunnel.sock" -O exit vps || true
+          rm -f "$RUNNER_TEMP/build.env" ~/.ssh/deploy_key
+          docker logout ghcr.io || true
+
+  deploy:
+    name: Deploy to VPS
+    needs: image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: https://www.pikorua.in
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up SSH
+        env: *ssh-env
+        run: *ssh-setup
+
+      # The VPS pulls the image with this job's short-lived, read-only token
+      # (sent on stdin, never stored on the server).
+      - name: Deploy ${{ github.sha }}
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FLAGS: ${{ inputs.migrations_applied && '--migrations-applied' || '' }}
+        run: printf '%s\n' "$GHCR_TOKEN" | ssh vps "deploy $GITHUB_SHA $FLAGS"
+
+      - name: Public smoke test
+        run: ./deploy/smoke-test.sh https://www.pikorua.in
+
+      - name: Remove SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
