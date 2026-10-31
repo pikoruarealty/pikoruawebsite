@@ -1379,13 +1379,28 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
         answer:
           "A luxury apartment is a standard-floor residence within a tower — one of several similar units per floor. A penthouse occupies the top floor (or top two floors as a duplex), typically with a private terrace, fewer or no neighbouring units, and a materially higher price per sq.ft. Buyers who want managed-tower living at the best value should look at apartments; those who want maximum privacy and terrace space, and can pay a premium for it, should look at penthouses.",
       },
+      {
+        question: "Which are the most luxurious apartments in Ahmedabad?",
+        answer:
+          "There is no official ranking. Buyers usually mean large 4 and 5 BHK homes with few apartments per floor, private lift lobbies and large decks, mostly on Iskon–Ambli Road, Sindhu Bhavan Road, Bodakdev and Thaltej. The residences on this page are the ones PIKORUA currently advises on; prices and availability change, so ask for a dated shortlist.",
+      },
+      {
+        question: "How do I check that a luxury apartment is RERA registered?",
+        answer:
+          "Search the project name or registration number on the GujRERA portal (gujrera.gujarat.gov.in) before you pay, and confirm the developer, approved plans and possession date. PIKORUA can check this for you.",
+      },
+      {
+        question: "Are there luxury apartments on Sindhu Bhavan Road?",
+        answer:
+          "Yes. Sindhu Bhavan Road is one of Ahmedabad's main luxury corridors, with large 4 and 5 BHK apartments, penthouses and duplexes. Indicative asking prices are about ₹9,000–₹15,000+ per sq.ft. (July 2026); PIKORUA's Sindhu Bhavan Road area guide compares it with nearby areas.",
+      },
     ],
     relatedSlugs: ["luxury-real-estate-ahmedabad", "luxury-4bhk-ahmedabad", "luxury-5bhk-ahmedabad", "penthouses-duplexes-ahmedabad", "iskon-ambli", "sindhu-bhavan", "sg-highway"],
     bodyContent: [
       "### What Defines a Truly Luxury Apartment in Ahmedabad",
       "The definition of 'luxury apartment' in Ahmedabad has shifted materially over the past five years. Size alone is no longer sufficient. The strongest residences now compete on a different set of criteria: fewer apartments per floor (the best buildings have 2–4 per floor), private or semi-private lift lobbies, double-height living volumes with ceiling heights above 12 feet, wrap-around sundecks of 400–800 sq.ft., and clubhouse programming that includes sky-level pools, screening rooms, and professional-grade gyms. Buildings that were considered premium in 2018 may not qualify as true luxury by 2026 buyer standards.",
       "### Where Demand is Concentrated",
-      "Luxury apartment demand in Ahmedabad is primarily concentrated in three corridors: Iskon-Ambli Road (₹11,000–₹15,000/sq.ft.), Sindhu Bhavan Road (₹8,000–₹15,000/sq.ft.), and Thaltej (₹6,500–₹12,000/sq.ft.). Within these corridors, 4 BHK apartments of 2,500–4,000 sq.ft. represent the dominant transaction segment by volume, while 5 BHK apartments and penthouses of 4,500–7,000 sq.ft. represent the highest absolute values. A 5 BHK on Iskon-Ambli Road in a well-specified building routinely transacts between ₹7 Crore and ₹12 Crore for the floor and configuration.",
+      "Luxury apartment demand in Ahmedabad is primarily concentrated in three corridors: Iskon–Ambli Road (indicatively ₹10,000–₹16,000+/sq.ft.), Sindhu Bhavan Road (₹9,000–₹15,000+/sq.ft.), and Thaltej (₹7,000–₹12,500+/sq.ft.). These are indicative asking-price bands as of July 2026, the same as in PIKORUA's area guides, not valuations. Within these corridors, 4 BHK apartments of 2,500–4,000 sq.ft. represent the dominant transaction segment by volume, while 5 BHK apartments and penthouses of 4,500–7,000 sq.ft. represent the highest absolute values. A 5 BHK on Iskon-Ambli Road in a well-specified building routinely transacts between ₹7 Crore and ₹12 Crore for the floor and configuration.",
       "### Key Diligence Points for Luxury Apartment Buyers",
       "Before committing to a luxury apartment purchase in Ahmedabad, buyers should verify: GujRERA registration status and compliance; the approved floor plan versus the marketed floor plate (discrepancies are common in older buildings); lift lobby exclusivity and neighbour count per floor; structural quality of the building (independent structural audit for buildings older than 7 years); terrace and sundeck rights documentation; parking allocation and parking tower quality; and society maintenance fund health. PIKORUA Realty conducts a proprietary evaluation across all these dimensions before any property recommendation.",
       "### NRI Considerations for Apartment Purchases",
@@ -1761,6 +1776,11 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
         question: "What separates ultra luxury from a regular luxury 4 or 5 BHK in Ahmedabad?",
         answer:
           "A regular luxury 4 or 5 BHK is defined mainly by size and corridor. Ultra luxury adds scarcity on top of size: a top-floor position, documented exclusive-use terrace or garden rights, single-unit-per-floor privacy, or a bungalow plot that cannot be replicated in that corridor. Price alone does not make a property ultra luxury — most ultra-luxury assets are also structurally irreplaceable in some way.",
+      },
+      {
+        question: "How does a private search for an ultra-luxury home begin?",
+        answer:
+          "It begins with a confidential brief covering household structure, preferred corridors, spatial requirements, timing, ownership structure and decision process.",
       },
     ],
     relatedSlugs: [
@@ -2139,6 +2159,16 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
         answer:
           "Luxury villas in Ahmedabad are available in Shilaj and Vaishno Devi. Premium gated villa communities with shared amenities are concentrated in these two corridors. PIKORUA Realty advises on both gated community and independent villa options — many of which are not publicly listed.",
       },
+      {
+        question: "Are there gated community villas in Ahmedabad?",
+        answer:
+          "Yes. Gated villa communities with shared security, landscaping and a clubhouse are mainly in Shilaj and around Vaishno Devi Circle in western Ahmedabad. The villas on this page are current examples; ask PIKORUA about others that are not publicly listed.",
+      },
+      {
+        question: "Can NRIs buy a villa in Ahmedabad?",
+        answer:
+          "Yes. Under the RBI's FAQ on purchase of immovable property (updated 6 April 2023), NRIs and OCIs may buy residential property in India, including villas and bungalows, but not agricultural land, farmhouses or plantation property. Payment must come through Indian banking channels or an NRE, FCNR(B) or NRO account.",
+      },
     ],
     relatedSlugs: ["luxury-bungalows-ahmedabad", "shilaj", "vaishno-devi", "residential-plots-ahmedabad"],
     bodyContent: [
@@ -2240,7 +2270,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/luxury-plots-ahmedabad",
     label: "Luxury Plots",
     eyebrow: "Property Type",
-    title: "Luxury Plots in Ahmedabad | Premium Land Advisory",
+    title: "Luxury & Villa Plots in Ahmedabad",
     h1: "Luxury Plots in Ahmedabad",
     description:
       "Advisory on luxury plots in Ahmedabad, premium residential land, NA-title checks, zoning, and western corridor opportunities.",
@@ -2289,6 +2319,16 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
         answer:
           "Buying a plot and building gives full design control and locks in land at today's price, but requires a multi-year commitment, construction management, and a higher tolerance for project risk. A ready villa or bungalow gives immediate occupancy and a known, inspectable finished product. Buyers with a firm timeline or lower appetite for construction oversight are usually better served by a ready villa or bungalow; buyers planning a long-term family home with no fixed deadline benefit most from acquiring land now.",
       },
+      {
+        question: "Should I choose a standalone villa plot or a plot in a gated scheme?",
+        answer:
+          "It depends on how much control, security, shared rules, maintenance and architectural freedom you want. Each structure creates different obligations, so compare them before choosing.",
+      },
+      {
+        question: "What checks does a villa plot need?",
+        answer:
+          "Title, tenure, survey, final-plot status, zoning, non-agricultural permission where relevant, access rights, utilities, setbacks and development controls. Compare buildable potential and the finished neighbourhood, not only gross area or the quoted land rate.",
+      },
     ],
     relatedSlugs: ["luxury-bungalows-ahmedabad", "luxury-villas-ahmedabad", "shilaj", "vaishno-devi"],
     bodyContent: [
@@ -2300,6 +2340,8 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "One of the most critical due diligence points for plot purchases in western Ahmedabad is understanding whether the land falls under the Ahmedabad Municipal Corporation (AMC) or the Ahmedabad Urban Development Authority (AUDA). AMC zones have stricter building permission timelines but typically have better utility infrastructure. AUDA zones offer more flexible development timelines but may have less-developed utility connections. The FSI (Floor Space Index) permissible under each authority and each TP scheme also differs. PIKORUA Realty's advisory process includes an AUDA/AMC assessment for every plot recommendation.",
       "### NRI Plot Investment Protocol",
       "NRIs can freely purchase residential plots in India under the general FEMA permission — no RBI approval or specific clearance is required for residential (non-agricultural) land. Payments must be routed through NRE/NRO accounts. Under Power of Attorney, an NRI's local representative can manage registration, construction permissions, and ongoing diligence. For NRIs planning to build a custom residence over 5–10 years, acquiring the plot now and building later is a structurally sound strategy — it locks in land at today's price while allowing full design control over the future home.",
+      "### Villa Plots: Start With the Home You Want to Build",
+      "Household size, parking, gardens, staff areas, security and future accessibility decide the frontage, depth and buildable envelope you need, so let the architecture brief shape the land search. A clean-looking parcel can still carry tenure, access, planning or utility complications; PIKORUA collects site details and documents for review by your own lawyer, surveyor and architect. Custom-home land is a long-term decision: discuss neighbourhood occupancy, future road conditions and your willingness to manage construction before you commit.",
     ],
   },
   {
@@ -4123,7 +4165,7 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
     href: "/nri/best-properties-in-ahmedabad-under-2-crore-for-nris",
     label: "Under 2 Crore for NRIs",
     eyebrow: "Budget Intent",
-    title: "Best Properties in Ahmedabad Under 2 Crore for NRIs",
+    title: "Ahmedabad Properties Under ₹2 Cr for NRIs",
     h1: "Best Properties in Ahmedabad Under 2 Crore for NRIs",
     description:
       "NRI advisory for Ahmedabad properties under 2 crore, with realistic areas, compact homes, plots, due diligence, and remote buying support.",
@@ -4187,7 +4229,7 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
     href: "/nri/high-rental-yield-properties-in-ahmedabad-for-nris",
     label: "High Rental Yield for NRIs",
     eyebrow: "Yield Intent",
-    title: "High Rental Yield Properties in Ahmedabad for NRIs",
+    title: "High Rental Yield Ahmedabad Homes for NRIs",
     h1: "High Rental Yield Properties in Ahmedabad for NRIs",
     description:
       "NRI guide to high rental yield properties in Ahmedabad, covering tenant demand, micro-markets, furnishing, vacancy, and due diligence.",
@@ -4251,7 +4293,7 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
     href: "/nri/ahmedabad-vs-dubai-real-estate-investment",
     label: "Ahmedabad vs Dubai",
     eyebrow: "Comparison Guide",
-    title: "Ahmedabad vs Dubai Real Estate Investment for NRIs",
+    title: "Ahmedabad vs Dubai Property for NRIs",
     h1: "Ahmedabad vs Dubai Real Estate Investment",
     description:
       "Comparison guide for NRIs evaluating Ahmedabad vs Dubai real estate investment, including ROI, family use, rental demand, currency, and exit risk.",
@@ -4405,7 +4447,7 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
       "Second-generation Gujaratis with an OCI card buying their first home in Ahmedabad.",
       "Families comparing western Ahmedabad corridors from overseas.",
     ],
-    relatedSlugs: ["nri-property-investment-ahmedabad", "nri-home-buying-process-india", "nri-property-eligibility-fema"],
+    relatedSlugs: ["nri-property-investment-ahmedabad", "nri-property-purchase-process-india", "nri-property-eligibility-fema", "buying-home-for-parents-ahmedabad"],
     nriDetails: NRI_BASE_DETAILS,
     faqs: [
       {
@@ -4521,6 +4563,226 @@ export const NRI_LANDING_PAGES: GeoLandingPage[] = [
       "Reserve Bank of India, FAQ on Purchase of Immovable Property (updated as on April 6, 2023), rbi.org.in. The FAQ refers to the Foreign Exchange Management (Non-Debt Instruments) Rules, 2019 and Master Direction No. 12 on Acquisition and Transfer of Immovable Property under FEMA, 1999. Read on 30 October 2026.",
     ],
   },
+  {
+    kind: "nri",
+    slug: "gcc",
+    href: "/nri/gcc",
+    label: "Gulf (GCC) NRIs",
+    eyebrow: "Gulf NRI Desk",
+    title: "Ahmedabad Property for NRIs in the Gulf",
+    h1: "Ahmedabad Property for NRIs in Qatar, Saudi Arabia, Kuwait, Oman and Bahrain",
+    description:
+      "How NRIs in Qatar, Saudi Arabia, Kuwait, Oman and Bahrain buy a home in Ahmedabad: RBI rules, paying from the Gulf, time zones and remote inspections.",
+    heroImage: "/properties/kimana/kimana-2.jpg",
+    categories: ["apartment", "penthouse", "villa", "bungalow"],
+    seoKeywords: [
+      "nri property ahmedabad from qatar",
+      "nri in saudi arabia buy property in ahmedabad",
+      "kuwait nri property ahmedabad",
+      "oman nri property ahmedabad",
+      "bahrain nri property ahmedabad",
+      "gulf nri property ahmedabad",
+    ],
+    collectionHref: "/contact?purpose=nri-gulf",
+    intro:
+      "Indian citizens working in Qatar, Saudi Arabia, Kuwait, Oman or Bahrain can buy a flat, bungalow or villa in Ahmedabad as Non-Resident Indians (NRIs). This page covers the rules that apply, how payment works from the Gulf, and how PIKORUA runs the search while you are abroad. NRIs in the UAE have their own Dubai and UAE guide.",
+    marketSignals: [
+      "NRIs may buy residential and commercial property in India, but not agricultural land, farmhouses or plantation property (RBI FAQ, updated 6 April 2023).",
+      "Payment must reach India through banking channels or come from your NRE, FCNR(B) or NRO account; cash and traveller's cheques are not allowed.",
+      "India is 2 hours 30 minutes ahead of Qatar, Saudi Arabia, Kuwait and Bahrain, and 1 hour 30 minutes ahead of Oman, so calls fit around a Gulf working day.",
+    ],
+    idealFor: [
+      "Indian professionals in the Gulf buying a home for family in Ahmedabad.",
+      "Gulf NRIs planning a home for their eventual return to Gujarat.",
+      "Families who want relatives in Ahmedabad to inspect while they join by video.",
+    ],
+    relatedSlugs: ["dubai", "nri-property-eligibility-fema", "nre-vs-nro-property-payment", "power-of-attorney-for-nri-property-purchase"],
+    nriDetails: {
+      ...NRI_BASE_DETAILS,
+      callingHours: "Calls by appointment in Gulf hours: India is 2h 30m ahead of Qatar, Saudi Arabia, Kuwait and Bahrain, and 1h 30m ahead of Oman.",
+      reviewNote:
+        "Last editorial update: October 31, 2026. Rules summarised from the RBI FAQ on Purchase of Immovable Property (updated as on April 6, 2023). This page is general information, not legal, tax or FEMA advice; confirm your transaction with a qualified Indian lawyer, chartered accountant and your bank.",
+    },
+    faqs: [
+      {
+        question: "Can an Indian working in Qatar, Saudi Arabia, Kuwait, Oman or Bahrain buy property in Ahmedabad?",
+        answer:
+          "Yes. An Indian citizen living outside India is a Non-Resident Indian (NRI) under India's foreign exchange rules, and the RBI FAQ on purchase of immovable property (updated 6 April 2023) allows NRIs to buy property in India other than agricultural land, farmhouses or plantation property. Confirm your residential status with your bank if you have moved recently.",
+      },
+      {
+        question: "How do I pay for an Ahmedabad property from the Gulf?",
+        answer:
+          "Through Indian banking channels: a remittance from your Gulf bank account to India, or a payment from your NRE, FCNR(B) or NRO account. The RBI FAQ says traveller's cheques and foreign currency notes cannot be used. Keep every remittance record, because you will need them if you later sell and want to send the money abroad.",
+      },
+      {
+        question: "Do I have to fly to Ahmedabad to buy?",
+        answer:
+          "Not for every step. Shortlisting, video walkthroughs, family inspections and document review can happen while you are in the Gulf. Registration needs you in person or someone acting under a properly executed power of attorney; have a lawyer confirm the documents before you sign.",
+      },
+      {
+        question: "Can I check prices in riyals, dirhams or dinars?",
+        answer:
+          "PIKORUA's budget currency converter shows crore and lakh amounts in AED, USD, GBP, CAD, AUD and SGD at indicative rates. For Saudi riyal, Qatari riyal, Kuwaiti dinar, Omani rial or Bahraini dinar, use your bank's current rate, which is also the rate your remittance will actually get.",
+      },
+    ],
+    bodyContent: [
+      "### Who this guide is for",
+      "This page is for Indian citizens living in Qatar, Saudi Arabia, Kuwait, Oman and Bahrain. If you live in the UAE, our Dubai and UAE guide covers the same ground. If you hold a foreign passport, check the NRI and OCI property rules guide first: the RBI FAQ treats Overseas Citizens of India (OCIs) like NRIs for buying property, while most other foreign nationals need prior RBI permission.",
+      "### The rules in brief",
+      "The RBI FAQ on purchase of immovable property (updated 6 April 2023) says NRIs and OCIs may buy property in India from a resident, an NRI or an OCI, other than agricultural land, farmhouses or plantation property. Payment has to be received in India through banking channels or come from an NRE, FCNR(B) or NRO account. For residential property, sale proceeds can later be sent abroad for not more than two properties, subject to the conditions in the FAQ.",
+      "### Working across Gulf time zones",
+      "India is 2 hours 30 minutes ahead of Qatar, Saudi Arabia, Kuwait and Bahrain, and 1 hour 30 minutes ahead of Oman. That leaves a usable overlap for evening calls after work in the Gulf. We schedule video walkthroughs in that window and send recorded walkthroughs you can watch later with your family.",
+      "### How the purchase usually runs",
+      "A short video brief on budget, area and timing; a shortlist with recorded walkthroughs; an inspection by you on a visit or by family members in Ahmedabad; document and RERA checks; a payment plan agreed with your bank; then agreement and registration in person or through a power of attorney. PIKORUA handles the property side. Your lawyer, chartered accountant and bank advise on legal, tax and payment questions, including how a sale would be taxed in India.",
+      "### Sources",
+      "Reserve Bank of India, FAQ on Purchase of Immovable Property (updated as on April 6, 2023), rbi.org.in, read on 31 October 2026. Time differences are standard time and can change; check before you book a call.",
+    ],
+  },
+  {
+    kind: "nri",
+    slug: "east-africa",
+    href: "/nri/east-africa",
+    label: "East African Gujaratis",
+    eyebrow: "East Africa Desk",
+    title: "Ahmedabad Property for East African Gujaratis",
+    h1: "Ahmedabad Property for Gujarati Families in East Africa",
+    description:
+      "How Gujarati families in Kenya, Tanzania and Uganda buy a home in Ahmedabad: who may buy under RBI rules, the OCI route, payment and remote inspections.",
+    heroImage: "/properties/westpark/westpark-2-bun.jpg",
+    categories: ["apartment", "penthouse", "villa", "bungalow"],
+    seoKeywords: [
+      "kenya gujarati property ahmedabad",
+      "east african gujarati buy property in ahmedabad",
+      "oci card holder buy property ahmedabad",
+      "nri kenya tanzania uganda property ahmedabad",
+    ],
+    collectionHref: "/contact?purpose=nri-east-africa",
+    intro:
+      "Gujarati families have lived in East Africa for generations, and many still keep close ties with Ahmedabad. Who can buy property here depends on your citizenship: Indian citizens abroad (NRIs) and Overseas Citizens of India (OCIs) can buy, while most other foreign nationals need RBI permission. This page explains the routes and how PIKORUA helps families buy from Kenya, Tanzania, Uganda and elsewhere in the region.",
+    marketSignals: [
+      "Indian passport holders abroad (NRIs) and OCI cardholders may buy residential and commercial property in India, other than agricultural land, farmhouses or plantation property.",
+      "Foreign nationals without an OCI card generally cannot buy property in India without prior RBI permission (RBI FAQ, updated 6 April 2023).",
+      "India is 2 hours 30 minutes ahead of East Africa Time, used in Kenya, Tanzania and Uganda.",
+    ],
+    idealFor: [
+      "Gujarati families in Kenya, Tanzania and Uganda keeping a base in Ahmedabad.",
+      "OCI cardholders buying a home for parents or for visits.",
+      "Families where one spouse is an NRI or OCI and the other is not.",
+    ],
+    relatedSlugs: ["non-resident-gujarati-property-ahmedabad", "nri-property-eligibility-fema", "global", "power-of-attorney-for-nri-property-purchase"],
+    nriDetails: {
+      ...NRI_BASE_DETAILS,
+      callingHours: "Calls by appointment: India is 2h 30m ahead of East Africa Time (Kenya, Tanzania, Uganda).",
+      reviewNote:
+        "Last editorial update: October 31, 2026. Rules summarised from the RBI FAQ on Purchase of Immovable Property (updated as on April 6, 2023). This page is general information, not legal, tax or FEMA advice; confirm your citizenship status and transaction with a qualified Indian lawyer, chartered accountant and your bank.",
+    },
+    faqs: [
+      {
+        question: "Can a Kenyan, Tanzanian or Ugandan citizen of Gujarati origin buy property in Ahmedabad?",
+        answer:
+          "With an OCI card, yes. The RBI FAQ on purchase of immovable property (updated 6 April 2023) lets Overseas Citizens of India buy property other than agricultural land, farmhouses or plantation property, on the same footing as NRIs. Without an OCI card, a foreign national generally needs prior RBI permission to buy, so check eligibility for an OCI card first.",
+      },
+      {
+        question: "I hold an Indian passport and live in Kenya. Can I buy?",
+        answer:
+          "Yes. An Indian citizen living outside India is a Non-Resident Indian (NRI), and NRIs may buy property in India other than agricultural land, farmhouses or plantation property, paying through Indian banking channels or an NRE, FCNR(B) or NRO account.",
+      },
+      {
+        question: "My spouse is not an NRI or OCI. Can we buy together?",
+        answer:
+          "The RBI FAQ allows a foreign-national spouse of an NRI or OCI to acquire one property, other than agricultural land, a farmhouse or plantation property, jointly with the NRI or OCI spouse, subject to the conditions in Rule 25 of the Non-Debt Instruments Rules, 2019. Have a lawyer confirm the conditions before you book.",
+      },
+      {
+        question: "Can we inherit a family home in Gujarat without an OCI card?",
+        answer:
+          "The RBI FAQ says foreign nationals of non-Indian origin living abroad may acquire property in India by inheritance from a resident. For people of Indian origin and for the later sale of inherited property, the details depend on your status, so take advice from a lawyer and a chartered accountant.",
+      },
+    ],
+    bodyContent: [
+      "### Start with citizenship",
+      "Property rights in India follow your citizenship and residence, not your heritage. Under the RBI FAQ on purchase of immovable property (updated 6 April 2023), Indian citizens living abroad (NRIs) and Overseas Citizens of India (OCIs) may buy residential and commercial property other than agricultural land, farmhouses or plantation property. Most other foreign nationals need the RBI's prior permission. Many East African Gujaratis hold Kenyan, Tanzanian, Ugandan or British passports, so the OCI card is often the route that makes a purchase possible.",
+      "### Paying from East Africa",
+      "Payment has to be received in India through banking channels or come from an NRE, FCNR(B) or NRO account. Traveller's cheques and foreign currency notes cannot be used. Talk to your bank early about the remittance route, timing and the records you will need, both for the purchase and for any future sale.",
+      "### Buying remotely",
+      "Time zones are close: India is 2 hours 30 minutes ahead of East Africa Time. Many families have relatives in Ahmedabad who can attend inspections while the buyer joins by video. We share a shortlist with recorded walkthroughs, coordinate family visits and document checks, and plan registration around your travel or a power of attorney.",
+      "### Where families usually look",
+      "Families buying for visits or for parents often compare Bodakdev, Thaltej, Sindhu Bhavan Road, Vastrapur and Satellite for established amenities, and Shilaj or Shela for newer homes. Our Ahmedabad locations guide compares each area.",
+      "### Sources",
+      "Reserve Bank of India, FAQ on Purchase of Immovable Property (updated as on April 6, 2023), rbi.org.in, read on 31 October 2026.",
+    ],
+  },
+  {
+    kind: "nri",
+    slug: "buying-home-for-parents-ahmedabad",
+    href: "/nri/buying-home-for-parents-ahmedabad",
+    label: "Buying a Home for Parents",
+    eyebrow: "NRI Family Desk",
+    title: "NRI Buying a Home for Parents in Ahmedabad",
+    h1: "Buying a Home for Your Parents in Ahmedabad from Abroad",
+    description:
+      "For NRIs and OCIs buying a home for parents in Ahmedabad: what to look for in the home, whose name it goes in, how to pay, and running it from abroad.",
+    heroImage: "/properties/belagio/belagio-1.jpg",
+    categories: ["apartment", "villa", "bungalow"],
+    seoKeywords: [
+      "nri buying house for parents in india",
+      "buy flat for parents in ahmedabad",
+      "senior friendly apartments ahmedabad",
+      "nri property for parents ahmedabad",
+    ],
+    collectionHref: "/contact?purpose=home-for-parents",
+    intro:
+      "Buying a home for parents is one of the most common reasons NRIs buy in Ahmedabad. The right home is the one that makes daily life easy for them: lifts, a hospital nearby, security and family close by, more than an impressive address. This guide covers choosing the home, the ownership and payment rules, and how to manage it from abroad.",
+    marketSignals: [
+      "NRIs and OCIs may buy residential property in India and may gift it to a relative in India, under the RBI FAQ (updated 6 April 2023).",
+      "Payment must reach India through banking channels or come from your NRE, FCNR(B) or NRO account.",
+      "Whose name the home is in affects tax, inheritance and a future sale: decide with a lawyer and chartered accountant before booking.",
+    ],
+    idealFor: [
+      "NRIs and OCIs buying a home for parents who live in Ahmedabad.",
+      "Families moving parents closer to siblings, hospitals or community.",
+      "Buyers who want a home their parents can live in now and the family can keep later.",
+    ],
+    relatedSlugs: ["non-resident-gujarati-property-ahmedabad", "nri-property-eligibility-fema", "power-of-attorney-for-nri-property-purchase", "nri-property-management-ahmedabad"],
+    nriDetails: {
+      ...NRI_BASE_DETAILS,
+      reviewNote:
+        "Last editorial update: October 31, 2026. Ownership and payment rules summarised from the RBI FAQ on Purchase of Immovable Property (updated as on April 6, 2023). This page is general information, not legal, tax or FEMA advice; agree ownership, tax and succession planning with a qualified Indian lawyer and chartered accountant.",
+    },
+    faqs: [
+      {
+        question: "Can an NRI buy a house in India for their parents?",
+        answer:
+          "Yes. The RBI FAQ on purchase of immovable property (updated 6 April 2023) allows NRIs and OCIs to buy residential property in India, paying through Indian banking channels or an NRE, FCNR(B) or NRO account. Whether the home is in your name, your parents' name or both is a legal and tax decision to make with a lawyer and chartered accountant.",
+      },
+      {
+        question: "Should the flat be in my name or my parents' name?",
+        answer:
+          "It depends on who pays, how you want the home to pass on later, and the tax position in India and where you live. Each option has different consequences for a future sale and inheritance, so decide with a lawyer and chartered accountant before booking, not after.",
+      },
+      {
+        question: "What makes a home suitable for elderly parents?",
+        answer:
+          "Reliable lifts and power backup, step-free access, a manageable size, good security, a hospital and pharmacies close by, and family or community within easy reach. A quiet lane matters more than a prestige address. Visit at different times of day before deciding.",
+      },
+      {
+        question: "Can my parents handle registration while I am abroad?",
+        answer:
+          "Yes, if you give them a properly drafted power of attorney, or you can register in person on a visit. A lawyer should draft the power of attorney and confirm how it has to be executed and attested where you live.",
+      },
+    ],
+    bodyContent: [
+      "### Choose the home around daily life",
+      "Start with how your parents will actually live. Check the lifts, the backup power and the walk from the car to the door. Look for a size they can keep clean and secure, a society that is well run, and a hospital, pharmacy and temple or community centre close by. Our area guides note the hospitals and schools around each locality; Bodakdev and Thaltej, for example, are served by Zydus Hospital and SAL Hospital. Visit at different times of day, because traffic and noise change.",
+      "### Ready homes usually suit parents better",
+      "A ready or nearly ready home lets your parents move in without waiting years for handover, and you can inspect exactly what you are buying. If you choose a project under construction, check its RERA registration and the developer's delivery record carefully.",
+      "### Ownership and payment",
+      "Under the RBI FAQ (updated 6 April 2023), NRIs and OCIs may buy residential property in India and may gift residential property to a relative who is a resident, an NRI or an OCI. Payment has to reach India through banking channels or come from an NRE, FCNR(B) or NRO account. Whose name the home is in, and whether it is bought jointly, affects tax, inheritance and any future sale. Agree the structure with a lawyer and chartered accountant before you book.",
+      "### Managing it from abroad",
+      "Plan who will deal with the society, maintenance, repairs and utility bills once your parents move in. PIKORUA can coordinate handover and post-purchase property management, and arrange video inspections whenever you need to check on the home.",
+      "### Sources",
+      "Reserve Bank of India, FAQ on Purchase of Immovable Property (updated as on April 6, 2023), rbi.org.in, read on 31 October 2026.",
+    ],
+  },
 ];
 
 export const ALL_GEO_LANDING_PAGES = [
@@ -4627,12 +4889,18 @@ export function getLandingProperties(page: GeoLandingPage, properties: StaticPro
   const categories = page.categories ?? [];
   const keywords = page.matchKeywords ?? [];
 
+  // A page that names its categories lists only those (keywords such as
+  // "4 bhk" otherwise pulled a 4 BHK villa onto the apartments page).
+  // Keywords are the fallback for pages without categories.
+  if (categories.length > 0) {
+    return properties.filter((property) =>
+      categories.some((category) => propertyMatchesCategoryIntent(property, category))
+    );
+  }
+
   return properties.filter((property) => {
     const searchable = `${property.category} ${property.configuration} ${property.sizeRange} ${property.locationLabel} ${property.suitableFor ?? ""}`.toLowerCase();
-    return (
-      categories.some((category) => propertyMatchesCategoryIntent(property, category)) ||
-      keywords.some((keyword) => searchable.includes(keyword.toLowerCase()))
-    );
+    return keywords.some((keyword) => searchable.includes(keyword.toLowerCase()));
   });
 }
 

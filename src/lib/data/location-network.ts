@@ -600,3 +600,14 @@ function toPage(profile: LocationProfile, index: number): GeoLandingPage {
 
 export const PRIORITY_LOCATION_PAGES: GeoLandingPage[] = PROFILES.map(toPage);
 
+
+/** Lifestyle notes per area, for the /luxury-living-ahmedabad hub (same text as each area page). */
+export const LUXURY_LIVING_AREAS = PROFILES.map((profile) => ({
+  slug: profile.slug,
+  label: profile.label,
+  group: profile.group,
+  href: `/locations/${profile.slug}`,
+  clubsAndDining: profile.clubsAndDining,
+  schoolsAndHospitals: profile.schoolsAndHospitals,
+  businessConnectivity: profile.businessConnectivity,
+}));

@@ -31,6 +31,8 @@ import {
 } from "@/lib/data/developer-partners";
 import { BRAND_MISSPELLING_KEYWORDS } from "@/lib/data/brand-keywords";
 import "./globals.css";
+import { FOUNDER_LINKEDIN_URL, SOCIAL_LINKS } from "@/lib/social";
+import { UtmCapture } from "@/components/analytics/UtmCapture";
 
 const isVercelPreview =
   Boolean(process.env.VERCEL_ENV) && process.env.VERCEL_ENV !== "production";
@@ -333,9 +335,9 @@ const organizationSchema = {
         "Ahmedabad luxury property market report",
       ],
       sameAs: [
-        "https://www.instagram.com/pikorua.realty?igsh=MTN5d2NmNW1yY3Vvag==",
-        "https://www.linkedin.com/company/pikorua-realty/posts/?feedView=all",
-        "https://www.linkedin.com/in/jitendra-k-p-0b237021b/",
+        SOCIAL_LINKS.instagram,
+        SOCIAL_LINKS.linkedin,
+        FOUNDER_LINKEDIN_URL,
       ],
     },
   ],
@@ -374,6 +376,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-lux-black text-ivory antialiased">
         <GoogleAnalytics />
+        <UtmCapture />
         <GoogleTagManager />
         <MicrosoftClarity />
         <WebVitalsReporter />

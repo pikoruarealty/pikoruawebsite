@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { PAGE_MERGES } from "./src/lib/data/page-merges";
 
 const securityHeaders = [
   {
@@ -270,22 +271,22 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/buy-property-in-ahmedabad-from-abroad",
-        destination: "/nri-buying-property-in-ahmedabad",
+        destination: "/learn/how-to-buy-property-as-nri-ahmedabad",
         permanent: true,
       },
       {
         source: "/nri-property-legal-process-india",
-        destination: "/nri-home-buying-process-india",
+        destination: "/learn/how-to-buy-property-as-nri-ahmedabad",
         permanent: true,
       },
       {
         source: "/nri/buy-property-in-ahmedabad-from-abroad",
-        destination: "/nri-buying-property-in-ahmedabad",
+        destination: "/learn/how-to-buy-property-as-nri-ahmedabad",
         permanent: true,
       },
       {
         source: "/nri/nri-property-purchase-process-india",
-        destination: "/nri-home-buying-process-india",
+        destination: "/learn/how-to-buy-property-as-nri-ahmedabad",
         permanent: true,
       },
       {
@@ -303,6 +304,8 @@ const nextConfig: NextConfig = {
         destination: "/nri-property-from-australia",
         permanent: true,
       },
+      // Duplicate pages merged into one page per search intent (31 Oct 2026).
+      ...Object.entries(PAGE_MERGES).map(([source, destination]) => ({ source, destination, permanent: true })),
     ];
   },
   // Silence workspace-root detection warning when pnpm-lock exists at a parent level

@@ -40,7 +40,7 @@ export const EDITORIAL_QUEUE: EditorialBrief[] = [
     title: "An NRI's due-diligence checklist for buying a home in Ahmedabad",
     targetQuery: "nri property documents required",
     category: "nri-insights",
-    linkTo: "/nri-home-buying-process-india",
+    linkTo: "/learn/how-to-buy-property-as-nri-ahmedabad",
     angle: "A practical checklist for an NRI or OCI buying a residential property in Ahmedabad from abroad: title, approvals, RERA registration, payment trail, documents and who to involve. General information, not legal or tax advice.",
     facts: [
       "Under RBI rules, NRIs and OCI cardholders may acquire immovable property in India other than agricultural land, farm houses or plantation property.",
@@ -55,7 +55,7 @@ export const EDITORIAL_QUEUE: EditorialBrief[] = [
     title: "Buying a home in Ahmedabad while living abroad: how the process runs",
     targetQuery: "buying property in ahmedabad from abroad",
     category: "nri-insights",
-    linkTo: "/nri-buying-property-in-ahmedabad",
+    linkTo: "/learn/how-to-buy-property-as-nri-ahmedabad",
     angle: "Walk an overseas buyer through the sequence from brief to handover: defining the requirement, shortlisting, virtual tours and inspections, verification, payment through banking channels, registration and handover. Emphasise what can be done remotely and what needs a trusted local representative.",
     facts: [
       "Under RBI rules, NRIs and OCI cardholders may acquire immovable property in India other than agricultural land, farm houses or plantation property.",

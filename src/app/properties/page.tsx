@@ -11,6 +11,7 @@ import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd } from "@/lib/seo";
 import type { GeneralFaq } from "@/types";
 import { getPriorityKeywordsForPath } from "@/lib/data/six-month-priority-keywords";
+import { isLivePage } from "@/lib/data/page-merges";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeoData("properties");
@@ -161,7 +162,7 @@ export default async function PropertiesPage() {
                   Property Types
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {PROPERTY_TYPE_LANDING_PAGES.map((page) => (
+                  {PROPERTY_TYPE_LANDING_PAGES.filter(isLivePage).map((page) => (
                     <Link
                       key={page.href}
                       href={page.href}

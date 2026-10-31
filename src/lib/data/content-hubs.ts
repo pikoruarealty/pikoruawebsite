@@ -18,6 +18,7 @@
  */
 
 import { PHASE_14_CONTENT_PAGES } from "@/lib/data/phase14-content";
+import { PAGE_MERGES } from "@/lib/data/page-merges";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -83,7 +84,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     slug: "commercial-property-vs-gold",
     prefix: "compare",
     href: "/compare/commercial-property-vs-gold",
-    title: "Commercial Property vs Gold Investment in Ahmedabad | PIKORUA Realty",
+    title: "Commercial Property vs Gold in Ahmedabad",
     description: "A data-driven comparison of commercial real estate and gold as investment vehicles in Ahmedabad's 2026 market. Covers yield, liquidity, appreciation, and tax treatment.",
     h1: "Commercial Property vs Gold: Which Investment Wins in Ahmedabad?",
     eyebrow: "Investment Analysis · PIKORUA Advisory",
@@ -145,7 +146,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     slug: "commercial-property-vs-fd",
     prefix: "compare",
     href: "/compare/commercial-property-vs-fd",
-    title: "Commercial Property vs Fixed Deposit in Ahmedabad 2026 | PIKORUA Realty",
+    title: "Commercial Property vs FD in Ahmedabad",
     description: "Comprehensive comparison of commercial real estate versus fixed deposits for Ahmedabad investors. Covers yield, risk, liquidity, and tax efficiency in the 2026 rate environment.",
     h1: "Commercial Property vs Fixed Deposit: The 2026 Yield Reality",
     eyebrow: "Investment Analysis · PIKORUA Advisory",
@@ -206,7 +207,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     slug: "luxury-flats-vs-villas-ahmedabad",
     prefix: "compare",
     href: "/compare/luxury-flats-vs-villas-ahmedabad",
-    title: "Luxury Flats vs Villas in Ahmedabad — Which to Buy in 2026? | PIKORUA",
+    title: "Luxury Flats vs Villas in Ahmedabad",
     description: "Expert comparison of luxury apartments versus independent villas in Ahmedabad. Covers appreciation, maintenance, privacy, rental yield, and lifestyle fit for self-use and investment buyers.",
     h1: "Luxury Flats vs Villas in Ahmedabad: A 2026 Buyer's Guide",
     eyebrow: "Residential Advisory · PIKORUA Realty",
@@ -319,7 +320,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     slug: "under-construction-vs-ready-to-move",
     prefix: "compare",
     href: "/compare/under-construction-vs-ready-to-move",
-    title: "Under Construction vs Ready to Move Property Ahmedabad | PIKORUA",
+    title: "Under Construction vs Ready to Move (Ahmedabad)",
     description: "Detailed comparison of under-construction vs ready-to-move luxury properties in Ahmedabad. Covers GST, EMI timing, risk, NRI suitability, and the right choice for 2026 buyers.",
     h1: "Under Construction vs Ready to Move: Which Luxury Property to Buy in Ahmedabad",
     eyebrow: "Buyer's Guide · PIKORUA Advisory",
@@ -368,7 +369,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     slug: "thaltej-vs-bodakdev-investment",
     prefix: "compare",
     href: "/compare/thaltej-vs-bodakdev-investment",
-    title: "Thaltej vs Bodakdev Property Investment Comparison 2026 | PIKORUA",
+    title: "Thaltej vs Bodakdev Property Investment",
     description: "Expert comparison of Thaltej and Bodakdev as luxury residential investment destinations in Ahmedabad. Covers pricing, appreciation, rental yield, and buyer profiles.",
     h1: "Thaltej vs Bodakdev: Which Location Wins for Luxury Property Investment?",
     eyebrow: "Location Analysis · PIKORUA Advisory",
@@ -419,7 +420,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     slug: "sg-highway-vs-iscon-ambli-road",
     prefix: "compare",
     href: "/compare/sg-highway-vs-iscon-ambli-road",
-    title: "SG Highway vs Iscon Ambli Road Property Investment | PIKORUA Realty",
+    title: "SG Highway vs Iscon-Ambli Road Property",
     description: "Comparing Ahmedabad's two premium western corridors for luxury property investment — SG Highway and Iscon Ambli Road. Which delivers better returns in 2026?",
     h1: "SG Highway vs Iscon Ambli Road: Ahmedabad's Two Premium Corridors Compared",
     eyebrow: "Location Analysis · PIKORUA Advisory",
@@ -585,7 +586,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
     slug: "thaltej-investment-guide",
     prefix: "invest",
     href: "/invest/thaltej-investment-guide",
-    title: "Thaltej Property Investment Guide 2026 — Ahmedabad | PIKORUA Realty",
+    title: "Thaltej Property Investment Guide (2026)",
     description: "Complete investment guide for Thaltej, Ahmedabad's best-balanced luxury corridor. Covers pricing, rental yield, appreciation drivers, best projects, and PIKORUA's advisory insights.",
     h1: "Investing in Thaltej, Ahmedabad — The Complete 2026 Guide",
     eyebrow: "Location Advisory · PIKORUA Realty",
@@ -816,8 +817,8 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
     slug: "how-to-buy-property-as-nri-ahmedabad",
     prefix: "learn",
     href: "/learn/how-to-buy-property-as-nri-ahmedabad",
-    title: "How to Buy Property as an NRI in Ahmedabad — Step-by-Step | PIKORUA",
-    description: "Step-by-step guide for NRIs buying property in Ahmedabad. Covers account setup, document checklist, FEMA compliance, Power of Attorney, registration, and PIKORUA's advisory support.",
+    title: "How to Buy Property in Ahmedabad as an NRI",
+    description: "Step-by-step guide for NRIs buying property in Ahmedabad: bank accounts, documents, FEMA rules, Power of Attorney, home loans, TDS, registration and buying remotely.",
     h1: "How to Buy Property in Ahmedabad as an NRI — Step-by-Step Guide",
     eyebrow: "NRI Guide · PIKORUA Realty",
     intro: "Buying property in Ahmedabad as an NRI involves more steps than a domestic purchase — but none of them are insurmountable. PIKORUA has facilitated 80+ NRI transactions from 12 countries, including purchases completed entirely remotely without the buyer setting foot in India. This step-by-step guide covers every stage of the process.",
@@ -825,7 +826,7 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
     keyTakeaways: [
       "NRIs can buy residential and commercial property in India without RBI approval — only agricultural land, plantation property, and farmhouses require special dispensation.",
       "A duly registered Power of Attorney (notarised at the Indian consulate in your country of residence) allows you to complete the entire transaction without being physically present in India.",
-      "All payments must flow through NRE or NRO bank accounts — direct overseas wire transfers to developer accounts are not FEMA-compliant.",
+      "Payment must reach India through banking channels: an inward remittance from abroad, or funds in your NRE, FCNR(B) or NRO account. Traveller's cheques and foreign currency notes are not accepted (RBI FAQ, updated 6 April 2023).",
     ],
     sections: [
       {
@@ -852,14 +853,31 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
       {
         heading: "Step 4: Payment and Registration",
         body: [
-          "Payment flows from your NRE/NRO account to the seller's account via NEFT/RTGS. For purchase from a developer, stage-wise payments follow the construction-linked plan (for under-construction) or a single disbursement (for ready-to-move).",
+          "Payment reaches the seller through Indian banking channels: an inward remittance from abroad, or a transfer from your NRE, FCNR(B) or NRO account. For purchase from a developer, stage-wise payments follow the construction-linked plan (for under-construction) or a single disbursement (for ready-to-move).",
           "For home loan purchases, the Indian bank disburses the loan amount directly and the NRI contributes margin money from their NRE/NRO account. Registration is executed by your POA holder at the Gujarat Sub-Registrar office with biometric verification. The registered sale deed is issued immediately — the original is held by your POA holder until you collect it.",
+        ],
+      },
+      {
+        heading: "Step 5: Home Loans, TDS, Stamp Duty and Registration",
+        body: [
+          "Many Indian banks offer NRI home loans, subject to income proof, residency documents, credit assessment, property eligibility and bank policy. Loan paperwork often needs extra attestation or Power of Attorney support, so start it early.",
+          "Stamp duty and registration fees are paid before registration at the Sub-Registrar office. TDS depends on whether the seller is resident or non-resident, so confirm who deducts it and how much with a chartered accountant before you sign. Requirements also vary by bank, developer, seller and registrar.",
+        ],
+      },
+      {
+        heading: "Buying From Abroad: What Can Be Done Remotely",
+        body: [
+          "Start with a private video consultation to define the brief, review a curated shortlist through recorded walkthroughs, and complete document and title checks remotely. Then plan the Power of Attorney, payment routing and registration before or during a single focused India visit.",
+          "Booking from abroad is possible, subject to project policy, seller terms, payment route and document checks. Book only after you have reviewed pricing, title or RERA documents, the payment schedule, cancellation terms and possession commitments.",
         ],
       },
     ],
     faqs: [
       { question: "Can an NRI buy property in Ahmedabad without visiting India?", answer: "Yes. With a duly apostilled and adjudicated Power of Attorney, an NRI can complete the entire property purchase — from due diligence to registration — without being physically present in India. PIKORUA has completed multiple fully remote NRI transactions from the US, UK, UAE, and Canada." },
       { question: "What documents does an NRI need to buy property in Ahmedabad?", answer: "Valid Indian passport (or OCI/PIO card), PAN card, NRE/NRO account statements (6 months), overseas address proof, foreign income proof (salary slips or tax returns), and if using POA: apostilled and adjudicated POA document. For home loan: overseas employment letter and last 2 years' foreign income tax returns." },
+      { question: "Can NRIs get home loans in India for property?", answer: "Yes. Many Indian banks offer NRI home loans subject to income proof, residency documents, credit assessment, property eligibility and bank policy. Loan documentation often requires additional attestation or Power of Attorney support." },
+      { question: "How does property registration work for NRIs?", answer: "Registration usually happens at the relevant Sub-Registrar office after stamp duty and registration fees are paid. If the buyer cannot attend, a legally valid Power of Attorney holder may be able to complete the process, subject to document and registrar requirements." },
+      { question: "Can an NRI book property in Ahmedabad from abroad?", answer: "Yes, subject to project policy, seller terms, payment route and document verification. Book only after reviewing pricing, title or RERA documents, the payment schedule, cancellation terms and possession commitments." },
     ],
     relatedListingHrefs: ["/p/iscon-ambli-road/luxury-flats", "/p/sindhubhavan-road/penthouses", "/nri/usa/luxury-flats-ahmedabad"],
     relatedHubSlugs: ["nri-property-investment-guide-ahmedabad", "fema-nri-property-purchase-guide", "rera-gujarat-guide"],
@@ -871,7 +889,7 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
     slug: "types-of-commercial-property-india",
     prefix: "learn",
     href: "/learn/types-of-commercial-property-india",
-    title: "Types of Commercial Property in India — Investor's Guide | PIKORUA",
+    title: "Types of Commercial Property in India",
     description: "Complete guide to types of commercial property in India — office space, retail, industrial/warehouse, and hospitality. Covers yield profiles, risk, minimum investment, and Ahmedabad market.",
     h1: "Types of Commercial Property in India — What Investors Need to Know",
     eyebrow: "Investment Education · PIKORUA Advisory",
@@ -1052,7 +1070,7 @@ export const GIFT_CITY_PAGES: ContentHubPage[] = [
     slug: "commercial-property",
     prefix: "gift-city",
     href: "/gift-city/commercial-property",
-    title: "GIFT City Commercial Property — Office Space Investment Guide | PIKORUA",
+    title: "GIFT City Commercial Property & Offices",
     description: "Expert guide to buying commercial property in GIFT City — office space, yield data, tenant profiles, pricing, IFSC advantages, and PIKORUA's advisory process for 2026.",
     h1: "GIFT City Commercial Property — Office Space Investment in India's IFSC",
     eyebrow: "Commercial Advisory · PIKORUA Realty",
@@ -1137,13 +1155,14 @@ export const GIFT_CITY_PAGES: ContentHubPage[] = [
 // COMBINED EXPORTS AND LOOKUPS
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** Every hub page that is live. Pages merged into another URL (page-merges.ts) are left out. */
 export const ALL_CONTENT_HUB_PAGES: ContentHubPage[] = [
   ...COMPARISON_PAGES,
   ...INVESTMENT_PAGES,
   ...EDUCATION_PAGES,
   ...GIFT_CITY_PAGES,
   ...PHASE_14_CONTENT_PAGES,
-];
+].filter((page) => !PAGE_MERGES[page.href]);
 
 export const CONTENT_HUB_MAP = new Map(
   ALL_CONTENT_HUB_PAGES.map((p) => [p.slug, p])

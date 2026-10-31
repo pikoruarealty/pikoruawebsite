@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { cn, leadFieldErrors } from "@/lib/utils";
 import { trackLeadSubmit } from "@/lib/analytics";
 import type { ResidentialCategory, LocationSlug, BudgetBand, LeadPurpose, Timeline } from "@/types";
+import { getLeadUtm } from "@/lib/attribution";
 
 // ─── Static data ────────────────────────────────────────────────────────────
 
@@ -182,6 +183,7 @@ export function DiscoveryForm({ initialPurpose = "", id = "discovery" }: Discove
       email: form.email.trim() || undefined,
       preferredCallbackTime: form.preferredCallbackTime || undefined,
       consent: form.consent,
+      utm: getLeadUtm(),
     };
 
     try {

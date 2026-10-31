@@ -3167,8 +3167,8 @@ export default function AdminDashboard({
                         <div className="space-y-1">
                           <div className="flex justify-between items-center">
                             <label className="block text-[9px] uppercase tracking-wider text-ivory/40 font-light">Meta Title</label>
-                            <span className={(pageSeo.seoTitle || "").length > 70 ? "text-red-400 animate-pulse" : "text-ivory/30 font-sans"}>
-                              {(pageSeo.seoTitle || "").length}/70 chars
+                            <span className={(pageSeo.seoTitle || "").length > 48 ? "text-red-400 animate-pulse" : "text-ivory/30 font-sans"}>
+                              {(pageSeo.seoTitle || "").length}/48 chars + brand suffix
                             </span>
                           </div>
                           <input
@@ -4184,8 +4184,8 @@ export default function AdminDashboard({
                   <div className="space-y-1">
                     <div className="flex justify-between items-center">
                       <label className="block text-[9px] uppercase tracking-wider text-ivory/40 font-light">Meta Title</label>
-                      <span className={(editingProperty.seoTitle || "").length > 70 ? "text-red-400" : "text-ivory/30"}>
-                        {(editingProperty.seoTitle || "").length}/70 chars
+                      <span className={(editingProperty.seoTitle || "").length > 48 ? "text-red-400" : "text-ivory/30"}>
+                        {(editingProperty.seoTitle || "").length}/48 chars + brand suffix
                       </span>
                     </div>
                     <input
@@ -4653,8 +4653,8 @@ export default function AdminDashboard({
                   <div className="space-y-1">
                     <div className="flex justify-between items-center">
                       <label className="block text-[9px] uppercase tracking-wider text-ivory/40 font-light">Meta Title</label>
-                      <span className={(editingBlog.seoTitle || "").length > 70 ? "text-red-400" : "text-ivory/30"}>
-                        {(editingBlog.seoTitle || "").length}/70 chars
+                      <span className={(editingBlog.seoTitle || "").length > 48 ? "text-red-400" : "text-ivory/30"}>
+                        {(editingBlog.seoTitle || "").length}/48 chars + brand suffix
                       </span>
                     </div>
                     <input

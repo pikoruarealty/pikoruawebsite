@@ -45,6 +45,8 @@ import {
   SIX_MONTH_KEYWORD_GUARDRAILS,
   SIX_MONTH_PRIORITY_KEYWORDS,
 } from "@/lib/data/six-month-priority-keywords";
+import { INSTAGRAM_HANDLE, YOUTUBE_HANDLE } from "@/lib/social";
+import { isLivePage } from "@/lib/data/page-merges";
 
 export const revalidate = 86400; // Cache on CDN/edge for 24 hours (ISR) to protect database
 export const runtime = "nodejs";
@@ -119,7 +121,7 @@ export async function GET() {
     `- **Specialization:** Luxury residential real estate, HNI and NRI buyers`,
     `- **Website:** ${SITE_URL}`,
     `- **Enquiry:** ${SITE_URL}/contact`,
-    `- **Social:** Instagram @pikorua.realty`,
+    `- **Social:** Instagram @${INSTAGRAM_HANDLE}`,
     `- **Languages:** English, Hindi, Gujarati`,
     `- **Area Served:** Ahmedabad, Gujarat, India`,
     ``,
@@ -221,7 +223,7 @@ export async function GET() {
   const propertyTypes = [
     `## Property Types`,
     ``,
-    ...PROPERTY_TYPE_LANDING_PAGES.flatMap((p) => {
+    ...PROPERTY_TYPE_LANDING_PAGES.filter(isLivePage).flatMap((p) => {
       const cluster = getKeywordClusterSummaryForSlug(p.slug);
 
       return [
@@ -323,7 +325,7 @@ export async function GET() {
     ),
     `## Property Type FAQs`,
     ``,
-    ...PROPERTY_TYPE_LANDING_PAGES.flatMap((page) =>
+    ...PROPERTY_TYPE_LANDING_PAGES.filter(isLivePage).flatMap((page) =>
       page.faqs.flatMap((faq) => [
         `### ${faq.question}`,
         faq.answer,
@@ -352,7 +354,7 @@ export async function GET() {
     `- **Email:** ${entity.contact.email}`,
     `- **Phone:** ${entity.contact.telephone}`,
     `- **Address:** ${entity.address.streetAddress}, ${entity.address.addressLocality}, ${entity.address.addressRegion} ${entity.address.postalCode}, India`,
-    `- **Social:** Instagram @pikorua.realty, Facebook, LinkedIn, YouTube @pikorua_realty_official`,
+    `- **Social:** Instagram @${INSTAGRAM_HANDLE}, Facebook, LinkedIn, YouTube @${YOUTUBE_HANDLE}`,
     ``,
     `## Do Not Index`,
     ``,

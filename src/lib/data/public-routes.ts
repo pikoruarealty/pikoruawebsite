@@ -26,6 +26,7 @@ import {
 } from "@/lib/data/geo";
 import { getPrivateClientPageByUrlSlug } from "@/lib/data/private-client-advisory";
 import { ALL_CONTENT_HUB_PAGES } from "@/lib/data/content-hubs";
+import { PAGE_MERGES } from "@/lib/data/page-merges";
 
 /** Hand-built public pages (not generated from data). */
 export const STATIC_PUBLIC_PATHS = [
@@ -40,6 +41,7 @@ export const STATIC_PUBLIC_PATHS = [
   "/invest/rental-yield-calculator-ahmedabad",
   "/learn",
   "/locations",
+  "/luxury-living-ahmedabad",
   "/nri",
   "/nri/property-budget-currency-converter",
   "/press",
@@ -69,8 +71,12 @@ function lookupGeoRoute(href: string): GeoLandingPage | undefined {
   return undefined;
 }
 
-/** True when the route serving `page.href` resolves back to this same page. */
+/**
+ * True when the route serving `page.href` resolves back to this same page and
+ * the page has not been merged into another one (page-merges.ts).
+ */
 export function isRenderableGeoPage(page: GeoLandingPage): boolean {
+  if (PAGE_MERGES[page.href]) return false;
   return lookupGeoRoute(page.href)?.href === page.href;
 }
 

@@ -77,7 +77,7 @@ export const BLOG_LINK_TARGETS: { topic: string; href: string }[] = [
   { topic: "investment property / rental yield", href: "/investment-property-ahmedabad" },
   { topic: "commercial property / offices / showrooms", href: "/commercial-property-ahmedabad" },
   { topic: "NRI property investment", href: "/nri-property-investment-ahmedabad" },
-  { topic: "NRI home-buying process", href: "/nri-home-buying-process-india" },
+  { topic: "NRI home-buying process", href: "/learn/how-to-buy-property-as-nri-ahmedabad" },
   { topic: "HNI / family office / private client advisory", href: "/private-client-advisory" },
   { topic: "GIFT City", href: "/gift-city" },
   { topic: "Ahmedabad luxury market report", href: "/ahmedabad-luxury-property-market-report" },

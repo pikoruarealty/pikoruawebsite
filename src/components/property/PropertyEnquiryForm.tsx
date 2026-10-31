@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn, leadFieldErrors } from "@/lib/utils";
 import { trackLeadSubmit } from "@/lib/analytics";
+import { getLeadUtm } from "@/lib/attribution";
 
 interface PropertyEnquiryFormProps {
   propertySlug: string;
@@ -79,6 +80,7 @@ export function PropertyEnquiryForm({
           propertyRef: propertySlug,
           consent: true,
           honeypot: form.honeypot,
+          utm: getLeadUtm(),
         }),
       });
 

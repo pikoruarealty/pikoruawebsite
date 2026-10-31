@@ -16,6 +16,7 @@ import {
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { cn, renderFormattedText } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import { FOUNDER_LINKEDIN_URL, SOCIAL_LINKS } from "@/lib/social";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeoData("about");
@@ -185,9 +186,9 @@ export default async function AboutPage() {
           "Private real estate consultation Gujarat",
         ],
         sameAs: [
-          "https://www.instagram.com/pikorua.realty?igsh=MTN5d2NmNW1yY3Vvag==",
-          "https://www.linkedin.com/company/pikorua-realty/posts/?feedView=all",
-          "https://www.linkedin.com/in/jitendra-k-p-0b237021b/",
+          SOCIAL_LINKS.instagram,
+          SOCIAL_LINKS.linkedin,
+          FOUNDER_LINKEDIN_URL,
         ],
       },
     ],
@@ -275,7 +276,7 @@ export default async function AboutPage() {
 
                 <div className="pt-6 flex justify-center lg:justify-start">
                   <a
-                    href="https://www.linkedin.com/in/jitendra-k-p-0b237021b/"
+                    href={FOUNDER_LINKEDIN_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2.5 text-[10px] uppercase tracking-[0.2em] text-champagne-gold/80 hover:text-white transition-colors duration-200 border-b border-champagne-gold/20 hover:border-white pb-1"

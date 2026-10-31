@@ -8,7 +8,7 @@ import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/se
 
 export async function generateMetadata(): Promise<Metadata> {
   return createMetadata({
-    title: "GIFT City Real Estate & Commercial Property Investment | PIKORUA Realty",
+    title: "GIFT City Real Estate & Commercial Property",
     description:
       "Comprehensive advisory and investment guide for GIFT City real estate — Grade-A commercial office space, residential towers, NRI tax benefits, IFSC regulatory framework, and yield analysis.",
     path: "/gift-city",

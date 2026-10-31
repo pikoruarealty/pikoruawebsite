@@ -21,14 +21,9 @@ export const NRI_CENTRE_SECTIONS: NriCentreSection[] = [
     description: "Understand the Ahmedabad buying journey and choose the right advisory path.",
     links: [
       {
-        href: "/nri-buying-property-in-ahmedabad",
-        label: "NRI Buying Property in Ahmedabad",
-        description: "Eligibility, property selection, payment and remote execution overview.",
-      },
-      {
-        href: "/nri-home-buying-process-india",
-        label: "NRI Home-Buying Process in India",
-        description: "A step-by-step path from brief and KYC through registration and handover.",
+        href: "/learn/how-to-buy-property-as-nri-ahmedabad",
+        label: "How to Buy Property in Ahmedabad as an NRI",
+        description: "Step by step: bank accounts, power of attorney, checks, payment, registration and buying remotely.",
       },
       {
         href: "/nri-property-consultant-ahmedabad",
@@ -47,8 +42,11 @@ export const NRI_CENTRE_SECTIONS: NriCentreSection[] = [
       { href: "/nri/canada", label: "Canada", description: "CAD budgeting, long-haul planning and evidence-led shortlisting." },
       { href: "/nri/singapore", label: "Singapore", description: "SGD budgeting, close time-zone coordination and compact inspection trips." },
       { href: "/nri/australia", label: "Australia", description: "AUD budgeting, recorded walkthroughs and limited-travel execution." },
+      { href: "/nri/gcc", label: "Qatar, Saudi Arabia, Kuwait, Oman, Bahrain", description: "Gulf NRIs: RBI rules, paying from the Gulf and calls across Gulf time zones." },
+      { href: "/nri/east-africa", label: "East Africa", description: "Gujarati families in Kenya, Tanzania and Uganda: the NRI and OCI routes to buying." },
       { href: "/nri/global", label: "Other Countries", description: "A global guide for overseas buyers outside the main country hubs." },
       { href: "/nri/non-resident-gujarati-property-ahmedabad", label: "Non-Resident Gujaratis", description: "For Gujarati families abroad buying a home in Ahmedabad, often for parents or a future return." },
+      { href: "/nri/buying-home-for-parents-ahmedabad", label: "Buying a Home for Parents", description: "Choosing a home for parents, whose name it goes in, payment and managing it from abroad." },
     ],
   },
   {

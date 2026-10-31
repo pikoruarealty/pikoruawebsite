@@ -11,6 +11,7 @@ import {
 } from "@/lib/seo";
 import { PARTNER_SCHEMA_KNOWS_ABOUT } from "@/lib/data/developer-partners";
 import { MARKET_REPORT_PATH, PRESS_ROOM_PATH } from "@/lib/data/market-report";
+import { FOUNDER_LINKEDIN_URL, SOCIAL_LINKS } from "@/lib/social";
 
 export const ENTITY_IDS = {
   website: WEBSITE_ENTITY_ID,
@@ -43,10 +44,10 @@ export const BUSINESS_LANGUAGES = ["en", "hi", "gu"] as const;
 export const INTERNATIONAL_SERVICE_AREAS = ["IN", "AE", "US", "GB", "SG", "CA", "AU"] as const;
 
 export const SOCIAL_PROFILES = [
-  "https://www.instagram.com/pikorua.realty?igsh=MTN5d2NmNW1yY3Vvag==",
-  "https://www.facebook.com/share/18tH6uh55f/?mibextid=wwXIfr",
-  "https://www.linkedin.com/company/pikorua-realty/posts/?feedView=all",
-  "https://youtube.com/@pikorua_realty_official?si=M3r65vxOcgUvdGfi",
+  SOCIAL_LINKS.instagram,
+  SOCIAL_LINKS.facebook,
+  SOCIAL_LINKS.linkedin,
+  SOCIAL_LINKS.youtube,
   BUSINESS_MAP_URL,
 ] as const;
 
@@ -242,9 +243,9 @@ export function getFounderSchema(image = absoluteUrl("/images/founder.jpg")) {
       "Private real estate consultation Gujarat",
     ],
     sameAs: [
-      "https://www.instagram.com/pikorua.realty?igsh=MTN5d2NmNW1yY3Vvag==",
-      "https://www.linkedin.com/company/pikorua-realty/posts/?feedView=all",
-      "https://www.linkedin.com/in/jitendra-k-p-0b237021b/",
+      SOCIAL_LINKS.instagram,
+      SOCIAL_LINKS.linkedin,
+      FOUNDER_LINKEDIN_URL,
     ],
   };
 }

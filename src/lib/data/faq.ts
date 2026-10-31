@@ -52,7 +52,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "What is the price range for luxury properties in Ahmedabad?",
     answer:
-      "Luxury residential properties in Ahmedabad's western corridors typically range from ₹3 Crore for premium plots in growth corridors to ₹15 Crore and above for 5 BHK sky mansions and penthouses on Iskon-Ambli Road (₹11,000–₹15,000 per sq.ft.). Sindhu Bhavan Road penthouses, villas, and large duplexes often fall in the ₹5–₹12 Crore range depending on size and specification.",
+      "Luxury residential properties in Ahmedabad's western corridors typically range from ₹3 Crore for premium plots in growth corridors to ₹15 Crore and above for 5 BHK sky mansions and penthouses on Iskon-Ambli Road (indicatively ₹10,000–₹16,000+ per sq.ft. as of July 2026). Sindhu Bhavan Road penthouses, villas, and large duplexes often fall in the ₹5–₹12 Crore range depending on size and specification.",
   },
   {
     question: "What is the difference between a penthouse and a duplex in Ahmedabad?",

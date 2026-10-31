@@ -75,7 +75,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/usa/luxury-flats-ahmedabad",
     label: "NRI USA — Luxury Flats Ahmedabad",
     eyebrow: "USA NRI · Luxury Advisory",
-    title: "Luxury Flats in Ahmedabad for USA-Based NRIs — Remote Purchase Guide",
+    title: "Ahmedabad Luxury Flats for NRIs in the USA",
     h1: "Luxury Flats in Ahmedabad for USA NRIs",
     description:
       "Complete guide for USA-based NRIs buying luxury flats in Ahmedabad — currency conversion, FEMA compliance, NRE/NRO payment, virtual tours & remote purchase process.",
@@ -164,7 +164,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/usa/property-investment-ahmedabad",
     label: "NRI USA — Property Investment Ahmedabad",
     eyebrow: "USA NRI · Investment Advisory",
-    title: "Property Investment in Ahmedabad for USA NRIs — ROI & India Allocation",
+    title: "Ahmedabad Property Investment for US NRIs",
     h1: "Property Investment in Ahmedabad for USA-Based NRIs",
     description:
       "Ahmedabad property investment guide for USA NRIs — ROI analysis, India vs USA comparison, currency advantage, rental yield & capital appreciation data by PIKORUA Realty.",
@@ -228,7 +228,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/uk/luxury-properties-ahmedabad",
     label: "NRI UK — Luxury Properties Ahmedabad",
     eyebrow: "UK NRI · Luxury Advisory",
-    title: "Luxury Properties in Ahmedabad for UK-Based NRIs — Complete Buying Guide",
+    title: "Ahmedabad Luxury Homes for UK NRIs",
     h1: "Luxury Properties in Ahmedabad for UK NRIs",
     description:
       "Complete guide for UK-based NRIs buying luxury property in Ahmedabad — GBP/INR currency, FEMA compliance, NRE/NRO payments, virtual tours & remote purchase support.",
@@ -297,7 +297,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/uk/buy-property-ahmedabad",
     label: "NRI UK — Buy Property Ahmedabad",
     eyebrow: "UK NRI · Buyer Guide",
-    title: "Buy Property in Ahmedabad from UK — Complete NRI Process Guide",
+    title: "Buy Property in Ahmedabad from the UK",
     h1: "How to Buy Property in Ahmedabad from the UK",
     description:
       "Step-by-step guide for UK-based NRIs buying property in Ahmedabad — remote process, documentation, UK apostille, NRE/NRO payments & PIKORUA advisory support.",
@@ -335,7 +335,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/dubai/luxury-flats-ahmedabad",
     label: "NRI Dubai — Luxury Flats Ahmedabad",
     eyebrow: "Dubai NRI · Luxury Advisory",
-    title: "Luxury Flats in Ahmedabad for Dubai & UAE NRIs — Property Buying Guide",
+    title: "Ahmedabad Luxury Flats for Dubai & UAE NRIs",
     h1: "Luxury Flats in Ahmedabad for Dubai NRIs",
     description:
       "Complete guide for Dubai and UAE-based NRIs buying luxury flats in Ahmedabad — AED/INR currency, FEMA compliance, remote purchase process & PIKORUA advisory support.",
@@ -405,7 +405,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/dubai/property-investment-ahmedabad",
     label: "NRI Dubai — Property Investment Ahmedabad",
     eyebrow: "Dubai NRI · Investment Advisory",
-    title: "Property Investment in Ahmedabad for Dubai NRIs — India vs UAE Comparison",
+    title: "Ahmedabad Property Investment for Dubai NRIs",
     h1: "Property Investment in Ahmedabad for Dubai-Based NRIs",
     description:
       "Ahmedabad property investment guide for Dubai NRIs — India vs UAE real estate ROI, AED/INR analysis, rental yield, capital appreciation & PIKORUA advisory.",
@@ -449,7 +449,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/canada/luxury-properties-ahmedabad",
     label: "NRI Canada — Luxury Properties Ahmedabad",
     eyebrow: "Canada NRI · Luxury Advisory",
-    title: "Luxury Properties in Ahmedabad for Canada NRIs — Remote Buying Guide",
+    title: "Luxury Ahmedabad Homes for NRIs in Canada",
     h1: "Luxury Properties in Ahmedabad for Canada-Based NRIs",
     description:
       "Complete guide for Canada-based NRIs buying luxury property in Ahmedabad — CAD/INR currency, FEMA compliance, remote purchase process & PIKORUA advisory support.",
@@ -512,7 +512,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/australia/property-investment-ahmedabad",
     label: "NRI Australia — Property Investment Ahmedabad",
     eyebrow: "Australia NRI · Investment Advisory",
-    title: "Property Investment in Ahmedabad for Australia NRIs — Complete Guide",
+    title: "Ahmedabad Property for NRIs in Australia",
     h1: "Property Investment in Ahmedabad for Australia-Based NRIs",
     description:
       "Complete guide for Australia-based NRIs investing in Ahmedabad property — AUD/INR currency, FEMA compliance, rental yield, capital appreciation & PIKORUA advisory.",
@@ -570,7 +570,7 @@ export const NRI_GEO_PAGES: GeoLandingPage[] = [
     href: "/nri/singapore/luxury-flats-ahmedabad",
     label: "NRI Singapore — Luxury Flats Ahmedabad",
     eyebrow: "Singapore NRI · Luxury Advisory",
-    title: "Luxury Flats in Ahmedabad for Singapore-Based NRIs — Buying Guide",
+    title: "Ahmedabad Luxury Flats for Singapore NRIs",
     h1: "Luxury Flats in Ahmedabad for Singapore-Based NRIs",
     description:
       "Guide for Singapore-based NRIs buying luxury flats in Ahmedabad — SGD/INR currency, FEMA compliance, virtual tours, remote purchase process & PIKORUA advisory.",

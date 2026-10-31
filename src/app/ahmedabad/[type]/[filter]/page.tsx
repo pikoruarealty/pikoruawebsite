@@ -15,6 +15,7 @@ import {
 } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { getExchangeRates } from "@/lib/exchange-rates";
+import { mergedHref } from "@/lib/data/page-merges";
 
 interface AhmedabadFilterPageProps {
   params: Promise<{ type: string; filter: string }>;
@@ -134,7 +135,7 @@ export default async function AhmedabadFilterPage({ params }: AhmedabadFilterPag
         "@type": "ListItem",
         position: 4,
         name: type.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
-        item: absoluteUrl(`/ahmedabad/${type}`),
+        item: absoluteUrl(mergedHref(`/ahmedabad/${type}`)),
       },
       { "@type": "ListItem", position: 5, name: page.label, item: pageUrl },
     ],

@@ -134,6 +134,10 @@ export default function LocationsIndexPage() {
               <Link href="/learn/jantri-rates-ahmedabad" className="text-champagne-gold/80 hover:text-champagne-gold underline underline-offset-2">
                 jantri rate
               </Link>
+              . For clubs, dining, schools and the commute in each area, see{" "}
+              <Link href="/luxury-living-ahmedabad" className="text-champagne-gold/80 hover:text-champagne-gold underline underline-offset-2">
+                luxury living in Ahmedabad
+              </Link>
               .
             </p>
             <ol className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">

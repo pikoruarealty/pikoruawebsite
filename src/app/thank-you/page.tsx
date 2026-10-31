@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { env } from "@/lib/env";
 import { buildWhatsAppUrl } from "@/lib/utils";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 export const metadata: Metadata = {
   title: "Thank You",
@@ -116,7 +117,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
         </p>
         <div style={{ display: "flex", gap: "1rem" }}>
           <a
-            href="https://www.instagram.com/pikorua.realty?igsh=MTN5d2NmNW1yY3Vvag=="
+            href={SOCIAL_LINKS.instagram}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -125,7 +126,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
             <InstagramIcon />
           </a>
           <a
-            href="https://www.facebook.com/share/18tH6uh55f/?mibextid=wwXIfr"
+            href={SOCIAL_LINKS.facebook}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"
@@ -134,7 +135,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
             <FacebookIcon />
           </a>
           <a
-            href="https://youtube.com/@pikorua_realty_official?si=M3r65vxOcgUvdGfi"
+            href={SOCIAL_LINKS.youtube}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="YouTube"
@@ -143,7 +144,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
             <YouTubeIcon />
           </a>
           <a
-            href="https://www.linkedin.com/company/pikorua-realty/posts/?feedView=all"
+            href={SOCIAL_LINKS.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"

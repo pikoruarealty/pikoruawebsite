@@ -28,6 +28,7 @@ import { SITE_URL } from "@/lib/seo";
 import { ALL_CONTENT_HUB_PAGES } from "@/lib/data/content-hubs";
 import { SIX_MONTH_PRIORITY_KEYWORDS } from "@/lib/data/six-month-priority-keywords";
 import { BRAND_MISSPELLING_KEYWORDS } from "@/lib/data/brand-keywords";
+import { isLivePage } from "@/lib/data/page-merges";
 
 export const revalidate = 86400; // Cache on CDN/edge for 24 hours (ISR) to protect database
 export const runtime = "nodejs";
@@ -133,7 +134,7 @@ export async function GET() {
     ``,
     `## Property Types`,
     ``,
-    ...PROPERTY_TYPE_LANDING_PAGES.map((p) => {
+    ...PROPERTY_TYPE_LANDING_PAGES.filter(isLivePage).map((p) => {
       const cluster = getKeywordClusterSummaryForSlug(p.slug);
       const primaryTerms = cluster ? ` Target keywords: ${cluster.primary.slice(0, 4).join(" | ")}` : "";
       return `- [${p.label}](${SITE_URL}${p.href}): ${p.description}${primaryTerms}`;

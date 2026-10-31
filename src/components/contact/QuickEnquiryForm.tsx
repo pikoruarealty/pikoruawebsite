@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn, leadFieldErrors } from "@/lib/utils";
 import { trackLeadSubmit } from "@/lib/analytics";
+import { getLeadUtm } from "@/lib/attribution";
 
 interface FormState {
   name: string;
@@ -60,6 +61,7 @@ export function QuickEnquiryForm() {
           preferredCallbackTime: form.preferredCallbackTime,
           consent: true,
           honeypot: form.honeypot,
+          utm: getLeadUtm(),
         }),
       });
       if (!res.ok) {

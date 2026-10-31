@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ContentHubTemplate } from "@/components/seo/ContentHubTemplate";
+import { linkableHrefs } from "@/lib/data/combo-indexable";
 import {
   getContentHubsByPrefix,
   getContentHubPage,
@@ -78,7 +79,10 @@ export default async function InvestPage({ params }: PageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }} />
-      <ContentHubTemplate page={page} relatedPages={relatedPages} />
+      <ContentHubTemplate
+        page={{ ...page, relatedListingHrefs: linkableHrefs(page.relatedListingHrefs) }}
+        relatedPages={relatedPages}
+      />
     </>
   );
 }

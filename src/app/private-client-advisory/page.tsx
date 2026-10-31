@@ -11,6 +11,7 @@ import {
 } from "@/lib/data/private-client-advisory";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { ENTITY_IDS, getAhmedabadAreaServedSchema } from "@/lib/entity-profile";
+import { isLivePage } from "@/lib/data/page-merges";
 
 export const metadata: Metadata = createMetadata({
   title: "Private Client Advisory in Ahmedabad",
@@ -45,7 +46,7 @@ export default function PrivateClientAdvisoryPage() {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Private Client Advisory Mandates",
-      itemListElement: PRIVATE_CLIENT_PAGES.map((page) => ({
+      itemListElement: PRIVATE_CLIENT_PAGES.filter(isLivePage).map((page) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
@@ -138,7 +139,7 @@ export default function PrivateClientAdvisoryPage() {
               </p>
             </div>
             <div className="mt-12 grid gap-px bg-white/[0.06] md:grid-cols-2 lg:grid-cols-3">
-              {[...PRIVATE_CLIENT_PAGES, PUBLIC_FIGURES_ADVISORY_PAGE].map((page) => (
+              {[...PRIVATE_CLIENT_PAGES.filter(isLivePage), PUBLIC_FIGURES_ADVISORY_PAGE].map((page) => (
                 <Link
                   key={page.href}
                   href={page.href}

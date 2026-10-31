@@ -33,6 +33,7 @@ const ALL_STATIC_PROPERTIES: StaticProperty[] = [
   {
     id: "ikebana",
     slug: "5-bhk-3300-6300-sindhu-bhavan",
+    seoTitle: "5 BHK Luxury Residences on Sindhu Bhavan Road",
     name: "Ikebana",
     category: "apartment",
     location: "sindhu-bhavan",

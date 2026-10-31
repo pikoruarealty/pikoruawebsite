@@ -15,6 +15,7 @@ import { generateComboPage } from "@/lib/data/combo-content-engine";
 import { getRelatedCombos } from "@/lib/data/combo-linker";
 import { ALL_STATIC_COMBO_PARAMS } from "@/lib/data/combo-seeder";
 import { isComboIndexable, matchComboProperties } from "@/lib/data/combo-matching";
+import { filterLinkableClusters, indexableParentComboHrefs } from "@/lib/data/combo-indexable";
 import { ProgrammaticPageTemplate } from "@/components/seo/ProgrammaticPageTemplate";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { ENTITY_IDS } from "@/lib/entity-profile";
@@ -139,7 +140,9 @@ export default async function ComboPage({ params }: ComboPageProps) {
 
   const page = generateComboPage(parsed);
   const properties = matchComboProperties(parsed, STATIC_PROPERTIES);
-  const relatedLinks = getRelatedCombos(parsed);
+  // Link only to combo pages that are indexable (see combo-indexable.ts).
+  const relatedLinks = filterLinkableClusters(getRelatedCombos(parsed));
+  const linkableParentHrefs = indexableParentComboHrefs(page.href);
   const pageUrl = absoluteUrl(page.href);
 
   if (!isComboIndexable(parsed, properties)) {
@@ -166,6 +169,7 @@ export default async function ComboPage({ params }: ComboPageProps) {
         page={page}
         properties={properties}
         relatedLinks={relatedLinks}
+        linkableParentHrefs={linkableParentHrefs}
       />
     </>
   );

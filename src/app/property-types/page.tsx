@@ -5,10 +5,11 @@ import { Footer } from "@/components/layout/Footer";
 import { PROPERTY_TYPE_LANDING_PAGES } from "@/lib/data/geo";
 import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
+import { isLivePage } from "@/lib/data/page-merges";
 
 export async function generateMetadata(): Promise<Metadata> {
   return createMetadata({
-    title: "Luxury Residential & Commercial Property Types in Ahmedabad | PIKORUA Realty",
+    title: "Luxury Property Types in Ahmedabad",
     description:
       "Explore curated luxury property categories across Ahmedabad — 4 & 5 BHK luxury apartments, penthouses, duplexes, independent villas, bungalows, residential plots, and preleased commercial offices.",
     path: "/property-types",
@@ -29,7 +30,7 @@ export default function PropertyTypesIndexPage() {
     about: { "@id": ENTITY_IDS.realEstateAgent },
     mainEntity: {
       "@type": "ItemList",
-      itemListElement: PROPERTY_TYPE_LANDING_PAGES.map((page, index) => ({
+      itemListElement: PROPERTY_TYPE_LANDING_PAGES.filter(isLivePage).map((page, index) => ({
         "@type": "ListItem",
         position: index + 1,
         url: absoluteUrl(page.href),
@@ -79,7 +80,7 @@ export default function PropertyTypesIndexPage() {
         <section className="bg-soft-black py-14 lg:py-20 border-t border-white/[0.06]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {PROPERTY_TYPE_LANDING_PAGES.map((page) => (
+              {PROPERTY_TYPE_LANDING_PAGES.filter(isLivePage).map((page) => (
                 <Link
                   key={page.slug}
                   href={page.href}

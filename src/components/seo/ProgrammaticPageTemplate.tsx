@@ -26,15 +26,18 @@ interface ProgrammaticPageTemplateProps {
   page: ProgrammaticPage;
   properties: StaticProperty[];
   relatedLinks: RelatedLinksCluster[];
+  /** Parent /p/ URLs that are indexable; other parent /p/ URLs are not linked. */
+  linkableParentHrefs?: string[];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // FILTER PILL — shows active dimension with link to remove it
 // ─────────────────────────────────────────────────────────────────────────────
-function FilterPill({ label, href }: { label: string; href: string }) {
+function FilterPill({ label, href, nofollow }: { label: string; href: string; nofollow?: boolean }) {
   return (
     <Link
       href={href}
+      rel={nofollow ? "nofollow" : undefined}
       className="filter-pill"
       aria-label={`Remove filter: ${label}`}
     >
@@ -214,7 +217,7 @@ function NoResultsCta({ page }: { page: ProgrammaticPage }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // ACTIVE FILTER BAR
 // ─────────────────────────────────────────────────────────────────────────────
-function ActiveFilterBar({ page }: { page: ProgrammaticPage }) {
+function ActiveFilterBar({ page, linkable }: { page: ProgrammaticPage; linkable: (href: string) => boolean }) {
   const { location, type, bhk, budget, intent } = page.combo;
 
   // Build parent hrefs by dropping trailing segments
@@ -250,7 +253,7 @@ function ActiveFilterBar({ page }: { page: ProgrammaticPage }) {
       <div className="prog-filter-bar__pills" role="list">
         {pills.map((pill) => (
           <div role="listitem" key={pill.label}>
-            <FilterPill label={pill.label} href={pill.href} />
+            <FilterPill label={pill.label} href={pill.href} nofollow={!linkable(pill.href)} />
           </div>
         ))}
       </div>
@@ -261,9 +264,9 @@ function ActiveFilterBar({ page }: { page: ProgrammaticPage }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // BREADCRUMB ITEMS
 // ─────────────────────────────────────────────────────────────────────────────
-function buildBreadcrumbs(page: ProgrammaticPage) {
+function buildBreadcrumbs(page: ProgrammaticPage, linkable: (href: string) => boolean) {
   const { location, type, bhk, budget, intent } = page.combo;
-  const items: { label: string; href: string }[] = [
+  const items: { label: string; href?: string }[] = [
     { label: "Home", href: "/" },
     { label: "Properties", href: "/properties" },
     { label: "Search", href: "/p" },
@@ -280,7 +283,8 @@ function buildBreadcrumbs(page: ProgrammaticPage) {
   }
   if (intent) items.push({ label: intent.label, href: page.href });
 
-  return items;
+  // A parent combo page that is noindex is shown as plain text, not a link.
+  return items.map((item) => (item.href && !linkable(item.href) ? { label: item.label } : item));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -290,8 +294,12 @@ export function ProgrammaticPageTemplate({
   page,
   properties,
   relatedLinks,
+  linkableParentHrefs = [],
 }: ProgrammaticPageTemplateProps) {
-  const breadcrumbs = buildBreadcrumbs(page);
+  // Non-combo links (/, /properties, /p) and this page itself are always fine.
+  const linkable = (href: string) =>
+    !href.startsWith("/p/") || href === page.href || linkableParentHrefs.includes(href);
+  const breadcrumbs = buildBreadcrumbs(page, linkable);
   const whatsappUrl = buildWhatsAppUrl(
     env.WHATSAPP_NUMBER,
     `Hi PIKORUA, I found your listing for ${page.h1}. I am interested in more details.`
@@ -355,7 +363,7 @@ export function ProgrammaticPageTemplate({
 
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10 space-y-12">
           {/* ── Active Filters ───────────────────────────────────────── */}
-          <ActiveFilterBar page={page} />
+          <ActiveFilterBar page={page} linkable={linkable} />
 
           {/* ── Price Insights Strip ─────────────────────────────────── */}
           <PriceInsightsStrip page={page} />

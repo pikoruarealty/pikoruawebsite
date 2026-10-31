@@ -3,6 +3,7 @@ import { LOCATION_LANDING_PAGES, PROPERTY_TYPE_LANDING_PAGES } from "@/lib/data/
 import { GOOGLE_BUSINESS_PROFILE_URL } from "@/lib/seo";
 import { CALL_AGENT_NAME, CALL_AGENT_PHONE_DISPLAY, CALL_AGENT_PHONE_E164 } from "@/lib/data/callAgent";
 import { env } from "@/lib/env";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -38,10 +39,10 @@ interface FooterProps {
 
 export function Footer({
   googleMapsUrl = GOOGLE_BUSINESS_PROFILE_URL,
-  instagramUrl = "https://www.instagram.com/pikorua.realty?igsh=MTN5d2NmNW1yY3Vvag==",
-  facebookUrl = "https://www.facebook.com/share/18tH6uh55f/?mibextid=wwXIfr",
-  linkedinUrl = "https://www.linkedin.com/company/pikorua-realty/posts/?feedView=all",
-  youtubeUrl = "https://youtube.com/@pikorua_realty_official?si=M3r65vxOcgUvdGfi",
+  instagramUrl = SOCIAL_LINKS.instagram,
+  facebookUrl = SOCIAL_LINKS.facebook,
+  linkedinUrl = SOCIAL_LINKS.linkedin,
+  youtubeUrl = SOCIAL_LINKS.youtube,
 }: FooterProps) {
   const socialLinks = [
     { href: instagramUrl, label: "Instagram", icon: <InstagramIcon /> },

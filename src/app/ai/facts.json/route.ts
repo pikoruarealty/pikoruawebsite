@@ -24,6 +24,7 @@ import {
   BRAND_MISSPELLING_CLUSTER,
   BRAND_MISSPELLING_KEYWORDS,
 } from "@/lib/data/brand-keywords";
+import { isLivePage } from "@/lib/data/page-merges";
 
 export const revalidate = 86400;
 export const runtime = "nodejs";
@@ -47,7 +48,7 @@ export async function GET() {
     // Static fallback keeps the AI facts endpoint available if Supabase is unavailable.
   }
 
-  const landingPages = ALL_GEO_LANDING_PAGES.map((page) => {
+  const landingPages = ALL_GEO_LANDING_PAGES.filter(isLivePage).map((page) => {
     const shortAnswer = getLandingShortAnswer(page);
     return {
       kind: page.kind,
@@ -149,7 +150,7 @@ export async function GET() {
         propertyTypesIndex: absoluteUrl("/property-types"),
         giftCityIndex: absoluteUrl("/gift-city"),
         locations: LOCATION_LANDING_PAGES.map((page) => absoluteUrl(page.href)),
-        propertyTypes: PROPERTY_TYPE_LANDING_PAGES.map((page) => absoluteUrl(page.href)),
+        propertyTypes: PROPERTY_TYPE_LANDING_PAGES.filter(isLivePage).map((page) => absoluteUrl(page.href)),
         nriAdvisory: NRI_LANDING_PAGES.map((page) => absoluteUrl(page.href)),
       },
       decisionGuides: ALL_CONTENT_HUB_PAGES.map((page) => ({

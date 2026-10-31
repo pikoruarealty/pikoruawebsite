@@ -12,6 +12,8 @@ interface DecisionPageInput {
   prefix: ContentHubPrefix;
   h1: string;
   description: string;
+  /** Shorter search title when the H1 is too long for Google (~65 chars with the brand). */
+  title?: string;
   intro: string;
   takeaways: [string, string, string];
   sections: [
@@ -29,7 +31,7 @@ function decisionPage(input: DecisionPageInput): ContentHubPage {
     slug: input.slug,
     prefix: input.prefix,
     href: `/${input.prefix}/${input.slug}`,
-    title: `${input.h1} | PIKORUA Realty`,
+    title: input.title ?? `${input.h1} | PIKORUA Realty`,
     description: input.description,
     h1: input.h1,
     eyebrow: "Buyer Decision Guide · PIKORUA Advisory",
@@ -68,6 +70,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
     slug: "luxury-property-ahmedabad-below-3-crore",
     prefix: "invest",
     h1: "Best Luxury Properties in Ahmedabad Below ₹3 Crore",
+    title: "Luxury Property in Ahmedabad Below ₹3 Crore",
     description: "A realistic buyer framework for Ahmedabad luxury homes below ₹3 crore, including corridor, size, possession and resale trade-offs.",
     intro: "Below ₹3 crore is a selective premium brief, not an unlimited luxury brief. The strongest choice usually requires one deliberate compromise across address, usable area, building age, possession stage or amenity depth.",
     takeaways: ["Do not compare brochure area without carpet-area context.", "Ready resale and newer outer-corridor supply solve different needs.", "Keep registration, interiors and initial maintenance outside the headline budget."],
@@ -82,6 +85,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
     slug: "luxury-homes-ahmedabad-3-to-5-crore",
     prefix: "invest",
     h1: "Luxury Homes in Ahmedabad from ₹3 Crore to ₹5 Crore",
+    title: "Luxury Homes in Ahmedabad: ₹3–5 Crore",
     description: "How to compare 4 BHK and selected 5 BHK luxury homes in Ahmedabad within a ₹3–5 crore acquisition budget.",
     intro: "The ₹3–5 crore band opens credible 4 BHK and selected 5 BHK choices across established and growth corridors. Building quality, floor plate and possession certainty create more meaningful differences than amenity counts.",
     takeaways: ["Compare total cost rather than agreement value.", "Prioritise usable family planning over decorative specifications.", "A stronger building in a secondary pocket can outperform a compromised prime-address tower."],
@@ -96,6 +100,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
     slug: "luxury-properties-ahmedabad-5-to-10-crore",
     prefix: "invest",
     h1: "Best Luxury Properties in Ahmedabad Between ₹5 Crore and ₹10 Crore",
+    title: "Luxury Properties in Ahmedabad: ₹5–10 Crore",
     description: "A private-buyer framework for large apartments, penthouses, duplexes and landed homes in Ahmedabad’s ₹5–10 crore segment.",
     intro: "At ₹5–10 crore, buyers can demand genuine privacy, spatial quality and address strength. The danger is paying a scarcity premium for a property whose floor plan, building management or resale audience is weaker than its presentation.",
     takeaways: ["Demand property-level evidence, not a generic luxury label.", "Test privacy, usable area and resale audience together.", "Include taxes, interiors and holding costs in the decision."],
@@ -117,7 +122,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
       { heading: "What Justifies the Premium", body: ["Protected outlook, a genuinely private arrival, irreplaceable usable scale, low tower density and a strong ownership community can justify the premium.", "A pool, terrace or double-height space adds value only when waterproofing, maintenance responsibility and legal rights are clear."] },
       { heading: "Private-Market Discipline", body: ["Some suitable penthouses are introduced selectively, but off-market status is not evidence of value. Every opportunity still requires title, condition, comparable and transaction review.", "PIKORUA restricts tours and information sharing while coordinating the buyer’s lawyer, architect and other appointed professionals."] },
     ],
-    listings: ["/penthouses-ahmedabad", "/private-client-advisory/luxury-penthouses-ahmedabad", "/properties"],
+    listings: ["/penthouses-ahmedabad", "/properties"],
     related: ["new-launch-vs-resale-ahmedabad", "carpet-area-vs-built-up-area"],
     hero: "private",
   }),
@@ -125,6 +130,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
     slug: "thaltej-vs-shilaj",
     prefix: "compare",
     h1: "Thaltej versus Shilaj: Which Luxury Location Fits Better?",
+    title: "Thaltej vs Shilaj for Luxury Homes",
     description: "Compare Thaltej and Shilaj for established connectivity, newer supply, plots, apartments, family infrastructure and long-term ownership.",
     intro: "Thaltej is the more established, infrastructure-rich choice; Shilaj offers more land-backed formats, newer development and room for larger residential planning. Neither wins without the household brief.",
     takeaways: ["Choose Thaltej for mature daily infrastructure.", "Choose Shilaj for landed formats and newer scale.", "Test peak-hour access and neighbourhood completion personally."],
@@ -163,6 +169,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
     slug: "nehrunagar-vs-western-ahmedabad",
     prefix: "compare",
     h1: "Nehrunagar versus Western Ahmedabad for Luxury Buyers",
+    title: "Nehrunagar vs Western Ahmedabad",
     description: "Compare central Nehrunagar with Ahmedabad’s western luxury corridors for commute, building formats, neighbourhood maturity and future flexibility.",
     intro: "Nehrunagar is a central-access decision; western Ahmedabad is a format-and-lifestyle decision. Buyers should compare actual daily journeys and property quality rather than assuming newer or more central is automatically better.",
     takeaways: ["Nehrunagar can reduce cross-city travel.", "Western corridors offer deeper new luxury supply.", "Redevelopment, access and parking are property-specific risks."],
@@ -211,6 +218,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
     slug: "multigenerational-luxury-residences-ahmedabad",
     prefix: "learn",
     h1: "Multi-Generational Luxury Residences in Ahmedabad",
+    title: "Multigenerational Luxury Homes in Ahmedabad",
     description: "How Ahmedabad families should assess zoning, accessibility, privacy, staff circulation, parking and long-term adaptability.",
     intro: "A multi-generational residence succeeds when family members can live together without sacrificing autonomy. The plan must work for today’s household and remain adaptable as mobility, care and privacy requirements change.",
     takeaways: ["Separate shared and private zones.", "Plan lift and step-free access before it is needed.", "Check staff, service and parking circulation independently."],
@@ -240,6 +248,7 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
     slug: "luxury-properties-near-schools-ahmedabad",
     prefix: "learn",
     h1: "Luxury Properties near Leading Schools in Ahmedabad",
+    title: "Luxury Homes Near Top Schools in Ahmedabad",
     description: "How families should compare Ahmedabad homes using school routes, peak-hour reliability, child age, activities and long-term residential fit.",
     intro: "School proximity should be measured in reliable door-to-door time, not kilometres. Admission certainty, sibling needs, activities and office travel must be considered before a family pays a school-location premium.",
     takeaways: ["Test the route during school peak.", "Never assume admission from residential proximity.", "Choose a home that remains suitable after school years."],
@@ -286,13 +295,14 @@ export const PHASE_14_CONTENT_PAGES: ContentHubPage[] = [
       { heading: "Do Not Compare Labels", body: ["Some penthouses have compromised cores or unclear terrace rights; some duplexes create excellent separation between formal and private floors.", "Compare usable area, lift arrival, ceiling heights, staff movement and the daily route between kitchen, bedrooms and living spaces."] },
       { heading: "Long-Term Fit", body: ["Internal stairs can become inconvenient for older residents, young children or service routines. Lift access to both levels materially changes usability.", "PIKORUA tests the premium against actual scarcity and the future audience rather than relying on brochure terminology."] },
     ],
-    listings: ["/penthouses-ahmedabad", "/private-client-advisory/luxury-penthouses-ahmedabad", "/properties"],
+    listings: ["/penthouses-ahmedabad", "/properties"],
     related: ["carpet-area-vs-built-up-area", "new-launch-vs-resale-ahmedabad"],
   }),
   decisionPage({
     slug: "evaluate-luxury-property-developer-ahmedabad",
     prefix: "learn",
     h1: "How to Evaluate a Luxury Property Developer in Ahmedabad",
+    title: "How to Evaluate a Luxury Developer in Ahmedabad",
     description: "A practical developer-review framework covering delivery history, GujRERA disclosures, specifications, finances, after-sales and completed projects.",
     intro: "Developer quality is demonstrated by completed outcomes and disclosure behaviour, not launch presentation. Review what was promised, what was delivered and how the developer responded when timelines or specifications changed.",
     takeaways: ["Inspect completed projects, not only sample spaces.", "Compare GujRERA filings with site reality.", "Speak to existing owners about handover and after-sales."],

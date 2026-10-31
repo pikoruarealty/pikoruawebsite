@@ -37,7 +37,7 @@ const MEDIA_FACTS = [
 
 export function generateMetadata(): Metadata {
   return createMetadata({
-    title: "PIKORUA Media Room | Ahmedabad Luxury Property Commentary",
+    title: "Media Room: Ahmedabad Luxury Property",
     description:
       "Media resources for Ahmedabad luxury property commentary, PIKORUA market reports, expert quotes, and HNI/NRI real estate insights.",
     path: PRESS_ROOM_PATH,

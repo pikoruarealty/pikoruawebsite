@@ -28,6 +28,10 @@ import { getAutomatedPostDisclaimers } from "../src/lib/data/blog-disclaimers";
 import { BRIEF_SOURCE_PREFIX, EDITORIAL_QUEUE, briefFactsText, briefToSourceText, pickNextBrief } from "../src/lib/ai/blogTopicQueue";
 import { ALL_GEO_LANDING_PAGES } from "../src/lib/data/geo";
 import { getRenderableGeoPages, getRenderablePublicPaths } from "../src/lib/data/public-routes";
+import { PAGE_MERGES } from "../src/lib/data/page-merges";
+import { ALL_CONTENT_HUB_PAGES } from "../src/lib/data/content-hubs";
+import { filterLinkableClusters, isIndexableComboHref, linkableHrefs } from "../src/lib/data/combo-indexable";
+import { getRelatedCombos } from "../src/lib/data/combo-linker";
 import { STATIC_PROPERTIES, type StaticProperty } from "../src/lib/data/properties";
 import { matchComboProperties, parseBhkCounts, parsePriceRangeCr } from "../src/lib/data/combo-matching";
 import { getComboSitemapBatch, getTotalComboBatches } from "../src/lib/data/combo-seeder";
@@ -59,11 +63,47 @@ const knownPaths = getRenderablePublicPaths();
 test("route registry excludes the 29 data hrefs that 404 on the live site", () => {
   const renderable = getRenderableGeoPages();
   const unique = new Set(ALL_GEO_LANDING_PAGES.map((p) => p.href));
-  assert.equal(unique.size - renderable.length, 29);
+  const merged = [...unique].filter((href) => PAGE_MERGES[href]).length;
+  assert.equal(unique.size - renderable.length - merged, 29);
   assert.ok(!renderable.some((p) => p.href === "/ahmedabad/thaltej/luxury-flats"));
   assert.ok(!renderable.some((p) => p.href === "/nri/global/invest-in-ahmedabad-real-estate"));
   assert.ok(renderable.some((p) => p.href === "/nri-property-from-usa"), "protected page must stay");
   assert.ok(renderable.some((p) => p.href === "/luxury-property-consultant-ahmedabad"), "protected page must stay");
+});
+
+test("merged duplicate pages: winners render, no chains, losers leave sitemaps and links", () => {
+  const renderableHrefs = new Set(getRenderableGeoPages().map((p) => p.href));
+  for (const [from, to] of Object.entries(PAGE_MERGES)) {
+    assert.ok(!PAGE_MERGES[to], `redirect chain: ${from} -> ${to} -> ${PAGE_MERGES[to]}`);
+    assert.ok(knownPaths.has(to), `merge winner must be a live page: ${to}`);
+    assert.ok(!knownPaths.has(from), `merged page must leave the sitemap and generated links: ${from}`);
+    assert.ok(!renderableHrefs.has(from), `merged page must not render as a geo page: ${from}`);
+  }
+  assert.ok(!ALL_CONTENT_HUB_PAGES.some((p) => PAGE_MERGES[p.href]), "merged hub pages leave hub lists");
+  for (const protectedPath of ["/nri/dubai", "/nri-property-from-usa", "/nri-property-from-uk", "/luxury-apartments-ahmedabad"]) {
+    assert.ok(!PAGE_MERGES[protectedPath], `protected page must not be merged away: ${protectedPath}`);
+  }
+});
+
+test("internal links never point at noindex combo pages, merged pages or missing /ahmedabad pages", () => {
+  for (let i = 0; i < getTotalComboBatches(); i++) {
+    for (const href of getComboSitemapBatch(i)) {
+      const parsed = parseComboSegments(href.slice(3).split("/"))!;
+      for (const cluster of filterLinkableClusters(getRelatedCombos(parsed))) {
+        for (const link of cluster.links) {
+          assert.ok(!PAGE_MERGES[link.href], `${href} links to merged page ${link.href}`);
+          if (link.href.startsWith("/p/")) assert.ok(isIndexableComboHref(link.href), `${href} links to noindex ${link.href}`);
+          else if (link.href.startsWith("/ahmedabad/")) assert.ok(knownPaths.has(link.href), `${href} links to missing ${link.href}`);
+        }
+      }
+    }
+  }
+  for (const page of ALL_CONTENT_HUB_PAGES) {
+    for (const href of linkableHrefs(page.relatedListingHrefs)) {
+      assert.ok(!PAGE_MERGES[href], `${page.href} links to merged page ${href}`);
+      if (href.startsWith("/p/")) assert.ok(isIndexableComboHref(href), `${page.href} links to noindex ${href}`);
+    }
+  }
 });
 
 test("every blog link target renders", () => {

@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle, ChevronDown } from "lucide-react";
-import { cn, extractUtm } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { getLeadUtm } from "@/lib/attribution";
 import { trackLeadSubmit } from "@/lib/analytics";
 
 // Keep the popup from repeating inside the same browser session after submit.
@@ -146,12 +147,6 @@ export function LeadCapturePopup({ openOnMount = false }: LeadCapturePopupProps)
 
     const fullName = [firstName.trim(), lastName.trim()].filter(Boolean).join(" ");
 
-    let utmParams = {};
-    if (typeof window !== "undefined") {
-      const searchParams = new URLSearchParams(window.location.search);
-      utmParams = extractUtm(searchParams);
-    }
-
     try {
       const res = await fetch("/api/leads", {
         method: "POST",
@@ -165,7 +160,7 @@ export function LeadCapturePopup({ openOnMount = false }: LeadCapturePopupProps)
           budgetBand: budgetBand || undefined,
           consent: true,
           honeypot: "",
-          utm: utmParams,
+          utm: getLeadUtm(),
         }),
       });
 

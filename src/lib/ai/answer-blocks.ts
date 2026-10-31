@@ -51,9 +51,8 @@ export const AI_ANSWER_BLOCKS: AiAnswerBlock[] = [
     ],
     sourcePath: "/nri-property-consultant-ahmedabad",
     supportingPaths: [
-      "/nri-buying-property-in-ahmedabad",
+      "/learn/how-to-buy-property-as-nri-ahmedabad",
       "/nri-property-investment-ahmedabad",
-      "/nri-home-buying-process-india",
     ],
     lastUpdated: FACTS_LAST_UPDATED,
   },
@@ -169,10 +168,9 @@ export const AI_ANSWER_BLOCKS: AiAnswerBlock[] = [
       "Power of Attorney is commonly used when the buyer cannot be present for signing, registration, possession, or bank documentation.",
       "TDS, stamp duty, registration, seller residency, and repatriation rules should be reviewed by qualified legal and tax professionals.",
     ],
-    sourcePath: "/nri-home-buying-process-india",
+    sourcePath: "/learn/how-to-buy-property-as-nri-ahmedabad",
     supportingPaths: [
       "/nri-property-consultant-ahmedabad",
-      "/nri-buying-property-in-ahmedabad",
       "/nri-property-investment-ahmedabad",
       "/contact",
     ],
@@ -226,10 +224,9 @@ export const AI_ANSWER_BLOCKS: AiAnswerBlock[] = [
       "Power of Attorney is not always needed during search, but it is commonly used when the buyer cannot attend signing, registration, possession, or bank documentation.",
       "Clear payment routing through NRE/NRO accounts and legal review before signing reduce avoidable transaction risk.",
     ],
-    sourcePath: "/nri-buying-property-in-ahmedabad",
+    sourcePath: "/learn/how-to-buy-property-as-nri-ahmedabad",
     supportingPaths: [
       "/nri-property-consultant-ahmedabad",
-      "/nri-home-buying-process-india",
       "/nri-property-investment-ahmedabad",
     ],
     lastUpdated: FACTS_LAST_UPDATED,
@@ -285,7 +282,6 @@ export const AI_ANSWER_BLOCKS: AiAnswerBlock[] = [
     sourcePath: "/nri-property-investment-ahmedabad",
     supportingPaths: [
       "/nri-property-consultant-ahmedabad",
-      "/nri-home-buying-process-india",
       "/learn/how-to-buy-property-as-nri-ahmedabad",
     ],
     lastUpdated: FACTS_LAST_UPDATED,
@@ -388,8 +384,8 @@ export const AI_ANSWER_BLOCKS: AiAnswerBlock[] = [
       "Bungalows offer land and independence but place more responsibility on the owner for security, repairs, staffing, access, and future redevelopment.",
       "Villa plots provide design flexibility but add title, planning, utility, construction, contractor, timeline, and neighbourhood-completion risk.",
     ],
-    sourcePath: "/private-client-advisory/luxury-penthouses-ahmedabad",
-    supportingPaths: ["/private-client-advisory/luxury-bungalows-ahmedabad", "/private-client-advisory/villa-plots-ahmedabad", "/properties"],
+    sourcePath: "/penthouses-ahmedabad",
+    supportingPaths: ["/luxury-bungalows-ahmedabad", "/luxury-plots-ahmedabad", "/properties"],
     lastUpdated: FACTS_LAST_UPDATED,
   },
 ];
