@@ -1,10 +1,10 @@
 # CI on every pull request and push to main. On main, Actions then builds the
-# Docker image and pushes it to GHCR, and the deploy job (after approval in the
-# `production` environment) has the VPS pull and run it.
+# Docker image and pushes it to GHCR, and the deploy job (GitHub `production`
+# environment, limited to main) has the VPS pull and run it.
 #
 # VPS secrets are repository secrets: the deploy key can only deploy commits
 # already on main or tunnel to the DB port, and the DB login is read-only on
-# public content. Only the deploy job waits for approval.
+# public content.
 #
 # The build pre-renders pages from the live content, so it reads the website DB
 # through an SSH tunnel as the read-only `pikorua_build` role (content tables
@@ -39,9 +39,9 @@ jobs:
       group: check-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -73,7 +73,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up SSH
         env: &ssh-env
@@ -161,7 +161,7 @@ jobs:
       contents: read
       packages: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up SSH
         env: *ssh-env
