@@ -1,4 +1,5 @@
 import type { GeoLandingPage } from "@/lib/data/geo";
+import { LOCATION_SLUGS, type LocationSlug } from "@/types";
 
 type LocationProfile = {
   slug: string;
@@ -19,6 +20,8 @@ type LocationProfile = {
   anchors: string[];
   coordinates: [string, string];
   hero?: string;
+  /** Area-specific questions shown after the standard ones. */
+  extraFaqs?: { question: string; answer: string }[];
 };
 
 const PROFILES: LocationProfile[] = [
@@ -40,6 +43,20 @@ const PROFILES: LocationProfile[] = [
     alternatives: ["Iskon–Ambli Road for newer ultra-luxury towers", "Bodakdev for mature neighbourhood living", "Shilaj for lower-density homes"],
     anchors: ["Sindhu Bhavan", "Taj Skyline", "SG Highway", "Rajpath Club"],
     coordinates: ["23.0418", "72.4996"],
+    extraFaqs: [
+      {
+        question: "Is it Sindhu Bhavan Road or Sindhu Bhawan Road?",
+        answer: "Both spellings refer to the same road, often shortened to SBR. It runs through the Bodakdev area of western Ahmedabad, close to SG Highway.",
+      },
+      {
+        question: "Are there luxury apartments for sale on Sindhu Bhavan Road?",
+        answer: "Yes. Large 4 and 5 BHK apartments, penthouses and duplexes make up most of the luxury supply on and around Sindhu Bhavan Road, with a limited bungalow resale market in adjoining lanes. The homes listed on this page are PIKORUA's current public shortlist; others are shared privately.",
+      },
+      {
+        question: "Are there gated villa communities on Sindhu Bhavan Road?",
+        answer: "Very few. Most luxury homes on Sindhu Bhavan Road are apartments in towers with controlled entry, basement parking and amenity decks. Villa and bungalow options are limited, sit in adjoining lanes and are generally priced above ₹8 Crore given land scarcity. Buyers who want a larger gated villa community usually compare Shilaj and Vaishno Devi.",
+      },
+    ],
   },
   {
     slug: "iskon-ambli",
@@ -59,6 +76,20 @@ const PROFILES: LocationProfile[] = [
     alternatives: ["Sindhu Bhavan Road for dining-led urbanity", "Thaltej for better value and metro access", "Shilaj for villas and plots"],
     anchors: ["Ambli–Bopal junction", "Karnavati Club", "Rajpath Club", "SG Highway"],
     coordinates: ["23.0274", "72.4807"],
+    extraFaqs: [
+      {
+        question: "Is it Iscon Ambli Road or Iskon Ambli Road?",
+        answer: "Both spellings, along with ISKCON–Ambli Road, refer to the same road in western Ahmedabad. It links the SG Highway side with Ambli, close to the Ambli–Bopal junction.",
+      },
+      {
+        question: "Are there 4 and 5 BHK luxury apartments on Iskon–Ambli Road?",
+        answer: "Yes. Supply on the road is mainly large 4 and 5 BHK residences, duplexes, penthouses and sky villas in newer towers, with fewer entry-level configurations. The homes listed on this page are PIKORUA's current public shortlist; others are shared privately.",
+      },
+      {
+        question: "Which are the best projects on Iskon–Ambli Road?",
+        answer: "It depends on what you need: floor plate, density, developer track record, possession status and handover quality matter more than the road name. The homes listed on this page are PIKORUA's current shortlist; ask for a private comparison of live, resale and off-market options before treating any project as the best.",
+      },
+    ],
   },
   {
     slug: "bodakdev",
@@ -533,6 +564,8 @@ function toPage(profile: LocationProfile, index: number): GeoLandingPage {
     description: localityDescription(profile),
     heroImage: profile.hero ?? HEROES[index % HEROES.length],
     coordinates: { latitude: profile.coordinates[0], longitude: profile.coordinates[1] },
+    // Listings are filed under these corridor slugs; other areas match by name.
+    locationSlug: LOCATION_SLUGS.includes(profile.slug as LocationSlug) ? (profile.slug as LocationSlug) : undefined,
     intro: profile.positioning,
     marketSignals: [profile.range, profile.newVsReady, profile.reality],
     idealFor: [profile.buyer, `Buyers comparing ${alternatives}.`, "Buyers who will verify the exact project, approach road and legal status before committing."],
@@ -580,6 +613,7 @@ function toPage(profile: LocationProfile, index: number): GeoLandingPage {
         question: `Which areas are alternatives to ${profile.label}?`,
         answer: alternatives,
       },
+      ...(profile.extraFaqs ?? []),
     ],
     bodyContent: [
       `### Who Chooses ${profile.label}`,

@@ -29,6 +29,8 @@ export type ContentHubPrefix = "compare" | "invest" | "learn" | "gift-city";
 export interface ContentSection {
   heading: string;
   body: string[];
+  /** Internal links listed under the section text. */
+  links?: { href: string; label: string }[];
 }
 
 export interface ComparisonRow {
@@ -869,6 +871,19 @@ export const EDUCATION_PAGES: ContentHubPage[] = [
         body: [
           "Start with a private video consultation to define the brief, review a curated shortlist through recorded walkthroughs, and complete document and title checks remotely. Then plan the Power of Attorney, payment routing and registration before or during a single focused India visit.",
           "Booking from abroad is possible, subject to project policy, seller terms, payment route and document checks. Book only after you have reviewed pricing, title or RERA documents, the payment schedule, cancellation terms and possession commitments.",
+        ],
+      },
+      {
+        heading: "Buying From Your Country",
+        body: [
+          "The steps above apply wherever you live, but Power of Attorney attestation, documents and money transfers work a little differently from each country. These guides cover the country-specific details:",
+        ],
+        links: [
+          { href: "/nri-property-from-usa", label: "Buying property in Ahmedabad from the USA" },
+          { href: "/nri-property-from-uk", label: "Buying property in Ahmedabad from the UK" },
+          { href: "/nri/dubai", label: "Buying property in Ahmedabad from Dubai and the UAE" },
+          { href: "/nri/gcc", label: "Buying from Saudi Arabia, Qatar, Kuwait, Oman and Bahrain" },
+          { href: "/nri/east-africa", label: "Buying from Kenya, Uganda and Tanzania" },
         ],
       },
     ],

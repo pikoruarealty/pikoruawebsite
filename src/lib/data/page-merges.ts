@@ -27,9 +27,19 @@ export const PAGE_MERGES: Readonly<Record<string, string>> = {
   "/ahmedabad/4-bhk-luxury-flats": "/luxury-4bhk-ahmedabad",
   "/ahmedabad/luxury-flats/4-bhk": "/luxury-4bhk-ahmedabad",
   "/ahmedabad/luxury-flats/5-bhk": "/luxury-5bhk-ahmedabad",
-  // Villas and bungalows
+  // Single-area /p/ filter pages that duplicated an area guide (2 Nov 2026).
+  // Held back: /p/iscon-ambli-road (ranks near its area page; revisit ~late
+  // Nov 2026 with fresh Search Console data), /p/ambli (no matching area page),
+  // /p/prahlad-nagar-garden (a sub-area), /p/drive-in-road (no area page).
+  "/p/thaltej": "/locations/thaltej",
+  "/p/bodakdev": "/locations/bodakdev",
+  "/p/shilaj": "/locations/shilaj",
+  "/p/vastrapur": "/locations/vastrapur",
+  // Villas and bungalows (merged 2 Nov 2026: both pages listed the same homes;
+  // villas had 50 clicks / 3,301 impressions vs 20 / 1,509)
   "/ahmedabad/villas": "/luxury-villas-ahmedabad",
-  "/private-client-advisory/luxury-bungalows-ahmedabad": "/luxury-bungalows-ahmedabad",
+  "/luxury-bungalows-ahmedabad": "/luxury-villas-ahmedabad",
+  "/private-client-advisory/luxury-bungalows-ahmedabad": "/luxury-villas-ahmedabad",
   // High-ROI and investment property
   "/ahmedabad/high-roi-investment-properties": "/invest/high-roi-luxury-property-ahmedabad",
   "/ahmedabad/luxury-flats/high-roi": "/invest/high-roi-luxury-property-ahmedabad",

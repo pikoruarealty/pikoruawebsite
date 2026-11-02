@@ -19,7 +19,7 @@ import {
   matchComboProperties,
 } from "@/lib/data/combo-matching";
 import type { RelatedLinksCluster } from "@/lib/data/combo-linker";
-import { mergedHref } from "@/lib/data/page-merges";
+import { PAGE_MERGES, mergedHref } from "@/lib/data/page-merges";
 import { getRenderablePublicPaths } from "@/lib/data/public-routes";
 
 const cache = new Map<string, boolean>();
@@ -27,7 +27,7 @@ const cache = new Map<string, boolean>();
 /** True when `href` is a /p/ combo URL whose page is indexable. */
 export function isIndexableComboHref(href: string): boolean {
   const path = href.split(/[?#]/)[0].replace(/\/+$/, "");
-  if (!path.startsWith("/p/")) return false;
+  if (!path.startsWith("/p/") || PAGE_MERGES[path]) return false;
   const key = `${isStrictComboMatching() ? "strict" : "legacy"}:${path}`;
   const known = cache.get(key);
   if (known !== undefined) return known;

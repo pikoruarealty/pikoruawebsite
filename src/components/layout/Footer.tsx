@@ -4,6 +4,7 @@ import { GOOGLE_BUSINESS_PROFILE_URL } from "@/lib/seo";
 import { CALL_AGENT_NAME, CALL_AGENT_PHONE_DISPLAY, CALL_AGENT_PHONE_E164 } from "@/lib/data/callAgent";
 import { env } from "@/lib/env";
 import { SOCIAL_LINKS } from "@/lib/social";
+import { GUJRERA_AGENT_REGISTRATION_NO } from "@/lib/data/blog-disclaimers";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -22,7 +23,6 @@ const FOOTER_TYPE_LINK_SLUGS = [
   "luxury-apartments-ahmedabad",
   "penthouses-duplexes-ahmedabad",
   "luxury-villas-ahmedabad",
-  "luxury-bungalows-ahmedabad",
   "residential-plots-ahmedabad",
 ];
 const FOOTER_TYPE_LINKS = FOOTER_TYPE_LINK_SLUGS.map((slug) =>
@@ -148,15 +148,16 @@ export function Footer({
 
         {/* Bottom bar */}
         <div className="border-t border-white/[0.06] py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-ivory/50 font-sans">
-            &copy; {new Date().getFullYear()} PIKORUA Realty. All rights reserved.
-          </p>
+          <div className="text-xs text-ivory/50 font-sans text-center sm:text-left space-y-1">
+            <p>&copy; {new Date().getFullYear()} PIKORUA Realty. All rights reserved.</p>
+            <p className="break-words">GujRERA agent registration no. {GUJRERA_AGENT_REGISTRATION_NO}</p>
+          </div>
           <div className="flex items-center gap-6">
             {socialLinks.length > 0 && (
               <div className="flex items-center gap-5">
                 {socialLinks.map(({ href, label, icon }) => (
                   <a key={label} href={href!} target="_blank" rel="noopener noreferrer" aria-label={label}
-                    className="opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-200">
+                    className="-m-2 p-2 opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-200">
                     <span className="w-7 h-7 block">{icon}</span>
                   </a>
                 ))}

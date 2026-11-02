@@ -23,6 +23,7 @@ import {
   parseComboSegments,
 } from "@/lib/data/seo-dimensions";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
+import { PAGE_MERGES } from "@/lib/data/page-merges";
 import {
   NON_INDEXABLE_COMBO_TYPES,
   isComboIndexable,
@@ -134,7 +135,8 @@ const getSitemapComboHrefs = (() => {
         if (parsed.type && NON_INDEXABLE_COMBO_TYPES.has(parsed.type.slug)) return false;
         return isComboIndexable(parsed, matchComboProperties(parsed, STATIC_PROPERTIES));
       })
-      .map((c) => `/p/${c.segments.join("/")}`);
+      .map((c) => `/p/${c.segments.join("/")}`)
+      .filter((href) => !PAGE_MERGES[href]);
     cached = { strict, hrefs };
     return hrefs;
   };

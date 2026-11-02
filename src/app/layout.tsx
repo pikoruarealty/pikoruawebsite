@@ -16,6 +16,7 @@ import {
   ENTITY_IDS,
   SOCIAL_PROFILES,
   getAhmedabadAreaServedSchema,
+  getReraIdentifierSchema,
   getBusinessContactPoints,
   getBusinessOfferCatalog,
   getGeoCoordinatesSchema,
@@ -133,6 +134,7 @@ const organizationSchema = {
       founder: {
         "@id": ENTITY_IDS.founder,
       },
+      identifier: getReraIdentifierSchema(),
       sameAs: [...SOCIAL_PROFILES],
       areaServed: [
         getAhmedabadAreaServedSchema(),

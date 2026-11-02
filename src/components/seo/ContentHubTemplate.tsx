@@ -250,6 +250,17 @@ export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplatePro
                     <p key={j}>{para}</p>
                   ))}
                 </div>
+                {section.links?.length ? (
+                  <ul className="space-y-2 font-sans text-base">
+                    {section.links.map((link) => (
+                      <li key={link.href}>
+                        <Link href={link.href} className="text-champagne-gold/90 hover:text-champagne-gold underline underline-offset-4 decoration-champagne-gold/30">
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </section>
             ))}
           </article>

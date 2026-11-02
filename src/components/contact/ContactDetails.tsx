@@ -74,9 +74,9 @@ export function ContactDetails() {
           Principal Office
         </p>
         <address className="not-italic text-[14px] font-sans text-ivory/40 leading-[1.8]">
-          Iskon-Ambli<br />
-          Ahmedabad, Gujarat<br />
-          India — 380058
+          Satyamev Elite, Ambli T-Junction<br />
+          Bopal-Ambli Road, Ahmedabad<br />
+          Gujarat, India — 380058
         </address>
       </div>
 

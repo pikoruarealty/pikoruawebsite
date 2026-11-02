@@ -166,8 +166,7 @@ export default function LuxuryLivingPage() {
                   { href: "/locations", label: "Compare all Ahmedabad areas" },
                   { href: "/luxury-apartments-ahmedabad", label: "Luxury apartments in Ahmedabad" },
                   { href: "/penthouses-ahmedabad", label: "Penthouses and duplexes" },
-                  { href: "/luxury-bungalows-ahmedabad", label: "Luxury bungalows" },
-                  { href: "/luxury-villas-ahmedabad", label: "Luxury villas" },
+                  { href: "/luxury-villas-ahmedabad", label: "Luxury villas and bungalows" },
                   { href: "/properties", label: "Current properties" },
                 ].map((l) => (
                   <li key={l.href}>

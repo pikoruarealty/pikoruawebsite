@@ -2097,8 +2097,18 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
         answer:
           "No. A penthouse qualifies as ultra luxury only when it adds genuine scarcity beyond its floor position — documented exclusive-use terrace rights, being the sole unit on its floor, or a private pool. A standard top-floor unit without those features is still a strong luxury asset, but sits a tier below the ultra-luxury bracket on both price and resale rarity.",
       },
+      {
+        question: "What should I check before buying a penthouse in Ahmedabad?",
+        answer:
+          "Check that terrace and any private pool rights are written into the agreement and sale deed as exclusive use, not just shown in a brochure. Also check waterproofing and top-floor heat, lift and service access, how many homes share the top floors, and the recurring society costs that come with a large terrace.",
+      },
+      {
+        question: "Can NRIs buy a penthouse in Ahmedabad?",
+        answer:
+          "Yes. Under the RBI's FAQ on purchase of immovable property (updated 6 April 2023), NRIs and OCIs may buy residential property in India, including penthouses and duplexes, but not agricultural land, farmhouses or plantation property. Payment must come through Indian banking channels or an NRE, FCNR(B) or NRO account.",
+      },
     ],
-    relatedSlugs: ["ultra-luxury-properties-ahmedabad", "luxury-apartments-ahmedabad", "luxury-5bhk-ahmedabad", "sindhu-bhavan", "iskon-ambli", "luxury-penthouses-ahmedabad"],
+    relatedSlugs: ["ultra-luxury-properties-ahmedabad", "luxury-apartments-ahmedabad", "luxury-5bhk-ahmedabad", "sindhu-bhavan", "iskon-ambli", "thaltej", "luxury-penthouses-ahmedabad"],
     bodyContent: [
       "### Penthouses and Duplexes: The Peak of Vertical Luxury in Ahmedabad",
       "Penthouses and duplex residences occupy a separate category within Ahmedabad's luxury market. They are not merely large apartments — they represent a fundamentally different quality of vertical living. The best penthouses in Ahmedabad offer 5,000–7,000 sq.ft. of single-floor internal space, private wrap-around terraces of 2,000–4,000 sq.ft., private plunge pools, and dedicated lobby access from a semi-private lift. They are, in essence, horizontally-oriented bungalows elevated above the city — combining land-backed lifestyle with tower-level security and panoramic views.",
@@ -2106,6 +2116,10 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "Penthouses suit buyers who want seamless single-floor flow — no internal staircase, no split between social and private zones, all spaces on one level connected by an uninterrupted visual axis. Duplexes suit buyers who want explicit physical separation between zones — entertainment and guest quarters on one level, family bedrooms on another. For multi-generational families or buyers who frequently host guests, a well-designed duplex can offer superior privacy management. For couples or compact families who value spatial continuity, a penthouse is the stronger choice. PIKORUA Realty's advisory process aligns the format recommendation to the specific family configuration.",
       "### Pricing in Ahmedabad's Penthouse Market",
       "Top-tier penthouses in Ahmedabad transact between ₹8 Crore and ₹25 Crore depending on corridor, floor height, terrace size, and specification. Signature penthouses on Iskon-Ambli Road and Sindhu Bhavan Road have achieved prices above ₹20 Crore. Duplex homes of 3,500–6,000 sq.ft. typically trade at ₹5 Crore to ₹15 Crore. The key price determinants are terrace rights (legally documented versus informally assumed), private pool rights, building quality, and the existence of fewer than 3 other residences sharing the top two floors.",
+      "### Penthouses by Area",
+      "Penthouse and duplex supply in Ahmedabad is concentrated in four western areas. Iskon–Ambli Road has the newest towers, with large 4 and 5 BHK residences, duplexes, penthouses and sky villas (indicatively ₹10,000–₹16,000+ per sq.ft.). Sindhu Bhavan Road pairs penthouses and duplexes with Ahmedabad's main luxury high street (₹9,000–₹15,000+ per sq.ft.). Thaltej offers penthouses and duplexes at a lower entry point (₹7,000–₹12,500+ per sq.ft.), and Vaishno Devi has penthouses alongside larger integrated gated developments (₹5,500–₹10,000+ per sq.ft.). These are each area's editorial asking-price guide bands as of July 2026, not penthouse quotes: top floors, terraces and low-density buildings often sit above them. Each area guide compares schools, access and buyer fit in more detail.",
+      "### What to Check Before Buying a Penthouse",
+      "A penthouse's value rests on rights and building details that a site visit alone does not show. Confirm that the terrace, and any private pool, is granted as exclusive use in the agreement and sale deed rather than assumed from a brochure. Inspect waterproofing and top-floor heat management, check lift and service access to the top floors, and ask how many homes share them. Budget for the recurring society costs and upkeep that come with a large terrace. PIKORUA Realty reviews these points with the buyer's advocate before any recommendation.",
       "### Why Most Premium Inventory Is Off-Market",
       "Sellers of penthouses and signature duplex residences almost universally prefer private, off-market introductions. A seller who has built a ₹12 Crore home does not want unqualified buyers touring it. Developers releasing penthouse inventory in new towers similarly prefer selective introduction to buyers who are pre-qualified and culturally aligned with the building's character. PIKORUA Realty's private advisory model is specifically designed for this format — we source and present penthouse inventory that is never publicly listed.",
     ],
@@ -2114,40 +2128,49 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     kind: "property-type",
     slug: "luxury-villas-ahmedabad",
     href: "/luxury-villas-ahmedabad",
-    label: "Luxury Villas",
+    label: "Luxury Villas & Bungalows",
     eyebrow: "Property Type",
-    title: "Luxury Villas for Sale in Ahmedabad | PIKORUA Realty",
-    h1: "Luxury Villas in Ahmedabad",
+    title: "Luxury Villas & Bungalows in Ahmedabad | PIKORUA Realty",
+    h1: "Luxury Villas & Bungalows in Ahmedabad",
     description:
-      "Private advisory for luxury villas near Ahmedabad — gated villa communities and premium independent villa homes in Shilaj and Vaishno Devi.",
+      "Luxury villas and bungalows for sale in Ahmedabad: gated villa communities in Shilaj and Vaishno Devi, independent bungalows near Sindhu Bhavan Road and Thaltej.",
     heroImage: "/properties/anurita/anurita-1.jpg",
     categories: ["villa"],
     matchKeywords: ["villa", "luxury villa"],
     seoKeywords: [
       "Luxury villas Ahmedabad",
       "luxury villa for sale Ahmedabad",
+      "luxury bungalows Ahmedabad",
+      "luxury bungalow for sale Ahmedabad",
+      "independent bungalow Ahmedabad",
       "gated villas Ahmedabad",
       "gated luxury community Ahmedabad",
       "villa communities Ahmedabad",
       "weekend villa Ahmedabad",
     ],
     intro:
-      "Luxury villas in Ahmedabad are bought for privacy, community amenities, and lower upkeep than a fully independent bungalow. The right option depends as much on the community's maturity and title clarity as it does on architecture.",
+      "Luxury villas and bungalows in Ahmedabad are bought for privacy, garden space and a home on its own land. A villa usually sits in a gated community with shared security and upkeep; a bungalow stands on its own plot, with full land control and deeper diligence. Title clarity matters as much as the architecture.",
     marketSignals: [
-      "Demand is strong in Shilaj, Vaishno Devi, and selected gated villa communities in western Ahmedabad.",
+      "Gated villa demand is strongest in Shilaj and Vaishno Devi; prime bungalow demand sits around Sindhu Bhavan Road lanes, Bodakdev, Shilaj and Thaltej.",
       "Buyers compare plot size, built-up quality, security, clubhouse amenities, and redevelopment flexibility.",
-      "True private inventory often moves through relationship-led advisory rather than public listing portals.",
+      "The best villas and bungalows are often privately held and move through relationship-led advisory rather than public listing portals.",
     ],
     idealFor: [
-      "Families who want independent-home privacy without a bungalow's full diligence and maintenance burden.",
-      "Buyers upgrading from apartments who want a gated community with shared security and amenities.",
-      "Sellers of villas who want controlled, confidential buyer access.",
+      "Families who want independent-home privacy, with a gated villa community sharing security and upkeep.",
+      "Families who want a bungalow: full land control, parking, garden space and long-term renovation freedom.",
+      "NRIs securing a future Ahmedabad family base that can be used or renovated over time.",
+      "Sellers of villas and bungalows who want controlled, confidential buyer access.",
     ],
     faqs: [
       {
         question: "Where should I look for luxury villas in Ahmedabad?",
         answer:
           "Relevant pockets include Shilaj, Vaishno Devi, and selected western Ahmedabad neighborhoods depending on land size, access, and privacy needs.",
+      },
+      {
+        question: "Where can I find luxury bungalows in Ahmedabad?",
+        answer:
+          "Luxury bungalows in Ahmedabad are most relevant around Sindhu Bhavan Road lanes, Bodakdev, Shilaj, Thaltej, and selected western residential pockets. Many quality options are shared privately.",
       },
       {
         question: "What's the difference between a villa and a bungalow in Ahmedabad?",
@@ -2165,21 +2188,30 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
           "Yes. Gated villa communities with shared security, landscaping and a clubhouse are mainly in Shilaj and around Vaishno Devi Circle in western Ahmedabad. The villas on this page are current examples; ask PIKORUA about others that are not publicly listed.",
       },
       {
+        question: "What should buyers check before buying a villa or bungalow?",
+        answer:
+          "Buyers should check title chain, plot area, construction approvals, zoning, road access, parking, utility connections, renovation feasibility, encumbrance status, and future resale demand. In a gated community, also check that the amenities are built and handed over, and how common areas are maintained.",
+      },
+      {
         question: "Can NRIs buy a villa in Ahmedabad?",
         answer:
           "Yes. Under the RBI's FAQ on purchase of immovable property (updated 6 April 2023), NRIs and OCIs may buy residential property in India, including villas and bungalows, but not agricultural land, farmhouses or plantation property. Payment must come through Indian banking channels or an NRE, FCNR(B) or NRO account.",
       },
     ],
-    relatedSlugs: ["luxury-bungalows-ahmedabad", "shilaj", "vaishno-devi", "residential-plots-ahmedabad"],
+    relatedSlugs: ["sindhu-bhavan", "shilaj", "vaishno-devi", "residential-plots-ahmedabad"],
     bodyContent: [
-      "### Villas in Ahmedabad: What the Market Actually Offers",
-      "Luxury villas in Ahmedabad represent a distinct asset class from vertical apartments and standalone bungalows. Villas typically sit within gated, amenity-led communities — shared security, landscaped common areas, clubhouse access — while still offering an independent structure, private garden, and no shared walls or lobby. Demand for quality villa communities has consistently outpaced supply in Ahmedabad's western corridors, where genuinely large gated developments are limited.",
+      "### Villas and Bungalows in Ahmedabad: What the Market Actually Offers",
+      "Luxury villas and bungalows in Ahmedabad are both land-backed homes, but they are different products. Villas typically sit within gated, amenity-led communities — shared security, landscaped common areas, clubhouse access — while still offering an independent structure, private garden, and no shared walls or lobby. A bungalow stands on its own plot with no shared community structure: it is about individual identity, land control, renovation freedom, private parking, staff access, and long-term family continuity. Demand for quality villa communities has consistently outpaced supply in Ahmedabad's western corridors, where genuinely large gated developments are limited.",
+      "### Villa or Bungalow: Which Suits You",
+      "Villas suit families who want independent-home privacy without taking on the full diligence and maintenance burden of a standalone bungalow — the gated community structure provides shared security and upkeep while preserving a private residence. They are a natural step up for buyers moving from apartments. A bungalow suits families who want complete control of the land and the home, and who are prepared for deeper individual diligence and upkeep.",
       "### Primary Corridors for Villas",
       "Shilaj and Vaishno Devi are the two primary corridors for villa community inventory in western Ahmedabad. In Shilaj, gated villa communities on 400–1,000 sq.yd. plots are available at ₹3.5 Crore to ₹10 Crore, typically with shared clubhouse, security, and landscaped common areas. In Vaishno Devi, gated villa communities with shared amenities offer entry at ₹2.5 Crore to ₹7 Crore. Selected pockets near Sindhu Bhavan Road also carry standalone villa options, generally priced above ₹8 Crore given land scarcity in that corridor.",
-      "### Critical Diligence for Villa Purchases",
-      "The diligence process for villas is materially more involved than for apartments. Title chain review (minimum 30 years) is essential, along with verification of the developer's layout approvals, common-area maintenance structure, and whether the community's amenities are fully constructed and handed over rather than promised. Plot survey against revenue records (7/12 extract in Gujarat) must match the physically measured area. PIKORUA Realty engages empanelled property advocates for all villa-related title and society-documentation work before any buyer recommendation.",
-      "### Who Villas Suit Best",
-      "Villas suit families who want independent-home privacy without taking on the full diligence and maintenance burden of a standalone bungalow — the gated community structure provides shared security and upkeep while preserving a private residence. They are a natural step up for buyers moving from apartments who are not yet ready for, or don't need, a fully independent bungalow plot.",
+      "### Prime Bungalow Pockets",
+      "The most relevant bungalow pockets sit across Sindhu Bhavan Road lanes, Bodakdev, Shilaj, Thaltej, and mature western Ahmedabad neighbourhoods. Each pocket behaves differently. Some offer address recall and social ecosystem; others offer larger plot sizes and better long-term redevelopment potential.",
+      "### Critical Diligence for Villa and Bungalow Purchases",
+      "The diligence process for villas and bungalows is materially more involved than for apartments. Title chain review (minimum 30 years) is essential, along with verification of layout and construction approvals, and plot survey against revenue records (7/12 extract in Gujarat), which must match the physically measured area. For a villa, also confirm the common-area maintenance structure and whether the community's amenities are fully constructed and handed over rather than promised. For a bungalow, check access-road clarity, the existing structure's condition, renovation cost, and whether the home can legally support the intended use. PIKORUA Realty engages empanelled property advocates for title and society-documentation work before any buyer recommendation.",
+      "### Private Access",
+      "Many owners of premium villas and bungalows prefer controlled introductions because broad public exposure can weaken price context and privacy. PIKORUA Realty's advisory process is designed for this type of discreet search and seller representation.",
     ],
   },
   {
@@ -4882,12 +4914,20 @@ export function getRelatedLandingPagesForText(
 }
 
 export function getLandingProperties(page: GeoLandingPage, properties: StaticProperty[]): StaticProperty[] {
+  const keywords = page.matchKeywords ?? [];
+  const matchesKeyword = (property: StaticProperty) => {
+    const searchable = `${property.category} ${property.configuration} ${property.sizeRange} ${property.locationLabel} ${property.suitableFor ?? ""}`.toLowerCase();
+    return keywords.some((keyword) => searchable.includes(keyword.toLowerCase()));
+  };
+
+  // A listing's `location` (its corridor) and `locationLabel` (the nearest
+  // area name) can differ, e.g. a Sindhu Bhavan corridor home labelled
+  // Bodakdev, so an area page shows homes matching either.
   if (page.kind === "location" && page.locationSlug) {
-    return properties.filter((property) => property.location === page.locationSlug);
+    return properties.filter((property) => property.location === page.locationSlug || matchesKeyword(property));
   }
 
   const categories = page.categories ?? [];
-  const keywords = page.matchKeywords ?? [];
 
   // A page that names its categories lists only those (keywords such as
   // "4 bhk" otherwise pulled a 4 BHK villa onto the apartments page).
@@ -4898,10 +4938,7 @@ export function getLandingProperties(page: GeoLandingPage, properties: StaticPro
     );
   }
 
-  return properties.filter((property) => {
-    const searchable = `${property.category} ${property.configuration} ${property.sizeRange} ${property.locationLabel} ${property.suitableFor ?? ""}`.toLowerCase();
-    return keywords.some((keyword) => searchable.includes(keyword.toLowerCase()));
-  });
+  return properties.filter(matchesKeyword);
 }
 
 export function getLandingFilterHref(page: GeoLandingPage): string {

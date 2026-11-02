@@ -17,8 +17,11 @@
  * return wording and unsourced figures before publishing.
  */
 
-/** PIKORUA Realty's GujRERA agent registration number. Shown only once filled in. */
-export const GUJRERA_AGENT_REGISTRATION_NO = "";
+/**
+ * PIKORUA Realty's GujRERA agent registration number (supplied by management
+ * 2 Nov 2026). Shown in the footer, Terms, blog posts and structured data.
+ */
+export const GUJRERA_AGENT_REGISTRATION_NO = "AG/GJ/AHMEDABAD/AHMEDABAD CITY/AUDA/AA01632/300726R1";
 
 export interface PostDisclaimer {
   id: string;

@@ -197,24 +197,9 @@ export async function GET() {
       `- **Overview:** ${p.description}`,
       `- **Market Signals:** ${p.marketSignals.join(" | ")}`,
       `- **Ideal For:** ${p.idealFor.join(" | ")}`,
-      ...(p.locationSlug === "iskon-ambli" ? [
-        `- **Latitude:** 23.0246, **Longitude:** 72.5074`,
-        `- **Average Premium Pricing:** ₹11,000–₹15,000 per sq.ft.`,
-      ] : []),
-      ...(p.locationSlug === "sindhu-bhavan" ? [
-        `- **Latitude:** 23.0392, **Longitude:** 72.5071`,
-      ] : []),
-      ...(p.locationSlug === "thaltej" ? [
-        `- **Latitude:** 23.0500, **Longitude:** 72.5167`,
-      ] : []),
-      ...(p.locationSlug === "shilaj" ? [
-        `- **Latitude:** 23.0395, **Longitude:** 72.4764`,
-      ] : []),
-      ...(p.locationSlug === "vaishno-devi" ? [
-        `- **Latitude:** 23.1250, **Longitude:** 72.5414`,
-      ] : []),
-      ...(p.locationSlug === "sg-highway" ? [
-        `- **Latitude:** 23.0287, **Longitude:** 72.5068`,
+      // Same coordinates as the page's own Place schema.
+      ...(p.coordinates ? [
+        `- **Latitude:** ${p.coordinates.latitude}, **Longitude:** ${p.coordinates.longitude}`,
       ] : []),
       ``,
     ]),

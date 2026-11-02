@@ -28,7 +28,7 @@ const COMMENTARY_TOPICS = [
 
 const MEDIA_FACTS = [
   { label: "Company", value: SITE_NAME },
-  { label: "Headquarters", value: "Iskon-Ambli Road, Ahmedabad, Gujarat" },
+  { label: "Headquarters", value: "Satyamev Elite, Ambli T-Junction, Bopal-Ambli Road, Ahmedabad, Gujarat" },
   { label: "Founder", value: "Jitendra Pareek, Founder and Managing Director" },
   { label: "Primary Market", value: "Ahmedabad luxury residential real estate" },
   { label: "Audience", value: "HNI families, NRI buyers, private sellers, and premium developers" },

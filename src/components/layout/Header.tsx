@@ -63,8 +63,7 @@ const PROPERTY_CATEGORIES = [
   { slug: "apartment", label: "Apartments", href: "/luxury-apartments-ahmedabad" },
   { slug: "penthouse", label: "Penthouses", href: "/penthouses-ahmedabad" },
   { slug: "duplex", label: "Duplexes", href: "/penthouses-ahmedabad" },
-  { slug: "villa", label: "Villas", href: "/luxury-villas-ahmedabad" },
-  { slug: "bungalow", label: "Bungalows", href: "/luxury-bungalows-ahmedabad" },
+  { slug: "villa", label: "Villas & Bungalows", href: "/luxury-villas-ahmedabad" },
   { slug: "plot", label: "Plots / Land", href: "/luxury-plots-ahmedabad" },
   { slug: "investment", label: "Investment Properties", href: "/investment-property-ahmedabad" },
 ];
@@ -254,13 +253,7 @@ export function Header({ alwaysSolid = false }: HeaderProps) {
                                 href="/luxury-villas-ahmedabad"
                                 className="text-xs font-sans tracking-wider text-ivory/60 hover:text-champagne-gold transition-colors duration-150"
                               >
-                                Villas
-                              </HeaderLink>
-                              <HeaderLink
-                                href="/luxury-bungalows-ahmedabad"
-                                className="text-xs font-sans tracking-wider text-ivory/60 hover:text-champagne-gold transition-colors duration-150"
-                              >
-                                Bungalows
+                                Villas & Bungalows
                               </HeaderLink>
                               <HeaderLink
                                 href="/luxury-plots-ahmedabad"

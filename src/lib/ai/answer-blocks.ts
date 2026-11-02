@@ -385,7 +385,7 @@ export const AI_ANSWER_BLOCKS: AiAnswerBlock[] = [
       "Villa plots provide design flexibility but add title, planning, utility, construction, contractor, timeline, and neighbourhood-completion risk.",
     ],
     sourcePath: "/penthouses-ahmedabad",
-    supportingPaths: ["/luxury-bungalows-ahmedabad", "/luxury-plots-ahmedabad", "/properties"],
+    supportingPaths: ["/luxury-villas-ahmedabad", "/luxury-plots-ahmedabad", "/properties"],
     lastUpdated: FACTS_LAST_UPDATED,
   },
 ];

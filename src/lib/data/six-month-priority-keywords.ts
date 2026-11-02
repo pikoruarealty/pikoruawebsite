@@ -36,10 +36,8 @@ export const SIX_MONTH_PRIORITY_KEYWORDS: PriorityKeywordTarget[] = [
     "5 BHK luxury flats Ahmedabad"),
   ...target("commercial", "/penthouses-ahmedabad", "months-3-4",
     "penthouse Ahmedabad"),
-  ...target("commercial", "/luxury-bungalows-ahmedabad", "months-3-4",
-    "luxury bungalow Ahmedabad"),
   ...target("commercial", "/luxury-villas-ahmedabad", "months-3-4",
-    "villas Ahmedabad"),
+    "villas Ahmedabad", "luxury bungalow Ahmedabad"),
   ...target("commercial", "/luxury-plots-ahmedabad", "months-3-4",
     "luxury plots Ahmedabad"),
 
