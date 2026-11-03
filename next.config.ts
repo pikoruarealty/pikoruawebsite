@@ -219,6 +219,10 @@ const nextConfig: NextConfig = {
         destination: "/locations/vastrapur",
         permanent: true,
       },
+      // Old URLs Google still crawls that now 404 (Search Console export, 3 Nov 2026).
+      { source: "/ahmedabad/satellite/3-bhk-flats", destination: "/locations/satellite", permanent: true },
+      { source: "/ahmedabad/ambli/luxury-flats", destination: "/locations/iskon-ambli", permanent: true },
+      { source: "/ahmedabad/premium-homes-for-nri-buyers", destination: "/nri-property-consultant-ahmedabad", permanent: true },
       // Duplicate automated blog posts about the same story, merged into one
       // post each (30 Oct 2026). The duplicates are also set Inactive in the DB.
       { source: "/blog/million-minds-tech-city-ahmedabad-luxury-real-estate-sw7m", destination: "/blog/million-minds-tech-city-ahmedabad-luxury-real-estate", permanent: true },

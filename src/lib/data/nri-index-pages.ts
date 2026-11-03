@@ -22,6 +22,12 @@ type CountryHubInput = {
   relatedSlugs: string[];
   travelNote: string;
   legalNote: string;
+  /** Country-specific overrides; the shared template is used where omitted. */
+  title?: string;
+  description?: string;
+  /** Body sections shown before the shared ones ("### Heading" + paragraphs). */
+  leadBody?: string[];
+  extraFaqs?: { question: string; answer: string }[];
 };
 
 function createCountryHub({
@@ -33,6 +39,10 @@ function createCountryHub({
   relatedSlugs,
   travelNote,
   legalNote,
+  title,
+  description,
+  leadBody = [],
+  extraFaqs = [],
 }: CountryHubInput): GeoLandingPage {
   return {
     kind: "nri",
@@ -40,9 +50,9 @@ function createCountryHub({
     href: `/nri/${slug}`,
     label: `${country} NRI Property Guide`,
     eyebrow: `${country} to Ahmedabad · NRI Property Centre`,
-    title: `${country} NRI Property Ahmedabad Guide | PIKORUA`,
+    title: title ?? `${country} NRI Property Ahmedabad Guide | PIKORUA`,
     h1: `Ahmedabad Property Guide for ${country}-Based NRIs`,
-    description: `Verified Ahmedabad properties and remote buying guidance for ${residentLabel}, with virtual tours, documentation and local buyer-side advisory.`,
+    description: description ?? `Verified Ahmedabad properties and remote buying guidance for ${residentLabel}, with virtual tours, documentation and local buyer-side advisory.`,
     heroImage: HERO_IMAGE,
     categories: [...BROAD_NRI_CATEGORIES],
     matchKeywords: [
@@ -117,8 +127,10 @@ function createCountryHub({
         question: "Which Ahmedabad areas are popular with NRI property buyers?",
         answer: "Iscon-Ambli, Sindhu Bhavan Road, Bodakdev, Thaltej, Shilaj, Vastrapur and SG Highway are frequently considered. The best area depends on family use, airport and business access, property format, possession timing, management needs and exit demand.",
       },
+      ...extraFaqs,
     ],
     bodyContent: [
+      ...leadBody,
       `### Start with the ${country} NRI Buying Brief`,
       `A useful search starts with four decisions: self-use or investment, total rupee budget, acceptable possession date and who will manage the home after purchase. PIKORUA uses this brief to remove unsuitable inventory before arranging video tours or site visits.`,
       "### Choose the Ahmedabad Micro-Market Before the Project",
@@ -141,6 +153,22 @@ export const NRI_COUNTRY_INDEX_PAGES: GeoLandingPage[] = [
     relatedSlugs: ["usa-luxury-flats-ahmedabad", "usa-property-investment-ahmedabad", "nri-property-from-usa", "india-vs-usa-property-roi-for-nris"],
     travelNote: "EST, CST and PST buyers often rely on recorded comparisons before planning a focused Ahmedabad inspection trip.",
     legalNote: "US tax residents may also need advice on FBAR, FATCA and US reporting obligations.",
+    title: "Buy Property in Ahmedabad from the USA | PIKORUA",
+    description: "How US-based NRIs buy a home in Ahmedabad remotely: video walkthroughs, power of attorney, banking route and handover support from a local advisory.",
+    leadBody: [
+      "### Buying from the USA: What Is Different",
+      "Time zones. Ahmedabad is 9.5 to 13.5 hours ahead of the US, depending on your time zone and the season. We schedule walkthroughs and calls for your evening, which is our morning, so nothing waits a day.",
+      "Signing from the US. If you can't be in Ahmedabad for registration, a power of attorney lets a trusted person sign for you. It can be executed in the US and made valid for use in India through an apostille or at an Indian consulate. We coordinate the wording with a local lawyer so the document is accepted at registration.",
+      "Payment route. Payments come from your NRE or NRO account in India, or through an inward remittance in your name. Your bank or a chartered accountant should confirm the route for your case, including any tax treatment in the US and India. We do not give tax advice.",
+      "Seeing the home without flying. We shortlist two or three homes, walk each one on live video, send the title and RERA details, and only then ask you to decide. Many US families visit once, to sign or to see the finished home.",
+      "After you buy. Handover, snagging, furnishing and, if you wish, rental or caretaking, so the home isn't empty while you're abroad.",
+    ],
+    extraFaqs: [
+      {
+        question: "Do I need a US tax advisor as well?",
+        answer: "Usually yes. Income or gains from Indian property can be reportable in both countries, so speak to a chartered accountant or a US tax professional who knows India. PIKORUA can refer you; we do not give tax advice.",
+      },
+    ],
   }),
   createCountryHub({
     slug: "uk",

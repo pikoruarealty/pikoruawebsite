@@ -22,6 +22,10 @@ type LocationProfile = {
   hero?: string;
   /** Area-specific questions shown after the standard ones. */
   extraFaqs?: { question: string; answer: string }[];
+  /** Overrides for areas with their own search wording (default: generic title/description/positioning). */
+  seoTitle?: string;
+  seoDescription?: string;
+  intro?: string;
 };
 
 const PROFILES: LocationProfile[] = [
@@ -43,6 +47,9 @@ const PROFILES: LocationProfile[] = [
     alternatives: ["Iskon–Ambli Road for newer ultra-luxury towers", "Bodakdev for mature neighbourhood living", "Shilaj for lower-density homes"],
     anchors: ["Sindhu Bhavan", "Taj Skyline", "SG Highway", "Rajpath Club"],
     coordinates: ["23.0418", "72.4996"],
+    seoTitle: "Sindhu Bhavan Road Luxury Flats & Penthouses",
+    seoDescription: "Luxury 4 and 5 BHK flats, penthouses and duplexes on Sindhu Bhavan Road, Ahmedabad: what the road offers, current homes and how to buy privately.",
+    intro: "Sindhu Bhavan Road is Ahmedabad's best-known address for premium towers, restaurants, clubs and offices in one stretch. Buyers choose it for the address and convenience, and accept that homes here are mostly in tall towers rather than standalone bungalows. If you want more land and quiet, we also show you Shilaj and Iskon–Ambli. Browse the homes below, or ask for off-market options.",
     extraFaqs: [
       {
         question: "Is it Sindhu Bhavan Road or Sindhu Bhawan Road?",
@@ -559,14 +566,14 @@ function toPage(profile: LocationProfile, index: number): GeoLandingPage {
     href: `/locations/${profile.slug}`,
     label: profile.label,
     eyebrow: profile.group,
-    title: `${profile.label}: Luxury Homes & Area Guide`,
+    title: profile.seoTitle ?? `${profile.label}: Luxury Homes & Area Guide`,
     h1: `Luxury Property in ${profile.label}`,
-    description: localityDescription(profile),
+    description: profile.seoDescription ?? localityDescription(profile),
     heroImage: profile.hero ?? HEROES[index % HEROES.length],
     coordinates: { latitude: profile.coordinates[0], longitude: profile.coordinates[1] },
     // Listings are filed under these corridor slugs; other areas match by name.
     locationSlug: LOCATION_SLUGS.includes(profile.slug as LocationSlug) ? (profile.slug as LocationSlug) : undefined,
-    intro: profile.positioning,
+    intro: profile.intro ?? profile.positioning,
     marketSignals: [profile.range, profile.newVsReady, profile.reality],
     idealFor: [profile.buyer, `Buyers comparing ${alternatives}.`, "Buyers who will verify the exact project, approach road and legal status before committing."],
     matchKeywords: [profile.slug.replaceAll("-", " "), profile.label.toLowerCase()],
