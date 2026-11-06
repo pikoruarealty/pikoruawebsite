@@ -21,7 +21,14 @@ const INITIAL: FormState = {
   preferredCallbackTime: "", consent: false, honeypot: "",
 };
 
-export function QuickEnquiryForm() {
+interface QuickEnquiryFormProps {
+  /** Saved with the lead (shown as "Interest: …" in the CRM), e.g. the page the visitor enquired from. */
+  interest?: string;
+  /** Label for the GA4 generate_lead event and the thank-you page. */
+  trackingSource?: string;
+}
+
+export function QuickEnquiryForm({ interest, trackingSource = "contact" }: QuickEnquiryFormProps = {}) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
@@ -54,6 +61,7 @@ export function QuickEnquiryForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           source: "contact",
+          interest,
           name: form.name,
           phone: form.phone,
           email: form.email,
@@ -71,7 +79,7 @@ export function QuickEnquiryForm() {
         setServerError(Object.values(fieldErrors)[0] ?? body.error ?? "Something went wrong. Please try again.");
         return;
       }
-      trackLeadSubmit("contact");
+      trackLeadSubmit(trackingSource, interest ? { lead_interest: interest } : undefined);
       router.push("/thank-you?source=contact");
     } catch {
       setServerError("Could not send your message. Please call or WhatsApp us directly.");

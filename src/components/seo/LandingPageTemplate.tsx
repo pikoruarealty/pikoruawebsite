@@ -11,6 +11,7 @@ import type { StaticProperty } from "@/lib/data/properties";
 import { PROPERTY_STATUS_LABELS, RESIDENTIAL_CATEGORY_LABELS } from "@/types";
 import { env } from "@/lib/env";
 import { buildWhatsAppUrl, cn } from "@/lib/utils";
+import { InlineEnquirySection } from "@/components/contact/InlineEnquirySection";
 import { ArrowRight, PhoneCall, MapPin, ShieldCheck, Landmark, FileText, CheckCircle2 } from "lucide-react";
 import { NriCurrencyConverter } from "./NriCurrencyConverter";
 import type { ExchangeRates } from "@/lib/exchange-rates";
@@ -196,12 +197,12 @@ export function LandingPageTemplate({
                 >
                   {primaryCtaLabel}
                 </Link>
-                <Link
-                  href="/contact"
+                <a
+                  href="#enquire"
                   className="inline-flex min-h-[52px] w-full items-center justify-center rounded-sm border border-white/15 bg-lux-black/35 px-7 py-3 font-sans text-[11px] uppercase tracking-[0.18em] text-ivory/70 backdrop-blur-sm transition-colors duration-200 hover:border-champagne-gold/55 hover:bg-champagne-gold/[0.05] hover:text-champagne-gold min-[560px]:w-auto min-[560px]:flex-1 min-[560px]:px-5 min-[560px]:tracking-[0.13em]"
                 >
                   {secondaryCtaLabel}
-                </Link>
+                </a>
               </div>
 
               {page.kind === "nri" && (
@@ -1010,6 +1011,12 @@ export function LandingPageTemplate({
             </div>
           )}
         </section>
+
+        {/* ─── ON-PAGE ENQUIRY (#enquire) ─── */}
+        <InlineEnquirySection
+          pageLabel={page.href}
+          audience={page.kind === "nri" ? "nri" : "general"}
+        />
 
         {/* ─── RELATED GUIDES ─── */}
         {relatedPages.length > 0 && (

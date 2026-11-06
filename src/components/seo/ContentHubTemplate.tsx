@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
+import { InlineEnquirySection } from "@/components/contact/InlineEnquirySection";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { ContentHubPage } from "@/lib/data/content-hubs";
 import { parseComboSegments } from "@/lib/data/seo-dimensions";
@@ -354,6 +355,12 @@ export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplatePro
 
         </div>
 
+        {/* ─── ON-PAGE ENQUIRY (#enquire) ─── */}
+        <InlineEnquirySection
+          pageLabel={page.href}
+          audience={/nri/i.test(page.href) ? "nri" : "general"}
+        />
+
         {/* ─── ADVISORY CTA (Matches PIKORUA site footer CTA style) ─── */}
         <section className="border-t border-champagne-gold/20 bg-gradient-to-b from-lux-black via-soft-black to-lux-black py-16 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
@@ -376,12 +383,12 @@ export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplatePro
                 <PhoneCall size={16} aria-hidden="true" />
                 WhatsApp Advisory
               </a>
-              <Link
-                href="/contact"
+              <a
+                href="#enquire"
                 className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/20 bg-white/[0.03] px-8 py-3.5 font-sans text-xs uppercase tracking-[0.18em] text-ivory transition-all hover:border-champagne-gold/50 hover:text-champagne-gold"
               >
-                Schedule Private Consultation <ArrowRight size={14} aria-hidden="true" />
-              </Link>
+                Send an Enquiry <ArrowRight size={14} aria-hidden="true" />
+              </a>
             </div>
           </div>
         </section>

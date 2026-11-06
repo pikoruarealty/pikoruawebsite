@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { InlineEnquirySection } from "@/components/contact/InlineEnquirySection";
 import { getPublishedBlogPosts, resolvePublicBlogPost } from "@/lib/data/blog";
 import { getSupabaseBlogs, getSupabaseBlogBySlug } from "@/lib/db/queries";
 import { renderFormattedText } from "@/lib/utils";
@@ -338,13 +339,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 Whether you are exploring luxury investments, seeking a signature penthouses, or require private representation for a high-value sale, our advisory desk responds personally.
               </p>
 
-              <Link
-                href="/contact"
+              <a
+                href="#enquire"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 text-xs font-sans uppercase tracking-[0.2em] text-champagne-gold border border-champagne-gold/30 hover:border-champagne-gold/65 hover:bg-champagne-gold/[0.04] transition-all duration-300 min-h-[48px]"
               >
                 Discuss Privately
                 <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-              </Link>
+              </a>
             </div>
 
             {/* Related landing-page guides */}
@@ -374,6 +375,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           </div>
         </article>
+
+        {/* On-page enquiry (#enquire) */}
+        <InlineEnquirySection
+          pageLabel={`/blog/${post.slug}`}
+          audience={/nri/i.test(post.slug) ? "nri" : "general"}
+        />
       </main>
       <Footer />
     </>
