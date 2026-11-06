@@ -248,7 +248,7 @@ const SINGLETONS = [
   {
     _id: "siteSettings",
     _type: "siteSettings",
-    email: "connect@pikorua.in",
+    email: "info@pikorua.in",
     phone: "+91 6354 359 222",
     whatsappNumber: "916354359222",
     whatsappDefaultMessage:

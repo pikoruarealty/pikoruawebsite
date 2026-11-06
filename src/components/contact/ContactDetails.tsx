@@ -57,10 +57,10 @@ export function ContactDetails() {
               Email
             </span>
             <a
-              href="mailto:connect@pikorua.in"
+              href="mailto:info@pikorua.in"
               className="text-[15px] font-sans text-ivory/75 hover:text-champagne-gold transition-colors duration-200"
             >
-              connect@pikorua.in
+              info@pikorua.in
             </a>
           </li>
         </ul>
@@ -75,7 +75,7 @@ export function ContactDetails() {
         </p>
         <address className="not-italic text-[14px] font-sans text-ivory/40 leading-[1.8]">
           Satyamev Elite, Ambli T-Junction<br />
-          Bopal-Ambli Road, Ahmedabad<br />
+          Ambli-Bopal Road, Ahmedabad<br />
           Gujarat, India — 380058
         </address>
       </div>

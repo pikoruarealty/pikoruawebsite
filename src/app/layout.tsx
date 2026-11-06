@@ -23,7 +23,7 @@ import {
   getPostalAddressSchema,
 } from "@/lib/entity-profile";
 import { absoluteUrl, serializeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
-import { FOUNDER_NAME } from "@/lib/data/about";
+import { FOUNDER_NAME, FOUNDER_SHORT_NAME } from "@/lib/data/about";
 import {
   DEVELOPER_PARTNERS,
   PARTNER_METADATA_KEYWORDS,
@@ -316,9 +316,10 @@ const organizationSchema = {
       "@type": "Person",
       "@id": ENTITY_IDS.founder,
       name: FOUNDER_NAME,
+      alternateName: FOUNDER_SHORT_NAME,
       jobTitle: "Founder & Managing Director",
       description:
-        "Jitendra Pareek is the founder of PIKORUA Realty, Ahmedabad's private luxury residential real estate advisory. He specialises in curating off-market 4 BHK and 5 BHK apartments, penthouses, villas, and bungalows for HNI and NRI buyers across western Ahmedabad's premium corridors.",
+        "Jitendra KallashChandra Pareek is the founder of PIKORUA Realty, Ahmedabad's private luxury residential real estate advisory. He specialises in curating off-market 4 BHK and 5 BHK apartments, penthouses, villas, and bungalows for HNI and NRI buyers across western Ahmedabad's premium corridors.",
       image: absoluteUrl("/images/founder.jpg"),
       url: absoluteUrl("/about"),
       worksFor: {

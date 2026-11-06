@@ -3,7 +3,9 @@
 // the About page and the homepage founder teaser so the copy has one
 // source of truth.
 
-export const FOUNDER_NAME = "Jitendra Pareek";
+export const FOUNDER_NAME = "Jitendra KallashChandra Pareek";
+/** Short form used in bylines and by clients; schema alternateName. */
+export const FOUNDER_SHORT_NAME = "Jitendra Pareek";
 
 export const DEFAULT_HERO_TITLE = "About PIKORUA";
 

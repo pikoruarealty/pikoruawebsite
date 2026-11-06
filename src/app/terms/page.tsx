@@ -79,8 +79,8 @@ export default function TermsPage() {
                 <h2 className="text-xs uppercase tracking-[0.2em] text-champagne-gold mb-3">Contact</h2>
                 <p>
                   For questions about these terms, contact{" "}
-                  <a className="text-champagne-gold hover:underline" href="mailto:connect@pikorua.in">
-                    connect@pikorua.in
+                  <a className="text-champagne-gold hover:underline" href="mailto:info@pikorua.in">
+                    info@pikorua.in
                   </a>
                   .
                 </p>

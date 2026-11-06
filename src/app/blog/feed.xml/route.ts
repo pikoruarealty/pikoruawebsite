@@ -101,8 +101,8 @@ export async function GET() {
     <link>${blogUrl}</link>
     <description>Market reports, NRI advisory guides, and corridor analysis from ${escapeXml(SITE_NAME)} — Ahmedabad's private luxury real estate advisory.</description>
     <language>en-IN</language>
-    <managingEditor>connect@pikorua.in (${escapeXml(SITE_NAME)})</managingEditor>
-    <webMaster>connect@pikorua.in (${escapeXml(SITE_NAME)})</webMaster>
+    <managingEditor>info@pikorua.in (${escapeXml(SITE_NAME)})</managingEditor>
+    <webMaster>info@pikorua.in (${escapeXml(SITE_NAME)})</webMaster>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <ttl>60</ttl>
     <image>

@@ -75,8 +75,8 @@ export function Footer({
             <h2 className="text-[10px] uppercase tracking-[0.2em] text-champagne-gold font-sans mb-3">Contact</h2>
             <ul className="space-y-2 font-sans text-sm text-ivory/55">
               <li>
-                <a href="mailto:connect@pikorua.in" className="hover:text-ivory transition-colors duration-150">
-                  connect@pikorua.in
+                <a href="mailto:info@pikorua.in" className="hover:text-ivory transition-colors duration-150">
+                  info@pikorua.in
                 </a>
               </li>
               <li>
@@ -93,7 +93,7 @@ export function Footer({
                 </li>
               )}
               <li className="text-ivory/50 leading-relaxed text-xs">
-                Iskon-Ambli, Ahmedabad<br />Gujarat, India
+                Ambli-Bopal Road, Ahmedabad<br />Gujarat, India — 380058
               </li>
               {googleMapsUrl && (
                 <li>

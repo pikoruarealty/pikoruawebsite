@@ -1,4 +1,4 @@
-import { FOUNDER_NAME } from "@/lib/data/about";
+import { FOUNDER_NAME, FOUNDER_SHORT_NAME } from "@/lib/data/about";
 import { GUJRERA_AGENT_REGISTRATION_NO } from "@/lib/data/blog-disclaimers";
 import { env } from "@/lib/env";
 import {
@@ -20,7 +20,7 @@ export const ENTITY_IDS = {
   founder: FOUNDER_ENTITY_ID,
 } as const;
 
-export const BUSINESS_EMAIL = "connect@pikorua.in";
+export const BUSINESS_EMAIL = "info@pikorua.in";
 export const BUSINESS_PHONE_DISPLAY = "+91 6354 359 222";
 export const BUSINESS_PHONE_E164 = `+${env.WHATSAPP_NUMBER}`;
 export const BUSINESS_MAP_URL = GOOGLE_BUSINESS_PROFILE_URL;
@@ -29,17 +29,17 @@ export const BUSINESS_RERA_DISCLOSURE =
   "PIKORUA Realty is registered with GujRERA as a real estate agent. Project-specific GujRERA registration details are verified and shared where applicable.";
 
 export const BUSINESS_ADDRESS = {
-  streetAddress: "Satyamev Elite, Ambli T-Junction, Bopal-Ambli Road",
+  streetAddress: "Satyamev Elite, Ambli T-Junction, Ambli-Bopal Road",
   addressLocality: "Ahmedabad",
   addressRegion: "Gujarat",
   postalCode: "380058",
   addressCountry: "IN",
 } as const;
 
-/** Approximate (±150 m); replace with the Google Business Profile pin once it exists. */
+/** Pin of the Google Business Profile listing (BUSINESS_MAP_URL), checked 6 Nov 2026. */
 export const BUSINESS_GEO = {
-  latitude: "23.0254",
-  longitude: "72.4768",
+  latitude: "23.0252363",
+  longitude: "72.476119",
 } as const;
 
 export const BUSINESS_LANGUAGES = ["en", "hi", "gu"] as const;
@@ -233,9 +233,10 @@ export function getFounderSchema(image = absoluteUrl("/images/founder.jpg")) {
     "@type": "Person",
     "@id": ENTITY_IDS.founder,
     name: FOUNDER_NAME,
+    alternateName: FOUNDER_SHORT_NAME,
     jobTitle: "Founder & Managing Director",
     description:
-      "Jitendra Pareek is the founder of PIKORUA Realty, Ahmedabad's private luxury residential real estate advisory. He specialises in curating off-market 4 BHK and 5 BHK apartments, penthouses, villas, and bungalows for HNI and NRI buyers across western Ahmedabad's premium corridors.",
+      "Jitendra KallashChandra Pareek is the founder of PIKORUA Realty, Ahmedabad's private luxury residential real estate advisory. He specialises in curating off-market 4 BHK and 5 BHK apartments, penthouses, villas, and bungalows for HNI and NRI buyers across western Ahmedabad's premium corridors.",
     image,
     url: absoluteUrl("/about"),
     worksFor: {

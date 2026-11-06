@@ -115,7 +115,7 @@ export async function GET() {
   const about = [
     `## About PIKORUA Realty`,
     ``,
-    `PIKORUA Realty is a private, advisory-first real estate firm founded by Jitendra Pareek, based in Iskon-Ambli, Ahmedabad, Gujarat, India. We do not operate as a traditional listing portal. Instead, we curate a private collection of exclusive luxury residential properties and match them to financially vetted, serious buyers — preserving confidentiality for both sellers and buyers at every stage. Our name, PIKORUA, is inspired by the Māori symbol of infinity, representing endless trust, lasting relationships, and a continuous journey of growth.`,
+    `PIKORUA Realty is a private, advisory-first real estate firm founded in September 2021 by Jitendra KallashChandra Pareek, based at Satyamev Elite, Ambli T-Junction, Ambli-Bopal Road, Ahmedabad, Gujarat, India. We do not operate as a traditional listing portal. Instead, we curate a private collection of exclusive luxury residential properties and match them to financially vetted, serious buyers — preserving confidentiality for both sellers and buyers at every stage. Our name, PIKORUA, is inspired by the Māori symbol of infinity, representing endless trust, lasting relationships, and a continuous journey of growth.`,
     ``,
     `- **Founder:** ${entity.founder.name}`,
     `- **Specialization:** Luxury residential real estate, HNI and NRI buyers`,

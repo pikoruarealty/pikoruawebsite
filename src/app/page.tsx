@@ -77,7 +77,7 @@ const HOMEPAGE_FAQS: FaqItem[] = [
   {
     question: "How do I contact PIKORUA Realty to enquire about a luxury property in Ahmedabad?",
     answer:
-      "You can reach PIKORUA Realty by WhatsApp, by emailing connect@pikorua.in, or by submitting an enquiry at pikorua.in/contact. We respond to all qualified enquiries within 24 hours and schedule a private consultation to understand your requirements before sharing curated options.",
+      "You can reach PIKORUA Realty by WhatsApp, by emailing info@pikorua.in, or by submitting an enquiry at pikorua.in/contact. We respond to all qualified enquiries within 24 hours and schedule a private consultation to understand your requirements before sharing curated options.",
   },
 ];
 
@@ -201,10 +201,10 @@ function HoldingPage() {
       <p className="text-ivory/40 font-sans text-sm">
         In the meantime, reach us at{" "}
         <a
-          href="mailto:connect@pikorua.in"
+          href="mailto:info@pikorua.in"
           className="text-champagne-gold hover:text-muted-gold transition-colors duration-150"
         >
-          connect@pikorua.in
+          info@pikorua.in
         </a>
       </p>
       <a

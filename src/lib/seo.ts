@@ -29,7 +29,7 @@ const IS_VERCEL_PREVIEW =
  * Google Maps listing (local SEO graph node).
  */
 export const GOOGLE_BUSINESS_PROFILE_URL =
-  "https://maps.app.goo.gl/ZLDmmbt7CYPzTBkx8";
+  "https://maps.app.goo.gl/1YcxQwmF7UGicszEA";
 
 type OpenGraphType = "website" | "article";
 const BRAND_TITLE_PATTERN = /\s*(?:\||-|\u2014)\s*PIKORUA(?:\s+Realty)?(?:\s+Insights)?\s*$/i;

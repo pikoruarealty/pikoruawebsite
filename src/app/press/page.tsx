@@ -28,8 +28,8 @@ const COMMENTARY_TOPICS = [
 
 const MEDIA_FACTS = [
   { label: "Company", value: SITE_NAME },
-  { label: "Headquarters", value: "Satyamev Elite, Ambli T-Junction, Bopal-Ambli Road, Ahmedabad, Gujarat" },
-  { label: "Founder", value: "Jitendra Pareek, Founder and Managing Director" },
+  { label: "Headquarters", value: "Satyamev Elite, Ambli T-Junction, Ambli-Bopal Road, Ahmedabad, Gujarat" },
+  { label: "Founder", value: "Jitendra KallashChandra Pareek, Founder and Managing Director" },
   { label: "Primary Market", value: "Ahmedabad luxury residential real estate" },
   { label: "Audience", value: "HNI families, NRI buyers, private sellers, and premium developers" },
   { label: "Contact", value: BUSINESS_EMAIL },
@@ -118,7 +118,7 @@ export default function PressPage() {
         <section className="relative overflow-hidden border-b border-white/[0.06] pt-28 sm:pt-32 lg:pt-40">
           <Image
             src="/images/founder.jpg"
-            alt="Jitendra Pareek, Founder and Managing Director of PIKORUA Realty"
+            alt="Jitendra KallashChandra Pareek, Founder and Managing Director of PIKORUA Realty"
             fill
             priority
             quality={72}

@@ -179,6 +179,21 @@ export const NRI_COUNTRY_INDEX_PAGES: GeoLandingPage[] = [
     relatedSlugs: ["uk-luxury-properties-ahmedabad", "uk-buy-property-ahmedabad", "nri-property-from-uk", "nri-property-purchase-process-india"],
     travelNote: "GMT and BST consultation windows allow shortlist reviews before a compact India visit.",
     legalNote: "UK residents should obtain advice on UK tax reporting and the apostille process for documents signed in the UK.",
+    title: "UK NRI Guide to Buying Property in Ahmedabad | PIKORUA",
+    description: "How UK-based NRIs buy a home in Ahmedabad remotely: video walkthroughs, power of attorney, banking route and handover support from a local advisory.",
+    leadBody: [
+      "### Buying from the UK: What Is Different",
+      "Time zones. Ahmedabad is 4.5 hours ahead of the UK in summer and 5.5 hours in winter, so a call in your morning reaches us in the early afternoon. Most UK clients can review homes on live video without taking time off work.",
+      "Signing from the UK. If you can't be in Ahmedabad for registration, a power of attorney lets a trusted person sign for you. A document signed in the UK is usually notarised and then apostilled by the UK's legalisation office, or executed at an Indian mission. We coordinate the wording with a local lawyer so it is accepted at registration.",
+      "Payment route. Payments come from your NRE or NRO account in India, or through an inward remittance in your name. Your bank or a chartered accountant should confirm the route, and a UK tax adviser should confirm how HMRC treats Indian property income or gains. We do not give tax advice.",
+      "Seeing the home without flying. We shortlist two or three homes, walk each one on live video and send the title and RERA details before you decide. Many UK families plan one trip, to sign or to see the finished home.",
+    ],
+    extraFaqs: [
+      {
+        question: "Do I need a UK tax adviser as well?",
+        answer: "Usually yes. Indian property income or gains can be reportable in both countries, so speak to a chartered accountant in India and a UK tax adviser who knows India. PIKORUA can refer you; we do not give tax advice.",
+      },
+    ],
   }),
   createCountryHub({
     slug: "dubai",
@@ -189,6 +204,21 @@ export const NRI_COUNTRY_INDEX_PAGES: GeoLandingPage[] = [
     relatedSlugs: ["dubai-luxury-flats-ahmedabad", "dubai-property-investment-ahmedabad", "nri-property-from-dubai", "ahmedabad-vs-dubai-real-estate-investment"],
     travelNote: "Short flights and a small time difference make live video tours and focused inspection visits practical for UAE buyers.",
     legalNote: "UAE-executed documents may require the applicable notarisation and attestation route before use in India.",
+    title: "Buy Property in Ahmedabad from Dubai & UAE | PIKORUA",
+    description: "How UAE-based NRIs buy a home in Ahmedabad: short trips, live video tours, power of attorney, banking route and handover support from a local advisory.",
+    leadBody: [
+      "### Buying from the UAE: What Is Different",
+      "Close enough to visit. Ahmedabad is 1.5 hours ahead of the UAE. Many UAE families do the shortlist on video, then fly in for a weekend to see the final two homes.",
+      "Signing from the UAE. If you can't be in Ahmedabad for registration, a power of attorney lets a trusted person sign for you. The UAE is not part of the Apostille Convention, so a power of attorney is usually signed in person before a consular officer at an Indian mission in the UAE. We coordinate the wording with a local lawyer so it is accepted at registration.",
+      "Payment route. Payments come from your NRE or NRO account in India, or through an inward remittance in your name. Your bank or a chartered accountant should confirm the route for your case, including Indian tax on any rent or sale. We do not give tax advice.",
+      "If you plan to return. Many Gulf families buy with a return to India in mind. Tell us your likely timeline; it changes whether a ready home or an under-construction one fits better.",
+    ],
+    extraFaqs: [
+      {
+        question: "Can I see the home on a short trip from Dubai?",
+        answer: "Yes. We do the shortlisting and document checks first, then plan a one- or two-day visit to see the final options, meet the developer and, if you decide, start the paperwork.",
+      },
+    ],
   }),
   createCountryHub({
     slug: "canada",
@@ -199,6 +229,21 @@ export const NRI_COUNTRY_INDEX_PAGES: GeoLandingPage[] = [
     relatedSlugs: ["canada-luxury-properties-ahmedabad", "nri-property-from-canada", "nri-property-investment-ahmedabad", "property-management-for-nris"],
     travelNote: "Canada-based families can complete initial diligence remotely and reserve travel for final inspections or registration planning.",
     legalNote: "Canadian residents should obtain advice on Canadian reporting and tax treatment alongside Indian transaction advice.",
+    title: "Buy Property in Ahmedabad from Canada | PIKORUA",
+    description: "How Canada-based NRIs buy a home in Ahmedabad remotely: video walkthroughs, power of attorney, banking route and handover support from a local advisory.",
+    leadBody: [
+      "### Buying from Canada: What Is Different",
+      "Time zones. Ahmedabad is 8 to 13.5 hours ahead of Canada, depending on your province and the season. Your early morning is our evening and your late evening is our morning, so most calls fit around your working day.",
+      "Signing from Canada. If you can't be in Ahmedabad for registration, a power of attorney lets a trusted person sign for you. A document signed in Canada can be notarised and apostilled, or executed at an Indian mission. We coordinate the wording with a local lawyer so it is accepted at registration.",
+      "Payment route. Payments come from your NRE or NRO account in India, or through an inward remittance in your name. Canada can require you to report some property held abroad, such as a rental or investment home, so speak to a Canadian tax professional as well as a chartered accountant in India. We do not give tax advice.",
+      "Seeing the home without flying. We shortlist two or three homes, walk each one on live video and send the title and RERA details before you decide.",
+    ],
+    extraFaqs: [
+      {
+        question: "Do I need a Canadian tax professional as well?",
+        answer: "Usually yes. Canada can require you to report some property held outside Canada, such as a rental or investment home, and Indian rent or gains can be taxable in both countries. PIKORUA can refer you; we do not give tax advice.",
+      },
+    ],
   }),
   createCountryHub({
     slug: "australia",

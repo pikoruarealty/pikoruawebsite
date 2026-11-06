@@ -7,7 +7,7 @@ Signature used below:
 
 > [Your name]
 > PIKORUA Realty — private luxury residential advisory, Ahmedabad
-> https://www.pikorua.in · connect@pikorua.in · +91 6354 359 222
+> https://www.pikorua.in · info@pikorua.in · +91 6354 359 222
 
 ---
 

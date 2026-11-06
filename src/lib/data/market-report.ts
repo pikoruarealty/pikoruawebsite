@@ -167,17 +167,17 @@ export const AHMEDABAD_LUXURY_MARKET_REPORT = {
   ],
   quoteBank: [
     {
-      speaker: "Jitendra Pareek, Founder and Managing Director, PIKORUA Realty",
+      speaker: "Jitendra KallashChandra Pareek, Founder and Managing Director, PIKORUA Realty",
       quote:
         "Ahmedabad's luxury market is not one market. A buyer comparing Iscon-Ambli with Thaltej or Sindhu Bhavan is really comparing lifestyle, privacy, resale recall, and risk.",
     },
     {
-      speaker: "Jitendra Pareek, Founder and Managing Director, PIKORUA Realty",
+      speaker: "Jitendra KallashChandra Pareek, Founder and Managing Director, PIKORUA Realty",
       quote:
         "For NRI buyers, trust is built through evidence. Video inspections, document clarity, and post-purchase management matter as much as the project brochure.",
     },
     {
-      speaker: "Jitendra Pareek, Founder and Managing Director, PIKORUA Realty",
+      speaker: "Jitendra KallashChandra Pareek, Founder and Managing Director, PIKORUA Realty",
       quote:
         "In luxury real estate, the best property is not always the most visible one. Many serious opportunities move through quieter, relationship-led channels.",
     },
@@ -201,7 +201,7 @@ export const AHMEDABAD_LUXURY_MARKET_REPORT = {
     {
       question: "How can media request a quote from PIKORUA?",
       answer:
-        "Media teams can contact PIKORUA through the press page or email connect@pikorua.in for Ahmedabad luxury property commentary.",
+        "Media teams can contact PIKORUA through the press page or email info@pikorua.in for Ahmedabad luxury property commentary.",
     },
   ],
 } as const;

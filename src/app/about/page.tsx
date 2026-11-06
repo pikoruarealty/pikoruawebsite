@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { StatsStrip } from "@/components/ui/StatsStrip";
 import { MEDIA } from "@/lib/media";
 import { getSupabaseAboutPageContent, getPageSeoData } from "@/lib/db/queries";
-import { FOUNDER_NAME, DEFAULT_HERO_TITLE, DEFAULT_FOUNDER_STORY } from "@/lib/data/about";
+import { FOUNDER_NAME, FOUNDER_SHORT_NAME, DEFAULT_HERO_TITLE, DEFAULT_FOUNDER_STORY } from "@/lib/data/about";
 import {
   ENTITY_IDS,
   getAhmedabadAreaServedSchema,
@@ -139,7 +139,7 @@ export default async function AboutPage() {
         url: SITE_URL,
         image: absoluteUrl(founderAvatar),
         description:
-          "Private luxury residential real estate advisory founded by Jitendra Pareek. We curate exclusive apartments, penthouses, villas, and bungalows for HNI and NRI buyers across Ahmedabad's premier western corridors.",
+          "Private luxury residential real estate advisory founded by Jitendra KallashChandra Pareek. We curate exclusive apartments, penthouses, villas, and bungalows for HNI and NRI buyers across Ahmedabad's premier western corridors.",
         areaServed: getAhmedabadAreaServedSchema(),
         address: getPostalAddressSchema(),
         geo: getGeoCoordinatesSchema(),
@@ -166,9 +166,10 @@ export default async function AboutPage() {
         "@type": "Person",
         "@id": ENTITY_IDS.founder,
         name: FOUNDER_NAME,
+        alternateName: FOUNDER_SHORT_NAME,
         jobTitle: "Founder & Managing Director",
         description:
-          "Jitendra Pareek is the founder of PIKORUA Realty, Ahmedabad's private luxury residential real estate advisory. He specialises in curating off-market 4 BHK and 5 BHK apartments, penthouses, villas, and bungalows for HNI and NRI buyers across western Ahmedabad's premium corridors.",
+          "Jitendra KallashChandra Pareek is the founder of PIKORUA Realty, Ahmedabad's private luxury residential real estate advisory. He specialises in curating off-market 4 BHK and 5 BHK apartments, penthouses, villas, and bungalows for HNI and NRI buyers across western Ahmedabad's premium corridors.",
         image: absoluteUrl(founderAvatar),
         url: absoluteUrl("/about"),
         worksFor: {
