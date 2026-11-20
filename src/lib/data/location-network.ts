@@ -25,6 +25,8 @@ type LocationProfile = {
   /** Overrides for areas with their own search wording (default: generic title/description/positioning). */
   seoTitle?: string;
   seoDescription?: string;
+  /** H1 override for roads and highways ("on Sindhu Bhavan Road", not "in"). */
+  seoH1?: string;
   intro?: string;
 };
 
@@ -48,6 +50,7 @@ const PROFILES: LocationProfile[] = [
     anchors: ["Sindhu Bhavan", "Taj Skyline", "SG Highway", "Rajpath Club"],
     coordinates: ["23.0418", "72.4996"],
     seoTitle: "Sindhu Bhavan Road Luxury Flats & Penthouses",
+    seoH1: "Luxury Property on Sindhu Bhavan Road",
     seoDescription: "Luxury 4 and 5 BHK flats, penthouses and duplexes on Sindhu Bhavan Road, Ahmedabad: what the road offers, current homes and how to buy privately.",
     intro: "Sindhu Bhavan Road is Ahmedabad's best-known address for premium towers, restaurants, clubs and offices in one stretch. Buyers choose it for the address and convenience, and accept that homes here are mostly in tall towers rather than standalone bungalows. If you want more land and quiet, we also show you Shilaj and Iskon–Ambli. Browse the homes below, or ask for off-market options.",
     extraFaqs: [
@@ -68,6 +71,7 @@ const PROFILES: LocationProfile[] = [
   {
     slug: "iskon-ambli",
     label: "Iskon–Ambli Road",
+    seoH1: "Luxury Property on Iskon–Ambli Road",
     group: "Established luxury area",
     positioning: "A tower-led ultra-luxury corridor suited to buyers seeking very large floor plates, newer specifications and proximity to western Ahmedabad's premium social circuit.",
     formats: "Large 4 and 5 BHK residences, duplexes, penthouses and sky villas, with fewer entry-level configurations.",
@@ -230,6 +234,8 @@ const PROFILES: LocationProfile[] = [
     alternatives: ["Ambawadi for quieter legacy streets", "Satellite for broader amenities", "CG Road for commercial centrality"],
     anchors: ["Nehrunagar Circle", "132 Feet Ring Road", "Ambawadi", "Paldi"],
     coordinates: ["23.0153", "72.5338"],
+    // "nehru nagar ahmedabad" (749 impressions) is searched more than "nehrunagar" (606).
+    seoTitle: "Nehrunagar (Nehru Nagar), Ahmedabad: Area Guide & Prices",
   },
   {
     slug: "cg-road",
@@ -405,6 +411,7 @@ const PROFILES: LocationProfile[] = [
   {
     slug: "sg-highway",
     label: "SG Highway",
+    seoH1: "Luxury Property on SG Highway",
     group: "Growth and landed-property corridor",
     positioning: "Ahmedabad's principal north–south business and residential spine, containing multiple micro-markets rather than one uniform luxury address.",
     formats: "Luxury apartments, mixed-use towers, penthouses, office-linked residences and gated communities along adjoining roads.",
@@ -546,8 +553,11 @@ function resolveAlternativeSlug(item: string): string | null {
  * indicative...") on most pages.
  */
 function localityDescription(profile: LocationProfile): string {
-  const tail = " Area guide with indicative pricing, access and buyer fit.";
-  const head = `${profile.label}, Ahmedabad: `;
+  // Search Console (Oct–Nov 2026): these pages are found by bare area-name
+  // searches ("satellite ahmedabad", "nehru nagar ahmedabad"), so the snippet
+  // promises the area guide first and the homes second.
+  const tail = " Price bands, schools, access and who it suits.";
+  const head = `${profile.label}, Ahmedabad area guide: `;
   let formats = profile.formats.replace(/\.$/, "");
   const room = 155 - head.length - tail.length - 1;
   if (formats.length > room) {
@@ -566,8 +576,8 @@ function toPage(profile: LocationProfile, index: number): GeoLandingPage {
     href: `/locations/${profile.slug}`,
     label: profile.label,
     eyebrow: profile.group,
-    title: profile.seoTitle ?? `${profile.label}: Luxury Homes & Area Guide`,
-    h1: `Luxury Property in ${profile.label}`,
+    title: profile.seoTitle ?? `${profile.label}, Ahmedabad: Area Guide & Home Prices`,
+    h1: profile.seoH1 ?? `Luxury Property in ${profile.label}`,
     description: profile.seoDescription ?? localityDescription(profile),
     heroImage: profile.hero ?? HEROES[index % HEROES.length],
     coordinates: { latitude: profile.coordinates[0], longitude: profile.coordinates[1] },

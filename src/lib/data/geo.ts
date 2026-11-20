@@ -1415,10 +1415,10 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/luxury-real-estate-ahmedabad",
     label: "Luxury Real Estate",
     eyebrow: "Luxury Advisory",
-    title: "Luxury Real Estate Ahmedabad | PIKORUA Realty",
-    h1: "Luxury Real Estate in Ahmedabad",
+    title: "Luxury Property & Real Estate in Ahmedabad: Prices by Area",
+    h1: "Luxury Property in Ahmedabad",
     description:
-      "Market-led luxury real estate advisory in Ahmedabad for HNI and NRI buyers comparing prime corridors, developers, and private inventory.",
+      "Luxury property in Ahmedabad: indicative prices for Iscon-Ambli, Sindhu Bhavan Road, Bodakdev, Thaltej and Shilaj, plus 4 BHK, 5 BHK and villa guides.",
     heroImage: "/properties/maruti-360/maruti-360-view.jpg",
     categories: BROAD_LUXURY_CATEGORIES,
     matchKeywords: [
@@ -1469,6 +1469,11 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
           "NRIs should evaluate legal clarity, RERA status where applicable, payment route, POA feasibility, maintenance support, rental demand, and exit liquidity before choosing a property.",
       },
       {
+        question: "What is the price of luxury property in Ahmedabad?",
+        answer:
+          "Indicatively, luxury apartments trade at about ₹10,000–₹16,000+ per sq.ft. on Iscon-Ambli Road, ₹9,000–₹15,000+ on Sindhu Bhavan Road, ₹8,000–₹14,000+ in Bodakdev, ₹7,000–₹12,500+ in Thaltej and ₹6,000–₹10,500+ in Shilaj. A luxury 4 BHK typically costs ₹3.5–8 Crore and a 5 BHK ₹6–15 Crore. Villas start around ₹6 Crore in Shilaj, ₹7 Crore in Vaishno Devi and ₹10 Crore in Thaltej. Building, floor, view and possession status move prices within these bands.",
+      },
+      {
         question: "Which is the best luxury property in Ahmedabad?",
         answer:
           "There is no single best property — the right choice depends on corridor, format, and budget. PIKORUA Realty compares Iscon-Ambli Road, Sindhu Bhavan Road, Thaltej, and Vastrapur options against the buyer's family-use, investment, and resale goals before recommending a shortlist.",
@@ -1498,6 +1503,8 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "The search for luxury real estate Ahmedabad is broad, but the actual purchase decision is narrow. Buyers are not choosing a city; they are choosing a specific building, lane, developer, view, floor plate, society profile, and legal position. A home on Iscon-Ambli Road, a penthouse near Sindhu Bhavan Road, and a bungalow in Shilaj may all be luxury assets, but they carry different liquidity, maintenance, and appreciation profiles.",
       "### The Categories Within This Market",
       "Ahmedabad's luxury residential market splits into distinct categories, each with its own buyer profile and diligence lens. Luxury apartments are the broadest and most liquid format. Luxury 4 BHK and 5 BHK are configuration-specific searches driven by family size rather than building type. Penthouses and duplexes sit above standard apartments on privacy and terrace access. Villas offer gated-community independence; bungalows offer fully independent land ownership. Residential plots suit buyers planning a custom-built home over a multi-year horizon. Ultra luxury properties are the scarce, structurally irreplaceable assets at the top of every format. Investment-led properties are chosen primarily for rental yield or capital appreciation rather than self-use. Each of these has its own dedicated page with corridor-specific pricing and a diligence checklist.",
+      "### Luxury Property Prices by Area (Indicative, 2026)",
+      "Apartment prices per sq.ft. vary most by corridor. Iscon-Ambli Road sits at the top at about ₹10,000–₹16,000+, followed by Sindhu Bhavan Road at ₹9,000–₹15,000+, Bodakdev at ₹8,000–₹14,000+, SG Highway at ₹6,500–₹14,000+, Vastrapur at ₹7,500–₹13,000+, Thaltej at ₹7,000–₹12,500+, Shilaj at ₹6,000–₹10,500+ and Vaishno Devi at ₹5,500–₹10,000+. By home type, a luxury 4 BHK of 3,000–4,500 sq.ft. typically costs ₹3.5–8 Crore and a 5 BHK of 4,000–6,000 sq.ft. ₹6–15 Crore. Villas are priced from about ₹6–12 Crore+ in Shilaj, ₹7–14 Crore+ in Vaishno Devi and ₹10–20 Crore+ in Thaltej. These are indicative bands; the building, floor, view and possession status decide where a specific home sits, and each area guide explains the spread.",
       "### What Serious Buyers Compare",
       "Serious buyers compare more than price per sq.ft. They compare privacy, arrival experience, number of units per floor, construction quality, parking, service access, amenity governance, developer history, title clarity, and future buyer depth. This is where advisory quality matters: the strongest option is rarely the one with the loudest brochure.",
       "### NRI and HNI Demand",
@@ -1905,10 +1912,10 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/luxury-4bhk-ahmedabad",
     label: "Luxury 4 BHK",
     eyebrow: "Property Type",
-    title: "Luxury 4 BHK in Ahmedabad | PIKORUA",
-    h1: "Luxury 4 BHK Homes in Ahmedabad",
+    title: "4 BHK Luxury Flats in Ahmedabad: Prices & Best Areas",
+    h1: "Luxury 4 BHK Flats & Homes in Ahmedabad",
     description:
-      "Curated luxury 4 BHK apartments and residences in Ahmedabad for HNI families, NRIs, and investors seeking premium western corridors.",
+      "Luxury 4 BHK flats for sale in Ahmedabad: typically 3,000–4,500 sq.ft. and ₹3.5–8 Crore, on Iscon Ambli Road, Sindhu Bhavan Road, Thaltej and Vastrapur.",
     heroImage: "/properties/maruti-360/maruti-360-bedroom-2.png",
     matchKeywords: ["4 bhk", "4 & 5 bhk", "4bhk", "four bedroom", "4 bedroom"],
     seoKeywords: [
@@ -1973,10 +1980,10 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/luxury-5bhk-ahmedabad",
     label: "Luxury 5 BHK",
     eyebrow: "Property Type",
-    title: "Luxury 5 BHK in Ahmedabad | PIKORUA",
-    h1: "Luxury 5 BHK Homes in Ahmedabad",
+    title: "5 BHK Flats in Ahmedabad: Luxury Apartments & Prices",
+    h1: "Luxury 5 BHK Flats & Homes in Ahmedabad",
     description:
-      "Private advisory for luxury 5 BHK apartments, penthouses, duplexes, and sky villas in Ahmedabad's prime residential corridors.",
+      "Luxury 5 BHK flats for sale in Ahmedabad: usually 4,000–6,000 sq.ft. and ₹6–15 Crore, on Iscon Ambli Road, Sindhu Bhavan Road and Thaltej.",
     heroImage: "/properties/swati-senor/swati-senor-2-hall.jpg",
     matchKeywords: ["5 bhk", "4 & 5 bhk", "5bhk", "five bedroom", "5 bedroom"],
     seoKeywords: [

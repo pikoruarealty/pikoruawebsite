@@ -27,6 +27,10 @@ export const PAGE_MERGES: Readonly<Record<string, string>> = {
   "/ahmedabad/4-bhk-luxury-flats": "/luxury-4bhk-ahmedabad",
   "/ahmedabad/luxury-flats/4-bhk": "/luxury-4bhk-ahmedabad",
   "/ahmedabad/luxury-flats/5-bhk": "/luxury-5bhk-ahmedabad",
+  // 3 BHK (7 Nov 2026): two pages targeted the same search; neither had
+  // impressions. The loser's title promised "Under 2 Cr" while its text said
+  // ₹2.5–5.5 Cr.
+  "/ahmedabad/3-bhk-luxury-flats": "/ahmedabad/luxury-flats/3-bhk",
   // Single-area /p/ filter pages that duplicated an area guide (2 Nov 2026).
   // Held back: /p/iscon-ambli-road (ranks near its area page; revisit ~late
   // Nov 2026 with fresh Search Console data), /p/ambli (no matching area page),

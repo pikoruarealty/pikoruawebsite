@@ -61,3 +61,5 @@ next-env.d.ts
 # Private production runbook (infrastructure details) — never commit or push
 /production-runbook.md
 /docs/production-runbook.md
+# Search Console exports (private data)
+/data/gsc/

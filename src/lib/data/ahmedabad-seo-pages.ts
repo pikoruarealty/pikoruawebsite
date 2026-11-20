@@ -597,7 +597,7 @@ export const AHMEDABAD_FILTER_PAGES: GeoLandingPage[] = [
     href: "/ahmedabad/luxury-flats/3-bhk",
     label: "3 BHK Luxury Flats Ahmedabad",
     eyebrow: "Ahmedabad · 3 BHK Luxury",
-    title: "3 BHK Luxury Apartments in Ahmedabad",
+    title: "3 BHK Luxury Flats & Apartments in Ahmedabad: Prices",
     h1: "3 BHK Luxury Flats in Ahmedabad",
     description: "Curated 3 BHK luxury flats in Ahmedabad — premium 1,800–2,800 sq.ft. apartments with private balconies, clubhouse amenities & verified RERA compliance.",
     heroImage: HERO.maruti,

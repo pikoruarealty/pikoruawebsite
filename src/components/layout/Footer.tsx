@@ -20,7 +20,12 @@ const NAV_LINKS = [
 
 const FOOTER_LOCATION_LINKS = LOCATION_LANDING_PAGES.slice(0, 6);
 const FOOTER_TYPE_LINK_SLUGS = [
+  // Main luxury, 4 BHK and 5 BHK pages added 7 Nov 2026: before this no page
+  // in the site's navigation linked to them.
+  "luxury-real-estate-ahmedabad",
   "luxury-apartments-ahmedabad",
+  "luxury-4bhk-ahmedabad",
+  "luxury-5bhk-ahmedabad",
   "penthouses-duplexes-ahmedabad",
   "luxury-villas-ahmedabad",
   "residential-plots-ahmedabad",

@@ -81,6 +81,76 @@ const H = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const COMPARISON_PAGES: ContentHubPage[] = [
+  {
+    // Built 7 Nov 2026 from the two area profiles in location-network.ts (same
+    // price bands and facts as /locations/sindhu-bhavan and /locations/iskon-ambli).
+    // No appreciation or yield figures: none are sourced for these roads.
+    slug: "sindhu-bhavan-road-vs-iscon-ambli-road",
+    prefix: "compare",
+    href: "/compare/sindhu-bhavan-road-vs-iscon-ambli-road",
+    title: "Sindhu Bhavan Road vs Iscon Ambli Road: Which to Buy?",
+    description: "Sindhu Bhavan Road vs Iscon Ambli Road, Ahmedabad: indicative prices, home types, daily trade-offs and which buyers each road suits, side by side.",
+    h1: "Sindhu Bhavan Road vs Iscon Ambli Road: Which Luxury Address Suits You?",
+    eyebrow: "Location Comparison · PIKORUA Advisory",
+    intro: "Sindhu Bhavan Road (SBR) and Iscon Ambli Road (also written Iskcon or Iskon Ambli) are western Ahmedabad's two best-known luxury addresses, and most of our HNI and NRI clients shortlist homes on both. They sit close to each other near SG Highway and share the same clubs, but they live very differently. SBR is a lively high street with restaurants, offices and towers together. Iscon Ambli Road is quieter and tower-led, with more new construction. Here is how they compare.",
+    heroImage: H.sindhu,
+    keyTakeaways: [
+      "Choose Sindhu Bhavan Road for the address and the convenience: restaurants, clubs and offices are minutes away, and the road name carries strong resale recall.",
+      "Choose Iscon Ambli Road for newer towers, very large floor plates and a calmer residential feel, accepting ongoing construction nearby.",
+      "Prices overlap. Iscon Ambli Road's indicative band starts a little higher per sq.ft., but the building, floor and possession status matter more than the road.",
+    ],
+    comparisonTable: [
+      { label: "Character", a: "Lifestyle-led high street: dining, clubs and offices close together", b: "Tower-led residential corridor, quieter than SBR" },
+      { label: "Typical luxury homes", a: "Large 4 and 5 BHK apartments, penthouses, duplexes", b: "Large 4 and 5 BHK residences, duplexes, penthouses, sky villas" },
+      { label: "Indicative price", a: "₹9,000–₹15,000+ per sq.ft.", b: "₹10,000–₹16,000+ per sq.ft." },
+      { label: "New vs ready", a: "Ready homes show neighbourhood quality; check parking and road exposure", b: "Meaningful new and under-construction supply; ready homes may carry a premium" },
+      { label: "Villas and bungalows", a: "Very few, in adjoining lanes, generally above ₹8 Crore", b: "Limited; buyers wanting land usually compare Shilaj" },
+      { label: "Nearby anchors", a: "Taj Skyline, SBR restaurants, Rajpath Club, Karnavati Club", b: "Karnavati Club, Rajpath Club, Ambli–Bopal junction, SG Highway" },
+      { label: "Daily trade-off", a: "Restaurant parking, weekend activity and junction queues", b: "Construction movement, service-road gaps and junction congestion by block" },
+      { label: "Best suited to", a: "Entrepreneurs, HNI families, executives and NRIs who want a social address", b: "HNI end-users, multigenerational families and NRIs who want new-build luxury" },
+    ],
+    sections: [
+      {
+        heading: "Sindhu Bhavan Road: The Address Everyone Recognises",
+        body: [
+          "SBR is Ahmedabad's best-known stretch for premium towers, restaurants, clubs and offices in one place. Buyers pay for the address and the convenience of having the city's deepest luxury social circuit within minutes, from Taj Skyline and the SBR restaurants to Rajpath Club and Karnavati Club.",
+          "Most luxury homes here are large 4 and 5 BHK apartments, penthouses and duplexes in towers, with a small bungalow resale market in the adjoining lanes. The trade-off is activity: restaurant parking, weekend crowds and junction queues are part of life on the road itself, while the quieter parallel lanes behave differently. Land scarcity and name recognition support long-term resale depth.",
+        ],
+        links: [{ href: "/locations/sindhu-bhavan", label: "Sindhu Bhavan Road area guide and current homes" }],
+      },
+      {
+        heading: "Iscon Ambli Road: Newer Towers, Larger Floor Plates",
+        body: [
+          "Iscon Ambli Road is a tower-led ultra-luxury corridor. Supply is mainly very large 4 and 5 BHK residences, duplexes, penthouses and sky villas in newer buildings, with few entry-level configurations. The road is more residential than SBR, while still close to Karnavati Club, Rajpath Club, the SBR restaurants and SG Highway.",
+          "Because much of the supply is new or under construction, buyers get contemporary specifications and large amenity programmes, but should check the developer's delivery record and visit the access road after dark and at school and office peak hours. Premium positioning is durable; the risk is paying for the road name when the usable area, density or handover quality is ordinary.",
+        ],
+        links: [{ href: "/locations/iskon-ambli", label: "Iscon Ambli Road area guide and current homes" }],
+      },
+      {
+        heading: "How to Decide",
+        body: [
+          "Start with how you live. If you want to walk or drive five minutes to dinner, meetings and the club, and you value an address people recognise instantly, SBR usually wins. If you want a newer building, a larger floor plate and a quieter road, and you are comfortable buying under construction, Iscon Ambli Road usually wins.",
+          "Then compare specific homes, not roads: floor plate efficiency, units per floor, parking, possession date, maintenance and the developer's track record. If you also want land or a villa, add Shilaj or Vaishno Devi to the shortlist; if you want better value with metro access, add Thaltej.",
+        ],
+        links: [
+          { href: "/luxury-4bhk-ahmedabad", label: "Luxury 4 BHK flats in Ahmedabad" },
+          { href: "/luxury-5bhk-ahmedabad", label: "Luxury 5 BHK flats in Ahmedabad" },
+          { href: "/penthouses-ahmedabad", label: "Penthouses and duplexes" },
+        ],
+      },
+    ],
+    faqs: [
+      { question: "Which is better, Sindhu Bhavan Road or Iscon Ambli Road?", answer: "Neither is better for everyone. Sindhu Bhavan Road suits buyers who want a recognised social address with restaurants, clubs and offices close by. Iscon Ambli Road suits buyers who want newer towers, larger floor plates and a quieter residential road. Compare specific buildings on both before deciding." },
+      { question: "Is Iscon Ambli Road more expensive than Sindhu Bhavan Road?", answer: "Indicatively a little. Luxury apartments trade at about ₹10,000–₹16,000+ per sq.ft. on Iscon Ambli Road and ₹9,000–₹15,000+ on Sindhu Bhavan Road. The bands overlap, and the building, floor, view and possession status move a home's price more than the road does." },
+      { question: "Are Sindhu Bhavan Road and Iscon Ambli Road close to each other?", answer: "Yes. Both are in western Ahmedabad near SG Highway, and both are close to Karnavati Club and Rajpath Club, so many buyers shortlist homes on both roads." },
+      { question: "Which road is better for NRI buyers?", answer: "Both suit NRIs. Sindhu Bhavan Road's name is widely recognised and supports resale. Iscon Ambli Road offers newer buildings with large amenity programmes. For buying from abroad, the developer's delivery record and the building's management usually matter more than the road." },
+    ],
+    relatedListingHrefs: ["/p/iscon-ambli-road", "/p/iscon-ambli-road/luxury-flats/4-bhk"],
+    relatedHubSlugs: ["sg-highway-vs-iscon-ambli-road", "thaltej-vs-bodakdev-investment", "luxury-flats-vs-villas-ahmedabad"],
+    marketSignals: ["Sindhu Bhavan Road: indicatively ₹9,000–₹15,000+ per sq.ft.", "Iscon Ambli Road: indicatively ₹10,000–₹16,000+ per sq.ft.", "Both roads: mainly large 4 and 5 BHK homes, penthouses and duplexes."],
+    publishedAt: "2026-11-07",
+    category: "comparison",
+  },
   // ── Asset Class Comparisons ─────────────────────────────────────────────
   {
     slug: "commercial-property-vs-gold",
