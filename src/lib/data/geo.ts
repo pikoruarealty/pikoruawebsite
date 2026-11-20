@@ -1308,10 +1308,10 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/luxury-apartments-ahmedabad",
     label: "Luxury Apartments",
     eyebrow: "Property Type",
-    title: "Luxury Apartments in Ahmedabad: 4 & 5 BHK Flats",
+    title: "Luxury Flats & Apartments in Ahmedabad: 4 & 5 BHK Prices",
     h1: "Luxury Apartments in Ahmedabad",
     description:
-      "4 and 5 BHK luxury apartments in Ahmedabad: compare Iscon-Ambli, Sindhu Bhavan Road, Thaltej and SG Highway, with private advice for HNI and NRI buyers.",
+      "Luxury 4 & 5 BHK flats in Ahmedabad with current homes and prices by area, such as Sindhu Bhavan Road at about ₹9,000–15,000+ per sq.ft.",
     heroImage: "/properties/swati-senor/swati-senor-2-hall.jpg",
     categories: ["apartment"],
     matchKeywords: [
@@ -2048,10 +2048,10 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
     href: "/penthouses-ahmedabad",
     label: "Penthouses And Duplexes",
     eyebrow: "Property Type",
-    title: "Luxury Penthouses & Duplexes in Ahmedabad",
+    title: "Penthouses in Ahmedabad: Duplex & Sky Villas for Sale",
     h1: "Penthouses and Duplex Homes in Ahmedabad",
     description:
-      "Penthouses in Ahmedabad: luxury duplex homes and sky villas across Iscon-Ambli, Sindhu Bhavan Road, Thaltej and SG Highway, with private advice.",
+      "Penthouses for sale in Ahmedabad on Iscon-Ambli, Sindhu Bhavan Road, Thaltej and SG Highway: current homes, terrace and privacy checks, private viewings.",
     heroImage: "/properties/ikebana/ikebana1.png",
     categories: ["penthouse", "duplex"],
     matchKeywords: ["penthouse", "penthouses", "duplex", "duplex penthouse", "triplex penthouse", "sky villa"],
