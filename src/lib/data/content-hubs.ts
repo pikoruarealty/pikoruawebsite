@@ -97,12 +97,12 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     keyTakeaways: [
       "Choose Sindhu Bhavan Road for the address and the convenience: restaurants, clubs and offices are minutes away, and the road name carries strong resale recall.",
       "Choose Iscon Ambli Road for newer towers, very large floor plates and a calmer residential feel, accepting ongoing construction nearby.",
-      "Prices overlap. Iscon Ambli Road's indicative band starts a little higher per sq.ft., but the building, floor and possession status matter more than the road.",
+      "Prices overlap almost completely. Iscon Ambli Road's indicative band starts slightly lower per sq.ft. (₹8,000 against ₹9,000) and both reach ₹15,000+, so the building, floor and possession status matter more than the road.",
     ],
     comparisonTable: [
       { label: "Character", a: "Lifestyle-led high street: dining, clubs and offices close together", b: "Tower-led residential corridor, quieter than SBR" },
       { label: "Typical luxury homes", a: "Large 4 and 5 BHK apartments, penthouses, duplexes", b: "Large 4 and 5 BHK residences, duplexes, penthouses, sky villas" },
-      { label: "Indicative price", a: "₹9,000–₹15,000+ per sq.ft.", b: "₹10,000–₹16,000+ per sq.ft." },
+      { label: "Indicative price", a: "₹9,000–₹15,000+ per sq.ft.", b: "₹8,000–₹15,000+ per sq.ft." },
       { label: "New vs ready", a: "Ready homes show neighbourhood quality; check parking and road exposure", b: "Meaningful new and under-construction supply; ready homes may carry a premium" },
       { label: "Villas and bungalows", a: "Very few, in adjoining lanes, generally above ₹8 Crore", b: "Limited; buyers wanting land usually compare Shilaj" },
       { label: "Nearby anchors", a: "Taj Skyline, SBR restaurants, Rajpath Club, Karnavati Club", b: "Karnavati Club, Rajpath Club, Ambli–Bopal junction, SG Highway" },
@@ -141,13 +141,13 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     ],
     faqs: [
       { question: "Which is better, Sindhu Bhavan Road or Iscon Ambli Road?", answer: "Neither is better for everyone. Sindhu Bhavan Road suits buyers who want a recognised social address with restaurants, clubs and offices close by. Iscon Ambli Road suits buyers who want newer towers, larger floor plates and a quieter residential road. Compare specific buildings on both before deciding." },
-      { question: "Is Iscon Ambli Road more expensive than Sindhu Bhavan Road?", answer: "Indicatively a little. Luxury apartments trade at about ₹10,000–₹16,000+ per sq.ft. on Iscon Ambli Road and ₹9,000–₹15,000+ on Sindhu Bhavan Road. The bands overlap, and the building, floor, view and possession status move a home's price more than the road does." },
+      { question: "Is Iscon Ambli Road more expensive than Sindhu Bhavan Road?", answer: "Not on current indicative figures. Luxury apartments trade at about ₹8,000–₹15,000+ per sq.ft. on Iscon Ambli Road and ₹9,000–₹15,000+ on Sindhu Bhavan Road. The bands overlap almost completely, and the building, floor, view and possession status move a home's price more than the road does." },
       { question: "Are Sindhu Bhavan Road and Iscon Ambli Road close to each other?", answer: "Yes. Both are in western Ahmedabad near SG Highway, and both are close to Karnavati Club and Rajpath Club, so many buyers shortlist homes on both roads." },
       { question: "Which road is better for NRI buyers?", answer: "Both suit NRIs. Sindhu Bhavan Road's name is widely recognised and supports resale. Iscon Ambli Road offers newer buildings with large amenity programmes. For buying from abroad, the developer's delivery record and the building's management usually matter more than the road." },
     ],
     relatedListingHrefs: ["/p/iscon-ambli-road", "/p/iscon-ambli-road/luxury-flats/4-bhk"],
     relatedHubSlugs: ["sg-highway-vs-iscon-ambli-road", "thaltej-vs-bodakdev-investment", "luxury-flats-vs-villas-ahmedabad"],
-    marketSignals: ["Sindhu Bhavan Road: indicatively ₹9,000–₹15,000+ per sq.ft.", "Iscon Ambli Road: indicatively ₹10,000–₹16,000+ per sq.ft.", "Both roads: mainly large 4 and 5 BHK homes, penthouses and duplexes."],
+    marketSignals: ["Sindhu Bhavan Road: indicatively ₹9,000–₹15,000+ per sq.ft.", "Iscon Ambli Road: indicatively ₹8,000–₹15,000+ per sq.ft.", "Both roads: mainly large 4 and 5 BHK homes, penthouses and duplexes."],
     publishedAt: "2026-11-07",
     category: "comparison",
   },
@@ -496,15 +496,15 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     description: "Comparing Ahmedabad's two premium western corridors for luxury property investment — SG Highway and Iscon Ambli Road. Which delivers better returns in 2026?",
     h1: "SG Highway vs Iscon Ambli Road: Ahmedabad's Two Premium Corridors Compared",
     eyebrow: "Location Analysis · PIKORUA Advisory",
-    intro: "SG Highway and Iscon Ambli Road represent two distinct investment theses in western Ahmedabad. SG Highway is Ahmedabad's connectivity spine — an 8 km arterial linking the airport, GIFT City, and Gandhinagar with the city's corporate clusters. Iscon Ambli Road is Ahmedabad's most exclusive residential address — a 2 km corridor of ultra-premium towers with the highest per-sq.ft. values in the city. Here is how they compare for luxury property buyers in 2026.",
+    intro: "SG Highway and Iscon Ambli Road represent two distinct investment theses in western Ahmedabad. SG Highway is Ahmedabad's connectivity spine — an 8 km arterial linking the airport, GIFT City, and Gandhinagar with the city's corporate clusters. Iscon Ambli Road is Ahmedabad's most exclusive residential address — a 2 km corridor of ultra-premium towers with some of the highest per-sq.ft. values in the city. Here is how they compare for luxury property buyers in 2026.",
     heroImage: H.maruti,
     keyTakeaways: [
-      "Iscon Ambli Road commands Ahmedabad's highest luxury residential pricing — ₹11,000–₹15,000 per sq.ft. — driven by extreme supply scarcity and sustained NRI demand. Appreciation here outperforms SG Highway on a per-sq.ft. basis.",
+      "Iscon Ambli Road sits in Ahmedabad's top luxury price band — indicatively ₹8,000–₹15,000+ per sq.ft., alongside Sindhu Bhavan Road — driven by extreme supply scarcity and sustained NRI demand. Appreciation here outperforms SG Highway on a per-sq.ft. basis.",
       "SG Highway delivers the strongest rental yield of any western corridor (3.5–5% gross) driven by GIFT City commuter demand, corporate cluster proximity, and airport convenience. It is the superior income investment.",
       "NRI buyers disproportionately prefer Iscon Ambli Road for prestige and asset quality. Domestic HNI investors increasingly choose SG Highway for yield and GIFT City exposure.",
     ],
     comparisonTable: [
-      { label: "Price range (luxury)", a: "₹5,500–₹10,000/sq.ft.", b: "₹11,000–₹15,000/sq.ft." },
+      { label: "Price range (luxury)", a: "₹5,500–₹10,000/sq.ft.", b: "₹8,000–₹15,000+/sq.ft." },
       { label: "5-year appreciation", a: "65–82%", b: "85–110%" },
       { label: "Rental yield", a: "3.5–5.0%", b: "2.0–3.0%" },
       { label: "GIFT City commute", a: "12–18 min", b: "25–35 min" },
@@ -534,7 +534,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     ],
     relatedListingHrefs: ["/p/sg-highway/luxury-flats", "/p/iscon-ambli-road/luxury-flats", "/p/sg-highway/luxury-flats/for-investment", "/p/iscon-ambli-road/penthouses"],
     relatedHubSlugs: ["thaltej-vs-bodakdev-investment", "gift-city-investment-guide", "nri-property-investment-guide-ahmedabad"],
-    marketSignals: ["Iscon Ambli Road: ₹11,000–₹15,000/sq.ft. (mid-2026).", "SG Highway gross yield: 3.5–5.0%.", "GIFT City daily commuter workforce: 25,000+ professionals."],
+    marketSignals: ["Iscon Ambli Road: indicatively ₹8,000–₹15,000+/sq.ft. (Nov 2026).", "SG Highway gross yield: 3.5–5.0%.", "GIFT City daily commuter workforce: 25,000+ professionals."],
     publishedAt: "2026-07-21",
     category: "comparison",
   },
@@ -1259,6 +1259,17 @@ export function getContentHubPage(slug: string): ContentHubPage | undefined {
 
 export function getContentHubsByPrefix(prefix: ContentHubPrefix): ContentHubPage[] {
   return ALL_CONTENT_HUB_PAGES.filter((p) => p.prefix === prefix);
+}
+
+/**
+ * The other guides in the same section (/learn, /compare, /invest, /gift-city),
+ * minus the page itself and its Related guides. Shown as a short "More guides"
+ * list so each guide is linked from its siblings, not only from the hub index.
+ * `excludeHrefs` also takes merged pages (page-merges.ts) from the caller.
+ */
+export function getSiblingContentHubs(page: ContentHubPage, excludeHrefs: string[] = []): ContentHubPage[] {
+  const exclude = new Set([page.href, ...excludeHrefs]);
+  return getContentHubsByPrefix(page.prefix).filter((p) => !exclude.has(p.href));
 }
 
 export function getRelatedContentHubs(page: ContentHubPage): ContentHubPage[] {

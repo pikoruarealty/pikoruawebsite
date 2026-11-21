@@ -225,7 +225,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "SBR vs Iscon Ambli Road: which is better for luxury property in Ahmedabad?",
         answer:
-          "Both are Ahmedabad's premium corridors, but they serve different buyer profiles. SBR (Sindhu Bhavan Road) has a more mature, mixed-use character — premium dining, retail, and private clubs within walking distance of residences, and a strong market for bungalows and large-format apartments. Iscon-Ambli Road is newer, quieter, and commands the highest per-sq.ft. pricing in the city — best for penthouses, sky mansions, and buyers who want the address prestige of the most exclusive corridor. PIKORUA Realty advises on both corridors and can guide you based on your specific property type, lifestyle preferences, and investment horizon.",
+          "Both are Ahmedabad's premium corridors, but they serve different buyer profiles. SBR (Sindhu Bhavan Road) has a more mature, mixed-use character — premium dining, retail, and private clubs within walking distance of residences, and a strong market for bungalows and large-format apartments. Iscon-Ambli Road is newer, quieter, and shares the city's top per-sq.ft. price band with SBR — best for penthouses, sky mansions, and buyers who want the address prestige of the most exclusive corridor. PIKORUA Realty advises on both corridors and can guide you based on your specific property type, lifestyle preferences, and investment horizon.",
       },
       {
         question: "What is the best luxury property consultant for Sindhu Bhavan Road?",
@@ -267,7 +267,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
     title: "Luxury Property on Iscon Ambli Road, Ahmedabad",
     h1: "Luxury Property on Iscon Ambli Road",
     description:
-      "Curated luxury apartments, sky mansions, and penthouses on Iscon Ambli Road — Ahmedabad's highest-value luxury residential corridor.",
+      "Curated luxury apartments, sky mansions, and penthouses on Iscon Ambli Road — one of Ahmedabad's top-priced luxury residential corridors.",
     heroImage: "/properties/maruti-360/maruti-360-view.jpg",
     wikipediaUrl: "https://en.wikipedia.org/wiki/Ambli",
     wikidataUrl: "https://www.wikidata.org/wiki/Q26781023",
@@ -330,7 +330,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "Iscon Ambli Road vs SBR: which is better for luxury property in Ahmedabad?",
         answer:
-          "Iscon-Ambli Road is Ahmedabad's highest-priced and most exclusive luxury corridor — best for penthouses, sky mansions, and buyers who want the city's most prestigious residential address. Sindhu Bhavan Road (SBR) is more established and mixed-use, with a broader choice of property types (apartments, bungalows) and stronger lifestyle access (dining, clubs, retail). IAR prices are higher; SBR has a wider market and deeper resale buyer pool. PIKORUA Realty advises on both.",
+          "Iscon-Ambli Road is one of Ahmedabad's two top-priced and most exclusive luxury corridors — best for penthouses, sky mansions, and buyers who want the city's most prestigious residential address. Sindhu Bhavan Road (SBR) is more established and mixed-use, with a broader choice of property types (apartments, bungalows) and stronger lifestyle access (dining, clubs, retail). Prices overlap closely (indicatively ₹8,000–₹15,000+ per sq.ft. on IAR, ₹9,000–₹15,000+ on SBR); SBR has a wider market and deeper resale buyer pool. PIKORUA Realty advises on both.",
       },
       {
         question: "Which are the best luxury projects on Iscon Ambli Road Ahmedabad?",
@@ -340,7 +340,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "What is the average price per sq.ft. on Iskon-Ambli Road in 2026?",
         answer:
-          "Current transactional prices on Iskon-Ambli Road range from ₹11,000 to ₹15,000 per sq.ft. for premium apartments and sky mansions. Signature single-floor penthouses with exclusive terrace rights can exceed this band in best-in-class towers.",
+          "Current prices on Iskon-Ambli Road indicatively range from ₹8,000 to ₹15,000+ per sq.ft. for premium apartments and sky mansions. Signature single-floor penthouses with exclusive terrace rights can exceed this band in best-in-class towers.",
       },
       {
         question: "Are there good international schools near Iskon-Ambli Road, Ahmedabad?",
@@ -352,8 +352,8 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
     bodyContent: [
       "### Iskon-Ambli Road: Ahmedabad's Billionaires' Row",
       "Iskon-Ambli Road, anchored by the ISKCON Temple at one end and extending towards Ambli Circle, is the undisputed pinnacle of Ahmedabad's luxury residential market. Its status derives from a unique combination of structural factors: absolute land scarcity on the main road, the presence of Ahmedabad University within the corridor, premium social infrastructure within walking distance, and a decade-long track record of being the address of choice for Gujarat's most accomplished industrialists, entrepreneurs, and business families.",
-      "### Pricing: ₹11,000 to ₹15,000 per sq.ft.",
-      "Average transactional pricing for premium residential floors on Iskon-Ambli Road currently ranges from ₹11,000 to ₹15,000 per sq.ft., with signature penthouses and private sky mansions commanding premiums beyond this band. This represents a near-tripling of values from 2016 pricing of ₹5,500 per sq.ft. — a compounded appreciation rate driven by demand scarcity, not speculative fever. Under-construction 5 BHK apartments in new towers routinely attract pre-launch interest from existing corridor residents upgrading within the same road.",
+      "### Pricing: indicatively ₹8,000 to ₹15,000+ per sq.ft.",
+      "Average transactional pricing for premium residential floors on Iskon-Ambli Road currently ranges indicatively from ₹8,000 to ₹15,000+ per sq.ft., with signature penthouses and private sky mansions commanding premiums beyond this band. At the top of the band, that is close to three times 2016 pricing of ₹5,500 per sq.ft. — a compounded appreciation rate driven by demand scarcity, not speculative fever. Under-construction 5 BHK apartments in new towers routinely attract pre-launch interest from existing corridor residents upgrading within the same road.",
       "### What the Corridor Offers",
       "The luxury inventory on Iskon-Ambli is dominated by 4 BHK and 5 BHK large-format apartments of 2,000–7,000 sq.ft., in low-density towers of 20–40 units. The best projects feature private lift lobbies, fewer than 4 apartments per floor, wrap-around sundecks, and clubhouses with sky-level pools. Bungalow estates also exist on the arterial roads branching off the main corridor, offering plot sizes of 2,000–5,000 sq.yd. for buyers who prefer horizontal living. These bungalow opportunities rarely reach public markets.",
       "### NRI Demand Dynamics",
@@ -439,7 +439,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "Thaltej vs Iscon Ambli Road: which offers better value for luxury investment?",
         answer:
-          "Thaltej offers better value on a price-per-sq.ft. basis — typically ₹6,500–₹12,000 vs Iscon-Ambli's ₹11,000–₹15,000. For buyers who want large-format apartments or duplex homes at a more accessible entry price in the western luxury belt, Thaltej is the rational choice. Iscon-Ambli's premium is justified for penthouses and sky mansions where the address itself is the product. PIKORUA Realty can model a corridor comparison for your specific requirement.",
+          "Thaltej offers better value on a price-per-sq.ft. basis — typically ₹6,500–₹12,000 vs Iscon-Ambli's indicative ₹8,000–₹15,000+. For buyers who want large-format apartments or duplex homes at a more accessible entry price in the western luxury belt, Thaltej is the rational choice. Iscon-Ambli's premium is justified for penthouses and sky mansions where the address itself is the product. PIKORUA Realty can model a corridor comparison for your specific requirement.",
       },
       {
         question: "What is the average price per sq.ft. in Thaltej Ahmedabad in 2026?",
@@ -685,7 +685,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "What is the luxury property price range near SG Highway Ahmedabad in 2026?",
         answer:
-          "Property prices along and adjacent to SG Highway span ₹5,000–₹15,000 per sq.ft., depending on the sub-corridor: Thaltej and Science City range from ₹6,500–₹12,000; Sindhu Bhavan Road from ₹8,000–₹15,000; and Iskon-Ambli Road from ₹11,000–₹15,000.",
+          "Property prices along and adjacent to SG Highway span ₹5,000–₹15,000 per sq.ft., depending on the sub-corridor: Thaltej and Science City range from ₹6,500–₹12,000; Sindhu Bhavan Road from ₹9,000–₹15,000+; and Iskon-Ambli Road from ₹8,000–₹15,000+.",
       },
       {
         question: "Can NRIs take a home loan for property near SG Highway and what are the applicable tax benefits?",
@@ -700,7 +700,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       "### Why Buyers Search for 'SG Highway' Properties",
       "The search term 'luxury property near SG Highway Ahmedabad' is one of the highest-volume real estate queries in the city — particularly from NRI buyers who know the highway as a landmark but need advisory on which micro-pockets actually offer premium living. The honest answer: the best residential properties are not on the highway itself (too much traffic noise and commercial density), but in the quieter residential streets that branch off it — Thaltej, Iskon-Ambli Road, Sindhu Bhavan Road, and the Bopal-Ambli belt.",
       "### Pricing Range Across the Corridor",
-      "Property prices along and adjacent to SG Highway span the full luxury range: ₹5,000–₹8,000 per sq.ft. in Thaltej and Science City pockets; ₹8,000–₹12,000 per sq.ft. on Sindhu Bhavan Road; and ₹11,000–₹15,000 per sq.ft. on Iskon-Ambli Road. The variance is driven by land scarcity, building quality, and corridor brand recognition. Buyers evaluating 'SG Highway' as a broad geography should approach it as a corridor comparison exercise, not a single market — PIKORUA Realty provides detailed cross-corridor analysis during private advisory.",
+      "Property prices along and adjacent to SG Highway span the full luxury range: ₹5,000–₹8,000 per sq.ft. in Thaltej and Science City pockets; ₹9,000–₹15,000+ per sq.ft. on Sindhu Bhavan Road; and ₹8,000–₹15,000+ per sq.ft. on Iskon-Ambli Road. The variance is driven by land scarcity, building quality, and corridor brand recognition. Buyers evaluating 'SG Highway' as a broad geography should approach it as a corridor comparison exercise, not a single market — PIKORUA Realty provides detailed cross-corridor analysis during private advisory.",
       "### Infrastructure along SG Highway",
       "The Ahmedabad Metro (Phase I: Vastral–Apparel Park east-west line and Motera–APMC north-south line) does not run along SG Highway itself, but the Phase II east-west extension (Gyaspur–Thaltej–Makarba) will add direct metro access to the SG Highway residential belt, significantly improving public transport connectivity. Prahlad Nagar Corporate Road, Science City Road, and the upcoming GIFT City metro spur are additional mid-term infrastructure catalysts.",
       "### Rental Yield and Investment Perspective",
@@ -953,7 +953,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       "### Neighbourhood Character",
       "Unlike the newer SG Highway belt, the Nehru Nagar area has an established, lived-in character — mature trees, older bungalows alongside newer apartment buildings, dense neighbourhood retail, and a self-contained lifestyle.",
       "### Pricing and Value Proposition",
-      "Luxury apartments in new-build buildings near Nehru Nagar price at ₹6,000–₹9,000 per sq.ft., representing a 15–25% discount to comparable floor plates on Iskon-Ambli Road. For buyers with longer investment horizons, Nehru Nagar represents a compelling entry point.",
+      "Luxury apartments in new-build buildings near Nehru Nagar price at ₹6,000–₹9,000 per sq.ft., a clear discount to comparable floor plates on Iskon-Ambli Road. For buyers with longer investment horizons, Nehru Nagar represents a compelling entry point.",
       "### Buyer Profile",
       "Nehru Nagar attracts a distinct buyer segment: value-conscious upgraders who want the connectivity of the western corridor without paying Iskon-Ambli or Sindhu Bhavan Road premiums. This includes younger HNI families in their first or second home purchase, as well as investors who recognise the corridor's proximity advantage relative to its current pricing.",
       "### Outlook and Development Activity",
@@ -1400,7 +1400,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "### What Defines a Truly Luxury Apartment in Ahmedabad",
       "The definition of 'luxury apartment' in Ahmedabad has shifted materially over the past five years. Size alone is no longer sufficient. The strongest residences now compete on a different set of criteria: fewer apartments per floor (the best buildings have 2–4 per floor), private or semi-private lift lobbies, double-height living volumes with ceiling heights above 12 feet, wrap-around sundecks of 400–800 sq.ft., and clubhouse programming that includes sky-level pools, screening rooms, and professional-grade gyms. Buildings that were considered premium in 2018 may not qualify as true luxury by 2026 buyer standards.",
       "### Where Demand is Concentrated",
-      "Luxury apartment demand in Ahmedabad is primarily concentrated in three corridors: Iskon–Ambli Road (indicatively ₹10,000–₹16,000+/sq.ft.), Sindhu Bhavan Road (₹9,000–₹15,000+/sq.ft.), and Thaltej (₹7,000–₹12,500+/sq.ft.). These are indicative asking-price bands as of July 2026, the same as in PIKORUA's area guides, not valuations. Within these corridors, 4 BHK apartments of 2,500–4,000 sq.ft. represent the dominant transaction segment by volume, while 5 BHK apartments and penthouses of 4,500–7,000 sq.ft. represent the highest absolute values. A 5 BHK on Iskon-Ambli Road in a well-specified building routinely transacts between ₹7 Crore and ₹12 Crore for the floor and configuration.",
+      "Luxury apartment demand in Ahmedabad is primarily concentrated in three corridors: Iskon–Ambli Road (indicatively ₹8,000–₹15,000+/sq.ft.), Sindhu Bhavan Road (₹9,000–₹15,000+/sq.ft.), and Thaltej (₹7,000–₹12,500+/sq.ft.). These are indicative asking-price bands as of July 2026, the same as in PIKORUA's area guides, not valuations. Within these corridors, 4 BHK apartments of 2,500–4,000 sq.ft. represent the dominant transaction segment by volume, while 5 BHK apartments and penthouses of 4,500–7,000 sq.ft. represent the highest absolute values. A 5 BHK on Iskon-Ambli Road in a well-specified building routinely transacts between ₹7 Crore and ₹12 Crore for the floor and configuration.",
       "### Key Diligence Points for Luxury Apartment Buyers",
       "Before committing to a luxury apartment purchase in Ahmedabad, buyers should verify: GujRERA registration status and compliance; the approved floor plan versus the marketed floor plate (discrepancies are common in older buildings); lift lobby exclusivity and neighbour count per floor; structural quality of the building (independent structural audit for buildings older than 7 years); terrace and sundeck rights documentation; parking allocation and parking tower quality; and society maintenance fund health. PIKORUA Realty conducts a proprietary evaluation across all these dimensions before any property recommendation.",
       "### NRI Considerations for Apartment Purchases",
@@ -1471,7 +1471,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "What is the price of luxury property in Ahmedabad?",
         answer:
-          "Indicatively, luxury apartments trade at about ₹10,000–₹16,000+ per sq.ft. on Iscon-Ambli Road, ₹9,000–₹15,000+ on Sindhu Bhavan Road, ₹8,000–₹14,000+ in Bodakdev, ₹7,000–₹12,500+ in Thaltej and ₹6,000–₹10,500+ in Shilaj. A luxury 4 BHK typically costs ₹3.5–8 Crore and a 5 BHK ₹6–15 Crore. Villas start around ₹6 Crore in Shilaj, ₹7 Crore in Vaishno Devi and ₹10 Crore in Thaltej. Building, floor, view and possession status move prices within these bands.",
+          "Indicatively, luxury apartments trade at about ₹8,000–₹15,000+ per sq.ft. on Iscon-Ambli Road, ₹9,000–₹15,000+ on Sindhu Bhavan Road, ₹8,000–₹14,000+ in Bodakdev, ₹7,000–₹12,500+ in Thaltej and ₹6,000–₹10,500+ in Shilaj. A luxury 4 BHK typically costs ₹3.5–8 Crore and a 5 BHK ₹6–15 Crore. Villas start around ₹6 Crore in Shilaj, ₹7 Crore in Vaishno Devi and ₹10 Crore in Thaltej. Building, floor, view and possession status move prices within these bands.",
       },
       {
         question: "Which is the best luxury property in Ahmedabad?",
@@ -1504,7 +1504,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "### The Categories Within This Market",
       "Ahmedabad's luxury residential market splits into distinct categories, each with its own buyer profile and diligence lens. Luxury apartments are the broadest and most liquid format. Luxury 4 BHK and 5 BHK are configuration-specific searches driven by family size rather than building type. Penthouses and duplexes sit above standard apartments on privacy and terrace access. Villas offer gated-community independence; bungalows offer fully independent land ownership. Residential plots suit buyers planning a custom-built home over a multi-year horizon. Ultra luxury properties are the scarce, structurally irreplaceable assets at the top of every format. Investment-led properties are chosen primarily for rental yield or capital appreciation rather than self-use. Each of these has its own dedicated page with corridor-specific pricing and a diligence checklist.",
       "### Luxury Property Prices by Area (Indicative, 2026)",
-      "Apartment prices per sq.ft. vary most by corridor. Iscon-Ambli Road sits at the top at about ₹10,000–₹16,000+, followed by Sindhu Bhavan Road at ₹9,000–₹15,000+, Bodakdev at ₹8,000–₹14,000+, SG Highway at ₹6,500–₹14,000+, Vastrapur at ₹7,500–₹13,000+, Thaltej at ₹7,000–₹12,500+, Shilaj at ₹6,000–₹10,500+ and Vaishno Devi at ₹5,500–₹10,000+. By home type, a luxury 4 BHK of 3,000–4,500 sq.ft. typically costs ₹3.5–8 Crore and a 5 BHK of 4,000–6,000 sq.ft. ₹6–15 Crore. Villas are priced from about ₹6–12 Crore+ in Shilaj, ₹7–14 Crore+ in Vaishno Devi and ₹10–20 Crore+ in Thaltej. These are indicative bands; the building, floor, view and possession status decide where a specific home sits, and each area guide explains the spread.",
+      "Apartment prices per sq.ft. vary most by corridor. Iscon-Ambli Road (about ₹8,000–₹15,000+) and Sindhu Bhavan Road (₹9,000–₹15,000+) sit at the top, followed by Bodakdev at ₹8,000–₹14,000+, SG Highway at ₹6,500–₹14,000+, Vastrapur at ₹7,500–₹13,000+, Thaltej at ₹7,000–₹12,500+, Shilaj at ₹6,000–₹10,500+ and Vaishno Devi at ₹5,500–₹10,000+. By home type, a luxury 4 BHK of 3,000–4,500 sq.ft. typically costs ₹3.5–8 Crore and a 5 BHK of 4,000–6,000 sq.ft. ₹6–15 Crore. Villas are priced from about ₹6–12 Crore+ in Shilaj, ₹7–14 Crore+ in Vaishno Devi and ₹10–20 Crore+ in Thaltej. These are indicative bands; the building, floor, view and possession status decide where a specific home sits, and each area guide explains the spread.",
       "### What Serious Buyers Compare",
       "Serious buyers compare more than price per sq.ft. They compare privacy, arrival experience, number of units per floor, construction quality, parking, service access, amenity governance, developer history, title clarity, and future buyer depth. This is where advisory quality matters: the strongest option is rarely the one with the loudest brochure.",
       "### NRI and HNI Demand",
@@ -2033,7 +2033,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "### 5 BHK Is a Scarcity-Led Segment",
       "Luxury 5 BHK homes in Ahmedabad are not simply larger apartments. The best options compete on privacy, layout depth, lift access, sundeck usability, servant circulation, parking allocation, and the quality of the building community. Most towers carry only one or two 5 BHK floor plates per building, so the segment behaves more like a scarcity market than a standard configuration search.",
       "### Typical Sizes and Pricing",
-      "Luxury 5 BHK apartments in Ahmedabad are generally 4,000–6,000 sq.ft., priced between ₹6 Crore and ₹15 Crore depending on corridor, floor, and specification. Iscon Ambli Road commands the highest per-sq.ft. rates for this format; Sindhu Bhavan Road and select SG Highway-connected towers offer comparable floor plates at a modest discount. Penthouse-format 5 BHK homes with private terraces or duplex layouts sit at the top of this range.",
+      "Luxury 5 BHK apartments in Ahmedabad are generally 4,000–6,000 sq.ft., priced between ₹6 Crore and ₹15 Crore depending on corridor, floor, and specification. Iscon Ambli Road and Sindhu Bhavan Road command the highest per-sq.ft. rates for this format; select SG Highway-connected towers offer comparable floor plates at a modest discount. Penthouse-format 5 BHK homes with private terraces or duplex layouts sit at the top of this range.",
       "### Where Supply Is Strongest",
       "Iscon Ambli Road, Sindhu Bhavan Road, Thaltej, and select SG Highway-connected projects carry the strongest 5 BHK relevance. In these corridors, a well-planned 5 BHK can serve as a long-term family residence, NRI return-home asset, or wealth-preservation property. Because supply is genuinely limited, availability shifts quickly and often moves through private buyer networks before public listing.",
       "### 5 BHK vs 4 BHK: Why Buyers Upgrade",
@@ -2124,7 +2124,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "### Pricing in Ahmedabad's Penthouse Market",
       "Top-tier penthouses in Ahmedabad transact between ₹8 Crore and ₹25 Crore depending on corridor, floor height, terrace size, and specification. Signature penthouses on Iskon-Ambli Road and Sindhu Bhavan Road have achieved prices above ₹20 Crore. Duplex homes of 3,500–6,000 sq.ft. typically trade at ₹5 Crore to ₹15 Crore. The key price determinants are terrace rights (legally documented versus informally assumed), private pool rights, building quality, and the existence of fewer than 3 other residences sharing the top two floors.",
       "### Penthouses by Area",
-      "Penthouse and duplex supply in Ahmedabad is concentrated in four western areas. Iskon–Ambli Road has the newest towers, with large 4 and 5 BHK residences, duplexes, penthouses and sky villas (indicatively ₹10,000–₹16,000+ per sq.ft.). Sindhu Bhavan Road pairs penthouses and duplexes with Ahmedabad's main luxury high street (₹9,000–₹15,000+ per sq.ft.). Thaltej offers penthouses and duplexes at a lower entry point (₹7,000–₹12,500+ per sq.ft.), and Vaishno Devi has penthouses alongside larger integrated gated developments (₹5,500–₹10,000+ per sq.ft.). These are each area's editorial asking-price guide bands as of July 2026, not penthouse quotes: top floors, terraces and low-density buildings often sit above them. Each area guide compares schools, access and buyer fit in more detail.",
+      "Penthouse and duplex supply in Ahmedabad is concentrated in four western areas. Iskon–Ambli Road has the newest towers, with large 4 and 5 BHK residences, duplexes, penthouses and sky villas (indicatively ₹8,000–₹15,000+ per sq.ft.). Sindhu Bhavan Road pairs penthouses and duplexes with Ahmedabad's main luxury high street (₹9,000–₹15,000+ per sq.ft.). Thaltej offers penthouses and duplexes at a lower entry point (₹7,000–₹12,500+ per sq.ft.), and Vaishno Devi has penthouses alongside larger integrated gated developments (₹5,500–₹10,000+ per sq.ft.). These are each area's editorial asking-price guide bands as of July 2026, not penthouse quotes: top floors, terraces and low-density buildings often sit above them. Each area guide compares schools, access and buyer fit in more detail.",
       "### What to Check Before Buying a Penthouse",
       "A penthouse's value rests on rights and building details that a site visit alone does not show. Confirm that the terrace, and any private pool, is granted as exclusive use in the agreement and sale deed rather than assumed from a brochure. Inspect waterproofing and top-floor heat management, check lift and service access to the top floors, and ask how many homes share them. Budget for the recurring society costs and upkeep that come with a large terrace. PIKORUA Realty reviews these points with the buyer's advocate before any recommendation.",
       "### Why Most Premium Inventory Is Off-Market",

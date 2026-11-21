@@ -15,6 +15,7 @@ import { InlineEnquirySection } from "@/components/contact/InlineEnquirySection"
 import { ArrowRight, PhoneCall, MapPin, ShieldCheck, Landmark, FileText, CheckCircle2 } from "lucide-react";
 import { NriCurrencyConverter } from "./NriCurrencyConverter";
 import type { ExchangeRates } from "@/lib/exchange-rates";
+import { getExploreLinkGroups } from "@/lib/data/internal-links";
 import {
   NRI_CENTRE_SECTIONS,
   NRI_OFFICIAL_RESOURCES,
@@ -89,6 +90,7 @@ export function LandingPageTemplate({
   initialIsLive = false 
 }: LandingPageTemplateProps) {
   const relatedPages = getRelatedLandingPages(page);
+  const exploreGroups = getExploreLinkGroups(page, relatedPages.map((related) => related.href));
   const collectionHref = getLandingFilterHref(page);
   const isAdvisoryCta = collectionHref.startsWith("/contact");
   const landingAnswer = getLandingShortAnswer(page);
@@ -1017,6 +1019,44 @@ export function LandingPageTemplate({
           pageLabel={page.href}
           audience={page.kind === "nri" ? "nri" : "general"}
         />
+
+        {/* ─── EXPLORE FURTHER (internal links to deeper guides) ─── */}
+        {exploreGroups.length > 0 && (
+          <section className="py-16 lg:py-20 border-b border-white/[0.06]" aria-labelledby="explore-further-heading">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-champagne-gold font-sans mb-3">
+                Explore Further
+              </p>
+              <h2
+                id="explore-further-heading"
+                className="font-display text-[clamp(1.2rem,2.2vw,1.8rem)] font-light uppercase tracking-wider text-ivory mb-10"
+              >
+                More Ways to Search
+              </h2>
+              <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+                {exploreGroups.map((group) => (
+                  <div key={group.heading}>
+                    <h3 className="text-xs font-sans uppercase tracking-[0.18em] text-ivory/60 mb-4">
+                      {group.heading}
+                    </h3>
+                    <ul className="flex flex-wrap gap-2">
+                      {group.links.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            className="inline-flex min-h-[40px] items-center rounded-sm border border-white/[0.09] px-3.5 py-2 text-sm font-sans text-ivory/75 hover:border-champagne-gold/40 hover:text-ivory transition-colors duration-200"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ─── RELATED GUIDES ─── */}
         {relatedPages.length > 0 && (

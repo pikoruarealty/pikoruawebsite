@@ -95,7 +95,12 @@ export function getRenderableGeoPages(): GeoLandingPage[] {
  * DB can still hold the old row as active; a redirecting URL must not be
  * submitted. Keep in sync with the /properties/ redirects in next.config.ts.
  */
-const REDIRECTED_PROPERTY_SLUGS = new Set(["4-5-bhk-penthouse-duplex-7300-15500-sindhu-bhavan"]);
+const REDIRECTED_PROPERTY_SLUGS = new Set(["5-bhk-3300-6300-sindhu-bhavan"]);
+
+/** True when /properties/<slug> redirects elsewhere, so it must not be linked. */
+export function isRedirectedPropertySlug(slug: string): boolean {
+  return REDIRECTED_PROPERTY_SLUGS.has(slug);
+}
 
 /**
  * Property slugs to submit in /sitemap/properties.xml: active DB rows, plus

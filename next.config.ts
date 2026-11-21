@@ -174,9 +174,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        // Ikebana: corrected configuration/size, old slug embedded outdated figures
-        source: "/properties/4-5-bhk-penthouse-duplex-7300-15500-sindhu-bhavan",
-        destination: "/properties/5-bhk-3300-6300-sindhu-bhavan",
+        // Ikebana: the Admin (DB) listing is the confirmed one (4 & 5 BHK
+        // penthouse/duplex, 7,300–15,500 sq.ft., confirmed 21 Nov 2026). The
+        // 20 Jun "5 BHK, 3,300–6,300" slug was unverified; it forwards here.
+        source: "/properties/5-bhk-3300-6300-sindhu-bhavan",
+        destination: "/properties/4-5-bhk-penthouse-duplex-7300-15500-sindhu-bhavan",
         permanent: true,
       },
       {

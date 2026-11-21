@@ -23,6 +23,8 @@ import {
 interface ContentHubTemplateProps {
   page: ContentHubPage;
   relatedPages: ContentHubPage[];
+  /** Other guides in the same section, linked as a short list. */
+  moreGuides?: { href: string; label: string }[];
 }
 
 // ─── Short title helper for clean breadcrumbs ─────────────────────────────────
@@ -69,7 +71,7 @@ function extractCompareLabels(h1: string): { a: string; b: string } {
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN TEMPLATE
 // ─────────────────────────────────────────────────────────────────────────────
-export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplateProps) {
+export function ContentHubTemplate({ page, relatedPages, moreGuides = [] }: ContentHubTemplateProps) {
   const breadcrumbs = buildBreadcrumbs(page);
   // Only link combo URLs the /p/ route can serve (some data hrefs use
   // segments such as "ready-to-move" that don't exist and 404).
@@ -351,6 +353,28 @@ export function ContentHubTemplate({ page, relatedPages }: ContentHubTemplatePro
                 ))}
               </div>
             </div>
+          )}
+
+          {/* ─── More guides in this section ─── */}
+          {moreGuides.length > 0 && (
+            <nav aria-labelledby="more-guides-heading" className="pt-6 border-t border-white/10">
+              <h2 id="more-guides-heading" className="text-xs font-sans uppercase tracking-[0.18em] text-ivory/60 mb-4">
+                More Guides
+              </h2>
+              <ul className="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+                {moreGuides.map((guide) => (
+                  <li key={guide.href} className="border-b border-white/[0.06]">
+                    <Link
+                      href={guide.href}
+                      className="group flex items-center justify-between gap-4 py-3 text-sm font-sans text-ivory/75 hover:text-ivory transition-colors"
+                    >
+                      <span>{guide.label}</span>
+                      <ChevronRight size={14} className="shrink-0 text-champagne-gold/50 group-hover:text-champagne-gold" aria-hidden="true" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           )}
 
         </div>

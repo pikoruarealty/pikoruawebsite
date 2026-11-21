@@ -32,14 +32,15 @@ export interface StaticProperty {
 const ALL_STATIC_PROPERTIES: StaticProperty[] = [
   {
     id: "ikebana",
-    slug: "5-bhk-3300-6300-sindhu-bhavan",
-    seoTitle: "5 BHK Luxury Residences on Sindhu Bhavan Road",
+    slug: "4-5-bhk-penthouse-duplex-7300-15500-sindhu-bhavan",
+    seoTitle: "Penthouses & Duplexes, Sindhu Bhavan Road",
     name: "Ikebana",
     category: "apartment",
     location: "sindhu-bhavan",
+    // Keep "Sindhu Bhavan": /p/sindhubhavan-road combo indexability matches on this label.
     locationLabel: "Sindhu Bhavan",
-    configuration: "5 BHK Luxury Residences",
-    sizeRange: "Approx. 3,300 – 6,300 sq.ft.",
+    configuration: "4 & 5 BHK · Penthouse · Duplex",
+    sizeRange: "7,300 – 15,500 sq.ft.",
     status: "near-possession",
     coverImage: "/properties/ikebana/ikebana1.png",
     images: [
@@ -49,10 +50,10 @@ const ALL_STATIC_PROPERTIES: StaticProperty[] = [
       "/properties/ikebana/ikebana-4.png",
     ],
     isFeatured: true,
-    price: "₹10.50 Cr – ₹15.00 Cr",
+    price: "Price on Request",
     priceOnRequest: true,
     description: [
-      "An exclusive luxury residence on Sindhu Bhavan Road, offering spacious 5 BHK homes, green open spaces, premium amenities, and a highly connected central Ahmedabad address.",
+      "An exclusive luxury residence on Sindhu Bhavan Road, offering 4 and 5 BHK penthouses and duplexes, green open spaces, premium amenities, and a highly connected central Ahmedabad address.",
     ],
     amenitiesSummary: "Sky-level pool, gym, gardens, lounge, sports, library, theatre & more",
     highlights: [
@@ -61,8 +62,8 @@ const ALL_STATIC_PROPERTIES: StaticProperty[] = [
       "Spacious wrap-around sundecks with customizable private plunge pools",
       "Concierge services and robust multi-tiered HNI security systems"
     ],
-    builtUpArea: "Approx. 3,300 – 6,300 sq.ft.",
-    floor: "5 BHK",
+    builtUpArea: "7,300 – 15,500 sq.ft.",
+    floor: "4 & 5 BHK",
     suitableFor: "HNI families looking for premium vertical estates with high privacy and security"
   },
   {

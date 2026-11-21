@@ -9,10 +9,12 @@ import { PropertyEnquiryForm } from "@/components/property/PropertyEnquiryForm";
 import { STATIC_PROPERTIES } from "@/lib/data/properties";
 import { getNriPropertyAdvisory } from "@/lib/data/nri-property-advisory";
 import { getLocationLandingPage } from "@/lib/data/geo";
-import { getSupabasePropertyBySlug, getSupabaseAllPropertySlugs } from "@/lib/db/queries";
+import { getSupabasePropertyBySlug, getSupabaseAllPropertySlugs, getSupabaseProperties } from "@/lib/db/queries";
+import { getSitemapPropertySlugs } from "@/lib/data/public-routes";
+import { getHomeKind, getSimilarProperties, HOME_KIND_PAGES } from "@/lib/data/similar-properties";
 import { PROPERTY_STATUS_LABELS, RESIDENTIAL_CATEGORY_LABELS } from "@/types";
 import { ArrowLeft, ArrowRight, Building2, CalendarCheck, IndianRupee, MapPin, Ruler, ShieldCheck } from "lucide-react";
-import { renderFormattedText } from "@/lib/utils";
+import { renderFormattedText, renderListGuard } from "@/lib/utils";
 import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, generatePropertySchema, serializeJsonLd, SITE_URL } from "@/lib/seo";
 
@@ -105,6 +107,23 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
   ];
 
   const canonicalUrl = absoluteUrl(`/properties/${property.slug}`);
+
+  // "Similar homes": the same set of listings the sitemap submits (active DB
+  // rows plus static entries with no DB row), so every link here is live.
+  const allDbProperties = await getSupabaseProperties();
+  const liveSlugs = new Set(
+    getSitemapPropertySlugs(
+      allDbProperties.map((p) => ({ slug: p.slug, isActive: p.isActive !== false })),
+      STATIC_PROPERTIES.map((p) => p.slug)
+    )
+  );
+  const dbSlugSet = new Set(allDbProperties.map((p) => p.slug));
+  const liveProperties = [
+    ...allDbProperties,
+    ...STATIC_PROPERTIES.filter((p) => !dbSlugSet.has(p.slug)),
+  ].filter((p) => liveSlugs.has(p.slug));
+  const similarProperties = getSimilarProperties(property, liveProperties, 4);
+  const homeKindPage = HOME_KIND_PAGES[getHomeKind(property)];
 
   // Rich RealEstateListing schema: includes numberOfRooms, floorSize,
   // amenityFeature[], GeoCoordinates, and a typed Residence entity.
@@ -604,6 +623,77 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
 
           </div>
         </div>
+
+        {/* ─── SIMILAR HOMES ─── */}
+        {similarProperties.length > 0 && (
+          <section className="border-t border-white/[0.06] py-16 lg:py-20" aria-labelledby="similar-homes-heading">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="mb-3 text-[10px] font-sans uppercase tracking-[0.25em] text-champagne-gold">
+                    Keep Exploring
+                  </p>
+                  <h2
+                    id="similar-homes-heading"
+                    className="font-display text-[clamp(1.4rem,2.6vw,2.2rem)] font-light uppercase tracking-wider text-ivory"
+                  >
+                    Similar Homes
+                  </h2>
+                </div>
+                <div className="flex flex-col gap-2 text-xs font-sans uppercase tracking-[0.16em] sm:flex-row sm:gap-6">
+                  {locationLandingPage && (
+                    <Link
+                      href={locationLandingPage.href}
+                      className="group inline-flex items-center gap-2 text-champagne-gold hover:text-antique-gold transition-colors"
+                    >
+                      {locationLandingPage.label} area guide
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+                    </Link>
+                  )}
+                  <Link
+                    href={homeKindPage.href}
+                    className="group inline-flex items-center gap-2 text-champagne-gold hover:text-antique-gold transition-colors"
+                  >
+                    {homeKindPage.label}
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </Link>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+                {renderListGuard(similarProperties, (similar) => (
+                  <Link
+                    key={similar.slug}
+                    href={`/properties/${similar.slug}`}
+                    className="group block overflow-hidden rounded-sm border border-white/[0.07] bg-soft-black/50 transition-all duration-300 hover:border-champagne-gold/35"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-soft-black">
+                      {similar.coverImage ? (
+                        <Image
+                          src={similar.coverImage}
+                          alt={`${similar.configuration} in ${similar.locationLabel}, Ahmedabad`}
+                          fill
+                          quality={70}
+                          sizes="(max-width: 1024px) 50vw, 25vw"
+                          className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
+                        />
+                      ) : null}
+                    </div>
+                    <div className="p-3.5 sm:p-5">
+                      <p className="mb-2 text-[9px] sm:text-[10px] font-sans uppercase tracking-[0.18em] text-champagne-gold/80">
+                        {similar.locationLabel}
+                      </p>
+                      <h3 className="font-display text-sm sm:text-base uppercase leading-tight tracking-wide text-ivory">
+                        {similar.configuration}
+                      </h3>
+                      <p className="mt-2 text-xs sm:text-sm font-sans text-ivory/50">{similar.sizeRange}</p>
+                    </div>
+                  </Link>
+                ), null)}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </>

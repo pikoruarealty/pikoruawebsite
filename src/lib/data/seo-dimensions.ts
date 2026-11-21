@@ -45,8 +45,8 @@ export const SEO_LOCATIONS: SeoDimLocation[] = [
     area: "Iscon Ambli Road",
     weight: 10,
     marketNote:
-      "Ahmedabad's highest-value residential corridor commanding ₹11,000–₹15,000 per sq.ft. with ultra-low supply.",
-    priceContext: "₹11,000–₹15,000 per sq.ft.",
+      "One of Ahmedabad's two top-priced luxury corridors, alongside Sindhu Bhavan Road — indicatively ₹8,000–₹15,000+ per sq.ft. with ultra-low supply.",
+    priceContext: "₹8,000–₹15,000+ per sq.ft.",
     lifestyle:
       "Minutes from ISKCON Temple, premium schools, and Ambli Road's lifestyle infrastructure.",
     coordinates: { lat: "23.0246", lng: "72.5074" },
@@ -59,7 +59,7 @@ export const SEO_LOCATIONS: SeoDimLocation[] = [
     weight: 10,
     marketNote:
       "Ahmedabad's most recognised luxury address — 4 km of premium dining, clubs, and residential towers.",
-    priceContext: "₹8,000–₹15,000 per sq.ft.",
+    priceContext: "₹9,000–₹15,000+ per sq.ft.",
     lifestyle:
       "Immediate access to Karnavati Club, Rajpath Club, and Sindhu Bhavan's lifestyle strip.",
     coordinates: { lat: "23.0392", lng: "72.5071" },
@@ -135,8 +135,8 @@ export const SEO_LOCATIONS: SeoDimLocation[] = [
     area: "Ambli",
     weight: 7,
     marketNote:
-      "Adjacent to Iscon Ambli Road — offers comparable lifestyle at 15–25% lower entry pricing.",
-    priceContext: "₹6,000–₹11,000 per sq.ft.",
+      "Adjacent to Iscon Ambli Road — comparable lifestyle, in the same indicative price band.",
+    priceContext: "₹8,000–₹15,000+ per sq.ft.",
     lifestyle:
       "Adjacent to Iscon Ambli Road lifestyle infrastructure with improving connectivity.",
     coordinates: { lat: "23.0283", lng: "72.4985" },

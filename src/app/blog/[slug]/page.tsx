@@ -12,6 +12,7 @@ import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { getLandingPagesBySlugs, getRelatedLandingPagesForText } from "@/lib/data/geo";
 import { AUTOMATED_BYLINE } from "@/lib/ai/blogQuality";
+import { getRelatedPosts } from "@/lib/data/related-posts";
 import { getAutomatedPostDisclaimers, GUJRERA_AGENT_REGISTRATION_NO } from "@/lib/data/blog-disclaimers";
 
 interface BlogPostPageProps {
@@ -62,6 +63,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const relatedLandingPages = post.relatedLandingSlugs?.length
     ? getLandingPagesBySlugs(post.relatedLandingSlugs)
     : getRelatedLandingPagesForText(`${post.title} ${post.excerpt} ${post.htmlContent ? post.htmlContent.replace(/<[^>]+>/g, " ") : post.content.join(" ")}`);
+
+  // Same publication rule as /blog and /sitemap/blog.xml, so every link is live.
+  const relatedPosts = getRelatedPosts(post, getPublishedBlogPosts(await getSupabaseBlogs(false)), 3);
 
   const canonicalUrl = absoluteUrl(`/blog/${post.slug}`);
   const bodyText = post.htmlContent ? post.htmlContent.replace(/<[^>]+>/g, " ") : post.content.join(" ");
@@ -370,6 +374,35 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </Link>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* More posts: each post linked from a few others, not only /blog */}
+            {relatedPosts.length > 0 && (
+              <div className="mt-16 lg:mt-20 max-w-3xl mx-auto">
+                <p className="text-[10px] uppercase tracking-[0.25em] text-champagne-gold font-sans mb-6">
+                  More from the Journal
+                </p>
+                <ul className="divide-y divide-white/[0.06] border-y border-white/[0.06]">
+                  {relatedPosts.map((related) => (
+                    <li key={related.slug}>
+                      <Link
+                        href={`/blog/${related.slug}`}
+                        className="group flex items-start justify-between gap-6 py-5"
+                      >
+                        <span>
+                          <span className="block text-[10px] uppercase tracking-[0.2em] text-ivory/35 font-sans">
+                            {related.categoryLabel}
+                          </span>
+                          <span className="mt-2 block font-display text-base sm:text-lg uppercase tracking-wide text-ivory group-hover:text-champagne-gold transition-colors leading-snug">
+                            {related.title}
+                          </span>
+                        </span>
+                        <span className="mt-6 text-champagne-gold/60 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true">→</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 

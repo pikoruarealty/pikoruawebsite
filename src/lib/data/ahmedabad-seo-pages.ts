@@ -68,7 +68,7 @@ export const AHMEDABAD_TYPE_PAGES: GeoLandingPage[] = [
       "Ahmedabad's luxury flat market is concentrated in five prime western corridors — Iscon Ambli Road, Sindhu Bhavan Road, Thaltej, SG Highway, and Bodakdev. PIKORUA Realty provides private advisory access to curated 3 BHK, 4 BHK, and 5 BHK luxury flats with verified developer credentials, RERA compliance checks, and discreet negotiation support.",
     marketSignals: [
       "Premium demand is highest for 4 BHK and 5 BHK large-format flats in low-density towers with private lift lobbies.",
-      "Iscon Ambli Road commands ₹11,000–₹15,000 per sq.ft. — the highest luxury residential pricing in Ahmedabad.",
+      "Iscon Ambli Road and Sindhu Bhavan Road share Ahmedabad's top luxury price band: indicatively ₹8,000–₹15,000+ and ₹9,000–₹15,000+ per sq.ft.",
       "NRI buyers from the USA, UK, UAE, and Canada actively shortlist Ahmedabad luxury flats for family use and investment.",
     ],
     idealFor: [
@@ -104,7 +104,7 @@ export const AHMEDABAD_TYPE_PAGES: GeoLandingPage[] = [
       "### What Defines a True Luxury Flat in 2026",
       "The benchmark for luxury has shifted. A 2026-grade luxury flat in Ahmedabad should offer fewer than six apartments per floor (ideally two to four), private or semi-private lift lobbies, ceiling heights above 11 feet, large balconies or wrap-around sundecks of 300–700 sq.ft., dry and wet utility separation, double-glazed windows, and a clubhouse with a lap pool, professional gym, and social spaces. Buildings without these features may be marketed as luxury but command lower resale premiums.",
       "### Pricing Context",
-      "Premium luxury flats in Ahmedabad trade in a range of ₹8,000–₹15,000 per sq.ft. depending on corridor, floor level, and specification. Iscon Ambli Road leads at ₹11,000–₹15,000 per sq.ft. for genuinely low-density, fully specified towers. Sindhu Bhavan Road ranges ₹8,000–₹14,000 per sq.ft. depending on building age and lane. Thaltej and SG Highway offer strong value in the ₹6,500–₹10,000 band for buyers who want connectivity over address prestige.",
+      "Premium luxury flats in Ahmedabad trade in a range of ₹8,000–₹15,000 per sq.ft. depending on corridor, floor level, and specification. Iscon Ambli Road is indicatively ₹8,000–₹15,000+ per sq.ft., with the top of the band reserved for genuinely low-density, fully specified towers. Sindhu Bhavan Road ranges ₹9,000–₹15,000+ per sq.ft. depending on building age and lane. Thaltej and SG Highway offer strong value in the ₹6,500–₹10,000 band for buyers who want connectivity over address prestige.",
     ],
   },
 
@@ -610,7 +610,7 @@ export const AHMEDABAD_FILTER_PAGES: GeoLandingPage[] = [
     marketSignals: ["3 BHK luxury flats have the broadest buyer depth in Ahmedabad — ideal for both family self-use and investor exit liquidity.", "Strong rental demand from corporate professionals and NRI family members visiting Ahmedabad for extended stays."],
     idealFor: ["HNI families seeking a spacious primary or secondary Ahmedabad residence.", "NRIs wanting a comfortable India home that can be rented when unoccupied.", "Investors seeking the most liquid luxury residential format for future resale."],
     faqs: [
-      { question: "What is the price of a 3 BHK luxury flat in Ahmedabad?", answer: "3 BHK luxury flats in Ahmedabad are priced between ₹2.5 Cr and ₹5.5 Cr depending on corridor, floor, and specification. Iscon Ambli Road commands the highest per sq.ft. pricing; SG Highway and Thaltej offer strong value." },
+      { question: "What is the price of a 3 BHK luxury flat in Ahmedabad?", answer: "3 BHK luxury flats in Ahmedabad are priced between ₹2.5 Cr and ₹5.5 Cr depending on corridor, floor, and specification. Iscon Ambli Road and Sindhu Bhavan Road command the highest per sq.ft. pricing; SG Highway and Thaltej offer strong value." },
       { question: "Which areas have the best 3 BHK luxury flats in Ahmedabad?", answer: "Iscon Ambli Road, Sindhu Bhavan Road, Thaltej, and SG Highway are the primary corridors for luxury 3 BHK flats in Ahmedabad. Each offers different lifestyle access, pricing, and resale depth." },
     ],
     bodyContent: ["### The 3 BHK Luxury Segment", "The 3 BHK luxury segment is the deepest and most liquid part of Ahmedabad's premium residential market. At 1,800–2,800 sq.ft. with specifications including private balconies, clubhouse access, and quality construction, these homes appeal to a broad buyer pool — from young families and corporate professionals to NRI buyers seeking a manageable, premium India base. Resale liquidity is the highest of any luxury format in the city."],
@@ -635,7 +635,7 @@ export const AHMEDABAD_FILTER_PAGES: GeoLandingPage[] = [
     idealFor: ["HNI families upgrading from a 3 BHK to a large-format luxury apartment.", "NRIs seeking a spacious, prestigious India home with strong resale depth.", "Investors targeting the most actively transacted luxury segment for exit liquidity."],
     faqs: [
       { question: "What is the price of a 4 BHK luxury flat in Ahmedabad?", answer: "4 BHK luxury flats in Ahmedabad range from ₹4 Cr to ₹9 Cr depending on corridor, floor, specification, and building quality. Iscon Ambli Road and Sindhu Bhavan Road command the highest pricing." },
-      { question: "Where are the best 4 BHK luxury flats in Ahmedabad?", answer: "The finest 4 BHK luxury apartments are on Iscon Ambli Road (₹11,000–₹15,000/sq.ft.), Sindhu Bhavan Road (₹8,000–₹14,000/sq.ft.), and Thaltej (₹7,000–₹10,000/sq.ft.). PIKORUA Realty provides curated shortlists across all three corridors." },
+      { question: "Where are the best 4 BHK luxury flats in Ahmedabad?", answer: "The finest 4 BHK luxury apartments are on Iscon Ambli Road (indicatively ₹8,000–₹15,000+/sq.ft.), Sindhu Bhavan Road (₹9,000–₹15,000+/sq.ft.), and Thaltej (₹7,000–₹12,500+/sq.ft.). PIKORUA Realty provides curated shortlists across all three corridors." },
     ],
     bodyContent: ["### 4 BHK Luxury: The HNI Flagship Format", "The 4 BHK luxury apartment in Ahmedabad is the HNI flagship format — large enough for a joint family, prestigious enough to serve as a primary address, and liquid enough to sell within a reasonable timeline when needed. At 2,500–4,000 sq.ft., a well-specified 4 BHK luxury flat on Iscon Ambli Road or Sindhu Bhavan Road matches the livability of many independent villas while offering tower security, managed amenities, and stronger resale buyer depth."],
   },
@@ -701,7 +701,7 @@ export const AHMEDABAD_FILTER_PAGES: GeoLandingPage[] = [
     intro: "4 BHK penthouses in Ahmedabad combine generous living space with sky-level privacy — the most balanced penthouse format for HNI families wanting both comfort and prestige.",
     marketSignals: ["4 BHK penthouse is the most sought-after format in Ahmedabad's sky-residence market."],
     idealFor: ["HNI families seeking the finest large-format penthouse in western Ahmedabad.", "NRIs wanting a prestige India address with private terrace and premium amenities."],
-    faqs: [{ question: "What is the price of a 4 BHK penthouse in Ahmedabad?", answer: "4 BHK penthouses in Ahmedabad range from ₹6–12 Cr depending on location, terrace size, and specification. Iscon Ambli Road commands the highest premium." }],
+    faqs: [{ question: "What is the price of a 4 BHK penthouse in Ahmedabad?", answer: "4 BHK penthouses in Ahmedabad range from ₹6–12 Cr depending on location, terrace size, and specification. Iscon Ambli Road and Sindhu Bhavan Road command the highest premiums." }],
     bodyContent: ["### The 4 BHK Penthouse: Ahmedabad's Prestige Flagship", "A 4 BHK penthouse in Ahmedabad represents the sweet spot between livability and exclusivity. At 3,500–5,500 sq.ft. across a single high floor with dedicated terrace, these residences offer the full penthouse experience — private sky access, panoramic views, and luxury specification — while maintaining a practical family living footprint."],
   },
   {
@@ -999,7 +999,7 @@ export const AHMEDABAD_LONGTAIL_PAGES: GeoLandingPage[] = [
     intro: "3 BHK luxury flats are the most actively transacted premium format in Ahmedabad — wide buyer depth, strong rental demand, and consistent capital appreciation across all prime western corridors.",
     marketSignals: ["3 BHK luxury flats have the deepest buyer pool and shortest resale timelines of any premium format in Ahmedabad.", "The ₹2.5–5 Cr 3 BHK segment accounts for over 60% of luxury residential transactions in western Ahmedabad."],
     idealFor: ["HNI families seeking a spacious primary or secondary Ahmedabad home.", "NRIs wanting a balance of space, manageability, and investment liquidity.", "First-time luxury buyers entering the premium residential market."],
-    faqs: [{ question: "What is the price of 3 BHK luxury flats in Ahmedabad?", answer: "3 BHK luxury flats in Ahmedabad range from ₹2.5 Cr to ₹5.5 Cr across prime western corridors. Iscon Ambli Road commands the highest pricing; SG Highway and Thaltej offer strong value at lower price points." }],
+    faqs: [{ question: "What is the price of 3 BHK luxury flats in Ahmedabad?", answer: "3 BHK luxury flats in Ahmedabad range from ₹2.5 Cr to ₹5.5 Cr across prime western corridors. Iscon Ambli Road and Sindhu Bhavan Road command the highest pricing; SG Highway and Thaltej offer strong value at lower price points." }],
     bodyContent: ["### The 3 BHK Luxury Sweet Spot", "At 1,800–2,800 sq.ft. with quality finishes, private balconies, and full clubhouse access, the 3 BHK luxury flat in Ahmedabad is the market's sweet spot — spacious enough for a growing family, liquid enough for investors, and affordable enough to attract the broadest buyer pool across all prime western corridors."],
   },
   {
@@ -1092,7 +1092,7 @@ export const AHMEDABAD_LONGTAIL_PAGES: GeoLandingPage[] = [
     ],
     bodyContent: [
       "### Corridor-Level Investment Analysis",
-      "**Iscon Ambli Road**: Highest per-sq.ft. pricing (₹11,000–₹15,000), strongest scarcity, lowest rental yield but highest capital appreciation. Best for long-term appreciation investors.",
+      "**Iscon Ambli Road**: Top per-sq.ft. band, shared with Sindhu Bhavan Road (indicatively ₹8,000–₹15,000+), strongest scarcity, lowest rental yield but highest capital appreciation. Best for long-term appreciation investors.",
       "**Sindhu Bhavan Road**: Strong lifestyle access, mixed-use character, deep buyer recognition. Pricing ₹8,000–₹14,000/sq.ft. Best for self-use buyers who also want investment upside.",
       "**Thaltej**: Excellent connectivity, broader price range (₹6,500–₹11,000/sq.ft.), stronger rental yield from corporate tenants. Best for balanced yield-plus-appreciation investors.",
       "**SG Highway**: Corporate tenant demand from GIFT City and business district drives rental yield. Pricing more accessible at ₹5,500–₹9,000/sq.ft. Best for yield-focused investors.",

@@ -69,7 +69,7 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     intro:
       "Thaltej is one of western Ahmedabad's most connected luxury residential corridors — offering premium apartment developments within 10 minutes of SG Highway, Iscon Ambli Road, and Science City, while maintaining a residential character distinct from the more commercial Sindhu Bhavan Road belt.",
     marketSignals: [
-      "Thaltej luxury apartment pricing ranges ₹6,500–₹11,000 per sq.ft. — strong value compared to Iscon Ambli Road's ₹11,000–₹15,000 band.",
+      "Thaltej luxury apartment pricing ranges ₹6,500–₹11,000 per sq.ft. — strong value compared to Iscon Ambli Road's indicative ₹8,000–₹15,000+ band.",
       "Corporate rental demand in Thaltej is driven by SG Highway business district and GIFT City proximity.",
       "New luxury developments in Thaltej are quickly absorbed due to limited new land availability in the inner Thaltej precinct.",
     ],
@@ -646,7 +646,7 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     intro:
       "Ambli is the residential suburb adjacent to the Iscon Ambli Road luxury corridor — offering premium apartment quality at pricing below the inner Iscon Ambli band, with shared connectivity to the same premium lifestyle infrastructure.",
     marketSignals: [
-      "Ambli luxury apartment pricing ranges ₹6,000–₹11,000 per sq.ft. — competitive versus inner Iscon Ambli at ₹11,000–₹15,000.",
+      "Ambli (Bopal–Ambli Road) luxury apartment pricing is indicatively ₹8,000–₹15,000+ per sq.ft. — the same broad band as Iscon Ambli Road; the building, floor and view decide where a home sits.",
       "Proximity to ISKCON Temple Ahmedabad and Ambli road infrastructure supports strong family-use and NRI buyer demand.",
     ],
     idealFor: [
@@ -659,7 +659,7 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     ],
     bodyContent: [
       "### Ambli: Adjacency Premium at Lower Entry",
-      "Ambli's investment case is rooted in its adjacency to Iscon Ambli Road — Ahmedabad's highest-value luxury residential corridor. Inner Ambli developments share access to the same lifestyle infrastructure (premium dining, international schools, private clubs) while pricing below the Iscon Ambli band. As the western residential belt continues to fill in, the price gap between inner Ambli and Iscon Ambli Road has historically narrowed — creating an appreciation story for patient investors.",
+      "Ambli's investment case is rooted in its adjacency to Iscon Ambli Road — one of Ahmedabad's top-priced luxury residential corridors. Inner Ambli developments share access to the same lifestyle infrastructure (premium dining, international schools, private clubs) and now price in the same broad band as Iscon Ambli Road (indicatively ₹8,000–₹15,000+ per sq.ft.). As the western residential belt continues to fill in, the gap between inner Ambli and Iscon Ambli Road has narrowed — creating an appreciation story for patient investors.",
     ],
   },
   {
@@ -694,7 +694,7 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     title: "Luxury Flats on Iscon Ambli Road Ahmedabad — Premium Sky Residences",
     h1: "Luxury Flats on Iscon Ambli Road, Ahmedabad",
     description:
-      "The finest luxury flats on Iscon Ambli Road, Ahmedabad — curated 4 BHK & 5 BHK sky residences in Ahmedabad's highest-value corridor at ₹11,000–₹15,000 per sq.ft.",
+      "The finest luxury flats on Iscon Ambli Road, Ahmedabad — curated 4 BHK & 5 BHK sky residences in one of Ahmedabad's top-priced corridors at an indicative ₹8,000–₹15,000+ per sq.ft.",
     heroImage: HERO.maruti,
     categories: ["apartment", "penthouse"],
     matchKeywords: ["iscon ambli", "iscon ambli road flat", "iscon ambli luxury", "iskcon ambli"],
@@ -712,9 +712,9 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     ],
     collectionHref: "/properties",
     intro:
-      "Iscon Ambli Road is Ahmedabad's highest-value luxury residential corridor — commanding ₹11,000–₹15,000 per sq.ft. for the finest apartments and penthouses in low-density, private-lobby towers with panoramic western Ahmedabad views.",
+      "Iscon Ambli Road is one of Ahmedabad's two top-priced luxury residential corridors, alongside Sindhu Bhavan Road — indicatively ₹8,000–₹15,000+ per sq.ft. for the finest apartments and penthouses in low-density, private-lobby towers with panoramic western Ahmedabad views.",
     marketSignals: [
-      "Iscon Ambli Road commands Ahmedabad's highest luxury residential prices — consistently the most appreciated corridor over 5-year periods.",
+      "Iscon Ambli Road shares Ahmedabad's top luxury residential price band with Sindhu Bhavan Road — consistently the most appreciated corridor over 5-year periods.",
       "Annual transaction volumes on Iscon Ambli Road are in double digits — ultra-scarcity defines the market.",
       "NRI buyers from USA, UK, and UAE specifically request Iscon Ambli Road addresses for their flagship India homes.",
     ],
@@ -725,19 +725,19 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     ],
     faqs: [
       {
-        question: "Why is Iscon Ambli Road the most expensive luxury address in Ahmedabad?",
+        question: "Why is Iscon Ambli Road one of the most expensive luxury addresses in Ahmedabad?",
         answer:
           "Iscon Ambli Road combines ultra-low supply (very few new buildings can be constructed on the corridor due to land constraints), high-specification buildings with private lift lobbies and low unit density, strong NRI and HNI buyer demand, and address prestige that travels internationally within the Gujarati diaspora.",
       },
       {
         question: "What is the price per sq.ft. on Iscon Ambli Road Ahmedabad?",
         answer:
-          "Luxury apartments on Iscon Ambli Road, Ahmedabad trade between ₹11,000 and ₹15,000 per sq.ft. for well-specified 4 and 5 BHK units in premium buildings. Penthouses with private terraces can command above ₹15,000 per sq.ft.",
+          "Luxury apartments on Iscon Ambli Road, Ahmedabad indicatively trade between ₹8,000 and ₹15,000+ per sq.ft. for well-specified 4 and 5 BHK units in premium buildings. Penthouses with private terraces can command above ₹15,000 per sq.ft.",
       },
     ],
     bodyContent: [
       "### Iscon Ambli Road: Ahmedabad's Luxury Apex",
-      "Iscon Ambli Road is defined by three unique characteristics: the highest per-sq.ft. residential pricing in Ahmedabad; the most stringent scarcity of available inventory; and the strongest long-term capital appreciation of any western corridor. Buildings on Iscon Ambli Road compete on very different criteria from buildings elsewhere in the city — floor count, units per floor (the best buildings have 2–4), private lobby exclusivity, sky-level views, and the quality of the developer's previous portfolio are the defining differentiators.",
+      "Iscon Ambli Road is defined by three unique characteristics: the top per-sq.ft. residential price band in Ahmedabad, shared with Sindhu Bhavan Road; the most stringent scarcity of available inventory; and the strongest long-term capital appreciation of any western corridor. Buildings on Iscon Ambli Road compete on very different criteria from buildings elsewhere in the city — floor count, units per floor (the best buildings have 2–4), private lobby exclusivity, sky-level views, and the quality of the developer's previous portfolio are the defining differentiators.",
       "### Who Buys on Iscon Ambli Road",
       "The Iscon Ambli Road buyer is a distinct profile: an HNI family upgrading from a mid-western corridor who wants the city's definitive luxury address; an NRI from USA or UK purchasing India's finest residential format for multi-generational family use; or a private investor who understands that scarcity is Ahmedabad's most reliable real estate value driver. PIKORUA Realty's private advisory access to Iscon Ambli Road inventory is a core part of our value proposition for buyers in this tier.",
     ],
@@ -751,7 +751,7 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     title: "Penthouses on Iscon Ambli Road Ahmedabad — Sky Mansions",
     h1: "Penthouses on Iscon Ambli Road, Ahmedabad",
     description:
-      "The rarest residential format in Ahmedabad — penthouses on Iscon Ambli Road with private terraces, plunge pools & panoramic city views in Ahmedabad's highest-value corridor.",
+      "The rarest residential format in Ahmedabad — penthouses on Iscon Ambli Road with private terraces, plunge pools & panoramic city views in one of Ahmedabad's top-priced corridors.",
     heroImage: HERO.ikebana,
     categories: ["penthouse"],
     matchKeywords: ["iscon ambli penthouse", "penthouse iscon ambli road", "sky mansion iscon ambli"],
@@ -763,7 +763,7 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     relatedSlugs: ["iscon-ambli-luxury-flats", "iskon-ambli", "ahmedabad-penthouses-5-bhk", "ahmedabad-penthouses"],
     collectionHref: "/properties?category=penthouse",
     intro:
-      "Penthouses on Iscon Ambli Road are the rarest and most valuable residential assets in Ahmedabad — sky mansions in the city's highest-value corridor, transacted exclusively through private advisory networks.",
+      "Penthouses on Iscon Ambli Road are the rarest and most valuable residential assets in Ahmedabad — sky mansions in one of the city's top-priced corridors, transacted exclusively through private advisory networks.",
     marketSignals: [
       "Fewer than 5 genuine penthouse transactions occur on Iscon Ambli Road annually — the rarest residential sub-market in Ahmedabad.",
       "Iscon Ambli Road penthouse pricing is above ₹10 Cr for the finest 5,000+ sq.ft. units with private pools.",
@@ -781,7 +781,7 @@ export const AHMEDABAD_LOCATION_PAGES: GeoLandingPage[] = [
     ],
     bodyContent: [
       "### Ahmedabad's Rarest Asset",
-      "A penthouse on Iscon Ambli Road is the rarest residential asset in Ahmedabad's market. The combination of the city's highest corridor pricing (₹11,000–₹15,000 per sq.ft. for standard floors), a penthouse premium (20–40% above standard floor), and ultra-scarcity (fewer than 5 annual transactions) creates a market where price discovery happens entirely through private advisory relationships.",
+      "A penthouse on Iscon Ambli Road is the rarest residential asset in Ahmedabad's market. The combination of the city's top corridor price band (indicatively ₹8,000–₹15,000+ per sq.ft. for standard floors), a penthouse premium (20–40% above standard floor), and ultra-scarcity (fewer than 5 annual transactions) creates a market where price discovery happens entirely through private advisory relationships.",
       "PIKORUA Realty's access to Iscon Ambli Road penthouse inventory is maintained through long-term relationships with building owners, developers, and the private buyer community — not through public portal aggregation. Contact us privately for a confidential shortlist.",
     ],
   },

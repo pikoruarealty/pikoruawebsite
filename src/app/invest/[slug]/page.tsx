@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ContentHubTemplate } from "@/components/seo/ContentHubTemplate";
+import { PAGE_MERGES } from "@/lib/data/page-merges";
 import { linkableHrefs } from "@/lib/data/combo-indexable";
 import {
   getContentHubsByPrefix,
   getContentHubPage,
   getRelatedContentHubs,
+  getSiblingContentHubs,
 } from "@/lib/data/content-hubs";
 import { absoluteUrl, createMetadata, serializeJsonLd, SITE_URL } from "@/lib/seo";
 import { ENTITY_IDS } from "@/lib/entity-profile";
@@ -38,6 +40,10 @@ export default async function InvestPage({ params }: PageProps) {
   if (!page || page.prefix !== "invest") notFound();
 
   const relatedPages = getRelatedContentHubs(page);
+  const moreGuides = getSiblingContentHubs(page, [
+    ...relatedPages.map((related) => related.href),
+    ...Object.keys(PAGE_MERGES),
+  ]).map((guide) => ({ href: guide.href, label: guide.h1 }));
   const pageUrl = absoluteUrl(page.href);
 
   const articleSchema = {
@@ -82,6 +88,7 @@ export default async function InvestPage({ params }: PageProps) {
       <ContentHubTemplate
         page={{ ...page, relatedListingHrefs: linkableHrefs(page.relatedListingHrefs) }}
         relatedPages={relatedPages}
+        moreGuides={moreGuides}
       />
     </>
   );

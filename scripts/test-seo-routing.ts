@@ -84,7 +84,7 @@ const propertySlugs = getSitemapPropertySlugs(
     { slug: staticA, isActive: false },
     { slug: "db-only-active", isActive: true },
     { slug: "db-only-inactive", isActive: false },
-    { slug: "4-5-bhk-penthouse-duplex-7300-15500-sindhu-bhavan", isActive: true },
+    { slug: "5-bhk-3300-6300-sindhu-bhavan", isActive: true },
   ],
   [staticA, staticB]
 );

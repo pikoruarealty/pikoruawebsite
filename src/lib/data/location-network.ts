@@ -75,7 +75,7 @@ const PROFILES: LocationProfile[] = [
     group: "Established luxury area",
     positioning: "A tower-led ultra-luxury corridor suited to buyers seeking very large floor plates, newer specifications and proximity to western Ahmedabad's premium social circuit.",
     formats: "Large 4 and 5 BHK residences, duplexes, penthouses and sky villas, with fewer entry-level configurations.",
-    range: "Indicatively ₹10,000–₹16,000+ per sq.ft.; tower, floor, view, possession and developer track record create a wide spread.",
+    range: "Indicatively ₹8,000–₹15,000+ per sq.ft.; tower, floor, view, possession and developer track record create a wide spread.",
     newVsReady: "The corridor has meaningful new and under-construction supply; ready inventory reduces execution risk but may carry a scarcity premium.",
     schoolsAndHospitals: "Schools around Bopal, Bodakdev and Thaltej plus Zydus and Shalby hospitals are reachable, but daily school routing should be tested.",
     clubsAndDining: "Close to Karnavati Club, Rajpath Club, SBR dining and premium hotels, while the road itself remains more residential than SBR.",
