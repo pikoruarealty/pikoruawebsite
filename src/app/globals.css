@@ -11,6 +11,8 @@
   --champagne-gold: #C8A45D;
   --antique-gold: #9B7A36;
   --muted-gold: #D8C28A;
+  /* WhatsApp's own brand green, used only for its logo */
+  --whatsapp: #25D366;
 
   /* ── shadcn/ui semantic layer (mapped to PIKORUA tokens) ── */
   --background: var(--lux-black);
@@ -43,6 +45,7 @@
   --color-champagne-gold: var(--champagne-gold);
   --color-antique-gold: var(--antique-gold);
   --color-muted-gold: var(--muted-gold);
+  --color-whatsapp: var(--whatsapp);
 
   --font-display: var(--font-playfair), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
@@ -1726,4 +1729,82 @@ button img,
     font-size: 1.25rem;
     color: #333;
   }
+}
+
+/* ─── Enquiry dock: right-edge enquiry tab + floating WhatsApp button ─────
+   Both tuck away while the visitor scrolls (transform on the button) and
+   nudge on a schedule (animation on .dock-face, restarted by a React key).
+   The global reduced-motion rule above turns these animations off. */
+
+@layer components {
+  .dock-face {
+    position: relative;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--lux-black) 86%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid color-mix(in srgb, var(--champagne-gold) 55%, transparent);
+    transition: border-color 0.25s ease;
+  }
+
+  .dock-face::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 32%,
+      color-mix(in srgb, var(--muted-gold) 0%, transparent) 40%,
+      color-mix(in srgb, var(--muted-gold) 50%, transparent) 50%,
+      color-mix(in srgb, var(--muted-gold) 0%, transparent) 60%,
+      transparent 68%
+    );
+    background-size: 300% 300%;
+    background-position: 100% 100%;
+  }
+
+  .dock-face[data-nudge="point"],
+  .dock-face[data-nudge="both"] {
+    animation: dock-point 1.5s cubic-bezier(0.34, 0, 0.2, 1);
+  }
+
+  .dock-face[data-nudge="point"] .dock-arrow,
+  .dock-face[data-nudge="both"] .dock-arrow {
+    animation: dock-arrow 1.5s ease-in-out;
+  }
+
+  .dock-face[data-nudge="both"]::after,
+  .dock-face[data-nudge="glint"]::after {
+    animation: dock-glint 1.6s ease-in-out;
+  }
+
+  .dock-face[data-nudge="glint"] {
+    animation: dock-edge 1.6s ease-in-out;
+  }
+}
+
+@keyframes dock-point {
+  0%, 100% { transform: translate(0, 0); }
+  28% { transform: translate(var(--dock-nx, 0px), var(--dock-ny, 0px)); }
+  48% { transform: translate(calc(var(--dock-nx, 0px) * 0.3), calc(var(--dock-ny, 0px) * 0.3)); }
+  66% { transform: translate(calc(var(--dock-nx, 0px) * 0.7), calc(var(--dock-ny, 0px) * 0.7)); }
+}
+
+@keyframes dock-arrow {
+  0%, 100% { transform: translate(0, 0); }
+  28%, 66% { transform: translate(calc(var(--dock-nx, 0px) * 0.45), calc(var(--dock-ny, 0px) * 0.45)); }
+}
+
+@keyframes dock-glint {
+  0% { opacity: 0; background-position: 100% 100%; }
+  15%, 85% { opacity: 1; }
+  100% { opacity: 0; background-position: 0% 0%; }
+}
+
+@keyframes dock-edge {
+  0%, 100% { border-color: color-mix(in srgb, var(--champagne-gold) 55%, transparent); }
+  45% { border-color: var(--muted-gold); }
 }

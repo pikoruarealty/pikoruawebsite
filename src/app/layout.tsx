@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Preloader } from "@/components/ui/Preloader";
-import { LazyLeadCapturePopup } from "@/components/ui/LazyLeadCapturePopup";
+import { EnquiryDock } from "@/components/layout/EnquiryDock";
 import { CallAgentWidget } from "@/components/layout/CallAgentWidget";
 import { env } from "@/lib/env";
 import { ContentGuard } from "@/components/ui/ContentGuard";
@@ -389,7 +389,8 @@ export default function RootLayout({
         />
         <ContentGuard />
         <Preloader />
-        <LazyLeadCapturePopup />
+        {/* Right-edge enquiry tab, WhatsApp button and the timed enquiry pop-up */}
+        <EnquiryDock liftWhatsApp={env.MAYA_ENABLED} />
         {/* Maya is paused; set NEXT_PUBLIC_MAYA_ENABLED=true and rebuild to bring her back. */}
         {env.MAYA_ENABLED && <CallAgentWidget />}
         <a href="#main-content" className="skip-to-content">

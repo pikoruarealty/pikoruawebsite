@@ -26,6 +26,9 @@ All form submissions → `POST /api/leads` → rate limit → honeypot check →
 
 In-house CRM sync (spec: `docs/crm-integration.md`): after the response, `/api/leads` pushes the new lead to `CRM_WEBHOOK_URL`, HMAC-signed with `CRM_WEBHOOK_SECRET` (`src/lib/crm-push.ts`, 3 tries, marks `crm_synced` on 2xx). Backup: the CRM pulls `GET /api/crm/leads?unsynced=true` then `POST /api/crm/leads/ack { ids }` (Bearer `CRM_API_KEY`). Push and pull share `src/lib/crm-leads.ts` (same payload, phones in E.164). The two containers talk over the external Docker network `pikorua-integrations`; `/api/crm/` is blocked publicly in Nginx.
 
+### Enquiry pop-up, edge tab and WhatsApp button
+`EnquiryDock` (`src/components/layout/`, mounted once in the root layout) renders the right-edge "Enquire" tab, the bottom-right WhatsApp button and `LeadCapturePopup`, which opens out of the tab and shrinks back into it. All timing rules are in `src/lib/enquiry-schedule.ts`: first pop-up after 20 s, 1 min after the first close, 2 min after later closes; a WhatsApp tap restarts the 2-min countdown; the tab nudges every 30 s and the WhatsApp button glints halfway between. Only on-screen time counts, state is in sessionStorage (per visit), and a half-filled form is kept for the visit. No auto-open on /contact and /thank-you, or while the visitor is typing in another form or has another dialog open; nothing on /admin and /studio. Any successful lead form (`trackLeadSubmit`) stops pop-ups for the rest of the visit. Both buttons slide away while the visitor scrolls (`useScrollTuck`).
+
 ### ISR revalidation
 Sanity publishes content → POST to `/api/revalidate?secret=<SANITY_WEBHOOK_SECRET>` → `revalidateTag()` for the relevant data type. Queries in `src/lib/sanity/queries.ts` use `{ next: { tags: [...] } }` to opt into this.
 
