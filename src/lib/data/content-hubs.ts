@@ -736,6 +736,166 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
     publishedAt: "2026-07-21",
     category: "investment",
   },
+  {
+    slug: "commonwealth-games-2030-ahmedabad-property",
+    prefix: "invest",
+    href: "/invest/commonwealth-games-2030-ahmedabad-property",
+    title: "Commonwealth Games 2030 & Ahmedabad Property",
+    description: "Ahmedabad hosts the 2030 Commonwealth Games. What is confirmed, where the venues are, and what it means for buying or investing in Ahmedabad property.",
+    h1: "Commonwealth Games 2030 in Ahmedabad: What It Means for Property Buyers",
+    eyebrow: "Investment Guide · PIKORUA Realty",
+    intro: "In November 2025, Commonwealth Sport confirmed Ahmedabad (Amdavad) as the host of the 2030 Commonwealth Games, the centenary edition of the Games. Many buyers, especially NRIs, now ask the same question: should this change where or when I buy? This guide separates what is confirmed from what is still a plan, explains where the venues are compared with the western luxury corridors, and shows how to judge a property on its own numbers rather than on the event. Last reviewed: 24 November 2026.",
+    heroImage: H.sindhu,
+    keyTakeaways: [
+      "Confirmed: Ahmedabad is the host city of the 2030 Commonwealth Games, ratified by the Commonwealth Sport General Assembly in Glasgow in November 2025. Final dates and the full sports list come from the organisers.",
+      "The main Games cluster is planned around the Sardar Vallabhbhai Patel Sports Enclave at Motera, in the north of the city, not in the western luxury corridors such as Sindhu Bhavan Road, Bodakdev, Thaltej or Iscon–Ambli Road.",
+      "The Games can speed up roads, metro links and hotels across the city, but no one can promise a price rise for a particular home. Judge each property on its price, legal status, rent and resale demand.",
+    ],
+    sections: [
+      {
+        heading: "What Is Confirmed and What Is Still a Plan",
+        body: [
+          "Confirmed: Commonwealth Sport's General Assembly in Glasgow approved Amdavad as the 2030 host in late November 2025. It will be the centenary Games, 100 years after the first edition in 1930. Commonwealth Sport has said the programme will have 15 to 17 sports, and the organisers publish the final dates and sports list.",
+          "Already built and running: Narendra Modi Stadium at Motera, which is expected to be at the centre of the Games, and Ahmedabad Metro Phase 2 to Gandhinagar and GIFT City, which the Union Cabinet records as operational from January 2026.",
+          "Still a plan or under construction: the new venues in the Sardar Vallabhbhai Patel Sports Enclave (such as the aquatics centre, indoor arenas and tennis courts), athlete housing, and the wider road work. Reported completion percentages and budgets vary a lot between sources, so we do not repeat them here. Check the Gujarat government, AMC or AUDA for current status before relying on any project date.",
+        ],
+      },
+      {
+        heading: "Where the Venues Are, Compared With the Luxury Corridors",
+        body: [
+          "The Games cluster is in the north of Ahmedabad, around Motera and the Narendra Modi Stadium, with other facilities planned in areas such as Naranpura. Most of the city's luxury homes are in the west: Sindhu Bhavan Road, Bodakdev, Thaltej, Iscon–Ambli Road, Shilaj and South Bopal.",
+          "That distance matters. Homes right next to venues may see the most construction disruption, traffic restrictions during events, and land acquisition activity. Homes in the established western corridors are less affected day to day, and benefit mainly from city-wide upgrades such as roads, metro links, hotels and the city's international profile.",
+          "If you are deciding between a home near Motera and one in the western corridors, compare them as homes first: who will rent or buy them from you later, how established the neighbourhood is, schools and hospitals nearby, and the developer's track record.",
+        ],
+        links: [
+          { href: "/locations/sindhu-bhavan", label: "Sindhu Bhavan Road area guide" },
+          { href: "/locations/iskon-ambli", label: "Iscon–Ambli Road area guide" },
+          { href: "/locations/thaltej", label: "Thaltej area guide" },
+          { href: "/locations/bodakdev", label: "Bodakdev area guide" },
+        ],
+      },
+      {
+        heading: "How Large Events Have Affected Property Elsewhere",
+        body: [
+          "Large sporting events usually change a city through infrastructure, not through the event fortnight itself. New metro lines, wider roads and new hotels stay after the closing ceremony; visitor demand does not.",
+          "Results for home owners have been mixed in past host cities. Some areas improved because the transport links lasted; others saw venues and athlete housing sit under-used, or prices that had risen on expectations stall afterwards. That is why we do not treat the Games as a reason to pay more for a specific flat.",
+          "A short burst of rental demand from visitors and officials during the Games is possible, but it lasts weeks, not years. Do not base a purchase on it.",
+        ],
+      },
+      {
+        heading: "Working Out the Return Before You Buy",
+        body: [
+          "A property return has four parts: rent, any change in value, costs and tax. Only the costs and tax rules are known in advance. In Gujarat, stamp duty is typically 4.9% of the registered value plus a 1% registration fee, and there are also brokerage, legal, maintenance and furnishing costs.",
+          "Rent: work out the gross yield as annual rent divided by the total purchase cost, then subtract maintenance, property tax, vacancy months and repairs to get the net yield. Use rents for similar homes in the same building or street, not city averages.",
+          "Value: treat any future price change as unknown. If an investment only works when prices rise, the event becomes a bet. If it works on rent and your holding period alone, any city-wide uplift is a bonus.",
+          "NRIs should also allow for tax in India on rent and on any gain when selling, the buyer's TDS on the sale price, and currency movements between the rupee and the currency they earn in. A chartered accountant should confirm the numbers for your situation.",
+        ],
+        links: [
+          { href: "/invest/rental-yield-calculator-ahmedabad", label: "Rental yield calculator" },
+          { href: "/invest/high-roi-luxury-property-ahmedabad", label: "How to judge ROI on Ahmedabad property" },
+          { href: "/nri/india-vs-usa-property-roi-for-nris", label: "India vs USA property returns for NRIs" },
+          { href: "/learn/jantri-rates-ahmedabad", label: "Jantri rates in Ahmedabad" },
+        ],
+      },
+      {
+        heading: "What This Means for NRI Buyers",
+        body: [
+          "For NRIs, the Games mostly change how familiar Ahmedabad is abroad and how quickly some infrastructure arrives. The buying rules do not change: NRIs and OCI cardholders can buy residential and commercial property in India without RBI approval (agricultural land, plantations and farmhouses are excluded), paying from an NRE, NRO or FCNR account or by inward remittance.",
+          "If you plan to visit for the Games, it can be a practical time to see shortlisted homes in person. If you cannot travel, PIKORUA can arrange video walkthroughs, independent legal checks and a Power of Attorney route so a trusted person can sign on your behalf.",
+        ],
+        links: [
+          { href: "/nri-property-investment-ahmedabad", label: "NRI property investment in Ahmedabad" },
+          { href: "/learn/how-to-buy-property-as-nri-ahmedabad", label: "How NRIs buy property in Ahmedabad, step by step" },
+          { href: "/nri/nri-property-eligibility-fema", label: "What NRIs and OCIs can buy (FEMA)" },
+          { href: "/invest/ahmedabad-olympics-2036-property", label: "Ahmedabad's 2036 Olympic bid and property" },
+        ],
+      },
+    ],
+    faqs: [
+      { question: "Is Ahmedabad hosting the 2030 Commonwealth Games?", answer: "Yes. Commonwealth Sport's General Assembly in Glasgow confirmed Amdavad (Ahmedabad) as host of the 2030 Commonwealth Games in November 2025. It will be the centenary edition. Final dates and the full sports list are published by the organisers." },
+      { question: "Where are the Commonwealth Games 2030 venues in Ahmedabad?", answer: "The main cluster is planned around the Sardar Vallabhbhai Patel Sports Enclave and Narendra Modi Stadium at Motera, in the north of the city, with other facilities planned in areas such as Naranpura. The western luxury corridors, such as Sindhu Bhavan Road, Bodakdev, Thaltej and Iscon–Ambli Road, are not venue areas." },
+      { question: "Will property prices in Ahmedabad rise because of the Commonwealth Games?", answer: "No one can promise that. The Games may speed up roads, metro links and hotels, which can help some areas over time, but prices for a particular home depend on its own price, location, legal status, supply nearby and buyer demand. Judge each property on its own numbers." },
+      { question: "Should I buy near Motera because of the Games?", answer: "Only if the home makes sense on its own. Areas next to venues may see more construction, traffic restrictions during events and land acquisition activity. Compare who would rent or buy the home from you later, the neighbourhood, schools and the developer's record, and do not pay extra just because of the event." },
+      { question: "Can NRIs buy property in Ahmedabad ahead of the Games?", answer: "Yes. NRIs and OCI cardholders can buy residential and commercial property in India without RBI approval, except agricultural land, plantations and farmhouses. Payment goes through an NRE, NRO or FCNR account or inward remittance. PIKORUA can arrange video walkthroughs and a Power of Attorney route if you cannot travel." },
+    ],
+    relatedListingHrefs: ["/p/iscon-ambli-road/luxury-flats", "/p/sindhubhavan-road/penthouses"],
+    relatedHubSlugs: ["ahmedabad-olympics-2036-property", "high-roi-luxury-property-ahmedabad", "how-to-buy-property-as-nri-ahmedabad"],
+    marketSignals: ["2030 Commonwealth Games host: Ahmedabad (confirmed Nov 2025).", "Main cluster: Motera, north Ahmedabad.", "Metro Phase 2 to Gandhinagar and GIFT City: operational since Jan 2026."],
+    publishedAt: "2026-11-24",
+    category: "investment",
+  },
+  {
+    slug: "ahmedabad-olympics-2036-property",
+    prefix: "invest",
+    href: "/invest/ahmedabad-olympics-2036-property",
+    title: "Ahmedabad 2036 Olympic Bid: Property Guide",
+    description: "India's 2036 Olympic bid is built around Ahmedabad. Where the bid stands, when the IOC decides, and how property buyers and NRIs should read it.",
+    h1: "Ahmedabad and the 2036 Olympic Bid: A Guide for Property Buyers",
+    eyebrow: "Investment Guide · PIKORUA Realty",
+    intro: "India wants to host the 2036 Summer Olympics, with Ahmedabad as the host city. You will see property adverts that treat this as settled. It is not: in October 2026 the International Olympic Committee (IOC) named seven countries in talks about 2036, India among them, and the host is not expected to be chosen before 2029. Here is where the bid stands, what is already being built either way, and how to think about property in the meantime. Last reviewed: 24 November 2026.",
+    heroImage: H.capstone,
+    keyTakeaways: [
+      "Ahmedabad has not been awarded the 2036 Olympics. India is one of seven countries in the IOC's early talks for 2036; the others named in October 2026 are Germany, Hungary, Qatar, South Korea, South Africa and Türkiye.",
+      "The 2030 Commonwealth Games are confirmed for Ahmedabad, and many of their venues are meant to serve the Olympic bid too, so a lot of the building happens whether or not the Olympic bid succeeds.",
+      "Treat the Olympic bid as a possibility, not a price driver. A property should still make sense if the Games go to another country.",
+    ],
+    sections: [
+      {
+        heading: "Where India's 2036 Bid Stands",
+        body: [
+          "India sent a letter of intent to the IOC in 2024, with Ahmedabad as the proposed host city. In October 2026, the IOC confirmed seven National Olympic Committees in its \"continuous dialogue\" for the 2036 Games: Germany, Hungary, India, Qatar, South Korea, South Africa and Türkiye. India's proposal, prepared by the Indian Olympic Association, is titled \"Rising Together\".",
+          "Next steps, as reported: each country presents to the IOC's Future Host Commission, the IOC then narrows the field over the following years, and the host is expected to be chosen in 2029. Dates and stage names can change, so check the IOC's own announcements.",
+          "Hosting the 2030 Commonwealth Games is widely seen as a test run that strengthens Ahmedabad's case, but it does not decide the Olympic vote.",
+        ],
+      },
+      {
+        heading: "What Is Being Built Either Way",
+        body: [
+          "Some changes are happening whatever the IOC decides. Ahmedabad Metro Phase 2, linking Motera to Gandhinagar and GIFT City, has been operational since January 2026 according to the Union Cabinet. The Sardar Vallabhbhai Patel Sports Enclave at Motera is being built for the 2030 Commonwealth Games and is planned as the core of any Olympic bid.",
+          "The Mumbai–Ahmedabad bullet train is under construction. The Railways Minister has given August 2027 for the first section, in south Gujarat, and end-2029 for the full line to Ahmedabad. Large projects like this often move, so treat dates as targets.",
+          "These are the changes that tend to last. An Olympic award would add more venues, housing and transport on top, but the timing would stretch towards 2036.",
+        ],
+      },
+      {
+        heading: "How Property Buyers Should Read the Olympic Bid",
+        body: [
+          "Be careful with adverts that quote a percentage rise \"because of the Olympics\". The event is not confirmed, and even confirmed events have produced mixed results for home owners in past host cities. Prices that rise on expectations can stall if the decision goes the other way.",
+          "A sound purchase works on rent, holding costs and your own time horizon, with any Olympic-related uplift as a bonus rather than the plan. Ask: if the 2036 Games go elsewhere, would I still be happy with this home at this price?",
+          "Because the main sports cluster is in north Ahmedabad around Motera, the established western luxury corridors are affected less by construction and more by city-wide changes such as roads, metro, hotels and international attention.",
+        ],
+        links: [
+          { href: "/invest/commonwealth-games-2030-ahmedabad-property", label: "Commonwealth Games 2030 and Ahmedabad property" },
+          { href: "/investment-property-ahmedabad", label: "Investment property in Ahmedabad" },
+          { href: "/invest/rental-yield-calculator-ahmedabad", label: "Rental yield calculator" },
+          { href: "/ahmedabad-luxury-property-market-report", label: "Ahmedabad luxury property market report" },
+        ],
+      },
+      {
+        heading: "For NRIs Watching the Bid From Abroad",
+        body: [
+          "If the Olympic bid is part of why you are looking at Ahmedabad, use the next few years to build a shortlist rather than rushing. Buying rules for NRIs stay the same: residential and commercial property can be bought without RBI approval (not agricultural land, plantations or farmhouses), with payment through NRE, NRO or FCNR accounts or inward remittance.",
+          "Allow for tax in India on rent and on any gain when you sell, and for currency movements between the rupee and the currency you earn in. A chartered accountant who handles NRI cases should confirm the numbers.",
+          "PIKORUA works with NRI buyers across time zones: video walkthroughs, independent legal and RERA checks, and a Power of Attorney route if you cannot travel to sign.",
+        ],
+        links: [
+          { href: "/nri-property-consultant-ahmedabad", label: "NRI property consultant in Ahmedabad" },
+          { href: "/learn/how-to-buy-property-as-nri-ahmedabad", label: "How NRIs buy property in Ahmedabad, step by step" },
+          { href: "/nri/india-vs-usa-property-roi-for-nris", label: "India vs USA property returns for NRIs" },
+        ],
+      },
+    ],
+    faqs: [
+      { question: "Is Ahmedabad hosting the 2036 Olympics?", answer: "Not yet decided. India has proposed Ahmedabad as host for 2036 and is one of seven countries the IOC confirmed in October 2026 as being in talks, along with Germany, Hungary, Qatar, South Korea, South Africa and Türkiye. The host is expected to be chosen in 2029." },
+      { question: "When will the IOC choose the 2036 Olympic host?", answer: "As reported in October 2026, the countries in talks present to the IOC's Future Host Commission first, the field is narrowed over the following years, and the host is expected to be chosen in 2029. Check the IOC's own announcements for the latest dates." },
+      { question: "Will the Olympic bid push up Ahmedabad property prices?", answer: "No one can promise that. The Games are not confirmed, and past host cities have seen mixed results for home owners. Infrastructure that is being built anyway, such as the metro to Gandhinagar and GIFT City and the Motera sports enclave, is a better thing to look at than the bid itself. Judge each home on its own price, rent and legal status." },
+      { question: "Which Ahmedabad areas are linked to the Olympic plans?", answer: "The planned sports cluster is around the Sardar Vallabhbhai Patel Sports Enclave and Narendra Modi Stadium at Motera, in the north of the city. The western luxury corridors such as Sindhu Bhavan Road, Bodakdev, Thaltej and Iscon–Ambli Road are not venue areas." },
+    ],
+    relatedListingHrefs: ["/p/iscon-ambli-road/luxury-flats", "/p/sindhubhavan-road/penthouses"],
+    relatedHubSlugs: ["commonwealth-games-2030-ahmedabad-property", "high-roi-luxury-property-ahmedabad", "nri-property-investment-guide-ahmedabad"],
+    marketSignals: ["2036 Olympics: 7 countries in IOC talks, India included (Oct 2026).", "Host decision expected: 2029.", "Bullet train first section target: Aug 2027."],
+    publishedAt: "2026-11-24",
+    category: "investment",
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────

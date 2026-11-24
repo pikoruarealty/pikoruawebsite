@@ -51,6 +51,8 @@ const BUYER_GUIDES: ExploreLink[] = [
   { href: "/ahmedabad/best-location-for-investment", label: "Best areas to invest in Ahmedabad" },
   { href: "/ahmedabad/villas-vs-penthouses", label: "Villas vs penthouses" },
   { href: "/ahmedabad/residential-projects", label: "Residential projects in Ahmedabad" },
+  { href: "/invest/commonwealth-games-2030-ahmedabad-property", label: "Commonwealth Games 2030 and Ahmedabad property" },
+  { href: "/invest/ahmedabad-olympics-2036-property", label: "Ahmedabad's 2036 Olympic bid and property" },
 ];
 
 const NRI_COUNTRY_HUBS: ExploreLink[] = [
@@ -110,6 +112,7 @@ const NRI_TOPICS: ExploreLink[] = [
   { href: "/nri/ahmedabad-vs-dubai-real-estate-investment", label: "Ahmedabad vs Dubai" },
   { href: "/nri/india-vs-usa-property-roi-for-nris", label: "India vs USA property returns" },
   { href: "/nri/non-resident-gujarati-property-ahmedabad", label: "Non-resident Gujaratis" },
+  { href: "/invest/commonwealth-games-2030-ahmedabad-property", label: "Commonwealth Games 2030: what it means for NRI buyers" },
 ];
 
 const LANDMARK_GUIDES: ExploreLink[] = [
