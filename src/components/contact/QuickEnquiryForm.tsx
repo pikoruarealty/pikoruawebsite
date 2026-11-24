@@ -176,12 +176,11 @@ export function QuickEnquiryForm({ interest, trackingSource = "contact" }: Quick
 
       {/* Consent */}
       <div>
-        <label className="flex items-start gap-3 cursor-pointer select-none group">
+        <label className="flex items-start gap-3 cursor-pointer select-none group" onClick={() => set("consent", !form.consent)}>
           <span
             role="checkbox"
             aria-checked={form.consent}
             tabIndex={0}
-            onClick={() => set("consent", !form.consent)}
             onKeyDown={(e) => {
               if (e.key === " " || e.key === "Enter") set("consent", !form.consent);
             }}

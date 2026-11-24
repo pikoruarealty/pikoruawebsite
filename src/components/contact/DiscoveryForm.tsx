@@ -551,12 +551,11 @@ export function DiscoveryForm({ initialPurpose = "", id = "discovery" }: Discove
 
             {/* WhatsApp */}
             <div>
-              <label className="flex items-center gap-3 cursor-pointer select-none group">
+              <label className="flex items-center gap-3 cursor-pointer select-none group" onClick={() => set("sameWhatsApp", !form.sameWhatsApp)}>
                 <span
                   role="checkbox"
                   aria-checked={form.sameWhatsApp}
                   tabIndex={0}
-                  onClick={() => set("sameWhatsApp", !form.sameWhatsApp)}
                   onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") set("sameWhatsApp", !form.sameWhatsApp); }}
                   className={cn(
                     "w-4 h-4 border flex-shrink-0 flex items-center justify-center transition-colors duration-150 outline-none",
@@ -640,12 +639,11 @@ export function DiscoveryForm({ initialPurpose = "", id = "discovery" }: Discove
 
             {/* Consent */}
             <div>
-              <label className="flex items-start gap-3 cursor-pointer select-none group">
+              <label className="flex items-start gap-3 cursor-pointer select-none group" onClick={() => set("consent", !form.consent)}>
                 <span
                   role="checkbox"
                   aria-checked={form.consent}
                   tabIndex={0}
-                  onClick={() => set("consent", !form.consent)}
                   onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") set("consent", !form.consent); }}
                   className={cn(
                     "mt-0.5 w-4 h-4 border flex-shrink-0 flex items-center justify-center transition-colors duration-150 outline-none",

@@ -295,9 +295,10 @@ export function LeadCapturePopup({
       trackLeadSubmit("popup");
       clearDraft();
 
-      // Give the confirmation a moment, then return the visitor to the website.
+      // Give the confirmation a moment, then show the thank-you page like
+      // every other lead form (one URL to measure all enquiries by).
       window.setTimeout(() => {
-        window.location.assign("/");
+        window.location.assign("/thank-you?source=popup");
       }, 1400);
     } catch (err) {
       setErrorMsg(
