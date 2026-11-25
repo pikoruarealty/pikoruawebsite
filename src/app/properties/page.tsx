@@ -12,6 +12,8 @@ import { absoluteUrl, createMetadata, serializeJsonLd } from "@/lib/seo";
 import type { GeneralFaq } from "@/types";
 import { getPriorityKeywordsForPath } from "@/lib/data/six-month-priority-keywords";
 import { isLivePage } from "@/lib/data/page-merges";
+import { BuyingFromAbroad } from "@/components/seo/BuyingFromAbroad";
+import { ABROAD_CALL_FALLBACK_HREF } from "@/lib/data/buying-from-abroad";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeoData("properties");
@@ -127,6 +129,7 @@ export default async function PropertiesPage() {
         </section>
 
         <PropertiesGrid properties={properties} />
+        <BuyingFromAbroad pagePath="/properties" enquireHref={ABROAD_CALL_FALLBACK_HREF} />
         <section className="bg-lux-black py-16 lg:py-20 border-t border-white/[0.06]" aria-labelledby="browse-guides-heading">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mb-10">

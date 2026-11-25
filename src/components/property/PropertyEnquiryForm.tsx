@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { cn, leadFieldErrors } from "@/lib/utils";
 import { trackLeadSubmit } from "@/lib/analytics";
 import { getLeadUtm } from "@/lib/attribution";
+import { CALL_WINDOWS, callTimeHint, useCallTimeChoice } from "@/lib/call-time";
 
 interface PropertyEnquiryFormProps {
   propertySlug: string;
@@ -44,6 +45,8 @@ export function PropertyEnquiryForm({
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
+  // Visitors abroad pick a call window in their own time zone instead.
+  const call = useCallTimeChoice();
 
   function set(field: keyof FormState, value: string | boolean) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -76,7 +79,7 @@ export function PropertyEnquiryForm({
           phone: form.phone,
           email: form.email,
           message: form.message,
-          preferredCallbackTime: form.preferredCallbackTime,
+          preferredCallbackTime: call.callbackTime(form.preferredCallbackTime),
           propertyRef: propertySlug,
           consent: true,
           honeypot: form.honeypot,
@@ -184,36 +187,52 @@ export function PropertyEnquiryForm({
           </div>
         </div>
 
-        <div>
-          <label className="block text-[10px] font-sans uppercase tracking-[0.12em] text-ivory/50 mb-1.5">
-            Preferred Callback Time
-          </label>
-          <div className="relative">
-            <select
+        {call.zoneMode ? (
+          <>
+            <div>
+              <label htmlFor="property-call-zone" className="block text-[10px] font-sans uppercase tracking-[0.12em] text-ivory/50 mb-1.5">
+                Your Time Zone
+              </label>
+              <SmallSelect id="property-call-zone" value={call.zone} onChange={call.setZone}>
+                <option value="">Select your time zone</option>
+                {call.zones.map((z) => (
+                  <option key={z.id} value={z.id}>{z.label}</option>
+                ))}
+              </SmallSelect>
+            </div>
+            <div>
+              <label htmlFor="property-call-window" className="block text-[10px] font-sans uppercase tracking-[0.12em] text-ivory/50 mb-1.5">
+                Best Time for a Call (Your Time)
+              </label>
+              <SmallSelect id="property-call-window" value={call.callWindow} onChange={call.setCallWindow}>
+                <option value="">Select a time window</option>
+                {CALL_WINDOWS.map((w) => (
+                  <option key={w.id} value={w.id}>{w.label}</option>
+                ))}
+              </SmallSelect>
+              <p className="mt-1.5 text-[10px] font-sans leading-relaxed text-ivory/40" aria-live="polite">
+                {callTimeHint(call.istHint)}
+              </p>
+            </div>
+          </>
+        ) : (
+          <div>
+            <label htmlFor="property-callback-time" className="block text-[10px] font-sans uppercase tracking-[0.12em] text-ivory/50 mb-1.5">
+              Preferred Callback Time
+            </label>
+            <SmallSelect
               id="property-callback-time"
               value={form.preferredCallbackTime}
-              onChange={(e) => set("preferredCallbackTime", e.target.value)}
-              className="mobile-friendly-select w-full px-4 py-3 bg-lux-black border border-white/[0.08] text-ivory text-xs font-sans rounded-sm focus:outline-none focus:border-champagne-gold/50 transition-colors duration-200 appearance-none cursor-pointer pr-10"
+              onChange={(v) => set("preferredCallbackTime", v)}
             >
               <option value="">Select a Time Window</option>
               <option value="Morning (9 AM – 12 PM)">Morning (9 AM – 12 PM)</option>
               <option value="Afternoon (12 PM – 4 PM)">Afternoon (12 PM – 4 PM)</option>
               <option value="Evening (5 PM – 8 PM)">Evening (5 PM – 8 PM)</option>
               <option value="Flexible / Any time">Flexible / Anytime</option>
-            </select>
-            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-champagne-gold/60">
-              <svg
-                className="h-3.5 w-3.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
-            </div>
+            </SmallSelect>
           </div>
-        </div>
+        )}
 
         <div>
           <label className="block text-[10px] font-sans uppercase tracking-[0.12em] text-ivory/50 mb-1.5">
@@ -285,6 +304,28 @@ export function PropertyEnquiryForm({
           )}
         </button>
       </form>
+    </div>
+  );
+}
+
+function SmallSelect({ id, value, onChange, children }: {
+  id: string; value: string; onChange: (value: string) => void; children: React.ReactNode;
+}) {
+  return (
+    <div className="relative">
+      <select
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="mobile-friendly-select w-full px-4 py-3 bg-lux-black border border-white/[0.08] text-ivory text-xs font-sans rounded-sm focus:outline-none focus:border-champagne-gold/50 transition-colors duration-200 appearance-none cursor-pointer pr-10"
+      >
+        {children}
+      </select>
+      <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-champagne-gold/60">
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </div>
     </div>
   );
 }

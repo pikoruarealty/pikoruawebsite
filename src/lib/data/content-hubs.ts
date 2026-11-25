@@ -165,7 +165,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     keyTakeaways: [
       "Property income and price changes vary by asset and period; gold returns vary by instrument and purchase date. Compare dated, like-for-like evidence and account for costs, taxes, liquidity, and risk.",
       "Gold scores higher on liquidity — any quantity sellable within hours. Commercial property requires 60–180 days for a quality exit in Ahmedabad's market.",
-      "Tax treatment favours commercial property for HNIs: depreciation benefits, indexation on long-term capital gains, and rental income as deductible business expense where applicable.",
+      "Tax treatment can favour commercial property for HNIs: a 30% standard deduction on rent, depreciation where the property is used in your own business, and long-term capital gains taxed at 12.5% (without indexation) after 24 months.",
     ],
     comparisonTable: [
       { label: "Return evidence", a: "Use verified rent, costs, and comparable transactions", b: "Use the chosen instrument's dated price and income records" },
@@ -173,7 +173,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
       { label: "Liquidity", a: "60–180 days exit", b: "Immediate — hours" },
       { label: "Minimum investment", a: "₹50L–₹2 Cr (strata office)", b: "Any amount" },
       { label: "Inflation hedge", a: "Strong (rentals escalate 10–15% every 3 yrs)", b: "Strong (global safe haven)" },
-      { label: "Tax on gains", a: "LTCG 20% with indexation after 24 months", b: "LTCG 20% with indexation after 24 months" },
+      { label: "Tax on gains", a: "LTCG 12.5% without indexation after 24 months", b: "LTCG 12.5% without indexation after 24 months" },
       { label: "Leverage available", a: "Yes — commercial mortgage at 8–10% p.a.", b: "Gold loan at 7–9% p.a." },
       { label: "Counterparty risk", a: "Tenant default risk", b: "None" },
       { label: "Storage/maintenance", a: "Annual maintenance charges", b: "Locker/ETF expense ratio" },
@@ -206,7 +206,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     faqs: [
       { question: "Is commercial property better than gold in Ahmedabad right now?", answer: "The comparison depends on the specific property, lease, gold instrument, costs, taxes, liquidity needs, and holding period. Review current terms and dated performance records for the assets being compared; neither option guarantees a return." },
       { question: "What is the minimum investment for commercial property in Ahmedabad?", answer: "Strata office units in Prahladnagar and CG Road corridors start at ₹50L–₹80L for 200–400 sq.ft. units. Whole-floor Grade-A commercial starts at ₹3–5 Cr. GIFT City office units command a premium, starting at ₹1.2 Cr for smaller configurations." },
-      { question: "How is commercial property taxed vs gold in India?", answer: "Both attract 20% LTCG with indexation after the holding period (24 months for property, 24 months for gold post-2024 budget). Commercial property additionally generates rental income taxed as 'income from house property' with a 30% standard deduction. Gold held as SGB is tax-free on maturity if held to 8 years." },
+      { question: "How is commercial property taxed vs gold in India?", answer: "Since 23 July 2024 both are taxed at 12.5% LTCG without indexation after 24 months (plus surcharge and cess). Commercial property additionally generates rental income taxed as 'income from house property' with a 30% standard deduction. Gold held as SGB is tax-free on maturity if held to 8 years." },
     ],
     relatedListingHrefs: ["/p/prahladnagar/office-space", "/p/cg-road/office-space", "/p/gift-city/office-space", "/p/sg-highway/office-space/for-investment"],
     relatedHubSlugs: ["commercial-property-vs-fd", "preleased-property-guide", "gift-city-investment-guide"],
@@ -227,7 +227,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     keyTakeaways: [
       "A fixed deposit has stated interest terms, while property income depends on occupancy, lease terms, costs, and tenant performance. Property sale value may rise or fall; compare full cash flows and risks over the same period.",
       "FDs are fully liquid and DICGC-insured up to ₹5L per bank. Commercial property requires 60–180 days to exit and has no insurance. Liquidity premium is real.",
-      "Tax treatment significantly favours FDs for investors in lower tax brackets; commercial property wins for HNIs with ₹30L+ taxable income due to depreciation and indexation benefits.",
+      "Tax treatment significantly favours FDs for investors in lower tax brackets; commercial property can win for HNIs with ₹30L+ taxable income because of the 30% standard deduction on rent and the 12.5% long-term capital gains rate.",
     ],
     comparisonTable: [
       { label: "Income input", a: "Verify rent, occupancy, and ownership costs", b: "Use the bank's current quote and product terms" },
@@ -235,7 +235,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
       { label: "Return estimate", a: "Depends on verified income, costs, and exit value", b: "Based on stated interest terms, before tax" },
       { label: "Liquidity", a: "60–180 day exit", b: "Immediate (premature penalty)" },
       { label: "Safety", a: "No insurance; tenant risk", b: "DICGC insured to ₹5L" },
-      { label: "Tax (30% bracket)", a: "Rental income + 20% LTCG with indexation", b: "30% on interest (TDS 10% on ₹40K+)" },
+      { label: "Tax (30% bracket)", a: "Rent at slab rate after 30% deduction + 12.5% LTCG", b: "30% on interest (TDS 10% above ₹50K a year)" },
       { label: "Inflation protection", a: "Strong — rent escalates", b: "Weak — real return ~2–3%" },
       { label: "Leverage", a: "Commercial loan 8–10% p.a.", b: "FD-backed loan at 0.5–1% above FD rate" },
     ],
@@ -267,7 +267,7 @@ export const COMPARISON_PAGES: ContentHubPage[] = [
     faqs: [
       { question: "Is commercial real estate safer than FD in India?", answer: "FDs are insured (DICGC up to ₹5L per bank) and highly liquid — making them structurally safer in a financial-risk sense. Commercial property has no insurance, has tenant/vacancy risk, and requires 60–180 days to exit. However, commercial property's total returns (12–18% p.a.) dwarf FD returns (6.5–7%) over 5–10 year horizons." },
       { question: "What is the minimum commercial property investment in Ahmedabad?", answer: "Strata office units start at ₹50–80L for 200–400 sq.ft. in Prahladnagar and SG Highway. Preleased units with secured tenants typically carry a 10–15% premium over vacant units. PIKORUA can identify off-market preleased inventory at competitive yield entry points." },
-      { question: "How are FD interest and commercial property rent taxed differently?", answer: "FD interest is taxed at slab rate (up to 30% for HNIs) with TDS at 10%. Commercial property rental income is taxed as income from house property with a 30% standard deduction — effective tax is lower. Additionally, commercial property gains after 24 months attract 20% LTCG with indexation — far more tax-efficient than FD interest for HNIs." },
+      { question: "How are FD interest and commercial property rent taxed differently?", answer: "FD interest is taxed at slab rate (up to 30% for HNIs) with TDS at 10%. Commercial property rental income is taxed as income from house property with a 30% standard deduction — effective tax is lower. Additionally, commercial property gains after 24 months are taxed at 12.5% LTCG without indexation, usually less than slab-rate tax on FD interest for HNIs." },
     ],
     relatedListingHrefs: ["/p/prahladnagar/office-space/for-investment", "/p/gift-city/office-space", "/p/sg-highway/office-space/high-roi", "/p/cg-road/retail-space"],
     relatedHubSlugs: ["commercial-property-vs-gold", "preleased-property-guide", "high-roi-commercial-property-ahmedabad"],
@@ -607,8 +607,8 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
     heroImage: H.sindhu,
     keyTakeaways: [
       "NRIs can purchase residential and commercial property in India without RBI approval under FEMA — but agricultural land, plantation property, and farmhouses are prohibited without specific exemptions.",
-      "Payment must be routed through NRE, NRO, or FCNR accounts — foreign currency accounts or overseas wire transfers directly to developer accounts are not FEMA-compliant.",
-      "Repatriation of principal and proceeds from a residential property sale is permitted subject to conditions: maximum 2 properties, held for 5 years or more, and routed through NRO account with Form 15CA/15CB.",
+      "Payment must come from abroad through normal banking channels or from your NRE, NRO or FCNR account in India. Cash, traveller's cheques and foreign currency notes are not allowed under FEMA.",
+      "Sale money from a home bought with funds from abroad or from NRE/FCNR accounts can be sent back abroad, up to the amount paid in foreign exchange, for no more than two residential properties in total. There is no minimum holding period. Any balance goes through the NRO account's USD 1 million a year limit, after tax and a chartered accountant's certificate.",
     ],
     sections: [
       {
@@ -622,7 +622,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
       {
         heading: "Setting Up the Right Bank Accounts for Property Purchase",
         body: [
-          "FEMA mandates that property purchase payments come from specific Indian accounts. The three permissible account types are: NRE (Non-Resident External) — rupee account funded from foreign earnings, fully repatriable; NRO (Non-Resident Ordinary) — rupee account, partially repatriable up to USD 1 million per financial year; and FCNR (Foreign Currency Non-Resident) — foreign currency account, fully repatriable.",
+          "Under FEMA, payment must come from abroad through normal banking channels or from one of three Indian accounts: NRE (Non-Resident External) — rupee account funded from foreign earnings, fully repatriable; NRO (Non-Resident Ordinary) — rupee account, partially repatriable up to USD 1 million per financial year; and FCNR (Foreign Currency Non-Resident) — foreign currency account, fully repatriable.",
           "The choice of account matters for tax planning. Funds parked in NRE accounts earn interest that is tax-exempt in India. NRO account interest attracts 30% TDS. For property purchase, PIKORUA recommends NRE account as the primary payment route wherever possible.",
           "Home loans in India for NRI property purchases are available from major banks (SBI, HDFC, ICICI, Axis). Documentation requirements include overseas income proof (pay stubs, tax returns), employment letter, and NRE/NRO bank statements. LTV available is 75–80% of registered value — same as resident Indians.",
         ],
@@ -637,7 +637,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
       {
         heading: "Tax Treatment for NRI Property Buyers",
         body: [
-          "TDS on property purchase: When an NRI sells property, the buyer must deduct 20% TDS on LTCG and 30% TDS on STCG at source. NRIs can apply to the Assessing Officer for a lower TDS deduction certificate under Section 197 before the transaction.",
+          "Selling later: since 23 July 2024, long-term capital gains on property held for more than 24 months are taxed at 12.5% without indexation, plus surcharge and cess; gains on property held for 24 months or less are taxed at slab rates. When an NRI sells, the buyer must deduct TDS before paying, and unless the seller holds a lower-deduction certificate from the Income Tax Department the buyer often deducts on the full price, not just the gain. Apply for the certificate well before the sale.",
           "Rental income: NRI rental income in India is taxed at slab rate. TDS is deducted at 30% at source by the tenant. The NRI must file an Indian tax return to claim the 30% standard deduction on rental income and offset the excess TDS.",
           "Double Tax Avoidance Agreements (DTAA): India has DTAA treaties with 90+ countries including the US, UK, UAE, Canada, and Australia. NRI investors can claim relief to avoid double taxation on the same income in both countries. PIKORUA partners with international tax advisory firms for clients who need cross-jurisdictional tax planning.",
         ],
@@ -646,7 +646,7 @@ export const INVESTMENT_PAGES: ContentHubPage[] = [
     faqs: [
       { question: "Can NRIs buy property in Ahmedabad?", answer: "Yes. NRIs (Indian passport holders residing abroad) and PIOs/OCIs can purchase residential and commercial property in Ahmedabad without RBI approval. Agricultural land, plantation property, and farmhouses require special RBI dispensation. Payment must be through NRE, NRO, or FCNR accounts." },
       { question: "What documents does an NRI need to buy property in Ahmedabad?", answer: "Key documents: valid Indian passport or OCI card, PAN card (mandatory for property transactions), NRE/NRO bank account statement, overseas address proof, foreign income proof (pay stubs/tax returns), and NRI declaration form. For POA transactions: notarised and apostilled Power of Attorney from the country of residence." },
-      { question: "Can NRI repatriate money from property sale in India?", answer: "Yes, with conditions. Repatriation of sale proceeds from residential property is permitted for a maximum of 2 properties, with proceeds routed through NRO account and an Annual Return requirement. Principal amount can be repatriated freely if original purchase was made from NRE/FCNR funds. Gains are subject to 20% LTCG tax after indexation for properties held over 24 months." },
+      { question: "Can NRI repatriate money from property sale in India?", answer: "Yes, with conditions. If the home was bought with money from abroad or from NRE/FCNR accounts, the sale proceeds can be sent back up to the amount paid in foreign exchange, for no more than two residential properties in total, with no minimum holding period. Any balance can be remitted from the NRO account within the USD 1 million a year limit. Long-term gains (held over 24 months) are taxed at 12.5% without indexation, plus surcharge and cess. Your bank will ask for a chartered accountant's certificate before it sends the money." },
     ],
     relatedListingHrefs: ["/p/iscon-ambli-road/luxury-flats", "/p/sindhubhavan-road/penthouses", "/p/bodakdev/luxury-flats/for-investment", "/nri/usa/luxury-flats-ahmedabad"],
     relatedHubSlugs: ["how-to-buy-property-as-nri-ahmedabad", "fema-nri-property-purchase-guide", "sg-highway-vs-iscon-ambli-road"],

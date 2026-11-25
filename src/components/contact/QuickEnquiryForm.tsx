@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { cn, leadFieldErrors } from "@/lib/utils";
 import { trackLeadSubmit } from "@/lib/analytics";
 import { getLeadUtm } from "@/lib/attribution";
+import { CALL_WINDOWS, callTimeHint, useCallTimeChoice } from "@/lib/call-time";
 
 interface FormState {
   name: string;
@@ -26,14 +27,20 @@ interface QuickEnquiryFormProps {
   interest?: string;
   /** Label for the GA4 generate_lead event and the thank-you page. */
   trackingSource?: string;
+  /**
+   * Ask for the visitor's time zone and a call window in their own time
+   * (NRI pages). Visitors whose browser is set outside India get this anyway.
+   */
+  timeZoneCall?: boolean;
 }
 
-export function QuickEnquiryForm({ interest, trackingSource = "contact" }: QuickEnquiryFormProps = {}) {
+export function QuickEnquiryForm({ interest, trackingSource = "contact", timeZoneCall = false }: QuickEnquiryFormProps = {}) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
+  const call = useCallTimeChoice(timeZoneCall);
 
   function set(field: keyof FormState, value: string | boolean) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -66,7 +73,7 @@ export function QuickEnquiryForm({ interest, trackingSource = "contact" }: Quick
           phone: form.phone,
           email: form.email,
           message: form.message,
-          preferredCallbackTime: form.preferredCallbackTime,
+          preferredCallbackTime: call.callbackTime(form.preferredCallbackTime),
           consent: true,
           honeypot: form.honeypot,
           utm: getLeadUtm(),
@@ -146,33 +153,51 @@ export function QuickEnquiryForm({ interest, trackingSource = "contact" }: Quick
         />
       </Field>
 
-      <Field label="Preferred callback time" error={undefined}>
-        <div className="relative">
-          <select
-            aria-label="Preferred callback time"
+      {call.zoneMode ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <Field label="Your time zone" error={undefined}>
+            <SelectBox
+              ariaLabel="Your time zone"
+              value={call.zone}
+              onChange={call.setZone}
+            >
+              <option value="">Select your time zone</option>
+              {call.zones.map((z) => (
+                <option key={z.id} value={z.id}>{z.label}</option>
+              ))}
+            </SelectBox>
+          </Field>
+          <Field label="Best time for a call (your time)" error={undefined}>
+            <SelectBox
+              ariaLabel="Best time for a call, in your time"
+              value={call.callWindow}
+              onChange={call.setCallWindow}
+            >
+              <option value="">Select a time window</option>
+              {CALL_WINDOWS.map((w) => (
+                <option key={w.id} value={w.id}>{w.label}</option>
+              ))}
+            </SelectBox>
+          </Field>
+          <p className="sm:col-span-2 -mt-2 text-xs font-sans leading-relaxed text-ivory/45" aria-live="polite">
+            {callTimeHint(call.istHint)}
+          </p>
+        </div>
+      ) : (
+        <Field label="Preferred callback time" error={undefined}>
+          <SelectBox
+            ariaLabel="Preferred callback time"
             value={form.preferredCallbackTime}
-            onChange={(e) => set("preferredCallbackTime", e.target.value)}
-            className="mobile-friendly-select w-full px-4 py-3 bg-soft-black border border-white/[0.10] text-ivory text-sm font-sans rounded-sm focus:outline-none focus:border-champagne-gold/55 transition-colors duration-200 appearance-none cursor-pointer pr-10"
+            onChange={(v) => set("preferredCallbackTime", v)}
           >
             <option value="">Select a Time Window</option>
             <option value="Morning (9 AM – 12 PM)">Morning (9 AM – 12 PM)</option>
             <option value="Afternoon (12 PM – 4 PM)">Afternoon (12 PM – 4 PM)</option>
             <option value="Evening (5 PM – 8 PM)">Evening (5 PM – 8 PM)</option>
             <option value="Flexible / Any time">Flexible / Anytime</option>
-          </select>
-          <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-champagne-gold/60">
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </svg>
-          </div>
-        </div>
-      </Field>
+          </SelectBox>
+        </Field>
+      )}
 
       {/* Consent */}
       <div>
@@ -265,5 +290,27 @@ function Input({ hasError, ...props }: React.InputHTMLAttributes<HTMLInputElemen
         hasError ? "border-red-400 focus:border-red-400" : "border-white/[0.10] focus:border-champagne-gold/55"
       )}
     />
+  );
+}
+
+function SelectBox({ ariaLabel, value, onChange, children }: {
+  ariaLabel: string; value: string; onChange: (value: string) => void; children: React.ReactNode;
+}) {
+  return (
+    <div className="relative">
+      <select
+        aria-label={ariaLabel}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="mobile-friendly-select w-full px-4 py-3 bg-soft-black border border-white/[0.10] text-ivory text-sm font-sans rounded-sm focus:outline-none focus:border-champagne-gold/55 transition-colors duration-200 appearance-none cursor-pointer pr-10"
+      >
+        {children}
+      </select>
+      <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-champagne-gold/60">
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </div>
+    </div>
   );
 }

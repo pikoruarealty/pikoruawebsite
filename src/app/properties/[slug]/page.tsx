@@ -17,6 +17,7 @@ import { ArrowLeft, ArrowRight, Building2, CalendarCheck, IndianRupee, MapPin, R
 import { renderFormattedText, renderListGuard } from "@/lib/utils";
 import { ENTITY_IDS } from "@/lib/entity-profile";
 import { absoluteUrl, createMetadata, generatePropertySchema, serializeJsonLd, SITE_URL } from "@/lib/seo";
+import { BuyingFromAbroad } from "@/components/seo/BuyingFromAbroad";
 
 // Note: LOCATION_COORDINATES and getResidenceSchemaType have been moved to @/lib/seo
 // and are used via generatePropertySchema(). This keeps schema logic centralised.
@@ -623,6 +624,9 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
 
           </div>
         </div>
+
+        {/* ─── BUYING FROM ABROAD (compact; the call button goes to this page's form) ─── */}
+        <BuyingFromAbroad pagePath={`/properties/${property.slug}`} enquireHref="#enquiry-form" variant="compact" />
 
         {/* ─── SIMILAR HOMES ─── */}
         {similarProperties.length > 0 && (

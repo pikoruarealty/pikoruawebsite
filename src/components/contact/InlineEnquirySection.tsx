@@ -72,7 +72,7 @@ export function InlineEnquirySection({
             .
           </p>
         </div>
-        <QuickEnquiryForm interest={`Enquiry from ${pageLabel}`} trackingSource="inline_enquiry" />
+        <QuickEnquiryForm interest={`Enquiry from ${pageLabel}`} trackingSource="inline_enquiry" timeZoneCall={isNri} />
       </div>
     </section>
   );

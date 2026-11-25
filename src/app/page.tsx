@@ -22,6 +22,8 @@ import { getSupabaseAboutPageContent, getPageSeoData, getSupabaseHomePageContent
 import { FOUNDER_NAME, DEFAULT_FOUNDER_STORY } from "@/lib/data/about";
 import { getFirstSentence } from "@/lib/utils";
 import { createMetadata, serializeJsonLd } from "@/lib/seo";
+import { BuyingFromAbroad } from "@/components/seo/BuyingFromAbroad";
+import { ABROAD_CALL_FALLBACK_HREF } from "@/lib/data/buying-from-abroad";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeoData("home");
@@ -150,6 +152,9 @@ export default async function HomePage() {
 
         {/* Take a virtual tour of our exclusive luxury properties */}
         <LazyVirtualTours tours={tours} />
+
+        {/* Buying from abroad: video, power of attorney, remote paperwork, a call in your time zone */}
+        <BuyingFromAbroad pagePath="/" enquireHref={ABROAD_CALL_FALLBACK_HREF} />
 
         {/* What Our Clients Say */}
         <TestimonialsTeaser />

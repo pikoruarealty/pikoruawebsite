@@ -162,6 +162,8 @@ export interface PopupDraft {
   phone: string;
   category: string;
   budgetBand: string;
+  /** Call window in the visitor's own time (shown only to visitors abroad). */
+  callWindow: string;
 }
 
 export const EMPTY_DRAFT: PopupDraft = {
@@ -171,6 +173,7 @@ export const EMPTY_DRAFT: PopupDraft = {
   phone: "",
   category: "",
   budgetBand: "",
+  callWindow: "",
 };
 
 export function loadDraft(): PopupDraft {
@@ -186,6 +189,7 @@ export function loadDraft(): PopupDraft {
       phone: pick("phone"),
       category: pick("category"),
       budgetBand: pick("budgetBand"),
+      callWindow: pick("callWindow"),
     };
   } catch {
     return EMPTY_DRAFT;

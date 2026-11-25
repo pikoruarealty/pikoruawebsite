@@ -14,6 +14,10 @@ import { getLandingPagesBySlugs, getRelatedLandingPagesForText } from "@/lib/dat
 import { AUTOMATED_BYLINE } from "@/lib/ai/blogQuality";
 import { getRelatedPosts } from "@/lib/data/related-posts";
 import { getAutomatedPostDisclaimers, GUJRERA_AGENT_REGISTRATION_NO } from "@/lib/data/blog-disclaimers";
+import { BuyingFromAbroad } from "@/components/seo/BuyingFromAbroad";
+import { showsBuyingFromAbroad } from "@/lib/data/buying-from-abroad";
+import { ReturnsDisclaimer } from "@/components/seo/ReturnsDisclaimer";
+import { mentionsReturnFigures } from "@/lib/data/returns-disclaimer";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -78,6 +82,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       )
     : [];
   const dateModified = post.updatedAt || post.publishedAt;
+  // Return / price-rise figures stay in the post, with a visible "not guaranteed" note above it.
+  const showReturnsNote = mentionsReturnFigures(
+    `${post.title} ${bodyText} ${(post.faqs ?? []).map((f) => `${f.question} ${f.answer}`).join(" ")}`
+  );
 
   const blogPostingSchema = {
     "@context": "https://schema.org",
@@ -226,6 +234,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 className="object-cover object-center"
               />
             </div>
+
+            {showReturnsNote && (
+              <div className="mb-10">
+                <ReturnsDisclaimer variant="inline" />
+              </div>
+            )}
 
             {/* Content body */}
             <div className="font-sans text-ivory/60 text-[15px] sm:text-base leading-[1.8] max-w-3xl mx-auto space-y-6 sm:space-y-8">
@@ -408,6 +422,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           </div>
         </article>
+
+        {/* Buying from abroad (compact), except on NRI posts */}
+        {showsBuyingFromAbroad(`/blog/${post.slug}`) && (
+          <BuyingFromAbroad pagePath={`/blog/${post.slug}`} variant="compact" />
+        )}
 
         {/* On-page enquiry (#enquire) */}
         <InlineEnquirySection

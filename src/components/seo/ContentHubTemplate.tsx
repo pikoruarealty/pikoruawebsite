@@ -6,6 +6,10 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { InlineEnquirySection } from "@/components/contact/InlineEnquirySection";
+import { BuyingFromAbroad } from "@/components/seo/BuyingFromAbroad";
+import { showsBuyingFromAbroad } from "@/lib/data/buying-from-abroad";
+import { ReturnsDisclaimer } from "@/components/seo/ReturnsDisclaimer";
+import { mentionsReturnFigures } from "@/lib/data/returns-disclaimer";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { ContentHubPage } from "@/lib/data/content-hubs";
 import { parseComboSegments } from "@/lib/data/seo-dimensions";
@@ -378,6 +382,12 @@ export function ContentHubTemplate({ page, relatedPages, moreGuides = [] }: Cont
           )}
 
         </div>
+
+        {/* ─── RETURNS NOT GUARANTEED (pages quoting return or price-rise figures) ─── */}
+        {mentionsReturnFigures(JSON.stringify(page)) && <ReturnsDisclaimer />}
+
+        {/* ─── BUYING FROM ABROAD (pages overseas buyers land on) ─── */}
+        {showsBuyingFromAbroad(page.href) && <BuyingFromAbroad pagePath={page.href} />}
 
         {/* ─── ON-PAGE ENQUIRY (#enquire) ─── */}
         <InlineEnquirySection

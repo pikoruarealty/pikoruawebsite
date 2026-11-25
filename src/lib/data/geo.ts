@@ -429,7 +429,7 @@ const LEGACY_LOCATION_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "Are there specific tax benefits or rules for NRIs investing in Thaltej?",
         answer:
-          "NRIs pay standard stamp duty and registration fees, and can avail of tax benefits on home loans under Section 24 and 80C. When buying from a resident Indian, tax withholding (TDS) under Section 195 must be carefully calculated based on capital gains.",
+          "NRIs pay standard stamp duty and registration fees, and can avail of tax benefits on home loans under Section 24 and 80C. When buying from a resident seller, the buyer deducts 1% TDS if the price is ₹50 lakh or more; when the seller is an NRI, TDS is higher and is worked out on the seller's capital gain, so ask a chartered accountant before paying.",
       },
       {
         question: "Thaltej vs Bodakdev: which is better for luxury property in Ahmedabad?",
@@ -2450,7 +2450,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       {
         question: "How much can NRIs repatriate after selling an investment property in Ahmedabad?",
         answer:
-          "NRIs can repatriate the sale proceeds of up to two residential properties to their country of residence per financial year, subject to filing Form 15CA/15CB and obtaining tax clearance. Long-term capital gains (held over 24 months) attract 20% tax after indexation; short-term gains are taxed at the applicable income slab.",
+          "NRIs can repatriate the sale proceeds of no more than two residential properties in total (not per year), up to the amount originally paid in foreign exchange, after tax and a chartered accountant's certificate. Any balance can go through the NRO account's USD 1 million a year limit. Long-term capital gains (held over 24 months) are taxed at 12.5% without indexation, plus surcharge and cess; short-term gains are taxed at the applicable income slab.",
       },
     ],
     relatedSlugs: [
@@ -2468,7 +2468,7 @@ export const PROPERTY_TYPE_LANDING_PAGES: GeoLandingPage[] = [
       "### Rental Yield as a Component of Return",
       "Rental income depends on the specific unit, its condition and furnishing, lease terms, tenant demand and periods without a tenant. Compare recent leases in the same building with the full acquisition cost. Net income should also account for vacancy, maintenance, society charges, property tax, brokerage, furnishing and financing. Keep any estimate separate from uncertain future resale value.",
       "### Capital Gains and Repatriation for NRI Investors",
-      "NRI investors should plan exit taxation from the acquisition stage. Long-term capital gains (LTCG) on residential property held for more than 24 months attract a 20% tax after indexation benefits. Short-term gains are taxed at the applicable income slab. Upon sale, NRIs can repatriate the proceeds of up to two residential properties to their country of residence per financial year, subject to filing Form 15CA/15CB and obtaining tax clearance. PIKORUA Realty's advisory process includes connecting investors with experienced tax advisors to structure entry and exit efficiently.",
+      "NRI investors should plan exit taxation from the acquisition stage. Long-term capital gains (LTCG) on residential property held for more than 24 months are taxed at 12.5% without indexation, plus surcharge and cess. Short-term gains are taxed at the applicable income slab. Upon sale, NRIs can repatriate the proceeds of no more than two residential properties in total (not per year), up to the amount originally paid in foreign exchange, after tax and a chartered accountant's certificate. PIKORUA Realty's advisory process includes connecting investors with experienced tax advisors to structure entry and exit efficiently.",
     ],
   },
   {

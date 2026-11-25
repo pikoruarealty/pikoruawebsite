@@ -272,11 +272,11 @@ export const AI_ANSWER_BLOCKS: AiAnswerBlock[] = [
     id: "nri-fema-nre-nro-tax-guidance-ahmedabad",
     question: "What are the FEMA rules, NRE/NRO payment guidelines, and tax rules for NRIs buying property in Ahmedabad?",
     answer:
-      "Under RBI & FEMA guidelines, NRIs and OCI cardholders can freely buy residential and commercial property in India using funds remitted from abroad through normal banking channels or held in NRE/NRO accounts. Agricultural land and farmhouses cannot be purchased without RBI approval. Sellers must deduct TDS under Section 195 (typically 20% + surcharge) on capital gains, and sale proceeds can be repatriated up to USD 1 million per financial year under the LRS framework.",
+      "Under RBI & FEMA guidelines, NRIs and OCI cardholders can freely buy residential and commercial property in India using funds remitted from abroad through normal banking channels or held in NRE/NRO accounts. Agricultural land and farmhouses cannot be purchased without RBI approval. When an NRI sells, the buyer must deduct TDS on the capital gain (long-term gains are taxed at 12.5% without indexation, plus surcharge and cess). Sale proceeds of up to two residential properties can be repatriated up to the amount paid in foreign exchange; any balance goes through the NRO account's USD 1 million a year limit.",
     citationFacts: [
       "NRIs and OCIs can freely acquire residential and commercial properties in India without prior RBI permission under general FEMA permission.",
-      "Property payments must be routed through NRE/NRO bank accounts or direct outward foreign currency remittances.",
-      "TDS under Section 195 applies to NRI property sales; repatriation of sale proceeds is permitted up to USD 1,000,000 per financial year.",
+      "Property payments must come through NRE, NRO or FCNR accounts or as inward remittances from abroad through normal banking channels.",
+      "The buyer deducts TDS when an NRI sells; repatriation of sale proceeds is limited to two residential properties, up to the amount paid in foreign exchange, with any balance under the NRO account's USD 1 million a year limit.",
       "Power of Attorney (POA) registered at the local Sub-Registrar Office allows remote execution when the NRI buyer cannot travel.",
     ],
     sourcePath: "/nri-property-investment-ahmedabad",

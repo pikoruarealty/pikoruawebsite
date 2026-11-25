@@ -12,6 +12,10 @@ import type { StaticProperty } from "@/lib/data/properties";
 import { RESIDENTIAL_CATEGORY_LABELS } from "@/types";
 import { buildWhatsAppUrl } from "@/lib/utils";
 import { env } from "@/lib/env";
+import { ReturnsDisclaimer } from "@/components/seo/ReturnsDisclaimer";
+import { mentionsReturnFigures } from "@/lib/data/returns-disclaimer";
+import { BuyingFromAbroad } from "@/components/seo/BuyingFromAbroad";
+import { ABROAD_CALL_FALLBACK_HREF, showsBuyingFromAbroad } from "@/lib/data/buying-from-abroad";
 import {
   ArrowRight,
   MapPin,
@@ -449,6 +453,14 @@ export function ProgrammaticPageTemplate({
             <RelatedLinksSection clusters={relatedLinks} />
           </div>
         </div>
+
+        {/* ── Returns not guaranteed (pages quoting return figures) ── */}
+        {mentionsReturnFigures(JSON.stringify(page)) && <ReturnsDisclaimer />}
+
+        {/* ── Buying from abroad (compact) ─────────────────────────── */}
+        {showsBuyingFromAbroad(page.href) && (
+          <BuyingFromAbroad pagePath={page.href} enquireHref={ABROAD_CALL_FALLBACK_HREF} variant="compact" />
+        )}
 
         {/* ── Bottom CTA ───────────────────────────────────────────── */}
         <section className="border-t border-champagne-gold/20 bg-gradient-to-b from-lux-black via-soft-black to-lux-black py-16 sm:py-20" aria-labelledby="bottom-cta-heading">

@@ -3,6 +3,9 @@ import { readFileSync } from "node:fs";
 import { getPublishedBlogPosts, resolvePublicBlogPost, STATIC_BLOG_POSTS } from "@/lib/data/blog";
 import { getRenderableGeoPages, getRenderablePublicPaths, getSitemapPropertySlugs } from "@/lib/data/public-routes";
 import type { BlogPost } from "@/types/blog";
+import { ABROAD_CALL_FALLBACK_HREF, ABROAD_COUNTRY_LINKS, showsBuyingFromAbroad } from "@/lib/data/buying-from-abroad";
+import { describeCallTime, windowInIst } from "@/lib/call-time";
+import { mentionsReturnFigures } from "@/lib/data/returns-disclaimer";
 
 function getBaseline404Paths(): string[] {
   return readFileSync("docs/seo/baseline-live-2026-10-29.csv", "utf8")
@@ -89,5 +92,53 @@ const propertySlugs = getSitemapPropertySlugs(
   [staticA, staticB]
 );
 assert.deepEqual(propertySlugs.sort(), ["db-only-active", staticB].sort(), "property sitemap: active DB + unowned static, no redirects");
+
+// "Buying from abroad" block: on every page except NRI pages; every country
+// guide it links to, and the fallback call target, must render.
+{
+  const renderable = getRenderablePublicPaths();
+  for (const { href } of ABROAD_COUNTRY_LINKS) {
+    assert.ok(renderable.has(href), `buying-from-abroad country link does not render: ${href}`);
+  }
+  assert.ok(renderable.has(ABROAD_CALL_FALLBACK_HREF.split("#")[0]), "buying-from-abroad fallback call page must render");
+  for (const path of ["/", "/properties", "/luxury-apartments-ahmedabad", "/locations/bodakdev", "/learn/rera-gujarat-guide", "/invest/commonwealth-games-2030-ahmedabad-property", "/blog/sindhu-bhavan-road-luxury-market-guide", "/locations/vaishno-devi-circle"]) {
+    assert.ok(showsBuyingFromAbroad(path), `buying-from-abroad should show on ${path}`);
+  }
+  for (const path of ["/nri", "/nri/usa", "/nri/uk/buy-property-ahmedabad", "/nri-property-from-uk", "/invest/nri-property-investment-guide-ahmedabad", "/blog/nri-guide-asset-curation-gujarat", "/learn/how-to-buy-property-as-nri-ahmedabad"]) {
+    assert.ok(!showsBuyingFromAbroad(path), `buying-from-abroad should not show on NRI page ${path}`);
+  }
+}
+
+// Call-time line: visitor's window plus the India time, within the 100-char limit.
+{
+  const winter = new Date("2026-01-15T12:00:00Z");
+  const summer = new Date("2026-07-15T12:00:00Z");
+  assert.equal(windowInIst("Europe/London", "evening", winter), "10:30 PM–2:30 AM IST");
+  assert.equal(windowInIst("Europe/London", "evening", summer), "9:30 PM–1:30 AM IST");
+  assert.equal(windowInIst("America/New_York", "evening", winter), "3:30 AM–7:30 AM IST");
+  assert.equal(windowInIst("Asia/Dubai", "morning", winter), "10:30 AM–1:30 PM IST");
+  assert.equal(describeCallTime("Europe/London", "evening", winter), "Evening 5–9 PM, London time (10:30 PM–2:30 AM IST)");
+  assert.equal(describeCallTime("Asia/Kolkata", "morning", winter), "Morning 9 AM–12 PM, India time");
+  assert.equal(describeCallTime("America/Los_Angeles", "any", winter), "Any time, California time");
+  assert.equal(describeCallTime("America/Argentina/Buenos_Aires", "afternoon", winter), "Afternoon 12–5 PM, Buenos Aires time (8:30 PM–1:30 AM IST)");
+}
+
+// "Returns are not guaranteed" note: return / price-rise figures yes, tax rates no.
+for (const text of [
+  "Prices could see a 15–20% rise around the Games.",
+  "Gross rental yield is 3.2–4.5% in Thaltej.",
+  "Values appreciated 30-50% over five years.",
+  "An 18–24% annualised total return.",
+  "with projections of 15-20% benefits for landowners in the short term",
+]) {
+  assert.ok(mentionsReturnFigures(text), `should flag return figure: ${text}`);
+}
+for (const text of [
+  "Long-term capital gains are taxed at 12.5% without indexation.",
+  "Stamp duty is 4.9% and registration 1%.",
+  "No one can promise a price rise.",
+]) {
+  assert.ok(!mentionsReturnFigures(text), `should not flag: ${text}`);
+}
 
 console.log(`SEO routing checks passed: ${baseline404Paths.length} known 404s excluded; blog publication rules aligned.`);

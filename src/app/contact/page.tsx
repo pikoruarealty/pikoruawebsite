@@ -86,7 +86,7 @@ const nriHowToSchema = {
       "@type": "HowToStep",
       position: 5,
       name: "Sign the Sale Agreement and Manage TDS",
-      text: "Upon agreeing on price and terms, sign a registered Sale Agreement. If purchasing from a resident Indian seller, deduct TDS at 1% under Section 194-IA if the property value exceeds ₹50 Lakhs. If the seller is also an NRI, TDS under Section 195 applies (20%–30% depending on capital gains type). Deposit the TDS with the government and obtain Form 16B within 15 days.",
+      text: "Upon agreeing on price and terms, sign a registered Sale Agreement. If purchasing from a resident Indian seller, deduct TDS at 1% if the property value is ₹50 lakh or more. If the seller is also an NRI, higher TDS applies on the seller's capital gain (12.5% plus surcharge and cess for long-term gains). Deposit the TDS on time and give the seller the TDS certificate; a chartered accountant should confirm the forms and deadlines.",
     },
     {
       "@type": "HowToStep",

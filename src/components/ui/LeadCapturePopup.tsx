@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { getLeadUtm } from "@/lib/attribution";
 import { trackLeadSubmit } from "@/lib/analytics";
 import { clearDraft, loadDraft, saveDraft, type PopupDraft } from "@/lib/enquiry-schedule";
+import { CALL_WINDOWS, describeCallTime, isIndiaZone, useVisitorTimeZone, windowInIst, zoneOptions } from "@/lib/call-time";
 
 /**
  * The enquiry pop-up. EnquiryDock decides when it opens; this component draws
@@ -118,6 +119,13 @@ export function LeadCapturePopup({
   const panelRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const reduceMotion = useReducedMotion();
+
+  // Visitors whose browser is set outside India pick a call time in their own
+  // time; the saved line also carries the India time for the team.
+  const visitorZone = useVisitorTimeZone();
+  const abroad = visitorZone !== null && !isIndiaZone(visitorZone);
+  const zoneCity = abroad ? zoneOptions(visitorZone).find((z) => z.id === visitorZone)?.city ?? "" : "";
+  const callIst = abroad && draft.callWindow ? windowInIst(visitorZone, draft.callWindow) : null;
 
   // Latest callbacks, so the animation effect only re-runs on phase changes.
   const callbacks = useRef({ onOpened, onClosed });
@@ -273,6 +281,7 @@ export function LeadCapturePopup({
           email: draft.email,
           category: draft.category || undefined,
           budgetBand: draft.budgetBand || undefined,
+          preferredCallbackTime: abroad ? describeCallTime(visitorZone, draft.callWindow || "any") : undefined,
           consent: true,
           honeypot: "",
           utm: getLeadUtm(),
@@ -558,6 +567,40 @@ export function LeadCapturePopup({
                       )}
                     </div>
                   </div>
+
+                  {/* Call time in the visitor's own time zone (visitors abroad only) */}
+                  {abroad && (
+                    <div>
+                      <div className="relative">
+                        <select
+                          id="popup-call-window"
+                          aria-label={`Best time for a call, ${zoneCity} time`}
+                          aria-describedby="popup-call-hint"
+                          value={draft.callWindow}
+                          onChange={(e) => update("callWindow")(e.target.value)}
+                          className={cn(
+                            selectBase,
+                            !draft.callWindow ? "text-ivory/40" : "text-ivory"
+                          )}
+                        >
+                          <option value="">Best Time for a Call ({zoneCity} time)</option>
+                          {CALL_WINDOWS.map((w) => (
+                            <option key={w.id} value={w.id}>{w.label}</option>
+                          ))}
+                        </select>
+                        <ChevronDown
+                          size={14}
+                          strokeWidth={2}
+                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-champagne-gold pointer-events-none"
+                        />
+                      </div>
+                      <p id="popup-call-hint" className="mt-1.5 text-[10px] leading-relaxed text-ivory/40 font-sans">
+                        {callIst
+                          ? `That is ${callIst.replace(" IST", "")} in India. We confirm the time on WhatsApp first.`
+                          : "We call at a time that suits your day, in your time zone."}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Global error */}
                   {formState === "error" && errorMsg && (

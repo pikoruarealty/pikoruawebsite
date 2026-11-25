@@ -14,6 +14,10 @@ import { buildWhatsAppUrl, cn } from "@/lib/utils";
 import { InlineEnquirySection } from "@/components/contact/InlineEnquirySection";
 import { ArrowRight, PhoneCall, MapPin, ShieldCheck, Landmark, FileText, CheckCircle2 } from "lucide-react";
 import { NriCurrencyConverter } from "./NriCurrencyConverter";
+import { BuyingFromAbroad } from "./BuyingFromAbroad";
+import { showsBuyingFromAbroad } from "@/lib/data/buying-from-abroad";
+import { ReturnsDisclaimer } from "@/components/seo/ReturnsDisclaimer";
+import { mentionsReturnFigures } from "@/lib/data/returns-disclaimer";
 import type { ExchangeRates } from "@/lib/exchange-rates";
 import { getExploreLinkGroups } from "@/lib/data/internal-links";
 import {
@@ -114,9 +118,11 @@ export function LandingPageTemplate({
       ? "View Matching Properties"
       : "View Properties";
   const secondaryCtaLabel =
-    page.kind === "nri" || page.kind === "private-client"
-      ? "Request Private Advisory"
-      : "Private Advisory";
+    page.kind === "nri"
+      ? "Book a Call in Your Time Zone"
+      : page.kind === "private-client"
+        ? "Request Private Advisory"
+        : "Private Advisory";
 
   return (
     <>
@@ -964,6 +970,14 @@ export function LandingPageTemplate({
               )}
             </div>
           </section>
+        )}
+
+        {/* ─── RETURNS NOT GUARANTEED (pages quoting return or price-rise figures) ─── */}
+        {mentionsReturnFigures(JSON.stringify(page)) && <ReturnsDisclaimer />}
+
+        {/* ─── BUYING FROM ABROAD (pages overseas buyers land on) ─── */}
+        {page.kind !== "nri" && showsBuyingFromAbroad(page.href) && (
+          <BuyingFromAbroad pagePath={page.href} border="bottom" />
         )}
 
         {/* ─── FAQ (2-col on desktop for NRI, centered otherwise) ─── */}
